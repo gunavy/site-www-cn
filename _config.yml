@@ -75,7 +75,7 @@ custom:
         editor-ext: zip
 
 # Build settings
-source: src
+source: src_zh_CN
 # `symlinked-sources` can refer to individual files or directories
 # under `src` that are symlinked to somewhere outside `src`, or it can
 # refer to the root folder of the symlinked content (like `site-shared/src`):

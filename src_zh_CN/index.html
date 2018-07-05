@@ -1,0 +1,126 @@
+---
+layout: homepage
+title: Dart programming language
+description: Dart is a language optimized for client-side development for web and mobile.
+---
+<section id="code-sample-section">
+<div class="container">
+  <div class="row banner__frontpage-row">
+    <div class="col-sm-12">
+      <div class="content">
+        {% capture banner %}{% include banner-fp.md %}{% endcapture %}
+        {{ banner | markdownify }}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-7 col-lg-6">
+      <div id="code-sample" class="content">
+        <a href="https://dartpad.dartlang.org/fae22cffa7b184b4d27cd96dd633a5af" class='codesample__open-in-dartpad no-automatic-external' target='_blank'>在DartPad中打开</a>
+        {% include_relative _main-example.html %}
+      </div>
+    </div>
+    <div class="col-sm-5 col-lg-6">
+      <div class="content">
+        <div class="frontpage-slogan-with-footnotes">
+          <div class="frontpage-slogan">
+            <h3>
+              Dart可让您在所有屏幕上创造美丽的，高品质的体验，通过：
+              <ul>
+                <li> 一种 <a tabindex="0" role="button" data-toggle="popover" data-content="Dart最初针对网络应用进行了优化，并不断发展，以便为移动应用提供出色的支持。 Dart还可以在命令行和服务器端运行。">本地优化</a> 的语言 </li>
+                <li> 丰富，强大的 <a tabindex="0" role="button" data-toggle="popover" data-content="我们推荐使用<a href='https://flutter.io'>Flutter</a>进行移动端开发. 使用<a href='https://webdev.dartlang.org/angular'>AngularDart</a>进行PC端开发.">框架</a> </li>
+                <li> 方便灵活的 <a tabindex="0" role="button" data-toggle="popover" data-content="这些工具包括 <a href='/tools'>通用工具</a> 和特定的框架工具，如 <a href='https://flutter.io/getting-started'><code>flutter</code></a>.">工具</a>
+                </li>
+              </ul>
+              <p>
+                <a href="/guides/get-started" class="frontpage-slogan__get-started btn btn-default btn-lg">开始使用</a>
+                <a href="/install" class="btn btn-lg">安装Dart</a>
+              </p>
+            </h3>
+            <p> <em>点击
+              <a tabindex="0" role="button" data-toggle="popover" data-content="在上面的文本和代码示例中，单击虚线下划线以获取更多详细信息。">带有下划线的文字</a>
+            了解更多。</em> </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</section>
+
+<section class="card-grid-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="content">
+          <div class="card-grid">
+            <div class="card">
+              <h4><a href="/guides/language/language-tour">语言之旅</a></h4>
+              <p>学习使用Dart语言的主要特性</p>
+            </div>
+            <div class="card">
+              <h4><a href="/guides/platforms">应用平台</a></h4>
+              <p>使用Dart构建移动，Web等平台的应用。</p>
+            </div>
+            <div class="card">
+              <h4><a href="https://pub.dartlang.org/">Dart包</a></h4>
+              <p>发现库和工具以帮助您构建应用。</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-5 col-lg-4">
+        <div class="content">
+          <h1>为什么使用Dart?</h1>
+          <p class="lead">
+            Google及全球的其他开发者，使用Dart开发了一系列高质量、关键的iOS、Android和Web应用。Dart非常适合移动和Web应用的开发。
+          </p>
+        </div>
+      </div>
+      <div class="col-sm-7 col-lg-8">
+        <div class="content">
+
+          <h2 class="core-goals__first">高效</h2>
+          <p>
+            Dart语法清晰简洁，工具简单而强大。 输入检测可帮助您尽早识别细微错误。 Dart拥有久经考验的
+            <a href="/guides/libraries/library-tour">核心库（core libraries）</a> 
+            和一个已经拥有数千包的
+            <a href="https://pub.dartlang.org/">生态系统</a>
+          </p>
+
+          <h2>快速</h2>
+          <p>
+            Dart提供提前编译优化，以在移动设备和Web上实现可预测的高性能和快速启动。
+          </p>
+
+          <h2>可移植</h2>
+          <p>
+            Dart可以编译成ARM和x86代码，因此Dart移动应用程序可以在iOS，Android及
+            更高版本上实现本地运行。 对于Web应用程序，Dart可以转换为JavaScript。
+          </p>
+
+          <h2>易学</h2>
+          <p>
+            Dart是面向对象的编程语言，语法风格对于许多现有的开发人员来说都很熟悉。 
+            如果您已经了解C++，C＃或Java，那么使用Dart也就是分分钟的事情。
+          </p>
+
+          <h2>响应式</h2>
+          <p>
+            Dart可以便捷的进行响应式编程。由于快速对象分配和垃圾收集器实现，
+            对于管理短期对象（比如UI小部件），Dart更加高效。 Dart可以通过
+            <a href="/guides/libraries/library-tour#future">Future</a> 和
+            <a href="/guides/libraries/library-tour#stream">Stream</a>
+            的特性和API实现异步编程。
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
