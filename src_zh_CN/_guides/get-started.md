@@ -1,14 +1,14 @@
 ---
-title: Get Started
+title: 入门
 description: A guide to getting started with Dart.
 toc: false
 ---
 
-Jump right in. Use the embedded DartPad below to play with Dart and to experience the language and core APIs.
-DartPad is a quick and easy way to
-become familiar with Dart language features
-([more info](/tools/dartpad)).
-You can also open [DartPad in a new window.]({{site.custom.dartpad.direct-link}}){:target="_blank"}
+直奔主题，使用下面嵌入的 DartPad 体验 Dart 语言和它的核心 API。
+DartPad 是熟悉 Dart 语言
+简单而快速的途径。
+([更多](/tools/dartpad)).
+你也可以在新窗口打开 [DartPad]({{site.custom.dartpad.direct-link}}){:target="_blank"} 。
 
 <iframe
 src="{{site.custom.dartpad.embed-dart-prefix}}?horizontalRatio=70&verticalRatio=65"
