@@ -1,58 +1,58 @@
-- title: Language
+- title: 语言
   permalink: /guides/language
   urlExactMatch: true
   children:
-    - title: Tour
+    - title: 概览
       permalink: /guides/language/language-tour
     - title: Effective Dart
       permalink: /guides/language/effective-dart
       children:
-        - title: Style
+        - title: 样式
           permalink: /guides/language/effective-dart/style
-        - title: Documentation
+        - title: 文档
           permalink: /guides/language/effective-dart/documentation
-        - title: Usage
+        - title: 使用
           permalink: /guides/language/effective-dart/usage
-        - title: Design
+        - title: 设计
           permalink: /guides/language/effective-dart/design
-    - title: Sample Code
+    - title: 示例代码
       permalink: /samples
 
-- title: Libraries
+- title: 库
   permalink: /guides/libraries
   urlExactMatch: true
   children:
-    - title: Tour
+    - title: 概览
       permalink: /guides/libraries/library-tour
 
-- title: Platforms
+- title: 平台
   permalink: /guides/platforms
   urlExactMatch: true
   children:
-    - title: Mobile (Flutter)
+    - title: 移动端 (Flutter)
       permalink: https://flutter.io
-    - title: Web
+    - title: web
       permalink: https://webdev.dartlang.org
-    - title: Server
+    - title: 服务器
       permalink: /dart-vm
 
-- title: Testing
+- title: 测试
   permalink: /guides/testing
   urlExactMatch: true
 
-- title: Resources
+- title: 资源
   # permalink: /resources
   # urlExactMatch: true
   children:
-  - title: Install
+  - title: 安装
     permalink: /install
   - title: Codelabs
     permalink: /codelabs
-  - title: Tutorials
+  - title: 学习指南
     permalink: /tutorials
-  - title: Articles
+  - title: 文章
     permalink: /articles
-  - title: Tools
+  - title: 工具
     permalink: /tools
-  - title: Community and Support
+  - title: 社区支持
     permalink: /community
