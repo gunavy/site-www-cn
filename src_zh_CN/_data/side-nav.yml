@@ -7,7 +7,7 @@
     - title: Effective Dart
       permalink: /guides/language/effective-dart
       children:
-        - title: 样式
+        - title: 风格
           permalink: /guides/language/effective-dart/style
         - title: 文档
           permalink: /guides/language/effective-dart/documentation

@@ -4,7 +4,8 @@ description: A guide to getting started with Dart.
 toc: false
 ---
 
-直奔主题，使用下面嵌入的 DartPad 体验 Dart 语言和它的核心 API。
+
+不要怂，就是干！使用下面嵌入的 DartPad 体验 Dart 语言和它的核心 API。
 DartPad 是熟悉 Dart 语言
 简单而快速的途径。
 ([更多](/tools/dartpad)).
@@ -23,7 +24,7 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?horizontalRatio=70&verticalRatio=
 您需要下载特定平台的工具。
 
 
-## What next?
+## 下一步？
 
 在这个网站上学习 [Dart 语言](/guides/language) 和
 [核心库](/guides/libraries) 。

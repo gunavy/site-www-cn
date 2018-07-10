@@ -1,144 +1,136 @@
 ---
-title: A Tour of the Dart Language
+title: Dart 编程语言概览
 description: A tour of all of the major Dart language features.
-short-title: Language Tour
+short-title: 语言概览
 ---
 <?code-excerpt replace="/([A-Z]\w*)\d\b/$1/g"?>
 
-This page shows you how to use each major Dart feature, from
-variables and operators to classes and libraries, with the assumption
-that you already know how to program in another language.
+这里将介绍 Dart 主要功能，从变量和运算符到类和库，假设您已经知道如何使用其他语言编程。
 
-To learn more about Dart's core libraries, see
-[A Tour of the Dart Libraries](/guides/libraries/library-tour).
-Whenever you want more details about a language feature,
-consult the [Dart Language Specification](/guides/language/spec).
+
+学习更多 Dart 核心库, 参阅
+[Dart 库概览](/guides/libraries/library-tour).
+想了解更多有关语言功能的详细信息,
+请参阅 [Dart 编程语言规范](/guides/language/spec).
 
 <div class="alert alert-info" markdown="1">
-**Tip:**
-You can play with most of Dart's language features using DartPad
+**提示:**
+使用 DartPad 可以体验 Dart 的大部分语言功能
 ([learn more](/tools/dartpad)).
 
 **<a href="{{ site.custom.dartpad.direct-link }}" target="_blank">Open DartPad</a>**
-</div>
+</div> 
 
 
-## A basic Dart program
-
-The following code uses many of Dart’s most basic features:
+## 一个简单的 Dart 程序
+下面的代码用到了很多 Dart 的基本功能：
 
 <?code-excerpt "misc/test/language_tour/basic_test.dart"?>
 {% prettify dart %}
-// Define a function.
+// 定义一个函数
 printInteger(int aNumber) {
-  print('The number is $aNumber.'); // Print to console.
+  print('The number is $aNumber.'); // 打印到控制台。
 }
 
-// This is where the app starts executing.
+// 应用从这里开始执行。
 main() {
-  var number = 42; // Declare and initialize a variable.
-  printInteger(number); // Call a function.
+  var number = 42; // 声明并初始化一个变量。
+  printInteger(number); // 调用函数。
 }
 {% endprettify %}
 
-Here’s what this program uses that applies to all (or almost all) Dart
-apps:
+以下是此程序使用的代码，这些代码适用于所有（或几乎所有）的 Dart 
+应用：
 
-<code>// <em>This is a comment.</em> </code>
 
-:   A single-line comment.
-    Dart also supports multi-line and document comments.
-    For details, see [Comments](#comments).
+<code>// <em>代码注释。</em> </code>
+
+:   单行注释。
+    Dart 同样支持多行注释和文档注释。
+    有关更多信息，请参阅 [注释](#comments).
 
 `int`
 
-:   A type. Some of the other [built-in types](#built-in-types)
-    are `String`, `List`, and `bool`.
+:   数据类型。 一些其他 [内置类型](#built-in-types)
+    包括 `String`, `List`, 和 `bool`。
 
 `42`
 
-:   A number literal. Number literals are a kind of compile-time constant.
+:   字面量. 字面量是一种编译型常量。
 
 `print()`
 
-:   A handy way to display output.
+:   便利输出方式。
 
 `'...'` (or `"..."`)
 
-:   A string literal.
+:   字符串常量。
 
-<code>$<em>variableName</em></code> (or <code>${<em>expression</em>}</code>)
+<code>$<em>variableName</em></code> (或 <code>${<em>expression</em>}</code>)
 
-:   String interpolation: including a variable or expression’s string
-    equivalent inside of a string literal. For more information, see
+:   字符串插值： 包括字符串文字内部的变量或表达式的字符串。 
+    有关更多信息，请参阅
     [Strings](#strings).
 
 `main()`
 
-:   The special, *required*, top-level function where app execution
-    starts. For more information, see
+:   程序开始执行函数，该函数是特定的、*必须的*、顶级函数。
+    有关更多信息，请参阅
     [The main() function](#the-main-function).
 
 `var`
 
-:   A way to declare a variable without specifying its type.
+:   定义变量，通过这种方式定义变量不需要指定变量类型。
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-This site's code follows the conventions in the
-[Dart style guide](/guides/language/effective-dart/style).
+**提示：**
+本站的代码遵循 Dart 风格指南中的约定。
+[Dart 风格指南](/guides/language/effective-dart/style).
 </div>
 
 
-## Important concepts
+## 重要的概念
 
-As you learn about the Dart language, keep these facts and concepts in
-mind:
+ 在学习 Dart 语言时, 应该基于以下事实和概念：
 
--   Everything you can place in a variable is an *object*, and every
-    object is an instance of a *class*. Even numbers, functions, and
-    `null` are objects. All objects inherit from the [Object][] class.
 
--   Although Dart is strongly typed, type annotations are optional
-    because Dart can infer types. In the code above, `number`
-    is inferred to be of type `int`. When you want to explicitly say
-    that no type is expected,
-    [use the special type `dynamic`][ObjectVsDynamic].
+-   任何保存在变量中的都是一个 *对象* ， 并且所有的对象都是对应一个 *类* 的实例。
+    无论是数字，函数和 `null` 都是对象。所有对象继承自 [Object][] 类。
 
--   Dart supports generic types, like `List<int>` (a list of integers)
-    or `List<dynamic>` (a list of objects of any type).
+-   尽管 Dart 是强类型的，但是 Dart 可以推断类型，所以类型注释是可选的。 
+    在上面的代码中， `number` 被推断为 `int` 类型。 
+    如果要明确说明不需要任何类型，
+    [需要使用特殊类型 `dynamic`] [ObjectVsDynamic] 。
 
--   Dart supports top-level functions (such as `main()`), as well as
-    functions tied to a class or object (*static* and *instance
-    methods*, respectively). You can also create functions within
-    functions (*nested* or *local functions*).
+-   Dart 支持泛型，如 `List <int>` （整数列表）或 `List <dynamic>` （任何类型的对象列表）。
 
--   Similarly, Dart supports top-level *variables*, as well as variables
-    tied to a class or object (static and instance variables). Instance
-    variables are sometimes known as fields or properties.
+-   Dart 支持顶级函数（例如 `main（）` ），
+    同样函数绑定在类或对象上（分别是 *静态函数* 和 *实例函数* ）。
+    以及支持函数内创建函数 （ *嵌套* 或 *局部函数* ） 。
 
--   Unlike Java, Dart doesn’t have the keywords `public`, `protected`,
-    and `private`. If an identifier starts with an underscore (\_), it’s
-    private to its library. For details, see
-    [Libraries and visibility](#libraries-and-visibility).
+-   类似地， Dart 支持顶级 *变量* ，
+    同样变量绑定在类或对象上（静态变量和实例变量）。 
+    实例变量有时称为字段或属性。
 
--   *Identifiers* can start with a letter or underscore (\_), followed by any
-    combination of those characters plus digits.
+-   与 Java 不同，Dart 没有关键字 “public” ， “protected” 和 “private” 。 
+    如果标识符以下划线（\ _）开头，则它相对于库是私有的。 
+    有关更多信息，请参阅 [库和可见性]（＃libraries-and-visibility）。
+
+-   *标识符* 以字母或下划线（\ _）开头，后跟任意字母和数字组合。
 
 -   Sometimes it matters whether something is an *expression* or a
     *statement*, so it helps to be precise about those two words.
 
--   Dart tools can report two kinds of problems: warnings and errors.
-    Warnings are just indications that your code might not work, but
-    they don’t prevent your program from executing. Errors can be either
-    compile-time or run-time. A compile-time error prevents the code
-    from executing at all; a run-time error results in an
-    [exception](#exceptions) being raised while the code executes.
+-   Dart 工具提示两种类型问题：警告和错误。 
+    警告只是表明代码可能无法正常工作，但不会阻止程序的执行。 
+    错误可能是编译时错误或者运行时错误。 
+    编译时错误会阻止代码的执行;
+    运行时错误会导致代码在执行过程中引发 [异常]（#exception）。
 
 
-## Keywords
+## 关键字
 
-The following table lists the words that the Dart language treats specially.
+Dart 语言关键字列表。
 
 {% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">1</sup>' %}
 {% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">2</sup>' %}
@@ -160,25 +152,22 @@ The following table lists the words that the Dart language treats specially.
 | deferred{{bii}}   | implements{{bii}}
 {:.table .table-striped .nowrap}
 
-<sup>1</sup> Words with the superscript **1**
-are **built-in identifiers**. Avoid using
-built-in identifiers as identifiers.
-A compile-time error happens if you try to
-use a built-in identifier for a class or type name.
+<sup>1</sup> 带有上标1的单词
+是**内置标识符**。 
+避免使用内置标识符作为标识符。 
+如果对类或类型名称使用内置标识符，
+编译时会发生错误。
 
-<sup>2</sup> Words with the superscript **2**
-are newer, limited reserved words related to **asynchrony** support
-added after Dart's 1.0 release.
-You can't use `async`, `await`, or `yield` as
-an identifier in any function body marked with `async`, `async*`, or `sync*`.
-For more information, see
-[Asynchrony support](#asynchrony-support).
+<sup>2</sup> 带有上标2的单词
+是 Dart 1.0 发布后，为支持**异步**增加更新的，限制类保留字。 
+不能在标记为 `async` ，`async*` 或 `sync*` 的任何函数体中使用 `async` , `async*` , or `sync*` 作为标识符。
+有关更多信息，请参阅 [Asynchrony支持](#asynchrony-support)。
 
-All other words in the keyword table are **reserved words**.
-You can't use reserved words as identifiers.
+关键字表中的剩余单词都是**保留字**。
+不能将保留字用作标识符。
 
 
-## Variables
+## 变量
 
 Here’s an example of creating a variable and initializing it:
 
