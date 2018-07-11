@@ -302,12 +302,12 @@ baz = [42]; // Error: 常量变量不能赋值修改。
 {% endprettify %}
 
 更多关于使用 `const` 创建常量值，详参阅
-[Lists](#lists), [Maps](#maps), 和 [Classes](#classes).
+[Lists](#lists)， [Maps](#maps)， 和 [Classes](#classes)。
 
 
 ## 内建类型
 
-Dart 语言支持以下内建类型:
+Dart 语言支持以下内建类型：
 
 - numbers
 - strings
@@ -319,7 +319,7 @@ Dart 语言支持以下内建类型:
 
 这些类型都可以被初始化为字面量。
 例如, `'this is a string'` 是一个字符串的字面量，
-`true` 是一个布尔的字面量.
+`true` 是一个布尔的字面量。
 
 {% comment %}
 PENDING: add info about support for Iterable, Future, Stream?
@@ -328,8 +328,8 @@ Those can't be initialized using literals, but they do have special support.
 
 因为在 Dart 所有的变量终究是一个对象（一个类的实例），
 所以变量可以使用 *构造行数* 进行初始化。
-一些内建类型拥有自己的构造函数. 
-例如, 通过 `Map()` 来构造一个 map 变量.
+一些内建类型拥有自己的构造函数。
+例如， 通过 `Map()` 来构造一个 map 变量。
 
 
 ### Numbers
