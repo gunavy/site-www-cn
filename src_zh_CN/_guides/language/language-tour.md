@@ -168,22 +168,22 @@ Dart 语言关键字列表。
 
 
 ## 变量
-
-Here’s an example of creating a variable and initializing it:
+创建一个变量并进行初始化:
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (var-decl)"?>
 {% prettify dart %}
 var name = 'Bob';
 {% endprettify %}
 
-Variables store references. The variable called `name` contains a
-reference to a `String` object with a value of “Bob”.
+变量仅存储对象引用，这里的变量是 `name` 存储了一个 `String` 类型的对象引用。
+“Bob” 是这个 `String` 类型对象的值。
 
-The type of the `name` variable is inferred to be `String`,
-but you can change that type by specifying it.
-If an object isn't restricted to a single type,
-specify the `Object` or `dynamic` type, following
-[design guidelines][ObjectVsDynamic].
+
+`name` 变量的类型被推断为 `String` 。
+但是也可以通过指定类型的方式，来改变变量类型。 
+如果对象不限定为单个类型，可以指定为 `对象类型` 或 `动态类型`，
+参见 [设计指南][ObjectVsDynamic]。
+
 
 {% comment %}
 **[PENDING: check on Object vs. dynamic guidance.]**
@@ -194,7 +194,7 @@ specify the `Object` or `dynamic` type, following
 dynamic name = 'Bob';
 {% endprettify %}
 
-Another option is to explicitly declare the type that would be inferred:
+另一种方式是显式声明可以推断出的类型：
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (static-types)"?>
 {% prettify dart %}
@@ -202,18 +202,18 @@ String name = 'Bob';
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-This page follows the
-[style guide recommendation](/guides/language/effective-dart/design#types)
-of using `var`, rather than type annotations, for local variables.
+**提示：**
+本页局部变量遵守
+[风格建议指南](/guides/language/effective-dart/design#types)
+使用 `var`。 没有使用指定类型的方式。
 </div>
 
 
-### Default value
+### 默认值
 
-Uninitialized variables have an initial value of `null`. Even variables
-with numeric types are initially null, because numbers—like everything
-else in Dart—are objects.
+未初始化的变量默认值是 `null`。即使变量是数字
+类型默认值也是 null，因为在 Dart 中一切都是对象，数字类型
+也不例外。
 
 <?code-excerpt "misc/test/language_tour/variables_test.dart (var-null-init)"?>
 {% prettify dart %}
@@ -222,28 +222,27 @@ assert(lineCount == null);
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-The `assert()` call is ignored in production code.
-During development, <code>assert(<em>condition</em>)</code>
-throws an exception unless *condition* is true. For details,
-see [Assert](#assert).
+**提示：**
+在生产环境代码中 `assert()` 函数会被忽略，不会被调用。
+在开发过程中, <code>assert(<em>condition</em>)</code>
+会在非 `true` 的条件下抛出异常.有关更多信息，请参阅
+ [Assert](#assert).
 </div>
 
 
-### Final and const
+### Final 和 const
 
-If you never intend to change a variable, use `final` or `const`, either
-instead of `var` or in addition to a type. A final variable can be set
-only once; a const variable is a compile-time constant. (Const variables
-are implicitly final.) A final top-level or class variable is initialized
-the first time it's used.
+使用过程中从来不会被修改的变量， 可以使用 `final` 或 `const`, 而不是 `var` 或者其它类型，
+final 变量的值只能被设置一次；
+const 变量在编译时就已经固定 (Const 变量
+是隐式 final 的类型.) 最高级 final 变量或类变量在第一次使用时被初始化。
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Instance variables can be `final` but not `const`.
+**提示：**
+实例变量可以是 `final` 类型但不能是 `const` 类型。
 </div>
 
-Here's an example of creating and setting a final variable:
+创建和设置一个 final 变量：
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (final)"?>
 {% prettify dart %}
@@ -251,30 +250,29 @@ final name = 'Bob'; // Without a type annotation
 final String nickname = 'Bobby';
 {% endprettify %}
 
-You can't change the value of a final variable:
+final 不能被修改:
 
 {:.fails-sa}
 <?code-excerpt "misc/lib/language_tour/variables.dart (cant-assign-to-final)"?>
 {% prettify dart %}
-name = 'Alice'; // Error: a final variable can only be set once.
+name = 'Alice'; // Error: 一个 final 变量只能被设置一次。
 {% endprettify %}
 
-Use `const` for variables that you want to be **compile-time constants**. If
-the const variable is at the class level, mark it `static const`.
-Where you declare the variable, set the value to a compile-time constant
-such as a number or string literal, a const
-variable, or the result of an arithmetic operation on constant numbers:
+如果需要在**编译时**就固定变量的值，可以使用 `const` 类型变量。
+如果 const 变量是类级别的，需要标记为 `static const`。
+在这些地方可以使用在编译时就已经固定不变的值，字面量的数字和字符串，
+固定的变量，或者是用于计算的固定数字：
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (const)"?>
 {% prettify dart %}
-const bar = 1000000; // Unit of pressure (dynes/cm2)
-const double atm = 1.01325 * bar; // Standard atmosphere
+const bar = 1000000; // 压力单位 (dynes/cm2)
+const double atm = 1.01325 * bar; // 标准气压
 {% endprettify %}
 
-The `const` keyword isn't just for declaring constant variables.
-You can also use it to create constant _values_,
-as well as to declare constructors that _create_ constant values.
-Any variable can have a constant value.
+const 关键字不仅可以用于声明常量变量。 
+还可以用来创建常量值，以及声明创建常量值的构造函数。
+任何变量都可以拥有常量值。
+
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (const-vs-final)"?>
 {% prettify dart %}
@@ -283,54 +281,55 @@ final bar = const [];
 const baz = []; // Equivalent to `const []`
 {% endprettify %}
 
-You can omit `const` from the initializing expression of a `const` declaration,
-like for `baz` above. For details, see [DON’T use const redundantly][].
+声明 `const` 的初始化表达式中 `const` 可以被省略。
+比如上面的 `baz`。 有关更多信息，请参阅 [不要冗余地使用 const][]。
 
-You can change the value of a non-final, non-const variable,
-even if it used to have a const value:
+非 final ， 非 const 的变量是可以被修改的，即使这些变量
+曾经引用过 const 值。
+
 
 <?code-excerpt "misc/lib/language_tour/variables.dart (reassign-to-non-final)"?>
 {% prettify dart %}
-foo = [1, 2, 3]; // Was const []
+foo = [1, 2, 3]; // 曾经引用过 const [] 常量值。
 {% endprettify %}
 
-You can't change the value of a const variable:
+const 变量的值不可以修改：
 
 {:.fails-sa}
 <?code-excerpt "misc/lib/language_tour/variables.dart (cant-assign-to-const)"?>
 {% prettify dart %}
-baz = [42]; // Error: Constant variables can't be assigned a value.
+baz = [42]; // Error: 常量变量不能赋值修改。
 {% endprettify %}
 
-For more information on using `const` to create constant values, see
-[Lists](#lists), [Maps](#maps), and [Classes](#classes).
+更多关于使用 `const` 创建常量值，详参阅
+[Lists](#lists), [Maps](#maps), 和 [Classes](#classes).
 
 
-## Built-in types
+## 内建类型
 
-The Dart language has special support for the following types:
+Dart 语言支持以下内建类型:
 
 - numbers
 - strings
 - booleans
-- lists (also known as *arrays*)
+- lists (也被称为 *arrays*)
 - maps
-- runes (for expressing Unicode characters in a string)
+- runes (用于在字符串中表示 Unicode 字符)
 - symbols
 
-You can initialize an object of any of these special types using a
-literal. For example, `'this is a string'` is a string literal,
-and `true` is a boolean literal.
+这些类型都可以被初始化为字面量。
+例如, `'this is a string'` 是一个字符串的字面量，
+`true` 是一个布尔的字面量.
 
 {% comment %}
 PENDING: add info about support for Iterable, Future, Stream?
 Those can't be initialized using literals, but they do have special support.
 {% endcomment %}
 
-Because every variable in Dart refers to an object—an instance of a
-*class*—you can usually use *constructors* to initialize variables. Some
-of the built-in types have their own constructors. For example, you can
-use the `Map()` constructor to create a map.
+因为在 Dart 所有的变量终究是一个对象（一个类的实例），
+所以变量可以使用 *构造行数* 进行初始化。
+一些内建类型拥有自己的构造函数. 
+例如, 通过 `Map()` 来构造一个 map 变量.
 
 
 ### Numbers
@@ -738,7 +737,7 @@ The usual way to express a Unicode code point is
 For example, the heart character (♥) is `\u2665`.
 To specify more or less than 4 hex digits,
 place the value in curly brackets.
-For example, the laughing emoji (😆) is `\u{1f600}`.
+For example, the laughing emoji (�) is `\u{1f600}`.
 
 The [String][]
 class has several properties you can use to extract rune information.
@@ -4104,7 +4103,7 @@ To learn more about Dart's core libraries, see
 [dart:math]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-math
 [dart]: /dart-vm/tools/dart-vm
 [dartdevc]: {{site.webdev}}/tools/dartdevc
-[DON’T use const redundantly]: /guides/language/effective-dart/usage#dont-use-const-redundantly
+[不要冗余地使用 const]: /guides/language/effective-dart/usage#dont-use-const-redundantly
 [double]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/double-class.html
 [Error]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Error-class.html
 [Exception]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Exception-class.html
