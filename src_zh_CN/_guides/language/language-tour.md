@@ -426,8 +426,8 @@ const msUntilRetry = secondsUntilRetry * msPerSecond;
 
 ### Strings
 
-A Dart string is a sequence of UTF-16 code units. You can use either
-single or double quotes to create a string:
+Dart 字符串是一组 UTF-16 单元序列。
+字符串通过单引号或者双引号创建。
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (quoting)"?>
 {% prettify dart %}
@@ -437,10 +437,9 @@ var s3 = 'It\'s easy to escape the string delimiter.';
 var s4 = "It's even easier to use the other delimiter.";
 {% endprettify %}
 
-You can put the value of an expression inside a string by using
-`${`*`expression`*`}`. If the expression is an identifier, you can skip
-the {}. To get the string corresponding to an object, Dart calls the
-object’s `toString()` method.
+字符串可以通过 `${`*`expression`*`}` 的方式内嵌表达式。
+如果表达式是一个标识符，则 {} 可以省略。
+在 Dart 中通过调用就对象的 `toString()` 方法来得到对象相应的字符串。
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (string-interpolation)"?>
 {% prettify dart %}
@@ -456,14 +455,14 @@ assert('That deserves all caps. ' +
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-The `==` operator tests whether two objects are equivalent. Two
-strings are equivalent if they contain the same sequence of code
+**提示：**
+`==` 操作符用来测试两个对象是否相等。
+在字符串中，如果两个字符串包含了相同的编码序列，那么这两个字符串相等。
 units.
 </div>
 
-You can concatenate strings using adjacent string literals or the `+`
-operator:
+可以使用 `+` 操作符来把多个字符串连接为一个，也可以把多个字面量字符串写在一起来实现字符串连接：
+
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (adjacent-string-literals)"?>
 {% prettify dart %}
@@ -478,8 +477,7 @@ var s2 = 'The + operator ' + 'works, as well.';
 assert(s2 == 'The + operator works, as well.');
 {% endprettify %}
 
-Another way to create a multi-line string: use a triple quote with
-either single or double quotation marks:
+使用连续三个单引号或者三个双引号实现多行字符串对象的创建：
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (triple-quotes)"?>
 {% prettify dart %}
@@ -492,67 +490,67 @@ var s2 = """This is also a
 multi-line string.""";
 {% endprettify %}
 
-You can create a “raw” string by prefixing it with `r`:
+使用 `r` 前缀，可以创建 “原始 raw” 字符串：
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (raw-strings)"?>
 {% prettify dart %}
 var s = r"In a raw string, even \n isn't special.";
 {% endprettify %}
 
-See [Runes](#runes) for details on how to express Unicode
-characters in a string.
+参考 [Runes](#runes) 来了解如何在字符串中表达 Unicode 
+字符。
 
-Literal strings are compile-time constants,
-as long as any interpolated expression is a compile-time constant
-that evaluates to null or a numeric, string, or boolean value.
+一个编译时常量的字面量字符串中，如果存在插值表达式，表达式内容也是编译时常量，
+那么该字符串依旧是编译时常量。
+插入的常量值类型可以是 null，数值，字符串或布尔值。
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (string-literals)"?>
 {% prettify dart %}
-// These work in a const string.
+// const 类型数据
 const aConstNum = 0;
 const aConstBool = true;
 const aConstString = 'a constant string';
 
-// These do NOT work in a const string.
+// 非 const 类型数据
 var aNum = 0;
 var aBool = true;
 var aString = 'a string';
 const aConstList = [1, 2, 3];
 
-const validConstString = '$aConstNum $aConstBool $aConstString';
-// const invalidConstString = '$aNum $aBool $aString $aConstList';
+const validConstString = '$aConstNum $aConstBool $aConstString'; //const 类型数据
+// const invalidConstString = '$aNum $aBool $aString $aConstList'; //非 const 类型数据
 {% endprettify %}
 
-For more information on using strings, see
-[Strings and regular expressions](/guides/libraries/library-tour#strings-and-regular-expressions).
+更多关于 string 的使用, 参见
+[字符串和正则表达式](/guides/libraries/library-tour#strings-and-regular-expressions).
 
 
 ### Booleans
 
-To represent boolean values, Dart has a type named `bool`. Only two
-objects have type bool: the boolean literals `true` and `false`,
-which are both compile-time constants.
+Dart 使用 `bool` 类型表示布尔值。 
+Dart 只有字面量 `true` and `false` 是布尔类型，
+这两个对象都是编译时常量。
 
-Dart's type safety means that you can't use code like
-<code>if (<em>nonbooleanValue</em>)</code> or
-<code>assert (<em>nonbooleanValue</em>)</code>.
-Instead, explicitly check for values, like this:
+Dart 的类型安全意味着不能使用
+<code>if (<em>nonbooleanValue</em>)</code> 或者
+<code>assert (<em>nonbooleanValue</em>)</code>。
+而是应该像下面这样，明确的进行值检查：
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (no-truthy)"?>
 {% prettify dart %}
-// Check for an empty string.
+// 检查空字符串。
 var fullName = '';
 assert(fullName.isEmpty);
 
-// Check for zero.
+// 检查 0 值。
 var hitPoints = 0;
 assert(hitPoints <= 0);
 
-// Check for null.
+// 检查 null 值。
 var unicorn;
 assert(unicorn == null);
 
-// Check for NaN.
+// 检查 NaN 。
 var iMeantToDoThis = 0 / 0;
 assert(iMeantToDoThis.isNaN);
 {% endprettify %}
@@ -560,12 +558,12 @@ assert(iMeantToDoThis.isNaN);
 
 ### Lists
 
-Perhaps the most common collection in nearly every programming language
-is the *array*, or ordered group of objects. In Dart, arrays are
-[List][] objects, so most people just call them *lists*.
+几乎每种编程语言中最常见的集合可能是 *array* 或有序的对象集合。
+在 Dart 中的 *array* 就是 [List][] 对象，
+通常称之为 *lists* 。
 
-Dart list literals look like JavaScript array literals. Here’s a simple
-Dart list:
+Dart 中的 list 字面量非常像 JavaScript 中的 array 字面量。 
+下面是一个 Dart list 的示例：
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (list-literal)"?>
 {% prettify dart %}
@@ -573,18 +571,18 @@ var list = [1, 2, 3];
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:**
-  The analyzer infers that `list` has type `List<int>`.
-  If you try to add non-integer objects to this list,
-  the analyzer or runtime raises an error.
-  For more information, read about
-  [type inference.](/guides/language/sound-dart#type-inference)
+  **提示：**
+ 分析器推断 `list` 的类型为 `List<int>` 。 
+  如果尝试将非整数对象添加到此 list 中，
+  则分析器或运行时会引发错误。 
+  有关更多信息，请阅读
+  [类型推断。](/guides/language/sound-dart#type-inference)
 </aside>
 
-Lists use zero-based indexing, where 0 is the index of the first element
-and `list.length - 1` is the index of the last element. You can get a
-list’s length and refer to list elements just as you would in
-JavaScript:
+Lists 的下标索引从 0 开始，第一个元素的索引是 0。
+list.length - 1 是最后一个元素的索引。 
+访问 list 的长度和元素与 
+JavaScript 中的用法一样：
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (list-indexing)"?>
 {% prettify dart %}
@@ -596,18 +594,17 @@ list[1] = 1;
 assert(list[1] == 1);
 {% endprettify %}
 
-To create a list that's a compile-time constant,
-add `const` before the list literal:
+在 list 字面量之前添加 const 关键字，可以定义 list 类型的编译时常量：
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-list)"?>
 {% prettify dart %}
 var constantList = const [1, 2, 3];
-// constantList[1] = 1; // Uncommenting this causes an error.
+// constantList[1] = 1; // 取消注释会引起错误。
 {% endprettify %}
 
-The List type has many handy methods for manipulating lists. For more
-information about lists, see [Generics](#generics) and
-[Collections](/guides/libraries/library-tour#collections).
+List 类型包含了很多 lists 的操作函数。 
+更多信息参考 [泛型](#generics) 和
+[集合](/guides/libraries/library-tour#collections).
 
 
 ### Maps
