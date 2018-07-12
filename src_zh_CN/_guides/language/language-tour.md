@@ -334,17 +334,17 @@ Those can't be initialized using literals, but they do have special support.
 
 ### Numbers
 
-Dart numbers come in two flavors:
+Dart 语言的 numbers 有两种类型:
 
 [int][]
 
-:   Integer values no larger than 64 bits,
-    depending on the platform.
-    On the Dart VM, values can be from
-    -2<sup>63</sup> to 2<sup>63</sup> - 1.
-    Dart that's compiled to JavaScript uses
+:   整数值不大于64位，
+    具体取决于平台。
+    在 Dart VM 上， 值的范围从
+    -2<sup>63</sup> 到 2<sup>63</sup> - 1.
+    Dart 被编译为 JavaScript 时，使用
     [JavaScript numbers,][js numbers]
-    allowing values from -2<sup>53</sup> to 2<sup>53</sup> - 1.
+    值的范围从 -2<sup>53</sup> 到 2<sup>53</sup> - 1.
 
 {% comment %}
 [PENDING: What about values on Android & iOS?
@@ -354,28 +354,26 @@ https://github.com/dart-lang/sdk/blob/master/docs/language/informal/int64.md.
 
 [double][]
 
-:   64-bit (double-precision) floating-point numbers, as specified by
-    the IEEE 754 standard.
+:   64位（双精度）浮点数，依据 IEEE 754 标准。
 
-Both `int` and `double` are subtypes of [`num`.][num]
-The num type includes basic operators such as +, -, /, and \*,
-and is also where you’ll find `abs()`,` ceil()`,
-and `floor()`, among other methods.
-(Bitwise operators, such as \>\>, are defined in the `int` class.)
-If num and its subtypes don’t have what you’re looking for, the
-[dart:math][] library might.
+`int` 和 `double` 都是 [`num`.][num] 的亚类型。
+num 类型包括基本运算 +， -， /， 和 \*，
+以及 `abs()`，` ceil()`，
+和 `floor()`， 等函数方法。
+（按位运算符，例如>>，定义在 int 类中。）
+如果 num 及其亚类型找不到你想要的方法，
+尝试查找使用 [dart:math][] 库。
 
-Integers are numbers without a decimal point. Here are some examples of
-defining integer literals:
+整数类型不包含小数点。
+下面是定义整数类型字面量的例子:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (integer-literals)"?>
 {% prettify dart %}
 int x = 1;
 int hex = 0xDEADBEEF;
 {% endprettify %}
-
-If a number includes a decimal, it is a double. Here are some examples
-of defining double literals:
+如果一个数字包含小数点，那么就是小数类型。 
+下面是定义小数类型字面量的例子:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (double-literals)"?>
 {% prettify dart %}
@@ -383,7 +381,7 @@ double y = 1.1;
 double exponents = 1.42e5;
 {% endprettify %}
 
-Here’s how you turn a string into a number, or vice versa:
+以下是将字符串转换为数字的方法，反之亦然：
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (number-conversion)"?>
 {% prettify dart %}
@@ -404,8 +402,8 @@ String piAsString = 3.14159.toStringAsFixed(2);
 assert(piAsString == '3.14');
 {% endprettify %}
 
-The int type specifies the traditional bitwise shift (\<\<, \>\>), AND
-(&), and OR (|) operators. For example:
+int 特有的传统按位运算操作，移位（\<\<， \>\>），按位与（&）以及 按位或（|）。
+例如：
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (bit-shifting)"?>
 {% prettify dart %}
@@ -414,10 +412,9 @@ assert((3 >> 1) == 1); // 0011 >> 1 == 0001
 assert((3 | 4) == 7); // 0011 | 0100 == 0111
 {% endprettify %}
 
-Literal numbers are compile-time constants.
-Many arithmetic expressions are also compile-time constants,
-as long as their operands are
-compile-time constants that evaluate to numbers.
+数字类型字面量是编译时常量。
+在算术表达式中，只要参与计算的因子是编译时常量， 
+那么算术表达式的结果也是编译时常量。
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-num)"?>
 {% prettify dart %}
