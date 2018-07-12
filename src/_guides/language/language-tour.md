@@ -913,25 +913,6 @@ to specify named parameters:
 {% prettify dart %}
 /// Sets the [bold] and [hidden] flags ...
 void enableFlags({bool bold, bool hidden}) {...}
-<<<<<<< HEAD
-{% endprettify %}
-
-[Flutter][] instance creation expressions can get complex, so widget
-constructors use named parameters exclusively. This makes instance creation
-expressions easier to read.
-
-You can annotate a named parameter in any Dart code (not just Flutter) with
-[@required][] to indicate that it is a _required_ parameter. For example:
-
-<?code-excerpt "misc/lib/language_tour/functions.dart (required-named-parameters)" replace="/@required/[!$&!]/g"?>
-{% prettify dart %}
-const Scrollbar({Key key, [!@required!] Widget child})
-{% endprettify %}
-
-When a `Scrollbar` is constructed, the analyzer will report an issue if the
-`child` argument is absent.
-
-=======
 {% endprettify %}
 
 [Flutter][] instance creation expressions can get complex, so widget
@@ -953,7 +934,6 @@ When a `Scrollbar` is constructed, the analyzer reports an issue when the
 `package:meta/meta.dart` directly, or import another package that exports
 `meta`, such as Flutter's `package:flutter/material.dart`.
 
->>>>>>> master
 #### Optional positional parameters
 
 Wrapping a set of function parameters in `[]` marks them as optional

@@ -1,8 +1,8 @@
 ---
 title: Converters and Codecs
 description: Learn how to write efficient conversions.
-written: 2014-02-06
-updated: 2015-03-17
+original-date: 2014-02-06
+date: 2015-03-17
 category: libraries
 obsolete: true
 ---
@@ -244,7 +244,7 @@ import 'dart:convert';
 
 main() {
   var outSink = new ChunkedConversionSink.withCallback((chunks) {
-    print(chunks.single); // 𝅘𝅥𝅯
+    print(chunks.single); // �
   });
 
   var inSink = utf8.decoder.startChunkedConversion(outSink);
