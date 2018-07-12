@@ -913,6 +913,7 @@ to specify named parameters:
 {% prettify dart %}
 /// Sets the [bold] and [hidden] flags ...
 void enableFlags({bool bold, bool hidden}) {...}
+<<<<<<< HEAD
 {% endprettify %}
 
 [Flutter][] instance creation expressions can get complex, so widget
@@ -930,6 +931,29 @@ const Scrollbar({Key key, [!@required!] Widget child})
 When a `Scrollbar` is constructed, the analyzer will report an issue if the
 `child` argument is absent.
 
+=======
+{% endprettify %}
+
+[Flutter][] instance creation expressions can get complex, so widget
+constructors use named parameters exclusively. This makes instance creation
+expressions easier to read.
+
+You can annotate a named parameter in any Dart code (not just Flutter) with
+[@required][] to indicate that it is a _required_ parameter. For example:
+
+<?code-excerpt "misc/lib/language_tour/functions.dart (required-named-parameters)" replace="/@required/[!$&!]/g"?>
+{% prettify dart %}
+const Scrollbar({Key key, [!@required!] Widget child})
+{% endprettify %}
+
+When a `Scrollbar` is constructed, the analyzer reports an issue when the
+`child` argument is absent.
+
+[Required][@required] is defined in the [meta][] package. Either import
+`package:meta/meta.dart` directly, or import another package that exports
+`meta`, such as Flutter's `package:flutter/material.dart`.
+
+>>>>>>> master
 #### Optional positional parameters
 
 Wrapping a set of function parameters in `[]` marks them as optional
@@ -4142,6 +4166,7 @@ To learn more about Dart's core libraries, see
 [js numbers]: https://stackoverflow.com/questions/2802957/number-of-bits-in-javascript-numbers/2803010#2803010
 [List]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/List-class.html
 [Map]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Map-class.html
+[meta]: {{site.pub-pkg}}/meta
 [num]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/num-class.html
 [@required]: {{site.pub-api}}/meta/latest/meta/required-constant.html
 [Object]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Object-class.html
