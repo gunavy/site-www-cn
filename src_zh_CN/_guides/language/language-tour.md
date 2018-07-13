@@ -8,10 +8,10 @@ short-title: 语言概览
 这里将介绍 Dart 主要功能，从变量和运算符到类和库，假设您已经知道如何使用其他语言编程。
 
 
-学习更多 Dart 核心库, 参阅
+学习更多 Dart 核心库, 参见
 [Dart 库概览](/guides/libraries/library-tour).
 想了解更多有关语言功能的详细信息,
-请参阅 [Dart 编程语言规范](/guides/language/spec).
+参见 [Dart 编程语言规范](/guides/language/spec).
 
 <div class="alert alert-info" markdown="1">
 **提示:**
@@ -47,7 +47,7 @@ main() {
 
 :   单行注释。
     Dart 同样支持多行注释和文档注释。
-    有关更多信息，请参阅 [注释](#comments).
+    有关更多信息，参见 [注释](#comments).
 
 `int`
 
@@ -69,13 +69,13 @@ main() {
 <code>$<em>variableName</em></code> (或 <code>${<em>expression</em>}</code>)
 
 :   字符串插值： 包括字符串文字内部的变量或表达式的字符串。 
-    有关更多信息，请参阅
+    有关更多信息，参见
     [Strings](#strings).
 
 `main()`
 
 :   程序开始执行函数，该函数是特定的、*必须的*、顶级函数。
-    有关更多信息，请参阅
+    有关更多信息，参见
     [The main() function](#the-main-function).
 
 `var`
@@ -114,7 +114,7 @@ main() {
 
 -   与 Java 不同，Dart 没有关键字 “public” ， “protected” 和 “private” 。 
     如果标识符以下划线（\ _）开头，则它相对于库是私有的。 
-    有关更多信息，请参阅 [库和可见性]（＃libraries-and-visibility）。
+    有关更多信息，参见 [库和可见性]（＃libraries-and-visibility）。
 
 -   *标识符* 以字母或下划线（\ _）开头，后跟任意字母和数字组合。
 
@@ -161,7 +161,7 @@ Dart 语言关键字列表。
 <sup>2</sup> 带有上标2的单词
 是 Dart 1.0 发布后，为支持**异步**增加更新的，限制类保留字。 
 不能在标记为 `async` ，`async*` 或 `sync*` 的任何函数体中使用 `async` , `async*` , or `sync*` 作为标识符。
-有关更多信息，请参阅 [Asynchrony支持](#asynchrony-support)。
+有关更多信息，参见 [Asynchrony支持](#asynchrony-support)。
 
 关键字表中的剩余单词都是**保留字**。
 不能将保留字用作标识符。
@@ -225,7 +225,7 @@ assert(lineCount == null);
 **提示：**
 在生产环境代码中 `assert()` 函数会被忽略，不会被调用。
 在开发过程中, <code>assert(<em>condition</em>)</code>
-会在非 `true` 的条件下抛出异常.有关更多信息，请参阅
+会在非 `true` 的条件下抛出异常.有关更多信息，参见
  [Assert](#assert).
 </div>
 
@@ -282,7 +282,7 @@ const baz = []; // Equivalent to `const []`
 {% endprettify %}
 
 声明 `const` 的初始化表达式中 `const` 可以被省略。
-比如上面的 `baz`。 有关更多信息，请参阅 [不要冗余地使用 const][]。
+比如上面的 `baz`。 有关更多信息，参见 [不要冗余地使用 const][]。
 
 非 final ， 非 const 的变量是可以被修改的，即使这些变量
 曾经引用过 const 值。
@@ -301,7 +301,7 @@ const 变量的值不可以修改：
 baz = [42]; // Error: 常量变量不能赋值修改。
 {% endprettify %}
 
-更多关于使用 `const` 创建常量值，详参阅
+更多关于使用 `const` 创建常量值，参见
 [Lists](#lists)， [Maps](#maps)， 和 [Classes](#classes)。
 
 
@@ -609,12 +609,11 @@ List 类型包含了很多 lists 的操作函数。
 
 ### Maps
 
-In general, a map is an object that associates keys and values. Both
-keys and values can be any type of object. Each *key* occurs only once,
-but you can use the same *value* multiple times. Dart support for maps
-is provided by map literals and the [Map][] type.
+通常来说， map 是用来关联 keys 和 values 的对象。
+keys 和 values 可以是任何类型的对象。在一个 map 对象中一个 *key* 只能出现一次。
+但是 *value* 可以出现多次。 Dart 中 map 通过 map 字面量 和 [Map][] 类型来实现。
 
-Here are a couple of simple Dart maps, created using map literals:
+下面是使用 map 字面量的两个简单例子：
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (map-literal)"?>
 {% prettify dart %}
@@ -633,16 +632,14 @@ var nobleGases = {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:**
-  The analyzer infers that `gifts` has the type
-  `Map<String, String>` and `nobleGases` has the type
-  `Map<int, String>`. If you try to add the wrong type of value
-  to either map, the analyzer or runtime raises an error.
-  For more information, read about
-  [type inference.](/guides/language/sound-dart#type-inference)
+  **提示：**
+  分析器会将 `gifts` 的类型推断为 `Map<String, String>`，
+  `nobleGases` 的类型推断为 `Map<int, String>` 。 
+  如果尝试在上面的 map 中添加错误类型，那么分析器或者运行时会引发错误。 
+  有关更多信息，请阅读[类型推断。](/guides/language/sound-dart#type-inference)。
 </aside>
 
-You can create the same objects using a Map constructor:
+以上 map 对象也可以使用 Map 构造函数创建：
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (map-constructor)"?>
 {% prettify dart %}
@@ -658,14 +655,13 @@ nobleGases[18] = 'argon';
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Note:**
-You might expect to see `new Map()` instead of just `Map()`.
-As of Dart 2, the `new` keyword is optional.
-For details, see [Using constructors](#using-constructors).
+**提示:**
+这里为什么只有 `Map()` ，而不是使用 `new Map()`。
+因为在 Dart 2 中，`new` 关键字是可选的。
+有关更多信息，参见 [构造函数的使用](#using-constructors)。
 </aside>
 
-Add a new key-value pair to an existing map just as you would in
-JavaScript:
+类似 JavaScript ，添加 key-value 对到已有的 map 中：
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (map-add-item)"?>
 {% prettify dart %}
@@ -673,7 +669,7 @@ var gifts = {'first': 'partridge'};
 gifts['fourth'] = 'calling birds'; // Add a key-value pair
 {% endprettify %}
 
-Retrieve a value from a map the same way you would in JavaScript:
+类似 JavaScript ，从一个 map 中移除一个 value：
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-retrieve-item)"?>
 {% prettify dart %}
@@ -681,7 +677,7 @@ var gifts = {'first': 'partridge'};
 assert(gifts['first'] == 'partridge');
 {% endprettify %}
 
-If you look for a key that isn’t in a map, you get a null in return:
+如果 map 中不包含所要查找的 key，那么 map 返回 null：
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-missing-key)"?>
 {% prettify dart %}
@@ -689,7 +685,7 @@ var gifts = {'first': 'partridge'};
 assert(gifts['fifth'] == null);
 {% endprettify %}
 
-Use `.length` to get the number of key-value pairs in the map:
+使用 `.length` 函数获取当前 map 中的 key-value 对数量：
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-length)"?>
 {% prettify dart %}
@@ -698,7 +694,7 @@ gifts['fourth'] = 'calling birds';
 assert(gifts.length == 2);
 {% endprettify %}
 
-To create a map that's a compile-time constant,
+创建 map 类型运行时常量，要在 map 字面量前加上关键字 `const`。
 add `const` before the map literal:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (const-map)"?>
@@ -709,39 +705,39 @@ final constantMap = const {
   18: 'argon',
 };
 
-// constantMap[2] = 'Helium'; // Uncommenting this causes an error.
+// constantMap[2] = 'Helium'; // 取消注释会引起错误。
 {% endprettify %}
 
-For more information about maps, see
+更名多关于 map 的内容，参见
 [Generics](#generics) and
 [Maps](/guides/libraries/library-tour#maps).
 
 ### Runes
 
-In Dart, runes are the UTF-32 code points of a string.
+在 Dart 中，runes 用来表示字符串中的 UTF-32 编码字符。
 
-Unicode defines a unique numeric value for each letter, digit,
-and symbol used in all of the world's writing systems.
-Because a Dart string is a sequence of UTF-16 code units,
-expressing 32-bit Unicode values within a string requires
-special syntax.
+Unicode 定义了一个全球的书写系统编码，
+系统中使用的所有字母，数字和符号都对应唯一的数值编码。
+由于 Dart 字符串是一系列 UTF-16 编码单元，
+因此要在字符串中表示32位 Unicode 值需要特殊语法支持。
 
-The usual way to express a Unicode code point is
-`\uXXXX`, where XXXX is a 4-digit hexidecimal value.
-For example, the heart character (♥) is `\u2665`.
-To specify more or less than 4 hex digits,
-place the value in curly brackets.
-For example, the laughing emoji (�) is `\u{1f600}`.
 
-The [String][]
-class has several properties you can use to extract rune information.
-The `codeUnitAt` and `codeUnit` properties return 16-bit code
-units. Use the `runes` property to get the runes of a string.
+表示 Unicode 编码的常用方法是，
+`\uXXXX`, 这里 XXXX 是一个4位的16进制数。
+例如，心形符号 (♥) 是 `\u2665`。
+对于特殊的非 4 个数值的情况，
+把编码值放到大括号中即可。
+例如，emoji 的笑脸   (�) 是 `\u{1f600}`。
 
-The following example illustrates the relationship between runes,
-16-bit code units, and 32-bit code points.
-Click the run button ( {% img 'red-run.png' %} )
-to see runes in action.
+[String][]
+类有一些属性可以获得 rune 数据。
+属性 `codeUnitAt` 和 `codeUnit` 返回16位编码数据。
+属性 `runes` 获取字符串中的 runes 。
+
+下面是示例演示了 runes、 16-bit code units、
+和 32-bit code points 之间的关系。
+点击运行按钮 ( {% img 'red-run.png' %} )
+查看 runes 结果。
 
 {% comment %}
 https://gist.github.com/589bc5c95318696cefe5
@@ -771,24 +767,21 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=589bc5c95318696cefe5&horizonta
 </iframe>
 
 <div class="alert alert-warning" markdown="1">
-**Note:**
-Be careful when manipulating runes using list operations.
-This approach can easily break down,
-depending on the particular language, character set, and operation.
-For more information, see
+**提示：**
+谨慎使用 list 方式操作 runes。
+这种方法很容易引发崩溃，
+具体原因取决于特定的语言，字符集和操作。
+有关更多信息，参见
 [How do I reverse a String in Dart?](http://stackoverflow.com/questions/21521729/how-do-i-reverse-a-string-in-dart) on Stack Overflow.
 </div>
 
 ### Symbols
 
-A [Symbol][] object
-represents an operator or identifier declared in a Dart program. You
-might never need to use symbols, but they're invaluable for APIs that
-refer to identifiers by name, because minification changes identifier
-names but not identifier symbols.
+一个 Symbol 对象表示 Dart 程序中声明的操作符或者标识符。 
+你也许永远都不需要使用 Symbol ，但要按名称引用标识符的 API 时， Symbol 就非常有用了。
+因为代码压缩后会改变标识符的名称，但不会改变标识符的符号。
+通过字面量 Symbol ，也就是标识符前面添加一个 `#` 号，来获取标识符的 Symbol 。
 
-To get the symbol for an identifier, use a symbol literal, which is just
-`#` followed by the identifier:
 
 ```nocode
 #radix
@@ -816,18 +809,19 @@ int handleError(String source) {
 {% endprettify %}
 {% endcomment %}
 
-Symbol literals are compile-time constants.
+Symbol 字面量是编译时常量。
 
 
 ## Functions
 
-Dart is a true object-oriented language, so even functions are objects
-and have a type, [Function][].
-This means that functions can be assigned to variables or passed as arguments
-to other functions. You can also call an instance of a Dart class as if
-it were a function. For details, see [Callable classes](#callable-classes).
+Dart 是一门真正面向对象的语言，
+甚至其中的函数也是对象，并且有它的类型 
+[Function][] 。
+这也意味着函数可以被赋值给变量或者作为参数传递给其它函数。
+也可以把 Dart 类的实例当做方法来调用。
+有关更多信息，参见 [Callable classes](#callable-classes).
 
-Here’s an example of implementing a function:
+已下是函数实现的示例：
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (function)"?>
 {% prettify dart %}
@@ -836,9 +830,9 @@ bool isNoble(int atomicNumber) {
 }
 {% endprettify %}
 
-Although Effective Dart recommends
-[type annotations for public APIs](/guides/language/effective-dart/design#prefer-type-annotating-public-fields-and-top-level-variables-if-the-type-isnt-obvious),
-the function still works if you omit the types:
+虽然在 Effective Dart 中推荐
+[公共API中声明类型](/guides/language/effective-dart/design#prefer-type-annotating-public-fields-and-top-level-variables-if-the-type-isnt-obvious),
+但是省略了类型声明，函数依旧是可以正常使用的：
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (function-omitting-types)"?>
 {% prettify dart %}
@@ -847,49 +841,49 @@ isNoble(atomicNumber) {
 }
 {% endprettify %}
 
-For functions that contain just one expression, you can use a shorthand
-syntax:
+如果函数中只有一句表达式，可以使用简写语法：
+
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (function-shorthand)"?>
 {% prettify dart %}
 bool isNoble(int atomicNumber) => _nobleGases[atomicNumber] != null;
 {% endprettify %}
 
-The <code>=> <em>expr</em></code> syntax is a shorthand for
-<code>{ return <em>expr</em>; }</code>. The `=>` notation
-is sometimes referred to as _fat arrow_ syntax.
+ <code>=> <em>expr</em></code> 语法是
+<code>{ return <em>expr</em>; }</code> 的简写。 `=>` 符号
+有时也被称为 _胖箭头_ 语法。
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-Only an *expression*—not a *statement*—can appear between the arrow
-(=\>) and the semicolon (;). For example, you can’t put an [if
-statement](#if-and-else) there, but you can use a [conditional
-expression](#conditional-expressions).
+**提示：**
+在箭头 (=\>) 和冒号 (;) 之间只能使用一个 *表达式*—不能是 *语句*。
+例如：不能使用 [if
+语句](#if-and-else) ，但是可以是用 
+[条件表达式](#conditional-expressions).
 </div>
 
-A function can have two types of parameters: required and optional. The
-required parameters are listed first, followed by any optional
-parameters. Named optional parameters can also be marked as `@required`.
-See the next section for details.
+函数有两种参数类型: required 和 optional。
+required 类型参数在参数最前面， 随后是 optional 类型参数。
+命名的可选参数也可以标记为 “@ required” 。
+参见下一章节，了解更多细节。
 
 
-### Optional parameters
+### Optional 参数
 
-Optional parameters can be either positional or named, but not both.
+可选参数可以是命名参数或者位置参数，但一个参数只能选择其中一种方式修饰。
 
-#### Optional named parameters
+#### Optional 命名参数
 
-When calling a function, you can specify named parameters using
-<code><em>paramName</em>: <em>value</em></code>. For example:
+调用函数时，可以使用指定命名参数
+<code><em>paramName</em>: <em>value</em></code>。 例如：
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (use-named-parameters)"?>
 {% prettify dart %}
 enableFlags(bold: true, hidden: false);
 {% endprettify %}
 
-When defining a function, use
+定义函数是，使用
 <code>{<em>param1</em>, <em>param2</em>, …}</code>
-to specify named parameters:
+来指定命名参数：
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (specify-named-parameters)"?>
 {% prettify dart %}
@@ -897,29 +891,29 @@ to specify named parameters:
 void enableFlags({bool bold, bool hidden}) {...}
 {% endprettify %}
 
-[Flutter][] instance creation expressions can get complex, so widget
-constructors use named parameters exclusively. This makes instance creation
-expressions easier to read.
+[Flutter][] 创建实例的表达式可能很复杂，
+因此窗口小部件构造函数仅使用命名参数。 
+这样创建实例的表达式更易于阅读。
 
-You can annotate a named parameter in any Dart code (not just Flutter) with
-[@required][] to indicate that it is a _required_ parameter. For example:
+
+使用 [@required][] 注释表示参数是 _required_ 性质的命名参数，
+该方式可以在任何 Dart 代码中使用（不仅仅是Flutter）。
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (required-named-parameters)" replace="/@required/[!$&!]/g"?>
 {% prettify dart %}
 const Scrollbar({Key key, [!@required!] Widget child})
 {% endprettify %}
 
-When a `Scrollbar` is constructed, the analyzer reports an issue when the
-`child` argument is absent.
+此时 `Scrollbar` 是一个构造函数， 当 `child` 参数缺少是，分析器会提示错误。
 
-[Required][@required] is defined in the [meta][] package. Either import
-`package:meta/meta.dart` directly, or import another package that exports
-`meta`, such as Flutter's `package:flutter/material.dart`.
+[Required][@required] 被定义在 [meta][] package。 无论是直接引入（import）
+`package:meta/meta.dart` ，或者引入了其它 package，而这个 package 输出（export）了
+`meta`，比如 Flutter 的 `package:flutter/material.dart`。
 
-#### Optional positional parameters
+#### Optional 位置参数
 
-Wrapping a set of function parameters in `[]` marks them as optional
-positional parameters:
+将参数放到 `[]` 中来标记参数是可选的：
+
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (optional-positional-parameters)"?>
 {% prettify dart %}
@@ -932,15 +926,16 @@ String say(String from, String msg, [String device]) {
 }
 {% endprettify %}
 
-Here’s an example of calling this function without the optional
-parameter:
+下面是不使用可选参数调用上面方法
+的示例：
+
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (call-without-optional-param)"?>
 {% prettify dart %}
 assert(say('Bob', 'Howdy') == 'Bob says Howdy');
 {% endprettify %}
 
-And here’s an example of calling this function with the third parameter:
+下面是使用可选参数调用上面方法的示例：
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (call-with-optional-param)"?>
 {% prettify dart %}
@@ -949,31 +944,32 @@ assert(say('Bob', 'Howdy', 'smoke signal') ==
 {% endprettify %}
 
 <a id="default-parameters"></a>
-#### Default parameter values
+#### 默认参数值
 
-Your function can use `=` to define default values for both named and positional
-parameters. The default values must be compile-time constants.
-If no default value is provided, the default value is `null`.
+在定义方法的时候，可以使用 `=` 来定义可选参数的默认值。
+默认值只能是编译时常量。 
+如果没有提供默认值，则默认值为 null。
 
-Here's an example of setting default values for named parameters:
+
+下面是设置可选参数默认值示例：
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (named-parameter-default-values)"?>
 {% prettify dart %}
-/// Sets the [bold] and [hidden] flags ...
+/// 设置 [bold] 和 [hidden] 标志 ...
 void enableFlags({bool bold = false, bool hidden = false}) {...}
 
-// bold will be true; hidden will be false.
+// bold 值为 true; hidden 值为 false.
 enableFlags(bold: true);
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Deprecation note:**
-Old code might use a colon (`:`) instead of `=`
-to set default values of named parameters.
-The reason is that originally, only `:` was supported for named parameters.
-That support is likely to be deprecated,
-so we recommend that you
-**[use `=` to specify default values.](/tools/pub/pubspec#sdk-constraints)**
+**不推荐：**
+旧版本代码中可能使用的是冒号 (`:`) 而不是 `=` 
+来设置参数默认值。
+原因是起初命名参数只支持 `:` 。
+这种支持可能会被弃用。
+建议
+**[使用 `=` 指定默认值。](/tools/pub/pubspec#sdk-constraints)**
 </div>
 
 {% comment %}
@@ -982,7 +978,7 @@ Update if/when we do. Issue #?
 See `defaultNamedParameter` in the language spec.
 {% endcomment %}
 
-The next example shows how to set default values for positional parameters:
+下面示例展示如何为位置参数设置默认值：
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (optional-positional-param-default)"?>
 {% prettify dart %}
@@ -1002,10 +998,10 @@ assert(say('Bob', 'Howdy') ==
     'Bob says Howdy with a carrier pigeon');
 {% endprettify %}
 
-You can also pass lists or maps as default values.
-The following example defines a function, `doStuff()`,
-that specifies a default list for the `list`
-parameter and a default map for the `gifts` parameter.
+list 或 map 可以作为默认值传递。
+下面的示例定义了一个方法 `doStuff()`，
+并分别指定参数 `list` 和 `gifts`
+的默认值。
 {% comment %}
 The function is called three times with different values.
 Click the run button ( {% img 'red-run.png' %} )
@@ -1057,7 +1053,7 @@ void main() {
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 The `..` syntax in the preceding code is called a [cascade](#cascade-notation-).
 With cascades,
 you can perform multiple operations on the members of a single object.
@@ -1500,7 +1496,7 @@ You can make the code shorter using the `as` operator:
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 The code isn’t equivalent. If `emp` is null or not a Person, the
 first example (with `is`) does nothing; the second (with `as`) throws
 an exception.
@@ -1736,7 +1732,7 @@ The `sb.write()` call returns void,
 and you can't construct a cascade on `void`.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 Strictly speaking,
 the "double dot" notation for cascades is not an operator.
 It's just part of the Dart syntax.
@@ -1913,7 +1909,7 @@ override `==`.
 [Enumerated types](#enumerated-types) work well in `switch` statements.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 Switch statements in Dart are intended for limited circumstances,
 such as in interpreters or scanners.
 </div>
@@ -2023,7 +2019,7 @@ assert(urlString.startsWith('https'));
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 Assert statements have no effect in production code;
 they're for development only.
 Flutter enables asserts in [debug mode.][Flutter debug mode]
@@ -2082,7 +2078,7 @@ throw 'Out of llamas!';
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-  **Note:** Production-quality code usually throws types that implement
+  **提示：** Production-quality code usually throws types that implement
   [Error][] or [Exception][].
 </div>
 
@@ -2281,7 +2277,7 @@ var p2 = new Point.fromJson({'x': 1, 'y': 2});
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Version note:** The `new` keyword became optional in Dart 2.
+**Version 提示：** The `new` keyword became optional in Dart 2.
 </aside>
 
 Some classes provide constant constructors. To create a compile-time
@@ -2328,7 +2324,7 @@ const pointAndLine = {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Version note:** The `const` keyword became optional
+**Version 提示：** The `const` keyword became optional
 within a constant context in Dart 2.
 </aside>
 
@@ -2412,7 +2408,7 @@ class Point {
 The `this` keyword refers to the current instance.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 Use `this` only when there is a name conflict. Otherwise, Dart style
 omits the `this`.
 </div>
@@ -2707,7 +2703,7 @@ class Logger {
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 Factory constructors have no access to `this`.
 </div>
 
@@ -2781,7 +2777,7 @@ With getters and setters, you can start with instance variables, later
 wrapping them with methods, all without changing client code.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 Operators such as increment (++) work in the expected way, whether or
 not a getter is explicitly defined. To avoid any unexpected side
 effects, the operator calls the getter exactly once, saving its value
@@ -3008,7 +3004,7 @@ defines the unimplemented method (abstract is OK),
 and the dynamic type of the receiver has an implemention of `noSuchMethod()`
 that's different from the one in class `Object`.
 
-For more information, see the informal
+有关更多信息，参见 the informal
 [nosuchMethod forwarding specification.](https://github.com/dart-lang/sdk/blob/master/docs/language/informal/nosuchmethod-forwarding.md)
 
 
@@ -3074,7 +3070,7 @@ Enumerated types have the following limits:
 * You can't subclass, mix in, or implement an enum.
 * You can't explicitly instantiate an enum.
 
-For more information, see the
+有关更多信息，参见 the
 [Dart Language Specification](/guides/language/spec).
 
 
@@ -3124,7 +3120,7 @@ abstract class Musical {
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-  **Note:** Some restrictions on mixins are being removed. For details, see the
+  **提示：** Some restrictions on mixins are being removed. For details, see the
   [proposed mixin specification.][Dart 2.0 Mixins]
 
   [Dart 2.0 Mixins]: https://github.com/dart-lang/sdk/blob/master/docs/language/informal/mixin-declaration.md
@@ -3158,7 +3154,7 @@ void main() {
 Static variables aren’t initialized until they’re used.
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 This page follows the [style guide
 recommendation](/guides/language/effective-dart/style#identifiers)
 of preferring `lowerCamelCase` for constant names.
@@ -3194,7 +3190,7 @@ void main() {
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 Consider using top-level functions, instead of static methods, for
 common or widely used utilities and functionality.
 </div>
@@ -3332,7 +3328,7 @@ print(names is List<String>); // true
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 In contrast, generics in Java use *erasure*, which means that generic
 type parameters are removed at runtime. In Java, you can test whether
 an object is a List, but you can’t test whether it’s a `List<String>`.
@@ -3448,7 +3444,7 @@ import 'package:test/test.dart';
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 *URI* stands for uniform resource identifier.
 *URLs* (uniform resource locators) are a common kind of URI.
 </div>
@@ -3606,7 +3602,7 @@ Future checkVersion() [!async!] {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 Although an async function might perform time-consuming operations,
 it doesn't wait for those operations.
 Instead, the async function executes only until it encounters
@@ -3708,7 +3704,7 @@ you have two options:
   [in the library tour](/guides/libraries/library-tour#stream).
 
 <aside class="alert alert-warning" markdown="1">
-**Note:**
+**提示：**
 Before using `await for`, be sure that it makes the code clearer
 and that you really do want to wait for all of the stream's results.
 For example, you usually should **not** use `await for` for UI event listeners,
@@ -3862,7 +3858,7 @@ Instead of threads, all Dart code runs inside of *isolates*. Each
 isolate has its own memory heap, ensuring that no isolate’s state is
 accessible from any other isolate.
 
-For more information, see the
+有关更多信息，参见 the
 [dart:isolate library documentation.][dart:isolate]
 
 
@@ -3924,7 +3920,7 @@ void main() {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Note:**
+**提示：**
 Currently, typedefs are restricted to function types. We expect this
 to change.
 </aside>
@@ -4099,7 +4095,7 @@ your comments, see
 
 This page summarized the commonly used features in the Dart language.
 More features are being implemented, but we expect that they won’t break
-existing code. For more information, see the [Dart Language
+existing code. 有关更多信息，参见 the [Dart Language
 Specification](/guides/language/spec) and
 [Effective Dart](/guides/language/effective-dart).
 
