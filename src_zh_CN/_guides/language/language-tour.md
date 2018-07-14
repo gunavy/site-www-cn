@@ -1035,13 +1035,12 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=d988cfce0a54c6853799&horizonta
 {% endcomment %}
 
 
-### The main() function
+### main() 函数
 
-Every app must have a top-level `main()` function, which serves as the
-entrypoint to the app. The `main()` function returns `void` and has an
-optional `List<String>` parameter for arguments.
+任何应用都必须有一个顶级 `main()` 函数，作为应用服务的入口。
+`main()` 函数返回值为空，参数为一个可选的 `List<String>` 。
 
-Here's an example of the `main()` function for a web app:
+下面是 web 应用的 `main()` 函数：
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (simple-web-main-function)"?>
 {% prettify dart %}
@@ -1054,17 +1053,17 @@ void main() {
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-The `..` syntax in the preceding code is called a [cascade](#cascade-notation-).
-With cascades,
-you can perform multiple operations on the members of a single object.
+
+以上代码中的 `..` 语法为 [级联调用](#cascade-notation-) （cascade）。 
+使用级联调用， 可以简化在一个对象上执行的多个操作。
 </div>
 
-Here's an example of the `main()` function for a command-line app that
-takes arguments:
+下面是一个命令行应用的 `main()` 方法，并且使用了输入参数：
+
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (main-args)"?>
 {% prettify dart %}
-// Run the app like this: dart args.dart 1 test
+// 这样运行应用： dart args.dart 1 test
 void main(List<String> arguments) {
   print(arguments);
 
@@ -1074,12 +1073,11 @@ void main(List<String> arguments) {
 }
 {% endprettify %}
 
-You can use the [args library](https://pub.dartlang.org/packages/args) to
-define and parse command-line arguments.
+使用 [args library](https://pub.dartlang.org/packages/args) 可以定义和解析命令行参数。
 
-### Functions as first-class objects
+### Functions 是一等对象
 
-You can pass a function as a parameter to another function. For example:
+一个函数可以作为另一个函数的参数。 例如：
 
 <?code-excerpt "misc/lib/language_tour/functions.dart (function-as-param)"?>
 {% prettify dart %}
@@ -1089,11 +1087,11 @@ void printElement(int element) {
 
 var list = [1, 2, 3];
 
-// Pass printElement as a parameter.
+// 将 printElement 函数作为参数传递。
 list.forEach(printElement);
 {% endprettify %}
 
-You can also assign a function to a variable, such as:
+同样可以将一个函数赋值给一个变量，例如：
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (function-as-var)"?>
 {% prettify dart %}
@@ -1101,22 +1099,21 @@ var loudify = (msg) => '!!! ${msg.toUpperCase()} !!!';
 assert(loudify('hello') == '!!! HELLO !!!');
 {% endprettify %}
 
-This example uses an anonymous function.
-More about those in the next section.
+示例中使用了匿名函数。
+下一章节会有更多介绍。
 
-### Anonymous functions
+### 匿名函数
 
-Most functions are named, such as `main()` or `printElement()`.
-You can also create a nameless function
-called an _anonymous function_, or sometimes a _lambda_ or _closure_.
-You might assign an anonymous function to a variable so that,
-for example, you can add or remove it from a collection.
+多数函数是有名字的， 比如 `main()` 和 `printElement()`。
+也可以创建没有名字的函数，这种函数被称为 _匿名函数_，
+有时候也被称为 _lambda_ 或者 _closure_ 。
+匿名函数可以被复制到一个变量中，
+举个例子，在一个集合中可以添加或者删除一个匿名函数。
 
-An anonymous function looks similar to a named function&mdash;
-zero or more parameters, separated by commas
-and optional type annotations, between parentheses.
+匿名函数和命名函数看起来类似&mdash; 
+在括号之间可以定义一些参数或可选参数，参数使用逗号分割。
 
-The code block that follows contains the function's body:
+后面大括号中的代码为函数体：
 
 <code>
 ([[<em>Type</em>] <em>param1</em>[, …]]) { <br>
@@ -1124,9 +1121,8 @@ The code block that follows contains the function's body:
 }; <br>
 </code>
 
-The following example defines an anonymous function with an untyped parameter, `item`.
-The function, invoked for each item in the list,
-prints a string that includes the value at the specified index.
+下面例子中定义了一个包含一个无类型参数 `item` 的匿名函数。
+list 中的每个元素都会调用这个函数，打印元素位置和值的字符串。
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (anonymous-function)"?>
 {% prettify dart %}
@@ -1136,7 +1132,7 @@ list.forEach((item) {
 });
 {% endprettify %}
 
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+点击运行按钮 ( {% img 'red-run.png' %} ) 执行代码。
 
 {% comment %}
 https://gist.github.com/chalin/5d70bc1889d055c7a18d35d77874af88
@@ -1150,9 +1146,9 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=5d70bc1889d055c7a18d35d77874af
     style="border: 1px solid #ccc;">
 </iframe>
 
-If the function contains only one statement, you can shorten it using
-fat arrow notation. Paste the following line into DartPad
-and click run to verify that it is functionally equivalent.
+如果函数只有一条语句， 
+可以使用胖箭头简写。粘贴下面代码到 DartPad 中
+并点击运行按钮，验证两个函数是等价的。
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (anon-func)"?>
 {% prettify dart %}
