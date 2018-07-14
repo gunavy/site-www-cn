@@ -1157,15 +1157,15 @@ list.forEach(
 {% endprettify %}
 
 
-### Lexical scope
+### 词法作用域
 
-Dart is a lexically scoped language, which means that the scope of
-variables is determined statically, simply by the layout of the code.
-You can “follow the curly braces outwards” to see if a variable is in
-scope.
+Dart 是一门词法作用域的编程语言，就意味着变量的作用域是固定的，
+简单说变量的作用域在编写代码的时候就已经确定了。
+花括号内的是变量可见的作用域。
 
-Here is an example of nested functions with variables at each scope
-level:
+
+下面示例关于多个嵌套函数的变量作用域：
+
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (nested-functions)"?>
 {% prettify dart %}
@@ -1189,33 +1189,32 @@ void main() {
 }
 {% endprettify %}
 
-Notice how `nestedFunction()` can use variables from every level, all
-the way up to the top level.
+注意 `nestedFunction()` 可以访问所有的变量， 
+一直到顶级作用域变量。
 
 
-### Lexical closures
+### 词法闭包
 
-A *closure* is a function object that has access to variables in its
-lexical scope, even when the function is used outside of its original
-scope.
+*闭包* 即一个函数对象，不管该汗水对象在何处被调用，
+该函数都可以访问其作用域内的变量。
 
-Functions can close over variables defined in surrounding scopes. In the
-following example, `makeAdder()` captures the variable `addBy`. Wherever the
-returned function goes, it remembers `addBy`.
+函数可以封闭定义到它作用域内的变量。 接下来的示例中，
+`makeAdder()` 捕获了变量 `addBy`。 
+无论在什么时候执行返回函数，函数都会使用捕获的 `addBy` 变量。
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (function-closure)"?>
 {% prettify dart %}
-/// Returns a function that adds [addBy] to the
-/// function's argument.
+/// 返回一个函数，该函数将函数的参与与 [addBy]
+相加。
 Function makeAdder(num addBy) {
   return (num i) => addBy + i;
 }
 
 void main() {
-  // Create a function that adds 2.
+  // 创建一个加 2 的函数。
   var add2 = makeAdder(2);
 
-  // Create a function that adds 4.
+  // 创建一个加 4 的函数。
   var add4 = makeAdder(4);
 
   assert(add2(3) == 5);
@@ -1224,52 +1223,53 @@ void main() {
 {% endprettify %}
 
 
-### Testing functions for equality
+### 测试函数是否相等
 
-Here's an example of testing top-level functions, static methods, and
-instance methods for equality:
+下面是顶级函数，静态方法和示例方法相等性的测试示例：
+
 
 <?code-excerpt "misc/lib/language_tour/function_equality.dart"?>
 {% prettify dart %}
-void foo() {} // A top-level function
+void foo() {} // 顶级函数
 
 class A {
-  static void bar() {} // A static method
-  void baz() {} // An instance method
+  static void bar() {} // 静态方法
+  void baz() {} // 示例方法
 }
 
 void main() {
   var x;
 
-  // Comparing top-level functions.
+  // 比较顶级函数。
   x = foo;
   assert(foo == x);
 
-  // Comparing static methods.
+  // 比较静态方法。
   x = A.bar;
   assert(A.bar == x);
 
-  // Comparing instance methods.
-  var v = A(); // Instance #1 of A
-  var w = A(); // Instance #2 of A
+  // 比较实例方法。
+  var v = A(); // A的1号实例
+  var w = A(); // A的2号实例
   var y = w;
   x = w.baz;
 
-  // These closures refer to the same instance (#2),
-  // so they're equal.
+  // 两个闭包引用的同一实例（2号）,
+  // 所以它们相等。
   assert(y.baz == x);
 
-  // These closures refer to different instances,
-  // so they're unequal.
+  // 两个闭包引用的非同一个实例，
+  // 所以它们不相等。
   assert(v.baz != w.baz);
 }
 {% endprettify %}
 
 
-### Return values
+### 返回值
 
-All functions return a value. If no return value is specified, the
-statement `return null;` is implicitly appended to the function body.
+所有函数都会返回一个值。 如果没有明确指定返回值，
+函数体会被隐式的添加 `return null;` 语句。
+
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (implicit-return-null)"?>
 {% prettify dart %}
@@ -1279,11 +1279,11 @@ assert(foo() == null);
 {% endprettify %}
 
 
-## Operators
+## 操作符
 
-Dart defines the operators shown in the following table.
-You can override many of these operators, as described in
-[Overridable operators](#overridable-operators).
+下表是 Dart 定义的操作符。
+多数操作符可以被重载，详情参见
+[Overridable operators](#overridable-operators)。
 
 |--------------------------+------------------------------------------------|
 |Description               | Operator                                       |
@@ -1306,8 +1306,8 @@ You can override many of these operators, as described in
 | assignment               | `=`    `*=`    `/=`    `~/=`    `%=`    `+=`    `-=`    `<<=`    `>>=`    `&=`    `^=`    `|=`    `??=` |
 {:.table .table-striped}
 
-When you use operators, you create expressions. Here are some examples
-of operator expressions:
+创建表达式的时候会用到操作符。 
+下面是一些操作符表达式的实例：
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (expressions)" replace="/,//g"?>
 {% prettify dart %}
@@ -1319,29 +1319,29 @@ c ? a : b
 a is T
 {% endprettify %}
 
-In the [operator table](#operators),
-each operator has higher precedence than the operators in the rows
-that follow it. For example, the multiplicative operator `%` has higher
-precedence than (and thus executes before) the equality operator `==`,
-which has higher precedence than the logical AND operator `&&`. That
-precedence means that the following two lines of code execute the same
-way:
+在 [操作符表](#operators) 中，
+每一行的操作符优先级，由上到下依次排列，第一行优先级最高，最后一行优先级最低。
+例如
+`%` 操作符优先级高于 `==` ，
+而 `==` 高于 `&&`。
+根据优先级规则，那么意味着以下两行代码执行的方式相同：
+
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (precedence)"?>
 {% prettify dart %}
-// Parentheses improve readability.
+// 括号可以提高可读性。
 if ((n % i == 0) && (d % i == 0)) ...
 
-// Harder to read, but equivalent.
+// 可读性差，但是是等效的。
 if (n % i == 0 && d % i == 0) ...
 {% endprettify %}
 
 <div class="alert alert-warning" markdown="1">
-**Warning:**
-For operators that work on two operands, the leftmost operand
-determines which version of the operator is used. For example, if you
-have a Vector object and a Point object, `aVector + aPoint` uses the
-Vector version of +.
+**警告：**
+对于有两个操作数的操作符，操作符的功能由左边的操作数决定。
+例如,
+如果有两个操作数 Vector 和 Point，
+`aVector + aPoint` 使用的是 Vector 中定义的 + 操作符。
 </div>
 
 
