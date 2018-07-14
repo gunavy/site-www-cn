@@ -1148,7 +1148,7 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=5d70bc1889d055c7a18d35d77874af
 
 如果函数只有一条语句， 
 可以使用胖箭头简写。粘贴下面代码到 DartPad 中
-并点击运行按钮，验证两个函数是等价的。
+并点击运行按钮，验证两个函数是等价性。
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (anon-func)"?>
 {% prettify dart %}
