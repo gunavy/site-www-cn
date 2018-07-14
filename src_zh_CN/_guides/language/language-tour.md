@@ -456,12 +456,12 @@ assert('That deserves all caps. ' +
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-`==` 操作符用来测试两个对象是否相等。
+`==` 运算符用来测试两个对象是否相等。
 在字符串中，如果两个字符串包含了相同的编码序列，那么这两个字符串相等。
 units.
 </div>
 
-可以使用 `+` 操作符来把多个字符串连接为一个，也可以把多个字面量字符串写在一起来实现字符串连接：
+可以使用 `+` 运算符来把多个字符串连接为一个，也可以把多个字面量字符串写在一起来实现字符串连接：
 
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (adjacent-string-literals)"?>
@@ -777,7 +777,7 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=589bc5c95318696cefe5&horizonta
 
 ### Symbols
 
-一个 Symbol 对象表示 Dart 程序中声明的操作符或者标识符。 
+一个 Symbol 对象表示 Dart 程序中声明的运算符或者标识符。 
 你也许永远都不需要使用 Symbol ，但要按名称引用标识符的 API 时， Symbol 就非常有用了。
 因为代码压缩后会改变标识符的名称，但不会改变标识符的符号。
 通过字面量 Symbol ，也就是标识符前面添加一个 `#` 号，来获取标识符的 Symbol 。
@@ -1279,10 +1279,10 @@ assert(foo() == null);
 {% endprettify %}
 
 
-## 操作符
+## 运算符
 
-下表是 Dart 定义的操作符。
-多数操作符可以被重载，详情参见
+下表是 Dart 定义的运算符。
+多数运算符可以被重载，详情参见
 [Overridable operators](#overridable-operators)。
 
 |--------------------------+------------------------------------------------|
@@ -1306,8 +1306,8 @@ assert(foo() == null);
 | assignment               | `=`    `*=`    `/=`    `~/=`    `%=`    `+=`    `-=`    `<<=`    `>>=`    `&=`    `^=`    `|=`    `??=` |
 {:.table .table-striped}
 
-创建表达式的时候会用到操作符。 
-下面是一些操作符表达式的实例：
+创建表达式的时候会用到运算符。 
+下面是一些运算符表达式的实例：
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (expressions)" replace="/,//g"?>
 {% prettify dart %}
@@ -1319,10 +1319,10 @@ c ? a : b
 a is T
 {% endprettify %}
 
-在 [操作符表](#operators) 中，
-每一行的操作符优先级，由上到下依次排列，第一行优先级最高，最后一行优先级最低。
+在 [运算符表](#operators) 中，
+每一行的运算符优先级，由上到下依次排列，第一行优先级最高，最后一行优先级最低。
 例如
-`%` 操作符优先级高于 `==` ，
+`%` 运算符优先级高于 `==` ，
 而 `==` 高于 `&&`。
 根据优先级规则，那么意味着以下两行代码执行的方式相同：
 
@@ -1338,16 +1338,16 @@ if (n % i == 0 && d % i == 0) ...
 
 <div class="alert alert-warning" markdown="1">
 **警告：**
-对于有两个操作数的操作符，操作符的功能由左边的操作数决定。
+对于有两个操作数的运算符，运算符的功能由左边的操作数决定。
 例如,
 如果有两个操作数 Vector 和 Point，
-`aVector + aPoint` 使用的是 Vector 中定义的 + 操作符。
+`aVector + aPoint` 使用的是 Vector 中定义的 + 运算符。
 </div>
 
 
-### Arithmetic operators
+### 算术运算符
 
-Dart supports the usual arithmetic operators, as shown in the following table.
+Dart 支持常用的运算运算符，如下表所示：
 
 |-----------------------------+-------------------------------------------|
 | Operator                    | Meaning                                   |
@@ -1361,22 +1361,22 @@ Dart supports the usual arithmetic operators, as shown in the following table.
 | `%`                         | Get the remainder of an integer division (modulo)
 {:.table .table-striped}
 
-Example:
+示例：
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (arithmetic)"?>
 {% prettify dart %}
 assert(2 + 3 == 5);
 assert(2 - 3 == -1);
 assert(2 * 3 == 6);
-assert(5 / 2 == 2.5); // Result is a double
-assert(5 ~/ 2 == 2); // Result is an int
-assert(5 % 2 == 1); // Remainder
+assert(5 / 2 == 2.5); // 结果是双浮点型
+assert(5 ~/ 2 == 2); // 结果是整型
+assert(5 % 2 == 1); // 余数
 
 assert('5/2 = ${5 ~/ 2} r ${5 % 2}' == '5/2 = 2 r 1');
 {% endprettify %}
 
-Dart also supports both prefix and postfix increment and decrement
-operators.
+Dart 还支持前缀和后缀，自增和自减运算符。
+
 
 |-----------------------------+-------------------------------------------|
 | Operator                    | Meaning                                   |
@@ -1387,33 +1387,33 @@ operators.
 | <code><em>var</em>--</code> | <code><em>var</em> = <em>var</em> – 1</code> (expression value is <code><em>var</em></code>)
 {:.table .table-striped}
 
-Example:
+示例：
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (increment-decrement)"?>
 {% prettify dart %}
 var a, b;
 
 a = 0;
-b = ++a; // Increment a before b gets its value.
+b = ++a; // a自加后赋值给b。
 assert(a == b); // 1 == 1
 
 a = 0;
-b = a++; // Increment a AFTER b gets its value.
+b = a++; // a先赋值给b后，a自加。
 assert(a != b); // 1 != 0
 
 a = 0;
-b = --a; // Decrement a before b gets its value.
+b = --a; // a自减后赋值给b。
 assert(a == b); // -1 == -1
 
 a = 0;
-b = a--; // Decrement a AFTER b gets its value.
+b = a--; // a先赋值给b后，a自减。
 assert(a != b); // -1 != 0
 {% endprettify %}
 
 
-### Equality and relational operators
+### 关系运算符
 
-The following table lists the meanings of equality and relational operators.
+下表列出了关系运算符及含义：
 
 |-----------+-------------------------------------------|
 | Operator  | Meaning                                   |
@@ -1426,23 +1426,22 @@ The following table lists the meanings of equality and relational operators.
 | `<=`      |       Less than or equal to
 {:.table .table-striped}
 
-To test whether two objects x and y represent the same thing, use the
-`==` operator. (In the rare case where you need to know whether two
-objects are the exact same object, use the [identical()][]
-function instead.) Here’s how the `==` operator works:
+要测试两个对象x和y是否表示相同的事物，
+使用 `==` 运算符。 (在极少数情况下，
+要确定两个对象是否完全相同，需要使用 [identical()][] 函数。)
+下面给出 `==` 运算符的工作原理：
 
-1.  If *x* or *y* is null, return true if both are null, and false if only
-    one is null.
+1.  如果 *x* 或 *y* 可以 null，都为 null 时返回 true ，其中一个为 null 时返回 false。
 
-2.  Return the result of the method invocation
-    <code><em>x</em>.==(<em>y</em>)</code>. (That’s right,
-    operators such as `==` are methods that are invoked on their first
-    operand. You can even override many operators, including `==`, as
-    you’ll see in
-    [Overridable operators](#overridable-operators).)
+2.  结果为函数 <code><em>x</em>.==(<em>y</em>)</code> 的返回值。
+    (如上所见,
+    `==` 运算符执行的是第一个运算符的函数。
+    我们甚至可以重写很多运算符，包括 `==`，
+    运算符的重写，参见 
+    [Overridable operators](#overridable-operators)。）
 
-Here’s an example of using each of the equality and relational
-operators:
+这里列出了每种关系运算符的示例：
+
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (relational)"?>
 {% prettify dart %}
@@ -1455,10 +1454,9 @@ assert(2 <= 3);
 {% endprettify %}
 
 
-### Type test operators
+### 类型判定运算符
 
-The `as`, `is`, and `is!` operators are handy for checking types at
-runtime.
+`as`， `is`， 和 `is!` 运算符用于在运行时处理类型检查：
 
 |-----------+-------------------------------------------|
 | Operator  | Meaning                                   |
@@ -1468,13 +1466,13 @@ runtime.
 | `is!`     | False if the object has the specified type
 {:.table .table-striped}
 
-The result of `obj is T` is true if `obj` implements the interface
-specified by `T`. For example, `obj is Object` is always true.
+例如， `obj is Object` 总是 true。
+但是只有 `obj` 实现了 `T` 的接口时， `obj is T` 才是 true。
 
-Use the `as` operator to cast an object to a particular type. In
-general, you should use it as a shorthand for an `is` test on an object
-following by an expression using that object. For example, consider the
-following code:
+使用 `as` 运算符将对象强制转换为特定类型。 
+通常，可以认为是 `is` 类型判定后，被判定对象调用函数的一种缩写形式。
+请考虑以下代码：
+
 
 <?code-excerpt "misc/lib/language_tour/classes/employee.dart (emp is Person)"?>
 {% prettify dart %}
@@ -1484,7 +1482,7 @@ if (emp is Person) {
 }
 {% endprettify %}
 
-You can make the code shorter using the `as` operator:
+使用 `as` 运算符进行缩写：
 
 <?code-excerpt "misc/lib/language_tour/classes/employee.dart (emp as Person)"?>
 {% prettify dart %}
@@ -1493,23 +1491,23 @@ You can make the code shorter using the `as` operator:
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-The code isn’t equivalent. If `emp` is null or not a Person, the
-first example (with `is`) does nothing; the second (with `as`) throws
-an exception.
+以上代码并不是等价的。
+如果 `emp` 为 null 或者不是 Person 对象，
+那么第一个 `is` 的示例，后面将不回执行；
+第二个 `as` 的示例会抛出异常。
 </div>
 
 
-### Assignment operators
+### 赋值运算符
 
-As you’ve already seen, you can assign values using the `=` operator.
-To assign only if the assigned-to variable is null,
-use the `??=` operator.
+使用 `=` 为变量赋值。
+使用 `??=` 运算符时，只有当被复制变量为 null 时才会赋值给变量。
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (assignment)"?>
 {% prettify dart %}
-// Assign value to a
+// 将值赋值给变量a
 a = value;
-// Assign value to b if b is null; otherwise, b stays the same
+// 如果b为空时，将变量赋值给b，否则，b的值保持不变。
 b ??= value;
 {% endprettify %}
 
@@ -1536,14 +1534,14 @@ main() {
 {% endprettify %}
 {% endcomment %}
 
-Compound assignment operators such as `+=` combine
-an operation with an assignment.
+复合赋值运算符（如 `+=` ）将算术运算符和赋值运算符组合在了一起。
+
 
 | `=`  | `–=` | `/=`  | `%=`  | `>>=` | `^=`
 | `+=` | `*=` | `~/=` | `<<=` | `&=`  | `|=`
 {:.table}
 
-Here’s how compound assignment operators work:
+以下说明复合赋值运算符的作用：
 
 |-----------+----------------------+-----------------------|
 |           | Compound assignment  | Equivalent expression |
@@ -1552,18 +1550,18 @@ Here’s how compound assignment operators work:
 |**Example:**                     |`a += b`                       | `a = a + b`
 {:.table}
 
-The following example uses assignment and compound assignment
-operators:
+以下示例使用赋值和复合赋值运算符：
+
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (op-assign)"?>
 {% prettify dart %}
-var a = 2; // Assign using =
-a *= 3; // Assign and multiply: a = a * 3
+var a = 2; // 使用 = 复制
+a *= 3; // 复制并做乘法运算： a = a * 3
 assert(a == 6);
 {% endprettify %}
 
 
-### Logical operators
+### 逻辑运算符
 
 You can invert or combine boolean expressions using the logical
 operators.
