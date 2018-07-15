@@ -812,7 +812,7 @@ int handleError(String source) {
 Symbol 字面量是编译时常量。
 
 
-## Functions
+## 函数
 
 Dart 是一门真正面向对象的语言，
 甚至其中的函数也是对象，并且有它的类型 
@@ -867,11 +867,11 @@ required 类型参数在参数最前面， 随后是 optional 类型参数。
 参见下一章节，了解更多细节。
 
 
-### Optional 参数
+### 可选参数
 
 可选参数可以是命名参数或者位置参数，但一个参数只能选择其中一种方式修饰。
 
-#### Optional 命名参数
+#### 命名可选参数
 
 调用函数时，可以使用指定命名参数
 <code><em>paramName</em>: <em>value</em></code>。 例如：
@@ -910,7 +910,7 @@ const Scrollbar({Key key, [!@required!] Widget child})
 `package:meta/meta.dart` ，或者引入了其它 package，而这个 package 输出（export）了
 `meta`，比如 Flutter 的 `package:flutter/material.dart`。
 
-#### Optional 位置参数
+#### 位置可选参数
 
 将参数放到 `[]` 中来标记参数是可选的：
 
@@ -1075,7 +1075,7 @@ void main(List<String> arguments) {
 
 使用 [args library](https://pub.dartlang.org/packages/args) 可以定义和解析命令行参数。
 
-### Functions 是一等对象
+### 函数是一等对象
 
 一个函数可以作为另一个函数的参数。 例如：
 
@@ -1753,7 +1753,7 @@ sb.write('foo')
 
 ## 控制流程语句
 
-You can control the flow of your Dart code using any of the following:
+你可以通过下面任意一种方式来控制 Dart 程序流程：
 
 -   `if` and `else`
 
@@ -1767,14 +1767,14 @@ You can control the flow of your Dart code using any of the following:
 
 -   `assert`
 
-You can also affect the control flow using `try-catch` and `throw`, as
-explained in [Exceptions](#exceptions).
+使用 `try-catch` 和 `throw` 也可以改变程序流程， 
+详见 [Exceptions](#exceptions)。
 
 
-### If and else
+### If 和 else
 
-Dart supports `if` statements with optional `else` statements, as the
-next sample shows. Also see [conditional expressions](#conditional-expressions).
+Dart 支持 `if - else` 语句，其中 `else` 是可选的， 
+比如下面的例子， 另参考 [conditional expressions](#conditional-expressions).
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (if-else)"?>
 {% prettify dart %}
@@ -1787,13 +1787,13 @@ if (isRaining()) {
 }
 {% endprettify %}
 
-Unlike JavaScript, conditions must use boolean values, nothing else. See
-[Booleans](#booleans) for more information.
+和 JavaScript 不同， Dart 的判断条件必须是布尔值，不能是其他类型。
+更多信息，参见 [Booleans](#booleans) 。
 
 
-### For loops
+### For 循环
 
-You can iterate with the standard `for` loop. For example:
+进行迭代操作，可以使用标准 `for` 语句。 例如：
 
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (for)"?>
 {% prettify dart %}
@@ -1803,9 +1803,8 @@ for (var i = 0; i < 5; i++) {
 }
 {% endprettify %}
 
-Closures inside of Dart’s `for` loops capture the _value_ of the index,
-avoiding a common pitfall found in JavaScript. For example, consider:
-
+闭包在 Dart 的 `for` 循环中会捕获循环的 index 索引值， 来避免 JavaScript 中常见的陷阱。
+请思考示例代码：
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (for-and-closures)"?>
 {% prettify dart %}
 var callbacks = [];
@@ -1815,20 +1814,21 @@ for (var i = 0; i < 2; i++) {
 callbacks.forEach((c) => c());
 {% endprettify %}
 
-The output is `0` and then `1`, as expected. In contrast, the example
-would print `2` and then `2` in JavaScript.
+和期望一样，输出的是 `0` 和 `1`。 
+但是示例中的代码在 JavaScript 中会连续输出两个 `2` 。
 
-If the object that you are iterating over is an Iterable, you can use the
-[forEach()][] method. Using `forEach()` is a good option if you don’t need to
-know the current iteration counter:
+I如果要迭代一个实现了 Iterable 接口的对象， 
+可以使用 [forEach()][] 方法， 
+如果不需要使用当前计数值，
+使用 `forEach()` 是非常棒的选择；
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (forEach)"?>
 {% prettify dart %}
 candidates.forEach((candidate) => candidate.interview());
 {% endprettify %}
 
-Iterable classes such as List and Set also support the `for-in` form of
-[iteration](/guides/libraries/library-tour#iteration):
+实现了 Iterable 的类（比如， List 和 Set）同样也支持使用 `for-in` 进行迭代操作
+[iteration](/guides/libraries/library-tour#iteration) ：
 
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (collection)"?>
 {% prettify dart %}
@@ -1839,9 +1839,9 @@ for (var x in collection) {
 {% endprettify %}
 
 
-### While and do-while
+### While 和 do-while
 
-A `while` loop evaluates the condition before the loop:
+`while` 循环在执行前判断执行条件：
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (while)"?>
 {% prettify dart %}
@@ -1850,7 +1850,7 @@ while (!isDone()) {
 }
 {% endprettify %}
 
-A `do`-`while` loop evaluates the condition *after* the loop:
+`do`-`while` 循环在执行`后`判断执行条件：
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (do-while)"?>
 {% prettify dart %}
@@ -1860,9 +1860,9 @@ do {
 {% endprettify %}
 
 
-### Break and continue
+### Break 和 continue
 
-Use `break` to stop looping:
+使用 `break` 停止程序循环：
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (while-break)"?>
 {% prettify dart %}
@@ -1872,7 +1872,7 @@ while (true) {
 }
 {% endprettify %}
 
-Use `continue` to skip to the next loop iteration:
+使用 `continue` 跳转到下一次迭代：
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (for-continue)"?>
 {% prettify dart %}
@@ -1885,8 +1885,8 @@ for (int i = 0; i < candidates.length; i++) {
 }
 {% endprettify %}
 
-You might write that example differently if you’re using an
-[Iterable][] such as a list or set:
+如果对象实现了 [Iterable][] 接口 （例如，list 或者 set）。
+那么上面示例完全可以用另一种方式来实现：
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (where)"?>
 {% prettify dart %}
@@ -1896,25 +1896,22 @@ candidates
 {% endprettify %}
 
 
-### Switch and case
+### Switch 和 case
 
-Switch statements in Dart compare integer, string, or compile-time
-constants using `==`. The compared objects must all be instances of the
-same class (and not of any of its subtypes), and the class must not
-override `==`.
-[Enumerated types](#enumerated-types) work well in `switch` statements.
+在 Dart 中 switch 语句使用 `==` 比较整数，字符串，或者编译时常量。
+比较的对象必须都是同一个类的实例（并且不可以是子类），
+类必须没有对 `==` 重写。
+[Enumerated types](#enumerated-types) 可以用于 `switch` 语句。
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-Switch statements in Dart are intended for limited circumstances,
-such as in interpreters or scanners.
+在 Dart 中 Switch 语句仅适用于有限的情况下，
+例如在 interpreter 或 scanner 中。
 </div>
+在 `case` 语句中，每个非空的 `case` 语句结尾需要跟一个 `break` 语句。 
+除 `break` 以外，还有可以使用 `continue`, `throw`，者 `return`。
 
-Each non-empty `case` clause ends with a `break` statement, as a rule.
-Other valid ways to end a non-empty `case` clause are a `continue`,
-`throw`, or `return` statement.
-
-Use a `default` clause to execute code when no `case` clause matches:
+当没有 `case` 语句匹配时，执行 `default` 代码：
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (switch)"?>
 {% prettify dart %}
@@ -1940,8 +1937,7 @@ switch (command) {
 }
 {% endprettify %}
 
-The following example omits the `break` statement in a `case` clause,
-thus generating an error:
+下面的 `case` 程序示例中缺省了 `break` 语句，导致错误： 
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (switch-break-omitted)" plaster="none"?>
 {% prettify dart %}
@@ -1949,7 +1945,7 @@ var command = 'OPEN';
 switch (command) {
   case 'OPEN':
     executeOpen();
-    // ERROR: Missing break
+    // ERROR: 丢失 break
 
   case 'CLOSED':
     executeClosed();
@@ -1957,8 +1953,8 @@ switch (command) {
 }
 {% endprettify %}
 
-However, Dart does support empty `case` clauses, allowing a form of
-fall-through:
+但是， Dart 支持空 `case` 语句，
+允许程序以 fall-through 的形式执行。
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (switch-empty-case)"?>
 {% prettify dart %}
@@ -1972,8 +1968,8 @@ switch (command) {
 }
 {% endprettify %}
 
-If you really want fall-through, you can use a `continue` statement and
-a label:
+在非空 `case` 中实现 fall-through 形式，
+可以使用 `continue` 语句结合 `lable` 的方式实现:
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (switch-continue)"?>
 {% prettify dart %}
@@ -1992,8 +1988,9 @@ switch (command) {
 }
 {% endprettify %}
 
-A `case` clause can have local variables, which are visible only inside
-the scope of that clause.
+
+`case` 语句可以拥有局部变量，
+这些局部变量只能在这个语句的作用域中可见。
 
 
 ### Assert
