@@ -1563,8 +1563,8 @@ assert(a == 6);
 
 ### 逻辑运算符
 
-You can invert or combine boolean expressions using the logical
-operators.
+逻辑操作符可以反转或组合布尔表达式。
+
 
 |-----------------------------+-------------------------------------------|
 | Operator                    | Meaning                                   |
@@ -1574,7 +1574,7 @@ operators.
 | `&&`                        | logical AND
 {:.table .table-striped}
 
-Here’s an example of using the logical operators:
+下面是关于逻辑表达式的示例：
 
 <?code-excerpt "misc/lib/language_tour/operators.dart (op-logical)"?>
 {% prettify dart %}
@@ -1584,10 +1584,10 @@ if (!done && (col == 0 || col == 3)) {
 {% endprettify %}
 
 
-### Bitwise and shift operators
+### 按位和移位运算符
 
-You can manipulate the individual bits of numbers in Dart. Usually,
-you’d use these bitwise and shift operators with integers.
+在 Dart 中，可以单独操作数字的某一位。
+通常情况下整数类型使用按位和移位运算符来操作。
 
 |-----------------------------+-------------------------------------------|
 | Operator                    | Meaning                                   |
@@ -1600,7 +1600,7 @@ you’d use these bitwise and shift operators with integers.
 | `>>`                        | Shift right
 {:.table .table-striped}
 
-Here’s an example of using bitwise and shift operators:
+下面是关于按位和移位运算符的示例：
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (op-bitwise)"?>
 {% prettify dart %}
@@ -1616,38 +1616,40 @@ assert((value >> 4) == 0x02); // Shift right
 {% endprettify %}
 
 
-### Conditional expressions
+### 条件表达式
 
-Dart has two operators that let you concisely evaluate expressions
-that might otherwise require [if-else](#if-and-else) statements:
+Dart有两个运算符，有时可以替换 [if-else](#if-and-else) 表达式，
+让表达式更简洁：
+
 
 <code><em>condition</em> ? <em>expr1</em> : <em>expr2</em>
-: If _condition_ is true, evaluates _expr1_ (and returns its value);
-  otherwise, evaluates and returns the value of _expr2_.
+: 如果条件为 true, 执行 _expr1_ (并返回它的值)：
+  否则, 执行并返回 _expr2_ 的值。
 
 <code><em>expr1</em> ?? <em>expr2</em></code>
-: If _expr1_ is non-null, returns its value;
-  otherwise, evaluates and returns the value of _expr2_.
+: 如果 _expr1_ 是 non-null， 返回 _expr1_ 的值；
+  否则, 执行并返回 _expr2_ 的值。
 
-When you need to assign a value
-based on a boolean expression,
-consider using `?:`.
+如果赋值是根据布尔值，
+考虑使用
+ `?:`。
 
 <?code-excerpt "misc/lib/language_tour/operators.dart (if-then-else-operator)"?>
 {% prettify dart %}
 var visibility = isPublic ? 'public' : 'private';
 {% endprettify %}
 
-If the boolean expression tests for null,
-consider using `??`.
+如果赋值是基于判定是否为 null，
+考虑使用
+ `??`。
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (if-null)"?>
 {% prettify dart %}
 String playerName(String name) => name ?? 'Guest';
 {% endprettify %}
 
-The previous example could have been written at least two other ways,
-but not as succinctly:
+下面给出了其它两种实现方式，
+但并不简洁：
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (if-null-alt)"?>
 {% prettify dart %}
@@ -1665,30 +1667,30 @@ String playerName(String name) {
 {% endprettify %}
 
 <a id="cascade"></a>
-### Cascade notation (..)
+### 级联运算符 (..)
 
-Cascades (`..`) allow you to make a sequence of operations
-on the same object. In addition to function calls,
-you can also access fields on that same object.
-This often saves you the step of creating a temporary variable and
-allows you to write more fluid code.
+级联运算符 (`..`) 可以实现对同一个对像进行一系列的操作。
+除了调用函数，
+还可以访问同一对象上的字段属性。
+这通常可以节省创建临时变量的步骤，
+同时编写出更流畅的代码。
 
-Consider the following code:
+
+考虑一下代码：
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (cascade-operator)"?>
 {% prettify dart %}
-querySelector('#confirm') // Get an object.
-  ..text = 'Confirm' // Use its members.
+querySelector('#confirm') // 获取对象。
+  ..text = 'Confirm' // 调用成员变量。
   ..classes.add('important')
   ..onClick.listen((e) => window.alert('Confirmed!'));
 {% endprettify %}
 
-The first method call, `querySelector()`, returns a selector object.
-The code that follows the cascade notation operates
-on this selector object, ignoring any subsequent values that
-might be returned.
+第一句调用函数 `querySelector()` ， 返回获取到的对象。
+获取的对象依次执行级联运算符后面的代码，
+代码执行后的返回值会被忽略。
 
-The previous example is equivalent to:
+上面的代码等价于：
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (cascade-operator-example-expanded)"?>
 {% prettify dart %}
@@ -1698,7 +1700,7 @@ button.classes.add('important');
 button.onClick.listen((e) => window.alert('Confirmed!'));
 {% endprettify %}
 
-You can also nest your cascades. For example:
+级联运算符可以嵌套，例如：
 
 <?code-excerpt "misc/lib/language_tour/operators.dart (nested-cascades)"?>
 {% prettify dart %}
@@ -1712,29 +1714,29 @@ final addressBook = (AddressBookBuilder()
     .build();
 {% endprettify %}
 
-Be careful to construct your cascade on a function that returns
-an actual object. For example, the following code fails:
+在返回对象的函数中谨慎使用级联操作符。
+例如，下面的代码是错误的：
 
 <?code-excerpt "misc/lib/language_tour/operators.dart (cannot-cascade-on-void)" plaster="none"?>
 {% prettify dart %}
 var sb = StringBuffer();
 sb.write('foo')
-  ..write('bar'); // Error: method 'write' isn't defined for 'void'.
+  ..write('bar'); // Error: 'void' 没哟定义 'write' 函数。
 {% endprettify %}
 
-The `sb.write()` call returns void,
-and you can't construct a cascade on `void`.
+`sb.write()` 函数调用返回 void，
+不能在 `void` 对象上创建级联操作。
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-Strictly speaking,
-the "double dot" notation for cascades is not an operator.
-It's just part of the Dart syntax.
+严格的来讲，
+"两个点" 的级联语法不是一个运算符。
+它只是一个 Dart 的特殊语法。
 </div>
 
-### Other operators
+### 其他运算符
 
-You've seen most of the remaining operators in other examples:
+大多数剩余的运算符，已在示例中使用过：
 
 |----------+-------------------------------------------|
 | Operator | Name                 |          Meaning   |
@@ -1745,11 +1747,11 @@ You've seen most of the remaining operators in other examples:
 | `?.`     | Conditional member access | Like `.`, but the leftmost operand can be null; example: `foo?.bar` selects property `bar` from expression `foo` unless `foo` is null (in which case the value of `foo?.bar` is null)
 {:.table .table-striped}
 
-For more information about the `.`, `?.`, and `..` operators, see
+更多关于 `.`, `?.` 和  `..` 运算符介绍，参考
 [Classes](#classes).
 
 
-## Control flow statements
+## 控制流程语句
 
 You can control the flow of your Dart code using any of the following:
 
