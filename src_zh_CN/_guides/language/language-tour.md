@@ -2198,41 +2198,40 @@ try {
 了解更多，请参考
 [Exceptions](/guides/libraries/library-tour#exceptions) 章节。
 
-## Classes
+## 类
 
-Dart is an object-oriented language with classes and mixin-based
-inheritance. Every object is an instance of a class, and all classes
-descend from [Object.][Object]
-*Mixin-based inheritance* means that although every class (except for
-Object) has exactly one superclass, a class body can be reused in
-multiple class hierarchies.
+Dart 是一种基于类和 mixin 继承机制的面向对象的语言。
+每个对象都是一个类的实例，所有的类都继承于 [Object.][Object] 。
+基于 * Mixin 继承* 意味着每个类（除 Object 外） 都只有一个超类，
+一个类中的代码可以在其它多个继承类中重复使用。
 
 
-### Using class members
+### 使用类的成员变量
 
-Objects have *members* consisting of functions and data (*methods* and
-*instance variables*, respectively). When you call a method, you *invoke*
-it on an object: the method has access to that object’s functions and
-data.
+对象的由函数和数据（即方法和实例变量）组成。 
+方法的调用要通过对象来完成：
+调用的方法可以访问其对象的其它函数和数据。
 
-Use a dot (`.`) to refer to an instance variable or method:
+
+使用 (`.`) 来引用实例对象的变量和方法：
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (object-members)"?>
 {% prettify dart %}
 var p = Point(2, 2);
 
-// Set the value of the instance variable y.
+// 为实例的变量 y 设置值。
 p.y = 3;
 
-// Get the value of y.
+// 获取变量 y 的值。
 assert(p.y == 3);
 
-// Invoke distanceTo() on p.
+// 调用 p 的 distanceTo() 方法。
 num distance = p.distanceTo(Point(4, 4));
 {% endprettify %}
 
-Use `?.` instead of `.` to avoid an exception
-when the leftmost operand is null:
+使用 `?.` 来代替 `.` ，
+可以避免因为左边对象可能为 null ，
+导致的异常：
 
 {% comment %}
 https://dartpad.dartlang.org/0cb25997742ed5382e4a
@@ -2241,18 +2240,17 @@ https://gist.github.com/0cb25997742ed5382e4a
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (safe-member-access)"?>
 {% prettify dart %}
-// If p is non-null, set its y value to 4.
+// 如果 p 为 non-null，设置它变量 y 的值为 4。
 p?.y = 4;
 {% endprettify %}
 
 
-### Using constructors
+### 使用构造函数
 
-You can create an object using a *constructor*.
-Constructor names can be either <code><em>ClassName</em></code> or
-<code><em>ClassName</em>.<em>identifier</em></code>. For example,
-the following code creates `Point` objects using the
-`Point()` and `Point.fromJson()` constructors:
+通过 *构造函数* 创建对象。
+构造函数的名字可以是 <code><em>ClassName</em></code> 或者
+<code><em>ClassName</em>.<em>identifier</em></code>。例如，
+以下代码使用 `Point` 和 `Point.fromJson()` 构造函数创建 `Point` 对象：
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (object-creation)" replace="/ as .*?;/;/g"?>
 {% prettify dart %}
@@ -2260,8 +2258,8 @@ var p1 = Point(2, 2);
 var p2 = Point.fromJson({'x': 1, 'y': 2});
 {% endprettify %}
 
-The following code has the same effect, but
-uses the optional `new` keyword before the constructor name:
+以下代码具有相同的效果，
+但是构造函数前面的的 `new` 关键字是可选的：
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (object-creation-new)" replace="/ as .*?;/;/g"?>
 {% prettify dart %}
@@ -2270,46 +2268,46 @@ var p2 = new Point.fromJson({'x': 1, 'y': 2});
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Version 提示：** The `new` keyword became optional in Dart 2.
+**版本提示：** 在 Dart 2 中 `new` 关键字变成了可选的。
 </aside>
 
-Some classes provide constant constructors. To create a compile-time
-constant using a constant constructor, put the `const` keyword
-before the constructor name:
+一些类提供了常量构造函数。
+使用常量构造函数创建编译时常量时，需要在构造函数名之前加上 `const` 关键字：
+
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (const)"?>
 {% prettify dart %}
 var p = const ImmutablePoint(2, 2);
 {% endprettify %}
 
-Constructing two identical compile-time constants results in a single,
-canonical instance:
+构造两个相同的编译时常量会产生一个唯一的，
+标准的实例：
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (identical)"?>
 {% prettify dart %}
 var a = const ImmutablePoint(1, 1);
 var b = const ImmutablePoint(1, 1);
 
-assert(identical(a, b)); // They are the same instance!
+assert(identical(a, b)); // 它们是同一个实例。
 {% endprettify %}
 
-Within a _constant context_, you can omit the `const` before a constructor
-or literal. For example, look at this code, which creates a const map:
+在 _常量上下文_ 中， 构造函数或者字面量前的 `const` 可以省略。
+例如，下面代码创建了一个 const 类型的 map 对象：
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (const-context-withconst)" replace="/pointAndLine1/pointAndLine/g"?>
 {% prettify dart %}
-// Lots of const keywords here.
+// 这里有很多的 const 关键字。
 const pointAndLine = const {
   'point': const [const ImmutablePoint(0, 0)],
   'line': const [const ImmutablePoint(1, 10), const ImmutablePoint(-2, 11)],
 };
 {% endprettify %}
 
-You can omit all but the first use of the `const` keyword:
+保留第一个 `const` 关键字，其余的全部省略：
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (const-context-noconst)" replace="/pointAndLine2/pointAndLine/g"?>
 {% prettify dart %}
-// Only one const, which establishes the constant context.
+// 仅有一个 const ，由该 const 建立常量上下文。
 const pointAndLine = {
   'point': [ImmutablePoint(0, 0)],
   'line': [ImmutablePoint(1, 10), ImmutablePoint(-2, 11)],
@@ -2317,44 +2315,43 @@ const pointAndLine = {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Version 提示：** The `const` keyword became optional
-within a constant context in Dart 2.
+**版本提示：** 在 Dart 2 中在一个常量上下文中，`const` 可以被省略。
 </aside>
 
 
-### Getting an object's type
+### 获取对象的类型
 
-To get an object's type at runtime,
-you can use Object's `runtimeType` property,
-which returns a [Type][] object.
+使用对象的 `runtimeType` 属性，
+可以在运行时获取对象的类型，
+`runtimeType` 属性回返回一个 [Type][] 对象。
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (runtimeType)"?>
 {% prettify dart %}
 print('The type of a is ${a.runtimeType}');
 {% endprettify %}
 
-Up to here, you've seen how to _use_ classes.
-The rest of this section shows how to _implement_ classes.
+到目前为止，我们已经解了如何_使用_类。 
+本节的其余部分将介绍如何_实现_一个类。
 
 
-### Instance variables
+### 实例变量
 
-Here’s how you declare instance variables:
+下面是声明实例变量的示例：
 
 <?code-excerpt "misc/lib/language_tour/classes/point_with_main.dart (class)"?>
 {% prettify dart %}
 class Point {
-  num x; // Declare instance variable x, initially null.
-  num y; // Declare y, initially null.
-  num z = 0; // Declare z, initially 0.
+  num x; // 声明示例变量 x，初始值为 null 。
+  num y; // 声明示例变量 y，初始值为 null 。
+  num z = 0; // 声明示例变量 z，初始值为 0 。
 }
 {% endprettify %}
 
-All uninitialized instance variables have the value `null`.
+未初始化实例变量的默认人值为 “null” 。
 
-All instance variables generate an implicit *getter* method. Non-final
-instance variables also generate an implicit *setter* method. For details,
-see [Getters and setters](#getters-and-setters).
+所有实例变量都生成隐式 *getter* 方法。 
+非 final 的实例变量同样会生成隐式 *setter* 方法。
+有关更多信息，参见 [Getters 和 setters](#getters-and-setters).
 
 <?code-excerpt "misc/lib/language_tour/classes/point_with_main.dart (class+main)" replace="/(num .*?;).*/$1/g" plaster="none"?>
 {% prettify dart %}
@@ -2371,13 +2368,13 @@ void main() {
 }
 {% endprettify %}
 
-If you initialize an instance variable where it is declared (instead of
-in a constructor or method), the value is set when the instance is
-created, which is before the constructor and its initializer list
-execute.
+如果在声明时进行了示例变量的初始化，
+那么初始化值会在示例创建时赋值给变量，
+该赋值过程在构造函数及其初始化列表执行之前。
 
 
-### Constructors
+
+### 构造函数
 
 Declare a constructor by creating a function with the same name as its
 class (plus, optionally, an additional identifier as described in
