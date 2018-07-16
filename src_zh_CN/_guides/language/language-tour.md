@@ -1995,35 +1995,35 @@ switch (command) {
 
 ### Assert
 
-Use an `assert` statement to disrupt normal execution if a boolean
-condition is false. You can find examples of assert statements
-throughout this tour. Here are some more:
+如果 `assert` 语句中的布尔条件为 false ， 那么正常的程序执行流程会被中断。
+在本章中包含部分 assert 的使用，
+下面是一些示例：
+
 
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (assert)"?>
 {% prettify dart %}
-// Make sure the variable has a non-null value.
+// 确认变量值不为空。
 assert(text != null);
 
-// Make sure the value is less than 100.
+// 确认变量值小于100。
 assert(number < 100);
 
-// Make sure this is an https URL.
+// 确认 URL 是否是 https 类型。
 assert(urlString.startsWith('https'));
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-Assert statements have no effect in production code;
-they're for development only.
-Flutter enables asserts in [debug mode.][Flutter debug mode]
-Development-only tools such as [dartdevc][]
-typically support asserts by default.
-Some tools, such as [dart][] and [dart2js,][dart2js]
-support asserts through a command-line flag: `--enable-asserts`.
+assert 语句只在开发环境中有效，
+在生产环境是无效的；
+Flutter 中的 assert 只在 [debug 模式][Flutter debug mode] 中有效。
+开发用的工具，例如 [dartdevc][]
+默认是开启 assert 功能。
+其它的一些工具， 例如 [dart][] 和 [dart2js,][dart2js]
+支持通过命令行开启 assert ： `--enable-asserts`。
 </div>
 
-To attach a message to an assert,
-add a string as the second argument.
+assert 的第二个参数可以为其添加一个字符串消息。
 
 <?code-excerpt "misc/test/language_tour/control_flow_test.dart (assert-with-message)"?>
 {% prettify dart %}
@@ -2031,39 +2031,38 @@ assert(urlString.startsWith('https'),
     'URL ($urlString) should start with "https".');
 {% endprettify %}
 
-The first argument to `assert` can be any expression that
-resolves to a boolean value. If the expression’s value
-is true, the assertion succeeds and execution
-continues. If it's false, the assertion fails and an exception (an
-[AssertionError][]) is thrown.
+assert 的第一个参数可以是解析为布尔值的任何表达式。
+如果表达式结果为 true ， 则断言成功，并继续执行。
+如果表达式结果为 false ， 则断言失败，并抛出异常
+([AssertionError][]) 。
 
 
-## Exceptions
+## 异常
 
-Your Dart code can throw and catch exceptions. Exceptions are errors
-indicating that something unexpected happened. If the exception isn’t
-caught, the isolate that raised the exception is suspended, and
-typically the isolate and its program are terminated.
+Dart 代码可以抛出和捕获异常。 
+异常表示一些未知的错误情况。
+如果异常没有被捕获， 则异常会抛出，
+导致抛出异常的代码终止执行。
 
-In contrast to Java, all of Dart’s exceptions are unchecked exceptions.
-Methods do not declare which exceptions they might throw, and you are
-not required to catch any exceptions.
+和 Java 有所不同， Dart 中的所有异常是非检查异常。
+方法不会声明它们抛出的异常，
+也不要求捕获任何异常。 
 
-Dart provides [Exception][] and [Error][]
-types, as well as numerous predefined subtypes. You can, of course,
-define your own exceptions. However, Dart programs can throw any
-non-null object—not just Exception and Error objects—as an exception.
+Dart 提供了 [Exception][] 和 [Error][] 类型，
+以及一些子类型。 
+当然也可以定义自己的异常类型。
+但是，此外 Dart 程序可以抛出任何非 null 对象， 不仅限 Exception 和 Error 对象。
 
 ### Throw
 
-Here’s an example of throwing, or *raising*, an exception:
+下面是关于抛出或者 *引发* 异常的示例：
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (throw-FormatException)"?>
 {% prettify dart %}
 throw FormatException('Expected at least 1 section');
 {% endprettify %}
 
-You can also throw arbitrary objects:
+也可以抛出任意的对象：
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (out-of-llamas)"?>
 {% prettify dart %}
@@ -2071,12 +2070,12 @@ throw 'Out of llamas!';
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-  **提示：** Production-quality code usually throws types that implement
-  [Error][] or [Exception][].
+  **提示：** 高质量的生产环境代码通常会实现 [Error][] 或 [Exception][] 类型的异常抛出。
 </div>
 
-Because throwing an exception is an expression, you can throw exceptions
-in =\> statements, as well as anywhere else that allows expressions:
+因为抛出异常是一个表达式，
+所以可以在 =\> 语句中使用，也可以在其它使用表达式的地方抛出异常：
+
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (throw-is-an-expression)"?>
 {% prettify dart %}
@@ -2086,9 +2085,9 @@ void distanceTo(Point other) => throw UnimplementedError();
 
 ### Catch
 
-Catching, or capturing, an exception stops the exception from
-propagating (unless you rethrow the exception).
-Catching an exception gives you a chance to handle it:
+捕获异常可以避免异常继续传递（除非重新抛出（ rethrow ）异常）。 
+可以通过捕获异常的机会来处理该异常：
+
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (try)"?>
 {% prettify dart %}
@@ -2099,34 +2098,36 @@ try {
 }
 {% endprettify %}
 
-To handle code that can throw more than one type of exception, you can
-specify multiple catch clauses. The first catch clause that matches the
-thrown object’s type handles the exception. If the catch clause does not
-specify a type, that clause can handle any type of thrown object:
+通过指定多个 catch 语句，可以处理可能抛出多种类型异常的代码。
+与抛出异常类型匹配的第一个 catch 语句处理异常。 
+如果 catch 语句未指定类型，
+则该语句可以处理任何类型的抛出对象：
+
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (try-catch)"?>
 {% prettify dart %}
 try {
   breedMoreLlamas();
 } on OutOfLlamasException {
-  // A specific exception
+  // 一个特殊的异常
   buyMoreLlamas();
 } on Exception catch (e) {
-  // Anything else that is an exception
+  // 其他任何异常
   print('Unknown exception: $e');
 } catch (e) {
-  // No specified type, handles all
+  // 没有指定的类型，处理所有异常
   print('Something really unknown: $e');
 }
 {% endprettify %}
 
-As the preceding code shows, you can use either `on` or `catch` or both.
-Use `on` when you need to specify the exception type. Use `catch` when
-your exception handler needs the exception object.
+如上述代码所示，捕获语句中可以同时使用 `on` 和 `catch` ，也可以单独分开使用。
+使用 `on` 来指定异常类型，
+使用 `catch` 来 捕获异常对象。
 
-You can specify one or two parameters to `catch()`.
-The first is the exception that was thrown,
-and the second is the stack trace (a [StackTrace][] object).
+
+`catch()` 函数可以指定1到2个参数，
+第一个参数为抛出的异常对象， 
+第二个为堆栈信息 ( 一个 [StackTrace][] 对象 )。
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (try-catch-2)" replace="/\(e.*?\)/[!$&!]/g"?>
 {% prettify dart %}
@@ -2140,9 +2141,8 @@ try {
 }
 {% endprettify %}
 
-To partially handle an exception,
-while allowing it to propagate,
-use the `rethrow` keyword.
+如果仅需要部分处理异常，
+那么可以使用关键字 `rethrow` 将异常重新抛出。
 
 <?code-excerpt "misc/test/language_tour/exceptions_test.dart (rethrow)" replace="/rethrow;/[!$&!]/g"?>
 {% prettify dart %}
@@ -2168,9 +2168,9 @@ void main() {
 
 ### Finally
 
-To ensure that some code runs whether or not an exception is thrown, use
-a `finally` clause. If no `catch` clause matches the exception, the
-exception is propagated after the `finally` clause runs:
+不管是否抛出异常， `finally` 中的代码都会被执行。
+如果 `catch` 没有匹配到异常，
+异常会在 `finally` 执行完成后，再次被抛出：
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (finally)"?>
 {% prettify dart %}
@@ -2182,7 +2182,7 @@ try {
 }
 {% endprettify %}
 
-The `finally` clause runs after any matching `catch` clauses:
+任何匹配的 `catch` 执行完成后，再执行 `finally` ：
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (try-catch-finally)"?>
 {% prettify dart %}
@@ -2195,8 +2195,8 @@ try {
 }
 {% endprettify %}
 
-Learn more by reading the
-[Exceptions](/guides/libraries/library-tour#exceptions) section.
+了解更多，请参考
+[Exceptions](/guides/libraries/library-tour#exceptions) 章节。
 
 ## Classes
 
