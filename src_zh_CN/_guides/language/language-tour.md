@@ -978,7 +978,7 @@ Update if/when we do. Issue #?
 See `defaultNamedParameter` in the language spec.
 {% endcomment %}
 
-下面示例展示如何为位置参数设置默认值：
+下面示例演示了如何为位置参数设置默认值：
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (optional-positional-param-default)"?>
 {% prettify dart %}
@@ -2376,11 +2376,11 @@ void main() {
 
 ### 构造函数
 
-Declare a constructor by creating a function with the same name as its
-class (plus, optionally, an additional identifier as described in
-[Named constructors](#named-constructors)).
-The most common form of constructor, the generative constructor, creates
-a new instance of a class:
+通过创建一个与其类同名的函数来声明构造函数
+（另外，还可以附加一个额外的可选标识符，如 [命名构造函数](#named-constructors) 中所述）。 
+下面通过最常见的构造函数形式，
+即生成构造函数，
+创建一个类的实例：
 
 <?code-excerpt "misc/lib/language_tour/classes/point_alt.dart (constructor-long-way)" plaster="none"?>
 {% prettify dart %}
@@ -2388,51 +2388,50 @@ class Point {
   num x, y;
 
   Point(num x, num y) {
-    // There's a better way to do this, stay tuned.
+    // 还有更好的方式来实现下面代码，敬请关注。
     this.x = x;
     this.y = y;
   }
 }
 {% endprettify %}
 
-The `this` keyword refers to the current instance.
+使用 `this` 关键字引用当前实例。
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-Use `this` only when there is a name conflict. Otherwise, Dart style
-omits the `this`.
+近当存在命名冲突时，使用 `this` 关键字。 否则，按照 Dart 风格应该省略 `this` 。
 </div>
 
-The pattern of assigning a constructor argument to an instance variable
-is so common, Dart has syntactic sugar to make it easy:
+通常模式下，会将构造函数传入的参数的值赋值给对应的实例变量，
+Dart 自身的语法糖精简了这些代码：
+
 
 <?code-excerpt "misc/lib/language_tour/classes/point.dart (constructor-initializer)" plaster="none"?>
 {% prettify dart %}
 class Point {
   num x, y;
 
-  // Syntactic sugar for setting x and y
-  // before the constructor body runs.
+  // 在构造函数体执行前，
+  // 语法糖已经设置了变量 x 和 y。
   Point(this.x, this.y);
 }
 {% endprettify %}
 
-#### Default constructors
+#### 默认构造函数
 
-If you don’t declare a constructor, a default constructor is provided
-for you. The default constructor has no arguments and invokes the
-no-argument constructor in the superclass.
+在没有声明构造函数的情况下， Dart 会提供一个默认的构造函数。
+默认构造函数没有参数并会调用父类的无参构造函数。
 
-#### Constructors aren’t inherited
+#### 构造函数不被继承
 
-Subclasses don’t inherit constructors from their superclass. A subclass
-that declares no constructors has only the default (no argument, no
-name) constructor.
+子类不会继承父类的构造函数。
+子类不声明构造函数，那么它就只有默认构造函数 (匿名，没有参数) 。
 
-#### Named constructors
+#### 命名构造函数
 
-Use a named constructor to implement multiple constructors for a class
-or to provide extra clarity:
+使用命名构造函数可为一个类实现多个构造函数，
+也可以使用命名构造函数来更清晰的表明函数意图：
+
 
 <?code-excerpt "misc/lib/language_tour/classes/point.dart (named-constructor)" replace="/Point\.\S*/[!$&!]/g" plaster="none"?>
 {% prettify dart %}
@@ -2441,7 +2440,7 @@ class Point {
 
   Point(this.x, this.y);
 
-  // Named constructor
+  // 命名构造函数
   [!Point.origin()!] {
     x = 0;
     y = 0;
@@ -2449,32 +2448,31 @@ class Point {
 }
 {% endprettify %}
 
-Remember that constructors are not inherited, which means that a
-superclass’s named constructor is not inherited by a subclass. If you
-want a subclass to be created with a named constructor defined in the
-superclass, you must implement that constructor in the subclass.
+切记，构造函数不能够被继承，
+这意味着父类的命名构造函数不会被子类继承。 
+如果希望使用父类中定义的命名构造函数创建子类，
+就必须在子类中实现该构造函数。
 
-#### Invoking a non-default superclass constructor
 
-By default, a constructor in a subclass calls the superclass’s unnamed,
-no-argument constructor.
-The superclass's constructor is called at the beginning of the
-constructor body. If an [initializer list](#initializer-list)
-is also being used, it executes before the superclass is called.
-In summary, the order of execution is as follows:
+#### 调用父类非默认构造函数
 
-1. initializer list
-1. superclass's no-arg constructor
-1. main class's no-arg constructor
+默认情况下，子类的构造函数会自动调用父类的默认构造函数（匿名，无参数）。
+父类的构造函数在子类构造函数体开始执行的位置被调用。
+如果提供了一个 [initializer list](#initializer-list) （初始化参数列表），
+则初始化参数列表在父类构造函数执行之前执行。 
+总之，执行顺序如下：
 
-If the superclass doesn’t have an unnamed, no-argument constructor,
-then you must manually call one of the constructors in the
-superclass. Specify the superclass constructor after a colon (`:`), just
-before the constructor body (if any).
 
-In the following example, the constructor for the Employee class
-calls the named constructor for its superclass, Person.
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+1. initializer list （初始化参数列表）
+1. superclass's no-arg constructor （父类的无名构造函数）
+1. main class's no-arg constructor （主类的无名构造函数）
+
+如果父类中没有匿名无参的构造函数， 
+则需要手工调用父类的其它构造函数。 
+在当前构造函数冒号 (`:`) 之后，函数体之前，声明调用父类构造函数。
+
+下面的示例中，Employee 类的构造函数调用了父类 Person 的命名构造函数。 
+点击运行按钮( {% img 'red-run.png' %} ) 执行示例代码。
 
 {% comment %}
 https://gist.github.com/Sfshaza/e57aa06401e6618d4eb8
@@ -2491,8 +2489,8 @@ class Person {
 }
 
 class Employee extends Person {
-  // Person does not have a default constructor;
-  // you must call super.fromJson(data).
+  // Person 没有默认构造函数
+  // 这里必须调用 super.fromJson(data)。
   Employee.fromJson(Map data) : super.fromJson(data) {
     print('in Employee');
   }
@@ -2500,12 +2498,12 @@ class Employee extends Person {
 
 void main() {
   var emp = Employee.fromJson({});
-  // Prints:
+  // 打印：
   // in Person
   // in Employee
 
   if (emp is Person) {
-    // Type check
+    // 类型检查
     emp.firstName = 'Bob';
   }
   (emp as Person).firstName = 'Bob';
@@ -2520,9 +2518,9 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=e57aa06401e6618d4eb8&horizonta
     style="border: 1px solid #ccc;">
 </iframe>
 
-Because the arguments to the superclass constructor are evaluated before
-invoking the constructor, an argument can be an expression such as a
-function call:
+由于父类的构造函数参数在构造函数执行之前执行，
+所以参数可以是一个表达式或者一个方法调用：
+
 
 <?code-excerpt "misc/lib/language_tour/classes/employee.dart (method-then-constructor)"?>
 {% prettify dart %}
@@ -2533,21 +2531,23 @@ class Employee extends Person {
 {% endprettify %}
 
 <div class="alert alert-warning" markdown="1">
-**Warning:**
-Arguments to the superclass constructor do not have access to `this`.
-For example, arguments can call static methods but not instance methods.
+**警告：**
+调用父类构造函数的参数无法访问 this 。 
+例如，参数可以为静态函数但是不能是实例函数。
+
 </div>
 
-#### Initializer list
+#### 初始化列表
 
-Besides invoking a superclass constructor, you can also initialize
-instance variables before the constructor body runs. Separate
-initializers with commas.
+除了调用超类构造函数之外，
+还可以在构造函数体执行之前初始化实例变量。
+各参数的初始化用逗号分隔。
+
 
 <?code-excerpt "misc/lib/language_tour/classes/point_alt.dart (initializer-list)"?>
 {% prettify dart %}
-// Initializer list sets instance variables before
-// the constructor body runs.
+// 在构造函数体执行之前，
+// 通过初始列表设置实例变量。
 Point.fromJson(Map<String, num> json)
     : x = json['x'],
       y = json['y'] {
@@ -2556,12 +2556,12 @@ Point.fromJson(Map<String, num> json)
 {% endprettify %}
 
 <div class="alert alert-warning" markdown="1">
-**Warning:**
-The right-hand side of an initializer does not have access to `this`.
+**警告：**
+初始化程序的右侧无法访问 `this` 。
 </div>
 
-During development, you can validate inputs by using `assert` in the
-initializer list.
+在开发期间，
+可以使用 `assert` 来验证输入的初始化列表。
 
 <?code-excerpt "misc/lib/language_tour/classes/point_alt.dart (initializer-list-with-assert)" replace="/assert\(.*?\)/[!$&!]/g"?>
 {% prettify dart %}
@@ -2578,9 +2578,9 @@ https://github.com/dart-lang/sdk/issues/30968
 https://github.com/dart-lang/sdk/blob/master/docs/language/informal/assert-in-initializer-list.md]
 {% endcomment %}
 
-Initializer lists are handy when setting up final fields.
-The following example initializes three final fields in an initializer list.
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+使用初始化列表可以很方便的设置 final 字段。
+下面示例演示了，如何使用初始化列表初始化设置三个 final 字段。
+点击运行按钮 ( {% img 'red-run.png' %} ) 执行示例代码。
 
 {% comment %}
 https://gist.github.com/Sfshaza/7a9764702c0608711e08
@@ -2616,30 +2616,33 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=7a9764702c0608711e08&horizonta
 </iframe>
 
 
-#### Redirecting constructors
+#### 重定向构造函数
 
-Sometimes a constructor’s only purpose is to redirect to another
-constructor in the same class. A redirecting constructor’s body is
-empty, with the constructor call appearing after a colon (:).
+有时构造函数的唯一目的是重定向到同一个类中的另一个构造函数。 
+重定向构造函数的函数体为空，
+构造函数的调用在冒号 (:) 之后。
+
 
 <?code-excerpt "misc/lib/language_tour/classes/point_redirecting.dart"?>
 {% prettify dart %}
 class Point {
   num x, y;
 
-  // The main constructor for this class.
+  // 类的主构造函数。
   Point(this.x, this.y);
 
-  // Delegates to the main constructor.
+  // 指向主构造函数
   Point.alongXAxis(num x) : this(x, 0);
 }
 {% endprettify %}
 
-#### Constant constructors
+#### 常量构造函数
 
-If your class produces objects that never change, you can make these
-objects compile-time constants. To do this, define a `const` constructor
-and make sure that all instance variables are `final`.
+如果该类生成的对象是固定不变的，
+那么就可以把这些对象定义为编译时常量。
+为此，需要定义一个 `const` 构造函数，
+并且声明所有实例变量为 `final`。
+
 
 <?code-excerpt "misc/lib/language_tour/classes/immutable_point.dart"?>
 {% prettify dart %}
@@ -2653,15 +2656,14 @@ class ImmutablePoint {
 }
 {% endprettify %}
 
-#### Factory constructors
+#### 工厂构造函数
 
-Use the `factory` keyword when implementing a constructor that doesn’t
-always create a new instance of its class. For example, a factory
-constructor might return an instance from a cache, or it might return an
-instance of a subtype.
+当执行构造函数并不总是创建这个类的一个新实例时，则使用 `factory` 关键字。
+例如，一个工厂构造函数可能会返回一个 cache 中的实例，
+或者可能返回一个子类的实例。
 
-The following example demonstrates a factory constructor returning
-objects from a cache:
+以下示例演示了从缓存中返回对象的工厂构造函数：
+
 
 <?code-excerpt "misc/lib/language_tour/classes/logger.dart"?>
 {% prettify dart %}
@@ -2669,8 +2671,8 @@ class Logger {
   final String name;
   bool mute = false;
 
-  // _cache is library-private, thanks to
-  // the _ in front of its name.
+  // 从命名的 _ 可以知，
+  // _cache 是私有属性。
   static final Map<String, Logger> _cache =
       <String, Logger>{};
 
@@ -2694,10 +2696,10 @@ class Logger {
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-Factory constructors have no access to `this`.
+工厂构造函数无法访问 this。
 </div>
 
-Invoke a factory constructor just like you would any other constructor:
+工厂构造函的调用方式与其他构造函数一样：
 
 <?code-excerpt "misc/lib/language_tour/classes/logger.dart (logger)"?>
 {% prettify dart %}
