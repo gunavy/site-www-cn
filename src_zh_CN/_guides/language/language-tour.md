@@ -3118,14 +3118,13 @@ abstract class Musical {
 [A Brief History of Mixins in Dart](/articles/language/mixins).
 
 
-### Class variables and methods
+### 类变量和方法
 
-Use the `static` keyword to implement class-wide variables and methods.
+使用 `static` 关键字实现类范围的变量和方法。
 
-#### Static variables
+#### 静态变量
 
-Static variables (class variables) are useful for class-wide state and
-constants:
+静态变量（类变量）对于类级别的状态是非常有用的：
 
 <?code-excerpt "misc/lib/language_tour/classes/misc.dart (static-field)"?>
 {% prettify dart %}
@@ -3139,19 +3138,18 @@ void main() {
 }
 {% endprettify %}
 
-Static variables aren’t initialized until they’re used.
+静态变量只到它们被使用的时候才会初始化。
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-This page follows the [style guide
-recommendation](/guides/language/effective-dart/style#identifiers)
-of preferring `lowerCamelCase` for constant names.
+代码准守[风格推荐指南](/guides/language/effective-dart/style#identifiers)
+中的命名规则， 使用 `lowerCamelCase` 来命名常量。
 </div>
 
-#### Static methods
+#### 静态方法
 
-Static methods (class methods) do not operate on an instance, and thus
-do not have access to `this`. For example:
+静态方法（类方法）不能在实例上使用，因此它们不能访问 `this` 。
+例如：
 
 <?code-excerpt "misc/lib/language_tour/classes/point_with_distance_method.dart"?>
 {% prettify dart %}
@@ -3179,12 +3177,12 @@ void main() {
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-Consider using top-level functions, instead of static methods, for
-common or widely used utilities and functionality.
+对于常见或广泛使用的工具和函数，
+应该考虑使用顶级函数而不是静态方法。
 </div>
 
-You can use static methods as compile-time constants. For example, you
-can pass a static method as a parameter to a constant constructor.
+静态函数可以当做编译时常量使用。
+例如，可以将静态方法作为参数传递给常量构造函数。
 
 
 ## Generics
