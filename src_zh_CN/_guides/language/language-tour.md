@@ -497,7 +497,7 @@ multi-line string.""";
 var s = r"In a raw string, even \n isn't special.";
 {% endprettify %}
 
-参考 [Runes](#runes) 来了解如何在字符串中表达 Unicode 
+参见 [Runes](#runes) 来了解如何在字符串中表达 Unicode 
 字符。
 
 一个编译时常量的字面量字符串中，如果存在插值表达式，表达式内容也是编译时常量，
@@ -603,7 +603,7 @@ var constantList = const [1, 2, 3];
 {% endprettify %}
 
 List 类型包含了很多 lists 的操作函数。 
-更多信息参考 [泛型](#generics) 和
+更多信息参见 [泛型](#generics) 和
 [集合](/guides/libraries/library-tour#collections).
 
 
@@ -1747,7 +1747,7 @@ sb.write('foo')
 | `?.`     | Conditional member access | Like `.`, but the leftmost operand can be null; example: `foo?.bar` selects property `bar` from expression `foo` unless `foo` is null (in which case the value of `foo?.bar` is null)
 {:.table .table-striped}
 
-更多关于 `.`, `?.` 和  `..` 运算符介绍，参考
+更多关于 `.`, `?.` 和  `..` 运算符介绍，参见
 [Classes](#classes).
 
 
@@ -1774,7 +1774,7 @@ sb.write('foo')
 ### If 和 else
 
 Dart 支持 `if - else` 语句，其中 `else` 是可选的， 
-比如下面的例子， 另参考 [conditional expressions](#conditional-expressions).
+比如下面的例子， 另参见 [conditional expressions](#conditional-expressions).
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (if-else)"?>
 {% prettify dart %}
@@ -2195,7 +2195,7 @@ try {
 }
 {% endprettify %}
 
-了解更多，请参考
+更多详情，请参见
 [Exceptions](/guides/libraries/library-tour#exceptions) 章节。
 
 ## 类
@@ -2708,15 +2708,16 @@ logger.log('Button clicked');
 {% endprettify %}
 
 
-### Methods
+### 方法
 
-Methods are functions that provide behavior for an object.
+方法是为对象提供行为的函数。
 
-#### Instance methods
+#### 实例方法
 
-Instance methods on objects can access instance variables and `this`.
-The `distanceTo()` method in the following sample is an example of an
-instance method:
+对象的实例方法可以访问 `this` 和实例变量。
+以下示例中的 `distanceTo()` 方法就是实例方法：
+
+
 
 <?code-excerpt "misc/lib/language_tour/classes/point.dart (class-with-distanceTo)" plaster="none"?>
 {% prettify dart %}
@@ -2735,13 +2736,12 @@ class Point {
 }
 {% endprettify %}
 
-#### Getters and setters
+#### Getters 和 setters
 
-Getters and setters are special methods that provide read and write
-access to an object’s properties. Recall that each instance variable has
-an implicit getter, plus a setter if appropriate. You can create
-additional properties by implementing getters and setters, using the
-`get` and `set` keywords:
+getters 和 setters 是用于对象属性读和写的特殊方法。 
+回想之前的例子，每个实例变量都有一个隐式 getter ，通常情况下还会有一个 setter 。
+使用 `get` 和 `set` 关键字实现 getters 和 setters ，能够为实例创建额外的属性。
+
 
 <?code-excerpt "misc/lib/language_tour/classes/rectangle.dart"?>
 {% prettify dart %}
@@ -2750,7 +2750,7 @@ class Rectangle {
 
   Rectangle(this.left, this.top, this.width, this.height);
 
-  // Define two calculated properties: right and bottom.
+  // 定义两个计算属性： right 和 bottom。
   num get right => left + width;
   set right(num value) => left = value - width;
   num get bottom => top + height;
@@ -2765,93 +2765,91 @@ void main() {
 }
 {% endprettify %}
 
-With getters and setters, you can start with instance variables, later
-wrapping them with methods, all without changing client code.
+最开始实现 getters 和 setters 也许是直接返回成员变量；
+随着需求变化，getters 和 setters 可能需要进行计算处理而使用方法来实现；
+但是，调用对象的代码不需要做任何的修改。
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-Operators such as increment (++) work in the expected way, whether or
-not a getter is explicitly defined. To avoid any unexpected side
-effects, the operator calls the getter exactly once, saving its value
-in a temporary variable.
+类似 (++) 之类操作符不管是否定义了 getter 方法，都能够正确的执行。 
+为了避免一些问题，操作符只调用一次 getter 方法，
+然后把值保存到一个临时的变量中。
 </div>
 
-#### Abstract methods
+#### 抽象方法
 
-Instance, getter, and setter methods can be abstract, defining an
-interface but leaving its implementation up to other classes.
-Abstract methods can only exist in [abstract classes](#abstract-classes).
+实例方法， getter， 和 setter 方法可以是抽象的， 
+只定义接口不进行实现，而是留给其它类去实现。 
+抽象方法只存在于 [抽象类](#abstract-classes) 中。
 
-To make a method abstract, use a semicolon (;) instead of a method body:
+定义一个抽象函数，使用分号 (;) 来代替函数体：
 
 <?code-excerpt "misc/lib/language_tour/classes/doer.dart"?>
 {% prettify dart %}
 abstract class Doer {
-  // Define instance variables and methods...
+  // 定义实例变量和方法 ...
 
-  void doSomething(); // Define an abstract method.
+  void doSomething(); // 定义一个抽象方法。
 }
 
 class EffectiveDoer extends Doer {
   void doSomething() {
-    // Provide an implementation, so the method is not abstract here...
+    // 提供方法实现，所以这里的方法就不是抽象方法了...
   }
 }
 {% endprettify %}
 
-Calling an abstract method results in a runtime error.
+调用抽象方法会导致运行时错误。
 
 
-### Abstract classes
+### 抽象类
 
-Use the `abstract` modifier to define an *abstract class*—a class that
-can’t be instantiated. Abstract classes are useful for defining
-interfaces, often with some implementation. If you want your abstract
-class to appear to be instantiable, define a [factory
-constructor](#factory-constructors).
+使用 `abstract` 修饰符来定义 *抽象类* — 抽象类不能实例化。
+抽象类通常用来定义接口，以及部分实现。
+如果希望抽象类能够被实例化，那么可以通过定义一个
+[工厂构造函数](#factory-constructors) 来实现。
 
-Abstract classes often have [abstract methods](#abstract-methods).
-Here’s an example of declaring an abstract class that has an abstract
-method:
+抽象类通常具有 [抽象方法](#abstract-methods)。
+下面是一个声明具有抽象方法的抽象类示例：
+
 
 <?code-excerpt "misc/lib/language_tour/classes/misc.dart (abstract)"?>
 {% prettify dart %}
-// This class is declared abstract and thus
-// can't be instantiated.
+// 这个类被定义为抽象类，
+// 所以不能被实例化。
 abstract class AbstractContainer {
-  // Define constructors, fields, methods...
+  // 定义构造行数，字段，方法...
 
-  void updateChildren(); // Abstract method.
+  void updateChildren(); // 抽象方法。
 }
 {% endprettify %}
 
 
-### Implicit interfaces
+### 隐式接口
 
-Every class implicitly defines an interface containing all the instance
-members of the class and of any interfaces it implements. If you want to
-create a class A that supports class B’s API without inheriting B’s
-implementation, class A should implement the B interface.
+每个类都隐式的定义了一个接口，接口包含了该类所有的实例成员及其实现的接口。
+如果要创建一个 A 类，A 要支持 B 类的 API ，但是不需要继承 B 的实现，
+那么可以通过 A 实现 B 的接口。
 
-A class implements one or more interfaces by declaring them in an
-`implements` clause and then providing the APIs required by the
-interfaces. For example:
+一个类可以通过 `implements` 关键字来实现一个或者多个接口， 
+并实现每个接口要求的 API。
+例如：
 
 <?code-excerpt "misc/lib/language_tour/classes/impostor.dart"?>
 {% prettify dart %}
-// A person. The implicit interface contains greet().
+// person 类。 隐式接口里面包含了 greet() 方法声明。
 class Person {
-  // In the interface, but visible only in this library.
+  // 包含在接口里，但只在当前库中可见。
   final _name;
 
-  // Not in the interface, since this is a constructor.
+  // 不包含在接口里，因为这是一个构造函数。
   Person(this._name);
 
-  // In the interface.
+  // 包含在接口里。
   String greet(String who) => 'Hello, $who. I am $_name.';
 }
 
-// An implementation of the Person interface.
+// person 接口的实现。
 class Impostor implements Person {
   get _name => '';
 
@@ -2866,6 +2864,7 @@ void main() {
 }
 {% endprettify %}
 
+下面示例演示一个类如何实现多个接口：
 Here’s an example of specifying that a class implements multiple
 interfaces:
 
@@ -2875,10 +2874,10 @@ class Point implements Comparable, Location {...}
 {% endprettify %}
 
 
-### Extending a class
+### 扩展类（继承）
 
-Use `extends` to create a subclass, and `super` to refer to the
-superclass:
+使用 `extends` 关键字来创建子类， 
+使用 `super` 关键字来引用父类：
 
 <?code-excerpt "misc/lib/language_tour/classes/extends.dart" replace="/extends|super/[!$&!]/g"?>
 {% prettify dart %}
@@ -2902,11 +2901,10 @@ class SmartTelevision [!extends!] Television {
 {% endprettify %}
 
 
-#### Overriding members
+#### 重写类成员
 
-Subclasses can override instance methods, getters, and setters.
-You can use the `@override` annotation to indicate that you are
-intentionally overriding a member:
+子类可以重写实例方法，getter 和 setter。
+可以使用 `@override` 注解指出想要重写的成员：
 
 <?code-excerpt "misc/lib/language_tour/metadata/television.dart (override)" replace="/@override/[!$&!]/g"?>
 {% prettify dart %}
@@ -2922,11 +2920,10 @@ To narrow the type of a method parameter or instance variable in code that is
 you can use the [`covariant` keyword](/guides/language/sound-problems#the-covariant-keyword).
 
 
-#### Overridable operators
+#### 重写运算符
 
-You can override the operators shown in the following table.
-For example, if you define a
-Vector class, you might define a `+` method to add two vectors.
+下标的运算符可以被重写。
+例如，想要实现两个向量对象相加，可以重写 `+` 方法。
 
 `<`  | `+`  | `|`  | `[]`
 `>`  | `/`  | `^`  | `[]=`
@@ -2935,7 +2932,7 @@ Vector class, you might define a `+` method to add two vectors.
 `–`  | `%`  | `>>`
 {:.table}
 
-Here’s an example of a class that overrides the `+` and `-` operators:
+下面示例演示一个类重写 `+` 和 `-` 操作符：
 
 <?code-excerpt "misc/lib/language_tour/classes/vector.dart"?>
 {% prettify dart %}
@@ -2947,7 +2944,7 @@ class Vector {
   Vector operator +(Vector v) => Vector(x + v.x, y + v.y);
   Vector operator -(Vector v) => Vector(x - v.x, y - v.y);
 
-  // Operator == and hashCode not shown. For details, see note below.
+  // 运算符 == 和 hashCode 部分没有列出。 有关详情，请参见下面的注释。
   // ···
 }
 
@@ -2960,24 +2957,24 @@ void main() {
 }
 {% endprettify %}
 
-If you override `==`, you should also override Object's `hashCode` getter.
-For an example of overriding `==` and `hashCode`, see
+如果要重写 `==` 操作符，需要重写对象的 `hashCode` getter 方法。
+重写 `==` 和 `hashCode` 的实例，参见
 [Implementing map keys](/guides/libraries/library-tour#implementing-map-keys).
 
-For more information on overriding, in general, see
+有关重写的更多介绍，请参见
 [Extending a class](#extending-a-class).
 
 
 #### noSuchMethod()
 
-To detect or react whenever code attempts to use a non-existent method or
-instance variable, you can override `noSuchMethod()`:
+当代码尝试使用不存在的方法或实例变量时，
+通过重写 `noSuchMethod()` 方法，来实现检测和应对处理：
 
 <?code-excerpt "misc/lib/language_tour/classes/no_such_method.dart" replace="/noSuchMethod(?!,)/[!$&!]/g"?>
 {% prettify dart %}
 class A {
-  // Unless you override noSuchMethod, using a
-  // non-existent member results in a NoSuchMethodError.
+  // 如果不重写 noSuchMethod，访问
+  // 不存在的实例变量时会导致 NoSuchMethodError 错误。
   @override
   void [!noSuchMethod!](Invocation invocation) {
     print('You tried to use a non-existent member: ' +
@@ -2986,41 +2983,40 @@ class A {
 }
 {% endprettify %}
 
-You **can't invoke** an unimplemented method unless
-**one** of the following is true:
 
-* The receiver has the static type `dynamic`.
+除非符合下面的任意一项条件，
+否则没有实现的方法不能够被调用：
 
-* The receiver has a static type that
-defines the unimplemented method (abstract is OK),
-and the dynamic type of the receiver has an implemention of `noSuchMethod()`
-that's different from the one in class `Object`.
+* receiver 具有 `dynamic` 的静态类型 。
 
-有关更多信息，参见 the informal
+* receiver 具有静态类型，用于定义为实现的方法 (可以是抽象的),
+并且 receiver 的动态类型具有 `noSuchMethod()` 的实现，
+该实现与 `Object` 类中的实现不同。
+
+有关更多信息，参见
 [nosuchMethod forwarding specification.](https://github.com/dart-lang/sdk/blob/master/docs/language/informal/nosuchmethod-forwarding.md)
 
 
 <a id="enums"></a>
-### Enumerated types
+### 枚举类型
 
-Enumerated types, often called _enumerations_ or _enums_,
-are a special kind of class used to represent
-a fixed number of constant values.
+枚举类型也称为 _enumerations_ 或 _enums_ ，
+是一种特殊的类，用于表示数量固定的常量值。
 
 
-#### Using enums
+#### 使用枚举
 
-Declare an enumerated type using the `enum` keyword:
+使用 `enum` 关键字定义一个枚举类型：
 
 <?code-excerpt "misc/lib/language_tour/classes/enum.dart (enum)"?>
 {% prettify dart %}
 enum Color { red, green, blue }
 {% endprettify %}
 
-Each value in an enum has an `index` getter,
-which returns the zero-based position of the value in the enum declaration.
-For example, the first value has index 0,
-and the second value has index 1.
+枚举中的每个值都有一个 `index` getter 方法，
+该方法返回值所在枚举类型定义中的位置（从 0 开始）。
+例如，第一个枚举值的索引是 0 ，
+第二个枚举值的索引是 1。
 
 <?code-excerpt "misc/lib/language_tour/classes/enum.dart (index)"?>
 {% prettify dart %}
@@ -3029,8 +3025,8 @@ assert(Color.green.index == 1);
 assert(Color.blue.index == 2);
 {% endprettify %}
 
-To get a list of all of the values in the enum,
-use the enum's `values` constant.
+使用枚举的 `values` 常量，
+获取所有枚举值列表（ list ）。
 
 <?code-excerpt "misc/lib/language_tour/classes/enum.dart (values)"?>
 {% prettify dart %}
@@ -3038,8 +3034,8 @@ List<Color> colors = Color.values;
 assert(colors[2] == Color.blue);
 {% endprettify %}
 
-You can use enums in [switch statements](#switch-and-case), and
-you'll get a warning if you don't handle all of the enum's values:
+可以在 [switch 语句](#switch-and-case) 中使用枚举，
+如果不处理所有枚举值，会收到警告：
 
 <?code-excerpt "misc/lib/language_tour/classes/enum.dart (switch)"?>
 {% prettify dart %}
@@ -3052,17 +3048,17 @@ switch (aColor) {
   case Color.green:
     print('Green as grass!');
     break;
-  default: // Without this, you see a WARNING.
+  default: // 没有这个，会看到一个警告。
     print(aColor); // 'Color.blue'
 }
 {% endprettify %}
 
-Enumerated types have the following limits:
+枚举类型具有以下限制：
 
-* You can't subclass, mix in, or implement an enum.
-* You can't explicitly instantiate an enum.
+* 枚举不能被子类化，混合或实现。
+* 枚举不能被显式实例化。
 
-有关更多信息，参见 the
+有关更多信息，参见
 [Dart Language Specification](/guides/language/spec).
 
 
