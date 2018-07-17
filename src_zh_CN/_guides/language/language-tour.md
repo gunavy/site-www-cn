@@ -3062,13 +3062,14 @@ switch (aColor) {
 [Dart Language Specification](/guides/language/spec).
 
 
-### Adding features to a class: mixins
+### 为类添加功能： mixins
 
-Mixins are a way of reusing a class's code in multiple class
-hierarchies.
+mixins 是复用类代码的一种途径，
+复用的类可以在不同层级，之间可以不存在继承关系。
 
-To use a mixin, use the `with` keyword followed by one or more mixin
-names. The following example shows two classes that use mixins:
+
+通过 `with` 后面跟一个或多个混入的名称，来使用 mixin，
+下面的示例演示了两个使用 mixins 的类：
 
 <?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (Musician and Maestro)" replace="/(with.*) \{/[!$1!] {/g"?>
 {% prettify dart %}
@@ -3085,8 +3086,7 @@ class Maestro extends Person
 }
 {% endprettify %}
 
-To implement a mixin, create a class that extends Object,
-declares no constructors, and has no calls to `super`. For example:
+下面实现 mixin 的代码中，定义一个类，继承自 Object，没有声明构造函数，也没有调用 `super` ：
 
 <?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (Musical)"?>
 {% prettify dart %}
@@ -3108,13 +3108,13 @@ abstract class Musical {
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-  **提示：** Some restrictions on mixins are being removed. For details, see the
+  **提示：** 对 mixins 的一些限制正在被移除。 关于更多详情，参考
   [proposed mixin specification.][Dart 2.0 Mixins]
 
   [Dart 2.0 Mixins]: https://github.com/dart-lang/sdk/blob/master/docs/language/informal/mixin-declaration.md
 </div>
 
-For a theoretical presentation of the evolution of mixins in Dart, see
+有关 Dart 中 mixins 的理论演变, 参考
 [A Brief History of Mixins in Dart](/articles/language/mixins).
 
 
