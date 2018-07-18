@@ -3383,39 +3383,31 @@ var foo = [!Foo<Object>!]();
 [使用泛型函数](https://github.com/dart-lang/sdk/blob/master/pkg/dev_compiler/doc/GENERIC_METHODS.md)
 
 
-## Libraries and visibility
+## 库和可见性
 
-The `import` and `library` directives can help you create a
-modular and shareable code base. Libraries not only provide APIs, but
-are a unit of privacy: identifiers that start with an underscore (\_)
-are visible only inside the library. *Every Dart app is a library*, even
-if it doesn’t use a `library` directive.
+`import` 和 `library` 指令可以用来创建一个模块化的，可共享的代码库。
+库不仅提供了 API ，而且对代码起到了封装的作用：
+以下划线 (\_) 开头的标识符仅在库内可见。
+*每个 Dart 应用程序都是一个库* ，虽然没有使用 `library` 指令。
 
-Libraries can be distributed using packages. See
-[Pub Package and Asset Manager](/tools/pub)
-for information about
-pub, a package manager included in the SDK.
+库可以通过包来分发。有关 pub（集成在SDK中的包管理器）的信息，请参考 
+[Pub Package 和 Asset Manager](/tools/pub)。
 
 
-### Using libraries
+### 使用库
 
-Use `import` to specify how a namespace from one library is used in the
-scope of another library.
-
-For example, Dart web apps generally use the [dart:html][]
-library, which they can import like this:
+通过 `import` 指定一个库命名空间中的内如如何在另一个库中使用。
+例如，Dart Web应用程序通常使用 [dart:html][] 库，它们可以像这样导入：
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (dart-html-import)"?>
 {% prettify dart %}
 import 'dart:html';
 {% endprettify %}
 
-The only required argument to `import` is a URI specifying the
-library.
-For built-in libraries, the URI has the special `dart:` scheme.
-For other libraries, you can use a file system path or the `package:`
-scheme. The `package:` scheme specifies libraries provided by a package
-manager such as the pub tool. For example:
+`import` 参数只需要一个指向库的 URI。
+对于内置库，URI 拥有自己特殊的`dart:` 方案。
+对于其他的库，使用系统文件路径或者 `package:` 方案 。
+`package:` 方案指定由包管理器（如 pub 工具）提供的库。例如：
 
 <?code-excerpt "misc/test/language_tour/browser_test.dart (package-import)"?>
 {% prettify dart %}
@@ -3424,18 +3416,17 @@ import 'package:test/test.dart';
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-*URI* stands for uniform resource identifier.
-*URLs* (uniform resource locators) are a common kind of URI.
+*URI* 代表统一资源标识符。
+*URL*（统一资源定位符）是一种常见的URI。
 </div>
 
 
-#### Specifying a library prefix
+#### 指定库前缀
 
-If you import two libraries that have conflicting identifiers, then you
-can specify a prefix for one or both libraries. For example, if library1
-and library2 both have an Element class, then you might have code like
-this:
-
+如果导入的两个库，标示符有冲突，可以使用库的前缀来解决。
+例如，
+如果 library1 和 library2 都有一个 Element 类，
+那么可以通过下面的方式来处理：
 <?code-excerpt "misc/lib/language_tour/libraries/import_as.dart" replace="/(lib\d)\.dart/package:$1\/$&/g"?>
 {% prettify dart %}
 import 'package:lib1/lib1.dart';
