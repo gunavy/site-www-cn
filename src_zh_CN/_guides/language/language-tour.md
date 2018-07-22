@@ -3423,59 +3423,60 @@ import 'package:test/test.dart';
 
 #### 指定库前缀
 
-如果导入的两个库，标示符有冲突，可以使用库的前缀来解决。
-例如，
-如果 library1 和 library2 都有一个 Element 类，
-那么可以通过下面的方式来处理：
+如果导入两个存在冲突标识符的库，
+则可以为这两个库，或者其中一个指定前缀。
+例如，如果 library1 和 library2 都有一个 Element 类，
+那么可以通过下面的方式处理：
+
 <?code-excerpt "misc/lib/language_tour/libraries/import_as.dart" replace="/(lib\d)\.dart/package:$1\/$&/g"?>
 {% prettify dart %}
 import 'package:lib1/lib1.dart';
 import 'package:lib2/lib2.dart' as lib2;
 
-// Uses Element from lib1.
+// 使用 lib1 中的 Element。
 Element element1 = Element();
 
-// Uses Element from lib2.
+// 使用 lib2 中的 Element。
 lib2.Element element2 = lib2.Element();
 {% endprettify %}
 
-#### Importing only part of a library
+#### 仅导入库的一部分
 
-If you want to use only part of a library, you can selectively import
-the library. For example:
+如果只想使用库的一部分，
+则可以有选择地导入库。 
+例如：
 
 <?code-excerpt "misc/lib/language_tour/libraries/show_hide.dart" replace="/(lib\d)\.dart/package:$1\/$&/g"?>
 {% prettify dart %}
-// Import only foo.
+// 仅导入 foo 。
 import 'package:lib1/lib1.dart' show foo;
 
-// Import all names EXCEPT foo.
+// 导入所有内容，除了 foo 。
 import 'package:lib2/lib2.dart' hide foo;
 {% endprettify %}
 
 <a id="deferred-loading"></a>
-#### Lazily loading a library
+#### 懒加载库
 
-_Deferred loading_ (also called _lazy loading_)
-allows an application to load a library on demand,
-if and when it's needed.
-Here are some cases when you might use deferred loading:
+延迟加载（也称为懒加载）允许应用程序根据需要加载库。
+以下是可能使用延迟加载的一些情况：
+减少应用程序的初始启动时间。
+例如，执行A / B测试 - 尝试算法的替代实现。
+加载很少使用的功能，例如可选的屏幕和对话框。
 
-* To reduce an app's initial startup time.
-* To perform A/B testing—trying out
-  alternative implementations of an algorithm, for example.
-* To load rarely used functionality, such as optional screens and dialogs.
+* 减少应用程序的初始化启动时间。
+* 例如，要执行A/B测试 ———— 测试算法的实现。
+* 加载不常用的功能，比如可选的界面或者对话框。
 
-To lazily load a library, you must first
-import it using `deferred as`.
+要延迟加载一个库，必须使用 `deferred as` 来导入。
 
 <?code-excerpt "misc/lib/language_tour/libraries/greeter.dart (import)" replace="/hello\.dart/package:greetings\/$&/g"?>
 {% prettify dart %}
 import 'package:greetings/hello.dart' deferred as hello;
 {% endprettify %}
 
-When you need the library, invoke
-`loadLibrary()` using the library's identifier.
+当需要库的时候，
+通过使用库的标示符调用 loadLibrary()。
 
 <?code-excerpt "misc/lib/language_tour/libraries/greeter.dart (loadLibrary)"?>
 {% prettify dart %}
@@ -3485,83 +3486,76 @@ Future greet() async {
 }
 {% endprettify %}
 
-In the preceding code,
-the `await` keyword pauses execution until the library is loaded.
-For more information about `async` and `await`,
-see [asynchrony support](#asynchrony-support).
+在上面代码中，
+`await` 关键字表示程序暂停执行，直到库被加载完成。
+有关 `async` 和 `await` 的详细信息，
+请参考 [asynchrony support](#asynchrony-support)。
 
-You can invoke `loadLibrary()` multiple times on a library without problems.
-The library is loaded only once.
+使用库时，是可以调用多次 `loadLibrary()` 的，
+但是库仅被加载一次。
 
-Keep in mind the following when you use deferred loading:
+使用延迟加载时请记住以下内容：
 
-* A deferred library's constants aren't constants in the importing file.
-  Remember, these constants don't exist until the deferred library is loaded.
-* You can't use types from a deferred library in the importing file.
-  Instead, consider moving interface types to a library imported by
-  both the deferred library and the importing file.
-* Dart implicitly inserts `loadLibrary()` into the namespace that you define
-  using <code>deferred as <em>namespace</em></code>.
-  The `loadLibrary()` function returns a [Future](/guides/libraries/library-tour#future).
+* 延迟加载库的常量在导入的时候是不可用的。 
+  只有当库加载完毕的时候，库中常量才可以使用。
+* 在导入文件的时候无法使用延迟库中的类型。 
+  如果需要使用类型，
+  应该考虑把接口类型移动到另外一个库中，
+  让两个库都分别导入这个接口库。
+* Dart 隐含的把 `loadLibrary()` 函数导入到使用 <code>deferred as <em>namespace</em></code> 的命名空间。 
+  `loadLibrary()` 方法返回一个 [Future](/guides/libraries/library-tour#future)。
+
 
 <aside class="alert alert-warning" markdown="1">
-**Dart VM difference:**
-Due to [issue #33118](https://github.com/dart-lang/sdk/issues/33118),
-the Dart VM allows access to members of deferred libraries
-even before the call to `loadLibrary()`.
-We expect this bug to be fixed soon, so
-**don't depend on the current VM behavior.**
+**Dart VM 的差异**
+
+由于 ＃33118 问题，
+Dart VM甚至可以在调用 `loadLibrary()` 之前访问延迟库的成员。
+我们会尽快修复此错误，因此 **不要依赖于当前的 VM 判断 **。
 </aside>
 
-### Implementing libraries
+### 实现库
 
-See
+有关如何实现库包的建议，请参考 
 [Create Library Packages](/guides/libraries/create-library-packages)
-for advice on how to implement a library package, including:
+这里面包括：
 
-* How to organize library source code.
-* How to use the `export` directive.
-* When to use the `part` directive.
+* 如何组织库的源文件。
+* 如何使用 `export` 命令。
+* 如何使用 `part` 命令。
 
 
 <a id="asynchrony"></a>
-## Asynchrony support
+## 异步支持
 
-Dart libraries are full of functions that
-return [Future][] or [Stream][] objects.
-These functions are _asynchronous_:
-they return after setting up
-a possibly time-consuming operation
-(such as I/O),
-without waiting for that operation to complete.
-
-The `async` and `await` keywords support asynchronous programming,
-letting you write asynchronous code that
-looks similar to synchronous code.
+Dart 库中包含许多返回 Future 或 Stream 对象的函数.
+这些函数在设置完耗时任务（例如 I/O 曹组）后，
+就立即返回了，不会等待耗任务完成。
+使用 `async` 和 `await` 关键字实现异步编程。
+可以让你像编写同步代码一样实现异步操作。
 
 
 <a id="await"></a>
-### Handling Futures
+### 处理 Future
 
-When you need the result of a completed Future,
-you have two options:
+可以通过下面两种方式，获得 Future 执行完成的结果：
 
-* Use `async` and `await`.
-* Use the Future API, as described
+* 使用 `async` 和 `await`.
+* 使用 Future API，具体描述，参考
   [in the library tour](/guides/libraries/library-tour#future).
 
-Code that uses `async` and `await` is asynchronous,
-but it looks a lot like synchronous code.
-For example, here's some code that uses `await`
-to wait for the result of an asynchronous function:
+使用 `async` 和 `await` 关键字的代码是异步的。
+虽然看起来有点想同步代码。
+例如，下面的代码使用 `await`
+等待异步函数的执行结果。
 
 <?code-excerpt "misc/lib/language_tour/async.dart (await-lookUpVersion)"?>
 {% prettify dart %}
 await lookUpVersion();
 {% endprettify %}
 
-To use `await`, code must be in an _async function_—a
-function marked as `async`:
+要使用 `await` ，
+代码必须在_异步函数_（使用 `async` 标记的函数）中：
 
 <?code-excerpt "misc/lib/language_tour/async.dart (checkVersion)" replace="/async|await/[!$&!]/g"?>
 {% prettify dart %}
@@ -3573,17 +3567,15 @@ Future checkVersion() [!async!] {
 
 <aside class="alert alert-info" markdown="1">
 **提示：**
-Although an async function might perform time-consuming operations,
-it doesn't wait for those operations.
-Instead, the async function executes only until it encounters
-its first `await` expression
-([details][synchronous-async-start]).
-Then it returns a Future object,
-resuming execution only after the `await` expression completes.
+虽然异步函数可能会执行耗时的操作，
+但它不会等待这些操作。
+相反，异步函数只有在遇到第一个 await 表达式（[details][synchronous-async-start]）时才会执行。
+也就是说，它返回一个 Future 对象，
+仅在await表达式完成后才恢复执行。
 </aside>
 
-Use `try`, `catch`, and `finally`
-to handle errors and cleanup in code that uses `await`:
+使用 `try`， `catch`， 和 `finally`
+来处理代码中使用 `await` 导致的错误。
 
 <?code-excerpt "misc/lib/language_tour/async.dart (try-catch)"?>
 {% prettify dart %}
@@ -3594,9 +3586,8 @@ try {
 }
 {% endprettify %}
 
-You can use `await` multiple times in an async function.
-For example, the following code waits three times
-for the results of functions:
+在一个一步函数中可以多次使用 `await` 。
+例如，下面代码中等待了三次函数结果：
 
 <?code-excerpt "misc/lib/language_tour/async.dart (repeated-await)"?>
 {% prettify dart %}
@@ -3605,17 +3596,18 @@ var exitCode = await runExecutable(entrypoint, args);
 await flushThenExit(exitCode);
 {% endprettify %}
 
-In <code>await <em>expression</em></code>,
-the value of <code><em>expression</em></code> is usually a Future;
-if it isn't, then the value is automatically wrapped in a Future.
-This Future object indicates a promise to return an object.
-The value of <code>await <em>expression</em></code> is that returned object.
-The await expression makes execution pause until that object is available.
+在 <code>await <em>表达式</em></code> 中，
+<code><em>表达式</em></code>的值通常是一个 Future 对象；
+如果不是，这是表达式的值会被自动包装成一个 Future 对象。
+Future 对象指明返回一个对象的承诺（promise）。 
+<code>await <em>表达式</em></code> 执行的结果为这个返回的对象。
+await 表达式会阻塞代码的执行，直到需要的对象返回为止。
 
-**If you get a compile-time error when using `await`,
-make sure `await` is in an async function.**
-For example, to use `await` in your app's `main()` function,
-the body of `main()` must be marked as `async`:
+
+**如果在使用 `await` 导致编译时错误，
+确认 `await` 是否在一个异步函数中。**
+例如，在应用的 `main()` 函数中使用 `await` ，
+`main()` 函数的函数体必须被标记为 `async` ：
 
 <?code-excerpt "misc/lib/language_tour/async.dart (main)" replace="/async|await/[!$&!]/g"?>
 {% prettify dart %}
@@ -3627,34 +3619,30 @@ Future main() [!async!] {
 
 
 <a id="async"></a>
-### Declaring async functions
+### 声明异步函数
 
-An _async function_ is a function whose body is marked with
-the `async` modifier.
-
-Adding the `async` keyword to a function makes it return a Future.
-For example, consider this synchronous function,
-which returns a String:
+函数体被 `async` 标示符标记的函数，即是一个_异步函数_。
+将 `async` 关键字添加到函数使其返回Future。
+例如，考虑下面的同步函数，它返回一个 String ：
 
 <?code-excerpt "misc/lib/language_tour/async.dart (sync-lookUpVersion)"?>
 {% prettify dart %}
 String lookUpVersion() => '1.0.0';
 {% endprettify %}
 
-If you change it to be an async function—for example,
-because a future implementation will be time consuming—the
-returned value is a Future:
+例如，将来的实现将非常耗时，将其更改为异步函数，返回值是 Future 。
+
 
 <?code-excerpt "misc/lib/language_tour/async.dart (async-lookUpVersion)"?>
 {% prettify dart %}
 Future<String> lookUpVersion() async => '1.0.0';
 {% endprettify %}
 
-Note that the function's body doesn't need to use the Future API.
-Dart creates the Future object if necessary.
+注意，函数体不需要使用Future API。
+如有必要， Dart 会创建 Future 对象。
 
-If your function doesn't return a useful value,
-make its return type `Future<void>`.
+如果函数没有返回有效值，
+需要设置其返回类型为 `Future<void>` 。
 
 {% comment %}
 PENDING: add example here
@@ -3664,24 +3652,24 @@ Where else should we cover generalized void?
 
 
 <a id="await-for"></a>
-### Handling Streams
+### 处理流
 
-When you need to get values from a Stream,
-you have two options:
+当需要从 Stream 中获取数据值时，
+可以通过一下两种方式：
 
-* Use `async` and an _asynchronous for loop_ (`await for`).
-* Use the Stream API, as described
-  [in the library tour](/guides/libraries/library-tour#stream).
+* 使用 `async` 和 一个 _异步玄幻_ （`await for`）。
+* 使用 Stream API, 更多详情，参考
+  [in the library tour](/guides/libraries/library-tour#stream)。
 
 <aside class="alert alert-warning" markdown="1">
 **提示：**
-Before using `await for`, be sure that it makes the code clearer
-and that you really do want to wait for all of the stream's results.
-For example, you usually should **not** use `await for` for UI event listeners,
-because UI frameworks send endless streams of events.
+在使用 `await for` 前，确保代码清晰，
+并且确实希望等待所有流的结果。
+例如，通常不应该使用 `await for` 的UI事件侦听器，
+因为UI框架会发送无穷无尽的事件流。
 </aside>
 
-An asynchronous for loop has the following form:
+一下是异步for循环的使用形式：
 
 <?code-excerpt "misc/lib/language_tour/async.dart (await-for)"?>
 {% prettify dart %}
@@ -3690,23 +3678,20 @@ await for (varOrType identifier in expression) {
 }
 {% endprettify %}
 
-The value of <code><em>expression</em></code> must have type Stream.
-Execution proceeds as follows:
+上面 <code><em>表达式</em></code> 返回的值必须是 Stream 类型。 
+执行流程如下：
 
-1. Wait until the stream emits a value.
-2. Execute the body of the for loop,
-   with the variable set to that emitted value.
-3. Repeat 1 and 2 until the stream is closed.
+1. 等待，直到流发出一个值。
+2. 执行 for 循环体，将变量设置为该发出的值
+3. 重复1和2，直到关闭流。
 
-To stop listening to the stream,
-you can use a `break` or `return` statement,
-which breaks out of the for loop
-and unsubscribes from the stream.
-
-**If you get a compile-time error when implementing an asynchronous for loop,
-make sure the `await for` is in an async function.**
-For example, to use an asynchronous for loop in your app's `main()` function,
-the body of `main()` must be marked as `async`:
+使用  break` 或者 `return` 语句可以停止接收 stream 的数据，
+这样就跳出了 for 循环，
+并且从 stream 上取消注册。
+**如果在实现异步 for 循环时遇到编译时错误，
+请检查确保 `await for` 处于异步函数中。**
+例如，要在应用程序的 `main()` 函数中使用异步 fo r循环，
+`main()` 函数体必须标记为 `async` ：
 
 <?code-excerpt "misc/lib/language_tour/async.dart (number_thinker)" replace="/async|await for/[!$&!]/g"?>
 {% prettify dart %}
@@ -3719,29 +3704,29 @@ Future main() [!async!] {
 }
 {% endprettify %}
 
-For more information about asynchronous programming, in general, see the
-[dart:async](/guides/libraries/library-tour#dartasync---asynchronous-programming)
-section of the library tour.
-Also see the articles
+有关异步编程的更多信息，请参考
+[dart:async](/guides/libraries/library-tour#dartasync---asynchronous-programming) 
+部分。
+同时也可参考文章
 [Dart Language Asynchrony Support: Phase 1](/articles/language/await-async)
-and
+和
 [Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async),
-and the [Dart language specification](/guides/language/spec).
+以及 [Dart language specification](/guides/language/spec).
 
 
 <a id="generator"></a>
-## Generators
+## 生成器
 
-When you need to lazily produce a sequence of values,
-consider using a _generator function_.
-Dart has built-in support for two kinds of generator functions:
+当您需要 lazily 生成一系列值时，
+可以考虑使用_生成器函数_。
+Dart 内置支持两种生成器函数：
 
-* **Synchronous** generator: Returns an **[Iterable]** object.
-* **Asynchronous** generator: Returns a **[Stream]** object.
+* **Synchronous** 生成器： 返回一个 **[Iterable]** 对象。
+* **Asynchronous** 生成器： 返回一个 **[Stream]** 对象。
 
-To implement a **synchronous** generator function,
-mark the function body as `sync*`,
-and use `yield` statements to deliver values:
+通过在函数体标记 `sync*`，
+可以实现一个**同步**生成器函数。
+使用 `yield` 语句来传递值：
 
 <?code-excerpt "misc/test/language_tour/async_test.dart (sync-generator)"?>
 {% prettify dart %}
@@ -3751,9 +3736,9 @@ Iterable<int> naturalsTo(int n) sync* {
 }
 {% endprettify %}
 
-To implement an **asynchronous** generator function,
-mark the function body as `async*`,
-and use `yield` statements to deliver values:
+通过在函数体标记 `async*`，
+可以实现一个**异步**生成器函数。
+使用 `yield` 语句来传递值：
 
 <?code-excerpt "misc/test/language_tour/async_test.dart (async-generator)"?>
 {% prettify dart %}
@@ -3763,8 +3748,7 @@ Stream<int> asynchronousNaturalsTo(int n) async* {
 }
 {% endprettify %}
 
-If your generator is recursive,
-you can improve its performance by using `yield*`:
+如果生成器是递归的，可以使用 `yield*` 来提高其性能：
 
 <?code-excerpt "misc/test/language_tour/async_test.dart (recursive-generator)"?>
 {% prettify dart %}
@@ -3776,19 +3760,18 @@ Iterable<int> naturalsDownFrom(int n) sync* {
 }
 {% endprettify %}
 
-For more information about generators, see the article
-[Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async).
+有关生成器的更多信息，请参考文章
+[Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async) 。
 
 
-## Callable classes
+## 可调用类
 
-To allow your Dart class to be called like a function,
-implement the `call()` method.
+实现类的 call() 方法，
+可以允许 Dart 类像函数一样被调用。
 
-In the following example, the `WannabeFunction` class defines
-a call() function that takes three strings and concatenates them,
-separating each with a space, and appending an exclamation.
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+在下面的示例中，`WannabeFunction` 类定义了一个 call() 函数，
+它接受三个字符串参数，胖箭头函数将它们连接空格分隔，并在结尾附加了一个感叹号。
+单击运行按钮 ( {% img 'red-run.png' %} ) 执行代码。
 
 {% comment %}
 https://gist.github.com/405379bacf30335f3aed
@@ -3814,32 +3797,29 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=405379bacf30335f3aed&horizonta
     style="border: 1px solid #ccc;">
 </iframe>
 
-For more information on treating classes like functions, see
-[Emulating Functions in Dart](/articles/language/emulating-functions).
+有关处理函数类的更多信息，请参考
+[Emulating Functions in Dart](/articles/language/emulating-functions) 。
 
 ## Isolates
 
-Most computers, even on mobile platforms, have multi-core CPUs.
-To take advantage of all those cores, developers traditionally use
-shared-memory threads running concurrently. However, shared-state
-concurrency is error prone and can lead to complicated code.
+大多数计算机中，甚至在移动平台上，都在使用多核CPU。
+为了有效利用多核性能，开发者一般使用共享内存数据来保证多线程的正确执行。
+然而，
+多线程共享数据通常会导致很多潜在的问题，并导致代码运行出错。
+所有 Dart 代码都在隔离区内运行，而不是线程。
+每个隔离区都有自己的内存堆，确保每个隔离区的状态都不会被其他隔离区访问。
 
-Instead of threads, all Dart code runs inside of *isolates*. Each
-isolate has its own memory heap, ensuring that no isolate’s state is
-accessible from any other isolate.
-
-有关更多信息，参见 the
-[dart:isolate library documentation.][dart:isolate]
+有关更多信息，请参考
+[dart:isolate library documentation.][dart:isolate] 。
 
 
 ## Typedefs
 
-In Dart, functions are objects, just like strings and numbers are
-objects. A *typedef*, or *function-type alias*, gives a function type a
-name that you can use when declaring fields and return types. A typedef
-retains type information when a function type is assigned to a variable.
-
-Consider the following code, which doesn't use a typedef:
+在 Dart 中，函数也是对象，就想字符和数字对象一样。
+使用 *typedef*, 或者 *function-type alias* 来为方法类型命名，
+然后可以使用命名的方法。
+当把方法类型赋值给一个变量的时候，typedef 保留类型信息。
+下面的代码没有使用 typedef：
 
 <?code-excerpt "misc/lib/language_tour/typedefs/sorted_collection_1.dart"?>
 {% prettify dart %}
@@ -3863,11 +3843,12 @@ void main() {
 }
 {% endprettify %}
 
-Type information is lost when assigning `f` to `compare`. The type of
-`f` is `(Object, ``Object)` → `int` (where → means returns), yet the
-type of `compare` is Function. If we change the code to use explicit
-names and retain type information, both developers and tools can use
-that information.
+当把  `f` 赋值给 `compare` 的时候， 类型信息丢失了。
+`f` 的类型是 `(Object, ``Object)` → `int` (这里 → 代表返回值类型)，
+当然该类型是一个 Function。如果我们使用显式的名字并保留类型信息，
+开发者和工具可以使用
+这些信息：
+
 
 <?code-excerpt "misc/lib/language_tour/typedefs/sorted_collection_2.dart"?>
 {% prettify dart %}
@@ -3891,12 +3872,14 @@ void main() {
 
 <aside class="alert alert-info" markdown="1">
 **提示：**
-Currently, typedefs are restricted to function types. We expect this
-to change.
+目前，typedefs 只能使用在 function 类型上，
+但今后可能会有变化。
 </aside>
 
-Because typedefs are simply aliases, they offer a way to check the type
-of any function. For example:
+
+由于 typedefs 只是别名，他们还提供了一种
+判断任意 function 的类型的方法。例如：
+
 
 <?code-excerpt "misc/lib/language_tour/typedefs/misc.dart (compare)"?>
 {% prettify dart %}
@@ -3909,18 +3892,19 @@ void main() {
 }
 {% endprettify %}
 
-## Metadata
+## 元数据
 
-Use metadata to give additional information about your code. A metadata
-annotation begins with the character `@`, followed by either a reference
-to a compile-time constant (such as `deprecated`) or a call to a
-constant constructor.
+使用元数据给你的代码添加其他额外信息。
+元数据注解是以 `@` 字符开头，后面是一个编译时
+常量(例如 `deprecated`)或者
+调用一个常量构造函数。
 
-Two annotations are available to all Dart code: `@deprecated` and
-`@override`. For examples of using `@override`,
-see [Extending a class](#extending-a-class).
-Here’s an example of using the `@deprecated`
-annotation:
+有三个注解所有的 Dart 代码都可以使用： `@deprecated`、
+`@override`、 和 `@proxy`。关于 `@override` 和
+`@proxy` 示例请参考 [Extending a class](#extending-a-class)。
+下面是使用 `@deprecated` 的
+示例：
+
 
 <?code-excerpt "misc/lib/language_tour/metadata/television.dart (deprecated)" replace="/@deprecated/[!$&!]/g"?>
 {% prettify dart %}
@@ -3936,8 +3920,8 @@ class Television {
 }
 {% endprettify %}
 
-You can define your own metadata annotations. Here’s an example of
-defining a @todo annotation that takes two arguments:
+你还可以定义自己的元数据注解。
+下面的示例定义了一个带有两个参数的 @todo 注解：
 
 <?code-excerpt "misc/lib/language_tour/metadata/todo.dart"?>
 {% prettify dart %}
@@ -3951,7 +3935,7 @@ class Todo {
 }
 {% endprettify %}
 
-And here’s an example of using that @todo annotation:
+使用 @todo 注解的示例：
 
 <?code-excerpt "misc/lib/language_tour/metadata/misc.dart"?>
 {% prettify dart %}
@@ -3963,22 +3947,26 @@ void doSomething() {
 }
 {% endprettify %}
 
-Metadata can appear before a library, class, typedef, type parameter,
-constructor, factory, function, field, parameter, or variable
-declaration and before an import or export directive. You can
-retrieve metadata at runtime using reflection.
+元数据可以在 library、 class、 typedef、 type parameter、
+constructor、 factory、 function、 field、 parameter、或者 variable
+声明之前使用，也可以在 import 或者 export 指令之前使用。
+使用反射可以在运行时获取元数据
+信息。
 
 
-## Comments
 
-Dart supports single-line comments, multi-line comments, and
-documentation comments.
+## 注释
+
+Dart 支持单行注释、多行注释和
+文档注释。
 
 
-### Single-line comments
 
-A single-line comment begins with `//`. Everything between `//` and the
-end of line is ignored by the Dart compiler.
+### 单行注释
+
+单行注释以 `//` 开始。 `//` 后面的一行内容
+为 Dart 代码注释。
+
 
 <?code-excerpt "misc/lib/language_tour/comments.dart (single-line-comments)"?>
 {% prettify dart %}
@@ -3989,12 +3977,13 @@ void main() {
 {% endprettify %}
 
 
-### Multi-line comments
+### 多行注释
 
-A multi-line comment begins with `/*` and ends with `*/`. Everything
-between `/*` and `*/` is ignored by the Dart compiler (unless the
-comment is a documentation comment; see the next section). Multi-line
-comments can nest.
+多行注释以  `/*`  开始， `*/` 结尾。
+多行注释
+可以
+嵌套。
+
 
 <?code-excerpt "misc/lib/language_tour/comments.dart (multi-line-comments)"?>
 {% prettify dart %}
@@ -4011,20 +4000,21 @@ void main() {
 {% endprettify %}
 
 
-### Documentation comments
+### 文档注释
 
-Documentation comments are multi-line or single-line comments that begin
-with `///` or `/**`. Using `///` on consecutive lines has the same
-effect as a multi-line doc comment.
+文档注释可以使用 `///` 开始，
+也可以使用 `/**` 开始
+并以  */ 结束。
 
-Inside a documentation comment, the Dart compiler ignores all text
-unless it is enclosed in brackets. Using brackets, you can refer to
-classes, methods, fields, top-level variables, functions, and
-parameters. The names in brackets are resolved in the lexical scope of
-the documented program element.
+在文档注释内， Dart 编译器忽略除了中括号以外的内容。
+使用中括号可以引用
+classes、 methods、 fields、 top-level variables、 functions、 和
+parameters。中括号里面的名字使用
+当前注释出现地方的语法范围查找对应的成员。
 
-Here is an example of documentation comments with references to other
-classes and arguments:
+下面是一个引用其他类和成员
+的文档注释：
+
 
 <?code-excerpt "misc/lib/language_tour/comments.dart (doc-comments)"?>
 {% prettify dart %}
@@ -4050,26 +4040,26 @@ class Llama {
 }
 {% endprettify %}
 
-In the generated documentation, `[Food]` becomes a link to the API docs
-for the Food class.
+在生成的文档中，`[Food]` 变为一个连接
+到 Food 类 API 文档的链接。
 
-To parse Dart code and generate HTML documentation, you can use the SDK’s
-[documentation generation tool.](https://github.com/dart-lang/dartdoc#dartdoc)
-For an example of generated documentation, see the [Dart API
-documentation.]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}) For advice on how to structure
-your comments, see
+使用 SDK 中的
+[文档生成工具](https://github.com/dart-lang/dartdoc#dartdoc)可以解析文档并生成 HTML 网页。
+关于生成的文档示例，请参考 [Dart API
+文档。]({{site.dart_api}}) 
+关于如何组织文档的建议，请参考
 [Guidelines for Dart Doc Comments.](/guides/language/effective-dart/documentation)
 
 
-## Summary
+## 总结
 
-This page summarized the commonly used features in the Dart language.
-More features are being implemented, but we expect that they won’t break
-existing code. 有关更多信息，参见 the [Dart Language
-Specification](/guides/language/spec) and
+该页内容介绍了常见的 Dart 语言特性。
+还有更多特性有待实现，但是新的特性不会破坏已有的代码。
+有关更多信息，参见
+[Dart Language Specification](/guides/language/spec) 和
 [Effective Dart](/guides/language/effective-dart).
 
-To learn more about Dart's core libraries, see
+要了解 Dart 核心库的详情，请参考
 [A Tour of the Dart Libraries](/guides/libraries/library-tour).
 
 [AssertionError]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/AssertionError-class.html
