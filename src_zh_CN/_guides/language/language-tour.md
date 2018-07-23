@@ -8,10 +8,10 @@ short-title: 语言概览
 这里将介绍 Dart 主要功能，从变量和运算符到类和库，假设您已经知道如何使用其他语言编程。
 
 
-学习更多 Dart 核心库, 参见
+学习更多 Dart 核心库, 参考
 [Dart 库概览](/guides/libraries/library-tour).
 想了解更多有关语言功能的详细信息,
-参见 [Dart 编程语言规范](/guides/language/spec).
+参考 [Dart 编程语言规范](/guides/language/spec).
 
 <div class="alert alert-info" markdown="1">
 **提示:**
@@ -47,7 +47,7 @@ main() {
 
 :   单行注释。
     Dart 同样支持多行注释和文档注释。
-    有关更多信息，参见 [注释](#comments).
+    有关更多信息，参考 [注释](#comments).
 
 `int`
 
@@ -69,13 +69,13 @@ main() {
 <code>$<em>variableName</em></code> (或 <code>${<em>expression</em>}</code>)
 
 :   字符串插值： 包括字符串文字内部的变量或表达式的字符串。 
-    有关更多信息，参见
+    有关更多信息，参考
     [Strings](#strings).
 
 `main()`
 
 :   程序开始执行函数，该函数是特定的、*必须的*、顶级函数。
-    有关更多信息，参见
+    有关更多信息，参考
     [The main() function](#the-main-function).
 
 `var`
@@ -114,7 +114,7 @@ main() {
 
 -   与 Java 不同，Dart 没有关键字 “public” ， “protected” 和 “private” 。 
     如果标识符以下划线（\ _）开头，则它相对于库是私有的。 
-    有关更多信息，参见 [库和可见性]（＃libraries-and-visibility）。
+    有关更多信息，参考 [库和可见性]（＃libraries-and-visibility）。
 
 -   *标识符* 以字母或下划线（\ _）开头，后跟任意字母和数字组合。
 
@@ -161,7 +161,7 @@ Dart 语言关键字列表。
 <sup>2</sup> 带有上标2的单词
 是 Dart 1.0 发布后，为支持**异步**增加更新的，限制类保留字。 
 不能在标记为 `async` ，`async*` 或 `sync*` 的任何函数体中使用 `async` , `async*` , or `sync*` 作为标识符。
-有关更多信息，参见 [Asynchrony支持](#asynchrony-support)。
+有关更多信息，参考 [Asynchrony支持](#asynchrony-support)。
 
 关键字表中的剩余单词都是**保留字**。
 不能将保留字用作标识符。
@@ -182,7 +182,7 @@ var name = 'Bob';
 `name` 变量的类型被推断为 `String` 。
 但是也可以通过指定类型的方式，来改变变量类型。 
 如果对象不限定为单个类型，可以指定为 `对象类型` 或 `动态类型`，
-参见 [设计指南][ObjectVsDynamic]。
+参考 [设计指南][ObjectVsDynamic]。
 
 
 {% comment %}
@@ -225,7 +225,7 @@ assert(lineCount == null);
 **提示：**
 在生产环境代码中 `assert()` 函数会被忽略，不会被调用。
 在开发过程中, <code>assert(<em>condition</em>)</code>
-会在非 `true` 的条件下抛出异常.有关更多信息，参见
+会在非 `true` 的条件下抛出异常.有关更多信息，参考
  [Assert](#assert).
 </div>
 
@@ -282,7 +282,7 @@ const baz = []; // Equivalent to `const []`
 {% endprettify %}
 
 声明 `const` 的初始化表达式中 `const` 可以被省略。
-比如上面的 `baz`。 有关更多信息，参见 [不要冗余地使用 const][]。
+比如上面的 `baz`。 有关更多信息，参考 [DON’T use const redundantly][]。
 
 非 final ， 非 const 的变量是可以被修改的，即使这些变量
 曾经引用过 const 值。
@@ -301,7 +301,7 @@ const 变量的值不可以修改：
 baz = [42]; // Error: 常量变量不能赋值修改。
 {% endprettify %}
 
-更多关于使用 `const` 创建常量值，参见
+更多关于使用 `const` 创建常量值，参考
 [Lists](#lists)， [Maps](#maps)， 和 [Classes](#classes)。
 
 
@@ -497,7 +497,7 @@ multi-line string.""";
 var s = r"In a raw string, even \n isn't special.";
 {% endprettify %}
 
-参见 [Runes](#runes) 来了解如何在字符串中表达 Unicode 
+参考 [Runes](#runes) 来了解如何在字符串中表达 Unicode 
 字符。
 
 一个编译时常量的字面量字符串中，如果存在插值表达式，表达式内容也是编译时常量，
@@ -521,7 +521,7 @@ const validConstString = '$aConstNum $aConstBool $aConstString'; //const 类型�
 // const invalidConstString = '$aNum $aBool $aString $aConstList'; //非 const 类型数据
 {% endprettify %}
 
-更多关于 string 的使用, 参见
+更多关于 string 的使用, 参考
 [字符串和正则表达式](/guides/libraries/library-tour#strings-and-regular-expressions).
 
 
@@ -603,7 +603,7 @@ var constantList = const [1, 2, 3];
 {% endprettify %}
 
 List 类型包含了很多 lists 的操作函数。 
-更多信息参见 [泛型](#generics) 和
+更多信息参考 [泛型](#generics) 和
 [集合](/guides/libraries/library-tour#collections).
 
 
@@ -658,7 +658,7 @@ nobleGases[18] = 'argon';
 **提示:**
 这里为什么只有 `Map()` ，而不是使用 `new Map()`。
 因为在 Dart 2 中，`new` 关键字是可选的。
-有关更多信息，参见 [构造函数的使用](#using-constructors)。
+有关更多信息，参考 [构造函数的使用](#using-constructors)。
 </aside>
 
 类似 JavaScript ，添加 key-value 对到已有的 map 中：
@@ -708,7 +708,7 @@ final constantMap = const {
 // constantMap[2] = 'Helium'; // 取消注释会引起错误。
 {% endprettify %}
 
-更名多关于 map 的内容，参见
+更名多关于 map 的内容，参考
 [Generics](#generics) and
 [Maps](/guides/libraries/library-tour#maps).
 
@@ -771,7 +771,7 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=589bc5c95318696cefe5&horizonta
 谨慎使用 list 方式操作 runes。
 这种方法很容易引发崩溃，
 具体原因取决于特定的语言，字符集和操作。
-有关更多信息，参见
+有关更多信息，参考
 [How do I reverse a String in Dart?](http://stackoverflow.com/questions/21521729/how-do-i-reverse-a-string-in-dart) on Stack Overflow.
 </div>
 
@@ -819,7 +819,7 @@ Dart 是一门真正面向对象的语言，
 [Function][] 。
 这也意味着函数可以被赋值给变量或者作为参数传递给其它函数。
 也可以把 Dart 类的实例当做方法来调用。
-有关更多信息，参见 [Callable classes](#callable-classes).
+有关更多信息，参考 [Callable classes](#callable-classes).
 
 已下是函数实现的示例：
 
@@ -864,7 +864,7 @@ bool isNoble(int atomicNumber) => _nobleGases[atomicNumber] != null;
 函数有两种参数类型: required 和 optional。
 required 类型参数在参数最前面， 随后是 optional 类型参数。
 命名的可选参数也可以标记为 “@ required” 。
-参见下一章节，了解更多细节。
+参考下一章节，了解更多细节。
 
 
 ### 可选参数
@@ -1282,7 +1282,7 @@ assert(foo() == null);
 ## 运算符
 
 下表是 Dart 定义的运算符。
-多数运算符可以被重载，详情参见
+多数运算符可以被重载，详情参考
 [Overridable operators](#overridable-operators)。
 
 |--------------------------+------------------------------------------------|
@@ -1437,7 +1437,7 @@ assert(a != b); // -1 != 0
     (如上所见,
     `==` 运算符执行的是第一个运算符的函数。
     我们甚至可以重写很多运算符，包括 `==`，
-    运算符的重写，参见 
+    运算符的重写，参考 
     [Overridable operators](#overridable-operators)。）
 
 这里列出了每种关系运算符的示例：
@@ -1747,7 +1747,7 @@ sb.write('foo')
 | `?.`     | Conditional member access | Like `.`, but the leftmost operand can be null; example: `foo?.bar` selects property `bar` from expression `foo` unless `foo` is null (in which case the value of `foo?.bar` is null)
 {:.table .table-striped}
 
-更多关于 `.`, `?.` 和  `..` 运算符介绍，参见
+更多关于 `.`, `?.` 和  `..` 运算符介绍，参考
 [Classes](#classes).
 
 
@@ -1774,7 +1774,7 @@ sb.write('foo')
 ### If 和 else
 
 Dart 支持 `if - else` 语句，其中 `else` 是可选的， 
-比如下面的例子， 另参见 [conditional expressions](#conditional-expressions).
+比如下面的例子， 另参考 [conditional expressions](#conditional-expressions).
 
 <?code-excerpt "misc/lib/language_tour/control_flow.dart (if-else)"?>
 {% prettify dart %}
@@ -1788,7 +1788,7 @@ if (isRaining()) {
 {% endprettify %}
 
 和 JavaScript 不同， Dart 的判断条件必须是布尔值，不能是其他类型。
-更多信息，参见 [Booleans](#booleans) 。
+更多信息，参考 [Booleans](#booleans) 。
 
 
 ### For 循环
@@ -2195,7 +2195,7 @@ try {
 }
 {% endprettify %}
 
-更多详情，请参见
+更多详情，请参考
 [Exceptions](/guides/libraries/library-tour#exceptions) 章节。
 
 ## 类
@@ -2351,7 +2351,7 @@ class Point {
 
 所有实例变量都生成隐式 *getter* 方法。 
 非 final 的实例变量同样会生成隐式 *setter* 方法。
-有关更多信息，参见 [Getters 和 setters](#getters-and-setters).
+有关更多信息，参考 [Getters 和 setters](#getters-and-setters).
 
 <?code-excerpt "misc/lib/language_tour/classes/point_with_main.dart (class+main)" replace="/(num .*?;).*/$1/g" plaster="none"?>
 {% prettify dart %}
@@ -2944,7 +2944,7 @@ class Vector {
   Vector operator +(Vector v) => Vector(x + v.x, y + v.y);
   Vector operator -(Vector v) => Vector(x - v.x, y - v.y);
 
-  // 运算符 == 和 hashCode 部分没有列出。 有关详情，请参见下面的注释。
+  // 运算符 == 和 hashCode 部分没有列出。 有关详情，请参考下面的注释。
   // ···
 }
 
@@ -2958,10 +2958,10 @@ void main() {
 {% endprettify %}
 
 如果要重写 `==` 操作符，需要重写对象的 `hashCode` getter 方法。
-重写 `==` 和 `hashCode` 的实例，参见
+重写 `==` 和 `hashCode` 的实例，参考
 [Implementing map keys](/guides/libraries/library-tour#implementing-map-keys).
 
-有关重写的更多介绍，请参见
+有关重写的更多介绍，请参考
 [Extending a class](#extending-a-class).
 
 
@@ -2993,7 +2993,7 @@ class A {
 并且 receiver 的动态类型具有 `noSuchMethod()` 的实现，
 该实现与 `Object` 类中的实现不同。
 
-有关更多信息，参见
+有关更多信息，参考
 [nosuchMethod forwarding specification.](https://github.com/dart-lang/sdk/blob/master/docs/language/informal/nosuchmethod-forwarding.md)
 
 
@@ -3058,7 +3058,7 @@ switch (aColor) {
 * 枚举不能被子类化，混合或实现。
 * 枚举不能被显式实例化。
 
-有关更多信息，参见
+有关更多信息，参考
 [Dart Language Specification](/guides/language/spec).
 
 
@@ -3108,13 +3108,13 @@ abstract class Musical {
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-  **提示：** 对 mixins 的一些限制正在被移除。 关于更多详情，参见
+  **提示：** 对 mixins 的一些限制正在被移除。 关于更多详情，参考
   [proposed mixin specification.][Dart 2.0 Mixins]
 
   [Dart 2.0 Mixins]: https://github.com/dart-lang/sdk/blob/master/docs/language/informal/mixin-declaration.md
 </div>
 
-有关 Dart 中 mixins 的理论演变, 参见
+有关 Dart 中 mixins 的理论演变, 参考
 [A Brief History of Mixins in Dart](/articles/language/mixins).
 
 
@@ -3379,7 +3379,7 @@ var foo = [!Foo<Object>!]();
 * 参数的类型 (`List<T>`).
 * 局部变量的类型 (`T tmp`).
 
-关于泛型的更多信息，参见
+关于泛型的更多信息，参考
 [使用泛型函数](https://github.com/dart-lang/sdk/blob/master/pkg/dev_compiler/doc/GENERIC_METHODS.md)
 
 
@@ -3717,7 +3717,7 @@ Future main() [!async!] {
 <a id="generator"></a>
 ## 生成器
 
-当您需要 lazily 生成一系列值时，
+当您需要延迟生成( lazily produce )一系列值时，
 可以考虑使用_生成器函数_。
 Dart 内置支持两种生成器函数：
 
@@ -3766,11 +3766,12 @@ Iterable<int> naturalsDownFrom(int n) sync* {
 
 ## 可调用类
 
-实现类的 call() 方法，
-可以允许 Dart 类像函数一样被调用。
+
+通过实现类的 call() 方法，
+能够让类像函数一样被调用。
 
 在下面的示例中，`WannabeFunction` 类定义了一个 call() 函数，
-它接受三个字符串参数，胖箭头函数将它们连接空格分隔，并在结尾附加了一个感叹号。
+函数接受三个字符串参数，函数体将三个字符串拼接，字符串间用空格分割，并在结尾附加了一个感叹号。
 单击运行按钮 ( {% img 'red-run.png' %} ) 执行代码。
 
 {% comment %}
@@ -3797,7 +3798,7 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=405379bacf30335f3aed&horizonta
     style="border: 1px solid #ccc;">
 </iframe>
 
-有关处理函数类的更多信息，请参考
+有关把类当做方法使用的更多信息，请参考
 [Emulating Functions in Dart](/articles/language/emulating-functions) 。
 
 ## Isolates
@@ -3806,7 +3807,8 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=405379bacf30335f3aed&horizonta
 为了有效利用多核性能，开发者一般使用共享内存数据来保证多线程的正确执行。
 然而，
 多线程共享数据通常会导致很多潜在的问题，并导致代码运行出错。
-所有 Dart 代码都在隔离区内运行，而不是线程。
+
+所有 Dart 代码都在*隔离区*（ isolates ）内运行，而不是线程。
 每个隔离区都有自己的内存堆，确保每个隔离区的状态都不会被其他隔离区访问。
 
 有关更多信息，请参考
@@ -3816,10 +3818,11 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=405379bacf30335f3aed&horizonta
 ## Typedefs
 
 在 Dart 中，函数也是对象，就想字符和数字对象一样。
-使用 *typedef*, 或者 *function-type alias* 来为方法类型命名，
-然后可以使用命名的方法。
-当把方法类型赋值给一个变量的时候，typedef 保留类型信息。
-下面的代码没有使用 typedef：
+使用 *typedef* ，或者 *function-type alias* 为函数起一个别名，
+别名可以用来声明字段及返回值类型。
+当函数类型分配给变量时，typedef会保留类型信息。
+
+请考虑以下代码，代码中未使用 typedef ：
 
 <?code-excerpt "misc/lib/language_tour/typedefs/sorted_collection_1.dart"?>
 {% prettify dart %}
@@ -3831,23 +3834,22 @@ class SortedCollection {
   }
 }
 
-// Initial, broken implementation.
+// Initial, broken implementation. // broken ？
 int sort(Object a, Object b) => 0;
 
 void main() {
   SortedCollection coll = SortedCollection(sort);
 
-  // All we know is that compare is a function,
-  // but what type of function?
+  // 虽然知道 compare 是函数，
+  // 但是函数是什么类型 ？
   assert(coll.compare is Function);
 }
 {% endprettify %}
 
-当把  `f` 赋值给 `compare` 的时候， 类型信息丢失了。
+当把  `f` 赋值给 `compare` 的时候，类型信息丢失了。
 `f` 的类型是 `(Object, ``Object)` → `int` (这里 → 代表返回值类型)，
-当然该类型是一个 Function。如果我们使用显式的名字并保留类型信息，
-开发者和工具可以使用
-这些信息：
+但是 `compare` 得到的类型是 Function 。如果我们使用显式的名字并保留类型信息，
+这样开发者和工具都可以使用这些信息：
 
 
 <?code-excerpt "misc/lib/language_tour/typedefs/sorted_collection_2.dart"?>
@@ -3872,13 +3874,13 @@ void main() {
 
 <aside class="alert alert-info" markdown="1">
 **提示：**
-目前，typedefs 只能使用在 function 类型上，
-但今后可能会有变化。
+目前，typedefs 只能使用在函数类型上，
+我们希望将来这种情况有所改变。
 </aside>
 
 
-由于 typedefs 只是别名，他们还提供了一种
-判断任意 function 的类型的方法。例如：
+由于 typedefs 只是别名，
+他们还提供了一种方式来判断任意函数的类型。例如：
 
 
 <?code-excerpt "misc/lib/language_tour/typedefs/misc.dart (compare)"?>
@@ -3894,16 +3896,14 @@ void main() {
 
 ## 元数据
 
-使用元数据给你的代码添加其他额外信息。
-元数据注解是以 `@` 字符开头，后面是一个编译时
-常量(例如 `deprecated`)或者
-调用一个常量构造函数。
+使用元数据可以提供有关代码的其他信息。
+元数据注释以字符 `@` 开头，
+后跟对编译时常量 (如 `deprecated`) 的引用或对常量构造函数的调用。
 
-有三个注解所有的 Dart 代码都可以使用： `@deprecated`、
-`@override`、 和 `@proxy`。关于 `@override` 和
-`@proxy` 示例请参考 [Extending a class](#extending-a-class)。
-下面是使用 `@deprecated` 的
-示例：
+对于所有 Dart 代码有两种可用注解：`@deprecated` 和 `@override`。
+关于 `@override` 的使用，
+参考 [Extending a class](#extending-a-class)。
+下面是使用 `@deprecated` 注解的示例：
 
 
 <?code-excerpt "misc/lib/language_tour/metadata/television.dart (deprecated)" replace="/@deprecated/[!$&!]/g"?>
@@ -3920,7 +3920,7 @@ class Television {
 }
 {% endprettify %}
 
-你还可以定义自己的元数据注解。
+可以自定义元数据注解。
 下面的示例定义了一个带有两个参数的 @todo 注解：
 
 <?code-excerpt "misc/lib/language_tour/metadata/todo.dart"?>
@@ -3948,25 +3948,21 @@ void doSomething() {
 {% endprettify %}
 
 元数据可以在 library、 class、 typedef、 type parameter、
-constructor、 factory、 function、 field、 parameter、或者 variable
+constructor、 factory、 function、 field、 parameter 或者 variable
 声明之前使用，也可以在 import 或者 export 指令之前使用。
-使用反射可以在运行时获取元数据
-信息。
-
+使用反射可以在运行时获取元数据信息。
 
 
 ## 注释
 
-Dart 支持单行注释、多行注释和
-文档注释。
+Dart 支持单行注释、多行注释和文档注释。
 
 
 
 ### 单行注释
 
-单行注释以 `//` 开始。 `//` 后面的一行内容
-为 Dart 代码注释。
-
+单行注释以 `//` 开始。 
+所有在 `//` 和改行结尾之间的内容被编译器忽略。
 
 <?code-excerpt "misc/lib/language_tour/comments.dart (single-line-comments)"?>
 {% prettify dart %}
@@ -3979,10 +3975,10 @@ void main() {
 
 ### 多行注释
 
-多行注释以  `/*`  开始， `*/` 结尾。
-多行注释
-可以
-嵌套。
+多行注释以  `/*`  开始， 以 `*/` 结尾。
+所有在 `/*` 和 `*/` 之间的内容被编译器忽略
+（不会忽略文档注释）。
+多行注释可以嵌套。
 
 
 <?code-excerpt "misc/lib/language_tour/comments.dart (multi-line-comments)"?>
@@ -4002,64 +3998,61 @@ void main() {
 
 ### 文档注释
 
-文档注释可以使用 `///` 开始，
-也可以使用 `/**` 开始
-并以  */ 结束。
+文档注释可以是多行注释，也可以是单行注释，
+文档注释以 `///` 或者 `/**` 开始。
+在连续行上使用 `///` 与多行文档注释具有相同的效果。
 
-在文档注释内， Dart 编译器忽略除了中括号以外的内容。
-使用中括号可以引用
-classes、 methods、 fields、 top-level variables、 functions、 和
-parameters。中括号里面的名字使用
-当前注释出现地方的语法范围查找对应的成员。
+在文档注释中，除非用中括号括起来，否则Dart 编译器会忽略所有文本。
+使用中括号可以引用类、 方法、 字段、 顶级变量、 函数、 和参数。
+括号中的符号会在已记录的程序元素的词法域中进行解析。
 
-下面是一个引用其他类和成员
-的文档注释：
+下面是一个引用其他类和成员的文档注释：
 
 
 <?code-excerpt "misc/lib/language_tour/comments.dart (doc-comments)"?>
 {% prettify dart %}
 /// A domesticated South American camelid (Lama glama).
 ///
-/// Andean cultures have used llamas as meat and pack
-/// animals since pre-Hispanic times.
+/// 自从西班牙时代以来，
+/// 安第斯文化就将骆驼当做肉食类和运输类动物。
 class Llama {
   String name;
 
-  /// Feeds your llama [Food].
+  /// 喂养骆驼 [Food].
   ///
-  /// The typical llama eats one bale of hay per week.
+  /// 典型的美洲驼每周吃一捆干草。
   void feed(Food food) {
     // ...
   }
 
-  /// Exercises your llama with an [activity] for
-  /// [timeLimit] minutes.
+  /// 使用 [activity] 训练骆驼
+  /// [timeLimit] 分钟。
   void exercise(Activity activity, int timeLimit) {
     // ...
   }
 }
 {% endprettify %}
 
-在生成的文档中，`[Food]` 变为一个连接
-到 Food 类 API 文档的链接。
+在生成的文档中，`[Food]` 会成为一个链接，
+指向 Food 类的 API 文档。
 
-使用 SDK 中的
-[文档生成工具](https://github.com/dart-lang/dartdoc#dartdoc)可以解析文档并生成 HTML 网页。
-关于生成的文档示例，请参考 [Dart API
-文档。]({{site.dart_api}}) 
-关于如何组织文档的建议，请参考
+解析 Dart 代码并生成 HTML 文档，可以使用 SDK 中的
+[documentation generation tool.](https://github.com/dart-lang/dartdoc#dartdoc)
+关于生成文档的实例，请参考 [Dart API
+documentation.]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}})
+关于文档结构的建议，请参考 
 [Guidelines for Dart Doc Comments.](/guides/language/effective-dart/documentation)
 
 
 ## 总结
 
-该页内容介绍了常见的 Dart 语言特性。
-还有更多特性有待实现，但是新的特性不会破坏已有的代码。
-有关更多信息，参见
+本页概述了 Dart 语言中常用的功能。
+还有更多特性有待实现，但我们希望它们不会破坏现有代码。
+有关更多信息，请参考
 [Dart Language Specification](/guides/language/spec) 和
 [Effective Dart](/guides/language/effective-dart).
 
-要了解 Dart 核心库的详情，请参考
+要了解更多关于 Dart 核心库的内容，请参考
 [A Tour of the Dart Libraries](/guides/libraries/library-tour).
 
 [AssertionError]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/AssertionError-class.html
@@ -4069,7 +4062,7 @@ class Llama {
 [dart:math]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-math
 [dart]: /dart-vm/tools/dart-vm
 [dartdevc]: {{site.webdev}}/tools/dartdevc
-[不要冗余地使用 const]: /guides/language/effective-dart/usage#dont-use-const-redundantly
+[DON’T use const redundantly]: /guides/language/effective-dart/usage#dont-use-const-redundantly
 [double]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/double-class.html
 [Error]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Error-class.html
 [Exception]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Exception-class.html
