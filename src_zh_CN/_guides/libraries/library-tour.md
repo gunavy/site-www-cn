@@ -1,23 +1,23 @@
 ---
-title: A Tour of the Dart Libraries
+title: Dart 库概览
 description: Learn about the major features in Dart's libraries.
-short-title: Library Tour
+short-title: 库概览
 ---
 <?code-excerpt plaster="none"?>
 
-This tour shows how to use the main features of the following libraries,
-which are included in all Dart platforms:
+本章将介绍以下库的主要功能及使用方式，
+所有Dart平台中都包含这些库：
 
 {% comment %}
 [CHECK: is "all" guaranteed to stay true?]
 {% endcomment %}
 
 [dart:core](#dartcore---numbers-collections-strings-and-more)
-: Built-in types, collections, and other core functionality.
-  This library is automatically imported into every Dart program.
+: 内置类型，集合和其它核心功能。 
+  该库会被自动导入到所有的 Dart 程序。
 
 [dart:async](#dartasync---asynchronous-programming)
-: Support for asynchronous programming, with classes such as Future and Stream.
+: 支持异步编程，包括Future和Stream等类。
 
 {% comment %}
 update-for-dart-2
@@ -25,31 +25,32 @@ Q: When will Future move to dart:core?
 {% endcomment %}
 
 [dart:math](#dartmath---math-and-random)
-: Mathematical constants and functions, plus a random number generator.
+: 数学常数和函数，以及随机数生成器。
 
 [dart:convert](#dartconvert---decoding-and-encoding-json-utf-8-and-more)
-: Encoders and decoders for converting between different data representations, including JSON and UTF-8.
+: 用于在不同数据表示之间进行转换的编码器和解码器，包括 JSON 和 UTF-8 。
 
-This page is just an overview;
-it covers only a few dart:* libraries
-and no third-party libraries.
-The platform-specific dart:io and dart:html libraries
-are covered in the [dart:io tour][] and the [dart:html tour.][dart:html tour]
+本页只是一个概述；
+只涵盖了几个 dart:* 库，
+不包括第三方库。
+特定平台库 dart:io 和 dart:html
+的介绍，详见 [dart:io tour][] 和 [dart:html tour.][dart:html tour]
 
-Other places to find library information are
-[pub.dartlang.org][pub.dartlang.org] and the
-[Dart web developer library guide.][webdev libraries]
-You can find API documentation for all dart:* libraries in the
-[Dart API reference][Dart API] or, if you're using Flutter,
-the [Flutter API reference.][docs.flutter.io]
+更多库信息可以在
+[pub.dartlang.org][pub.dartlang.org] 和
+[Dart web developer library guide.][webdev libraries] 查找。
+所有 dart:* 库的 API 文档可以在
+[Dart API reference][Dart API] 查找， 如果使用的是 Flutter
+可以在 [Flutter API reference.][docs.flutter.io] 查找。
 
 <aside class="alert alert-info" markdown="1">
 **DartPad tip:**
-You can play with the code in this page
-by copying it into a [DartPad.][DartPad]
-Note, however, that [assert][] statements are no-ops in DartPad
-because DartPad executes in production mode, not checked mode.
-An easy workaround: **change `assert` to `print`.**
+可以通过将该页中的代码拷贝到 [DartPad.][DartPad]
+中进行演示。
+但请注意， [assert][] 语句在 DartPad 中是无操作的，
+因为 DartPad 在生产模式下执行，而不是在检查模式下执行。 
+一个简单的解决方法：
+**将 `assert` 更改为 `print` 。** 
 <br>
 <br>
 
@@ -86,16 +87,16 @@ https://github.com/dart-lang/dart-pad/issues/310
 
 ## dart:core - numbers, collections, strings, and more
 
-The dart:core library ([API reference][dart:core])
-provides a small but critical set of built-in functionality.
-This library is automatically imported into every Dart program.
+dart:core 库 ([API reference][dart:core])
+提供了一个少量但是重要的内置功能集合。
+该库会被自动导入每个 Dart 程序。
 
 
-### Printing to the console
+### 终端打印
 
-The top-level `print()` method takes a single argument (any Object)
-and displays that object's string value (as returned by `toString()`)
-in the console.
+顶级 `print()` 方法接受一个参数 任意对象）
+并输出显示这个对象的字符串值(由 `toString()` 返回) 
+到控制台。
 
 <?code-excerpt "misc/test/library_tour/core_test.dart (print)"?>
 {% prettify dart %}
@@ -103,7 +104,7 @@ print(anObject);
 print('I drink $tea.');
 {% endprettify %}
 
-For more information on basic strings and `toString()`, see
+有关基本字符串和 `toString()` 的更多信息，参考
 [Strings](/guides/language/language-tour#strings) in the language tour.
 
 
