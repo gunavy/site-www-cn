@@ -742,7 +742,7 @@ assert(uri == decoded);
 
 #### 解析 URI
 
-可以使用 Uri 对象的字段（例如 `path`），
+使用 Uri 对象的字段（例如 `path`），
 来获取一个 Uri 对象或者 URI 字符串的一部分。
 使用 `parse()` 静态方法，可以使用字符串创建 Uri 对象。
 
@@ -762,7 +762,7 @@ assert(uri.origin == 'http://example.org:8080');
 
 #### 构建 URI
 
-可以使用 `Uri()` 构造函数，可以将各组件部分构建成 URI 。
+使用 `Uri()` 构造函数，可以将各组件部分构建成 URI 。
 
 <?code-excerpt "misc/test/library_tour/core_test.dart (Uri)"?>
 {% prettify dart %}
@@ -776,37 +776,36 @@ assert(
 {% endprettify %}
 
 
-### Dates and times
+### Dates 和 times
 
-A DateTime object is a point in time. The time zone is either UTC or the
-local time zone.
 
-You can create DateTime objects using several constructors:
+DateTime 对象代表某个时刻，时区可以是 UTC 或者 本地时区。
+
+DateTime 对象可以通过若干构造函数创建：
 
 <?code-excerpt "misc/test/library_tour/core_test.dart (DateTime)"?>
 {% prettify dart %}
-// Get the current date and time.
+// 获取当前时刻。
 var now = DateTime.now();
 
-// Create a new DateTime with the local time zone.
+// 更具本地时区创建 DateTime 对象。
 var y2k = DateTime(2000); // January 1, 2000
 
-// Specify the month and day.
+// 指定年月日。
 y2k = DateTime(2000, 1, 2); // January 2, 2000
 
-// Specify the date as a UTC time.
+// 将日期指定为 UTC 时区。
 y2k = DateTime.utc(2000); // 1/1/2000, UTC
 
-// Specify a date and time in ms since the Unix epoch.
+// 指定自Unix纪元以来，以毫秒为单位的日期和时间。
 y2k = DateTime.fromMillisecondsSinceEpoch(946684800000,
     isUtc: true);
 
-// Parse an ISO 8601 date.
+// 解析ISO 8601日期。
 y2k = DateTime.parse('2000-01-01T00:00:00Z');
 {% endprettify %}
 
-The `millisecondsSinceEpoch` property of a date returns the number of
-milliseconds since the “Unix epoch”—January 1, 1970, UTC:
+日期中 `millisecondsSinceEpoch` 属性返回自 “Unix纪元（January 1, 1970, UTC）“以来的毫秒数：
 
 <?code-excerpt "misc/test/library_tour/core_test.dart (millisecondsSinceEpoch)"?>
 {% prettify dart %}
@@ -819,50 +818,50 @@ var unixEpoch = DateTime.utc(1970);
 assert(unixEpoch.millisecondsSinceEpoch == 0);
 {% endprettify %}
 
-Use the Duration class to calculate the difference between two dates and
-to shift a date forward or backward:
+使用 Duration 类来计算两个日期的查，也可以对时刻进行前移和后移操作：
 
 <?code-excerpt "misc/test/library_tour/core_test.dart (Duration)"?>
 {% prettify dart %}
 var y2k = DateTime.utc(2000);
 
-// Add one year.
+// 增加一年。
 var y2001 = y2k.add(const Duration(days: 366));
 assert(y2001.year == 2001);
 
-// Subtract 30 days.
+// 减少30天。
 var december2000 =
     y2001.subtract(const Duration(days: 30));
 assert(december2000.year == 2000);
 assert(december2000.month == 12);
 
-// Calculate the difference between two dates.
-// Returns a Duration object.
+// 计算两个时刻之间的查，
+// 返回 Duration 对象。
 var duration = y2001.difference(y2k);
 assert(duration.inDays == 366); // y2k was a leap year.
 {% endprettify %}
 
 <div class="alert alert-warning" markdown="1">
-**Warning:**
-Using a Duration to shift a DateTime by days can be problematic, due
-to clock shifts (to daylight saving time, for example). Use UTC dates
-if you must shift days.
+**警告：**
+由于时钟转换（例如，夏令时）的原因，
+使用 Duration 对 DateTime 按天移动可能会有问题。 
+如果要按照天数来位移时间，请使用 UTC 日期。
 </div>
 
-Refer to the API docs for [DateTime][] and [Duration][] for a full list of methods.
+参考 [DateTime][] 和 [Duration][] API 文档了解全部方法列表。
 
 
-### Utility classes
+### 工具类
 
-The core library contains various utility classes, useful for sorting,
-mapping values, and iterating.
+核心库包含各种工具类，可用于排序，映射值以及迭代。
 
-#### Comparing objects
+#### 比较对象
 
-Implement the [Comparable][]
-interface to indicate that an object can be compared to another object,
-usually for sorting. The `compareTo()` method returns \< 0 for
-*smaller*, 0 for the *same*, and \> 0 for *bigger*.
+如果实现了 [Comparable][] 接口，
+也就是说可以将该对象与另一个对象进行比较，
+通常用于排序。
+`compareTo()` 方法在 *小于* 时返回 \< 0，
+在 *相等* 时返回 0，
+在 *大于* 时返回  \> 0。
 
 <?code-excerpt "misc/lib/library_tour/core/comparable.dart"?>
 {% prettify dart %}
@@ -883,12 +882,12 @@ void main() {
 
 #### Implementing map keys
 
-Each object in Dart automatically provides an integer hash code, and
-thus can be used as a key in a map. However, you can override the
-`hashCode` getter to generate a custom hash code. If you do, you might
-also want to override the `==` operator. Objects that are equal (via
-`==`) must have identical hash codes. A hash code doesn’t have to be
-unique, but it should be well distributed.
+在 Dart 中每个对象会默认提供一个整数的哈希值，
+因此在 map 中可以作为 key 来使用，
+重写 `hashCode` 的 getter 方法来生成自定义哈希值。
+如果重写 `hashCode` 的 getter 方法，那么可能还需要重写 `==` 运算符。
+相等的（通过 `==` ）对象必须拥有相同的哈希值。
+哈希值并不要求是唯一的， 但是应该具有良好的分布形态。。
 
 {% comment %}
 Note: There’s disagreement over whether to include identical() in the ==
@@ -904,8 +903,8 @@ class Person {
 
   Person(this.firstName, this.lastName);
 
-  // Override hashCode using strategy from Effective Java,
-  // Chapter 11.
+  // 重写 hashCode，实现策略源于  Effective Java，
+  // 第11章。
   @override
   int get hashCode {
     int result = 17;
@@ -914,8 +913,7 @@ class Person {
     return result;
   }
 
-  // You should generally implement operator == if you
-  // override hashCode.
+  // 如果重写了 hashCode，通常应该从新实现 == 操作符。
   @override
   bool operator ==(dynamic other) {
     if (other is! Person) return false;
@@ -935,12 +933,11 @@ void main() {
 }
 {% endprettify %}
 
-#### Iteration
+#### 迭代
 
-The [Iterable][] and [Iterator][] classes
-support for-in loops. Extend (if possible) or implement Iterable
-whenever you create a class that can provide Iterators for use in for-in
-loops. Implement Iterator to define the actual iteration ability.
+Iterable][] 和 [Iterator][] 类支持 for-in 循环。
+当创建一个类的时候，继承或者实现 Iterable，可以为该类提供用于 for-in 循环的 Iterators。
+实现 Iterator 来定义实际的遍历操作。
 
 <?code-excerpt "misc/lib/library_tour/core/iterator.dart"?>
 {% prettify dart %}
@@ -971,26 +968,24 @@ void main() {
 {% endprettify %}
 
 
-### Exceptions
+### 异常
 
-The Dart core library defines many common exceptions and errors.
-Exceptions are considered conditions that you can plan ahead for and
-catch. Errors are conditions that you don’t expect or plan for.
+Dart 核心库定义了很多公共的异常和错误类。
+异常通常是一些可以预见和预知的情况。
+错误是无法预见或者预防的情况。
 
-A couple of the most common errors are:
+两个最常见的错误：
 
 [NoSuchMethodError][]
 
-:   Thrown when a receiving object (which might be null) does not
-    implement a method.
+:   当方法的接受对象（可能为null）没有实现该方法时抛出。
 
 [ArgumentError][]
 
-:   Can be thrown by a method that encounters an unexpected argument.
+:   当方法在接受到一个不合法参数时抛出。
 
-Throwing an application-specific exception is a common way to indicate
-that an error has occurred. You can define a custom exception by
-implementing the Exception interface:
+通常通过抛出一个应用特定的异常，来表示应用发生了错误。
+通过实现 Exception 接口来自定义异常。
 
 <?code-excerpt "misc/lib/library_tour/core/exception.dart"?>
 {% prettify dart %}
@@ -1004,29 +999,28 @@ class FooException implements Exception {
 }
 {% endprettify %}
 
-For more information, see [Exceptions](#exceptions) and the [Exception API docs.][Exception]
+更多内容，参考 [Exceptions](#exceptions) 以及 [Exception API 文档。][Exception]
 
 
-## dart:async - asynchronous programming
+## dart:async - 异步编程
 
-Asynchronous programming often uses callback functions, but Dart
-provides alternatives: [Future][] and [Stream][] objects. A
-Future is like a promise for a result to be provided sometime in the
-future. A Stream is a way to get a sequence of values, such as events.
-Future, Stream, and more are in the
-dart:async library ([API reference][dart:async]).
+异步编程通常使用回调方法来实现，但是 Dart
+提供了其它方案：[Future][] 和 [Stream][] 对象。
+Future 类似与 JavaScript 中的 Promise ，
+代表在将来某个时刻会返回一个结果。
+Stream 类可以用来获取一系列的值，比如，一些列事件。
+Future， Stream，以及更多内容，参考
+dart:async library ([API reference][dart:async])。
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-You don't always need to use the Future or Stream APIs directly.
-The Dart language supports asynchronous coding
-using keywords such as `async` and `await`.
-See [Asynchrony support](/guides/language/language-tour#asynchrony-support)
-in the language tour for details.
+**提示：**
+你并不总是需要直接使用 Future 或 Stream 的 API。
+Dart 语言支持使用关键字（例如，`async` 和 `await` ）来实现异步编程。
+更多详情，参考语言概览中 [Asynchrony support](/guides/language/language-tour#asynchrony-support)。
 </div>
 
-The dart:async library works in both web apps and command-line apps. To
-use it, import dart:async:
+dart:async 库可以工作在 web 应用及 command-line 应用。
+通过 import dart:async 来使用。
 
 <?code-excerpt "misc/lib/library_tour/async/future.dart (import)"?>
 {% prettify dart %}
@@ -1036,20 +1030,17 @@ import 'dart:async';
 
 ### Future
 
-Future objects appear throughout the Dart libraries, often as the object
-returned by an asynchronous method. When a future *completes*, its value
-is ready to use.
+在 Dart 库中随处可见 Future 对象，通常异步函数返回的对象就是一个 Future。
+当一个 future *完成执行后*，future 中的值就已经可以使用了。
 
+#### 使用 await
 
-#### Using await
+在直接使用 Future API 前，首先应该考虑 `await` 来替代。
+代码中使用 `await` 表达式会比直接使用 Future API 更容易理解。
 
-Before you directly use the Future API, consider using `await` instead.
-Code that uses `await` expressions can be easier to understand
-than code that uses the Future API.
-
-Consider the following function.  It uses Future's `then()` method
-to execute three asynchronous functions in a row,
-waiting for each one to complete before executing the next one.
+阅读思考下面代码。
+代码使用 Future 的 `then()` 方法在同一行执行了三个异步函数，
+要等待上一个执行完成，再执行下一个任务之。
 
 <?code-excerpt "misc/lib/library_tour/async/future.dart (runUsingFuture)"?>
 {% prettify dart %}
@@ -1061,8 +1052,8 @@ runUsingFuture() {
 }
 {% endprettify %}
 
-The equivalent code with await expressions
-looks more like synchronous code:
+通过 await 表达式实现等价的代码，
+看起来非常像同步代码：
 
 <?code-excerpt "misc/lib/library_tour/async/future.dart (runUsingAsyncAwait)"?>
 {% prettify dart %}
@@ -1074,8 +1065,8 @@ runUsingAsyncAwait() async {
 }
 {% endprettify %}
 
-An async function can catch exceptions from Futures.
-For example:
+async 函数能够捕获来自 Future 的异常。
+例如：
 
 <?code-excerpt "misc/lib/library_tour/async/future.dart (catch)"?>
 {% prettify dart %}
@@ -1089,27 +1080,29 @@ try {
 {% endprettify %}
 
 <div class="alert alert-warning" markdown="1">
-**Important:**
-Async functions return Futures.
-If you don't want your function to return a future,
-then use a different solution.
-For example, you might call an async function from your function.
+**重要：**
+async 函数 返回 Future 对象。
+如果你不希望你的函数返回一个 future 对象，
+可以使用其他方案。
+例如，你可以在你的方法中调用一个 async 方法。
 </div>
 
-For more information on using `await` and related Dart language features,
-see [Asynchrony support](/guides/language/language-tour#asynchrony-support).
+更多关于 `await` 的使用及相关的 Dart 语言特征，参考
+[Asynchrony support](/guides/language/language-tour#asynchrony-support)。
 
 
-#### Basic usage
+#### 基本用法
 
 {% comment %}
 [PENDING: Delete much of the following content in favor of the tutorial coverage?]
 {% endcomment %}
 
-You can use `then()` to schedule code that runs when the future completes. For
-example, `HttpRequest.getString()` returns a Future, since HTTP requests
-can take a while. Using `then()` lets you run some code when that Future
-has completed and the promised string value is available:
+当 future 执行完成后，`then()` 中的代码会被执行。
+
+`then()` 中的代码会在 future 完成后被执行。
+例如，
+`HttpRequest.getString()` 返回一个 future 对象，因为 HTTP 请求可能需要一段时间。
+当 Future 完成并且保证字符串值有效后，使用 `then()` 来执行你需要的代码：
 
 <?code-excerpt "misc/lib/library_tour/async/basic.dart (then)"?>
 {% prettify dart %}
@@ -1118,8 +1111,7 @@ HttpRequest.getString(url).then((String result) {
 });
 {% endprettify %}
 
-Use `catchError()` to handle any errors or exceptions that a Future
-object might throw.
+使用 `catchError()` 来处理一些 Future 对象可能抛出的错误或者异常。
 
 <?code-excerpt "misc/lib/library_tour/async/basic.dart (catchError)"?>
 {% prettify dart %}
@@ -1130,25 +1122,24 @@ HttpRequest.getString(url).then((String result) {
 });
 {% endprettify %}
 
-The `then().catchError()` pattern is the asynchronous version of
-`try`-`catch`.
+`then().catchError()` 组合是 `try`-`catch` 的异步版本。
 
 <div class="alert alert-warning" markdown="1">
-**Important:**
-Be sure to invoke `catchError()` on the result of `then()`—not on the
-result of the original Future. Otherwise, the `catchError()` can
-handle errors only from the original Future's computation, but not
-from the handler registered by `then()`.
+**重要：**
+确保调用 `catchError()` 方式在 `then()` 的结果上，而不是在原来的 Future 对象上调用。
+否则的话，`catchError()` 就只能处理原来 Future 对象抛出的异常，
+而无法处理 `then()` 代码里面的异常。
 </div>
 
 
-#### Chaining multiple asynchronous methods
+#### 链式异步编程
 
-The `then()` method returns a Future, providing a useful way to run
-multiple asynchronous functions in a certain order. If the callback
-registered with `then()` returns a Future, `then()` returns an
-equivalent Future. If the callback returns a value of any other type,
-`then()` creates a new Future that completes with the value.
+`then()` 方法返回一个 Future 对象， 
+这样就提供了一个非常好的方式让多个异步方法按顺序依次执行。
+如果用 `then()` 注册的回调返回一个 Future ，
+那么 `then()` 返回一个等价的 Future 。 
+如果回调返回任何其它类型的值，
+那么 `then()` 会创建一个以该值完成的新 Future 。
 
 <?code-excerpt "misc/lib/library_tour/async/future.dart (then-chain)"?>
 {% prettify dart %}
@@ -1162,13 +1153,13 @@ result
 });
 {% endprettify %}
 
-In the preceding example, the methods run in the following order:
+在上面的示例中，方法按下面顺序执行：
 
 1.  `costlyQuery()`
 2.  `expensiveWork()`
 3.  `lengthyComputation()`
 
-Here is the same code written using await:
+这是使用 await 编写的等效代码：
 
 <?code-excerpt "misc/lib/library_tour/async/future.dart (then-chain-as-await)"?>
 {% prettify dart %}
@@ -1183,11 +1174,11 @@ try {
 {% endprettify %}
 
 
-#### Waiting for multiple futures
+#### 等待多个 Future
 
-Sometimes your algorithm needs to invoke many asynchronous functions and
-wait for them all to complete before continuing. Use the [Future.wait()][]
-static method to manage multiple Futures and wait for them to complete:
+有时代码逻辑需要调用多个异步函数，
+并等待它们全部完成后再继续执行。
+使用 [Future.wait()][] 静态方法管理多个 Future 以及等待它们完成：
 
 <?code-excerpt "misc/lib/library_tour/async/future.dart (wait)" replace="/elideBody;/\/* ... *\//g"?>
 {% prettify dart %}
