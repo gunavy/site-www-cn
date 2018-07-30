@@ -33,7 +33,7 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?horizontalRatio=70&verticalRatio=
 | **平台** | | **案例** | **入门** |
 | **移动端** | <i class="fab fa-android" aria-hidden="true"></i> <i class="fab fa-apple" aria-hidden="true"></i> | 开发运行在 iOS 和 Android 两端的应用仅需要一份代码库。 | <a href="https://flutter.io/getting-started/" class="btn btn-primary no-automatic-external">Flutter</a> |
 | **Web** | <i class="fas fa-code fa-sm" aria-hidden="true"></i> | 开发可以运行在任意的新式浏览器上应用。 | <a href="{{site.webdev}}/guides/get-started" class="btn btn-primary no-automatic-external">Dart webdev</a> |
-| **服务器** | <i class="fas fa-terminal fa-sm" aria-hidden="true"></i> | 开发命令行应用或者服务器应用。 | <a href="/tutorials/dart-vm/get-started" class="btn btn-primary">Dart VM</a> |
+| **服务器** | <i class="fas fa-terminal fa-sm" aria-hidden="true"></i> | 开发命令行应用或者服务器应用。 | <a href="/tutorials/dart-vm/get-started" class="btn btn-primary">Server-side Dart</a> |
 {:.get-started-table}
 
 一些其他资源：

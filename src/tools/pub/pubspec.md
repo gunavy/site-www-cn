@@ -1,7 +1,5 @@
 ---
-layout: default
-permalink: /tools/pub/pubspec
-title: "Pubspec Format"
+title: Pubspec Format
 ---
 
 Every [pub](/tools/pub) package needs some metadata so it can specify its
@@ -192,7 +190,7 @@ with that URL. If provided, a link to it is shown on your package's page.
 
 If you specify the `documentation:` field with a blank value,
 documentation is created automatically for you, and is linked to from
-[pub.dartlang.com](https://pub.dartlang.org/).
+[pub.dartlang.org]({{site.pub}}).
 
 ### Dependencies
 
@@ -262,22 +260,22 @@ separate top-level `environment` field in the pubspec and uses the same
 dependencies.
 
 For example, the following constraint says that this package
-works with any 1.x Dart SDK that's version 1.23.0 or higher:
+works with any **Dart 2** SDK that's version 2.0.0-dev.67.0 or higher:
 
 {% prettify yaml %}
 environment:
-  sdk: '>=1.23.0 <2.0.0'
+  sdk: '>=2.0.0-dev.67.0 <3.0.0'
 {% endprettify %}
 
 Pub tries to find the latest version of a package whose SDK constraint works
 with the version of the Dart SDK that you have installed.
 
 <aside class="alert alert-warning" markdown="1">
-**Don't use caret syntax** (`^`) for the SDK constraint,
-and **do include an upper bound** (`<2.0.0`, usually).
-Packages that break these rules might stop working in the future
-and, for that reason, might not be allowed on pub.dartlang.org.
-For more information, see [Dart 2 Updates.](/dart-2)
+  **Don't use caret syntax** (`^`) for the SDK constraint,
+  and **do include an upper bound** (`<3.0.0`, usually).
+  Packages that break these rules might stop working in the future
+  and, for that reason, might not be allowed on pub.dartlang.org.
+  For more information, see [Dart 2 Updates.](/dart-2)
 </aside>
 
 
@@ -288,7 +286,7 @@ pub supports Flutter SDK constraints under the `environment:` field, like so:
 
 {% prettify yaml %}
 environment:
-  sdk: '>=1.19.0 <2.0.0'
+  sdk: '>=1.19.0 <3.0.0'
   flutter: ^0.1.2
 {% endprettify %}
 

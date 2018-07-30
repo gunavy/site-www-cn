@@ -2994,7 +2994,7 @@ class A {
 该实现与 `Object` 类中的实现不同。
 
 有关更多信息，参考
-[nosuchMethod forwarding specification.](https://github.com/dart-lang/sdk/blob/master/docs/language/informal/nosuchmethod-forwarding.md)
+[noSuchMethod forwarding specification.](https://github.com/dart-lang/sdk/blob/master/docs/language/informal/nosuchmethod-forwarding.md)
 
 
 <a id="enums"></a>
