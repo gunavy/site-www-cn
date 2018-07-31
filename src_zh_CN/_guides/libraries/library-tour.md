@@ -1197,20 +1197,17 @@ print('Done with all the long steps!');
 
 ### Stream
 
-Stream objects appear throughout Dart APIs, representing sequences of
-data. For example, HTML events such as button clicks are delivered using
-streams. You can also read a file as a stream.
+在 Dart API 中 Stream 对象随处可见，Stream 用来表示一些列数据。
+例如，HTML 中的按钮点击就是通过 stream 传递的。
+同样也可以将文件作为数据流来读取。
 
+#### 异步循环
 
-#### Using an asynchronous for loop
+有时，可以使用异步 for 循环 `await for` ，来替代 Stream API 。
 
-Sometimes you can use an asynchronous for loop (`await for`)
-instead of using the Stream API.
-
-Consider the following function.
-It uses Stream's `listen()` method
-to subscribe to a list of files,
-passing in a function literal that searches each file or directory.
+思考下面示例函数。
+它使用 Stream 的 `listen()` 方法来订阅文件列表，
+传入一个搜索文件或目录的函数。
 
 <!-- OLD dart-tutorials-samples/cmdline/bin/dgrep.dart -->
 <?code-excerpt "misc/lib/library_tour/async/stream.dart (listen)" replace="/listen/[!$&!]/g"?>
@@ -1236,9 +1233,8 @@ void main(List<String> arguments) {
 }
 {% endprettify %}
 
-The equivalent code with await expressions,
-including an asynchronous for loop (`await for`),
-looks more like synchronous code:
+下面是使用 await 表达式和异步 for 循环 (`await for`) 实现的等价的代码，
+看起来更像是同步代码：
 
 <?code-excerpt "misc/lib/library_tour/async/stream.dart (await-for)" replace="/await for/[!$&!]/g"?>
 {% prettify dart %}
@@ -1260,13 +1256,13 @@ Future main(List<String> arguments) async {
 {% endprettify %}
 
 <div class="alert alert-warning" markdown="1">
-**Important:**
-Before using `await for`, make sure that it makes the code clearer
-and that you really do want to wait for all of the stream's results.
-For example, you usually should **not** use `await for` for DOM event listeners,
-because the DOM sends endless streams of events.
-If you use `await for` to register two DOM event listeners in a row,
-then the second kind of event is never handled.
+**重要：**
+在使用 `await for` 前，确认这样能保持代码清晰，
+并希望获取所有 stream 的结果。
+例如，你通常并 **不** 会使用 `await for` 来监听 DOM 事件，
+因为 DOM 会发送无尽的流事件。
+如果在同一行使用 `await for` 注册两个 DOM 事件，
+那么第二个事件永远不会被处理。
 </div>
 
 For more information on using `await` and related
