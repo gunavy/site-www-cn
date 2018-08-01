@@ -1265,47 +1265,42 @@ Future main(List<String> arguments) async {
 那么第二个事件永远不会被处理。
 </div>
 
-For more information on using `await` and related
-Dart language features, see
-[Asynchrony support](/guides/language/language-tour#asynchrony-support).
+有关 `await` 的使用及 Dart 语言的相关信息，参考
+[Asynchrony support](/guides/language/language-tour#asynchrony-support)。
 
 
-#### Listening for stream data
+#### 监听流数据（stream data）
 
-To get each value as it arrives, either use `await for` or
-subscribe to the stream using the `listen()` method:
+使用 `await for` 或者使用 `listen()` 方法监听 stream，
+来获取每个到达的数据流值：
 
 <?code-excerpt "misc/lib/library_tour/async/stream_web.dart (listen)" replace="/await for/[!$&!]/g"?>
 {% prettify dart %}
-// Find a button by ID and add an event handler.
+// 通过 ID 获取 button 并添加事件处理函数。
 querySelector('#submitInfo').onClick.listen((e) {
-  // When the button is clicked, it runs this code.
+  // 当 button 被点击是，该代码会执行。
   submitData();
 });
 {% endprettify %}
 
-In this example, the `onClick` property is a Stream object provided by
-the "submitInfo" button.
+下面示例中，ID 为 "submitInfo" button 提供的 `onClick` 属性是一个 Stream 对象。
 
-If you care about only one event, you can get it using a property such
-as `first`, `last`, or `single`. To test the event before handling it,
-use a method such as `firstWhere()`, `lastWhere()`, or `singleWhere()`.
+如果只关心其中一个事件，可以使用，例如，`first`， `last`，或 `single` 属性来获取。
+要在处理时间前对事件进行测试，可以使用，例如 `firstWhere()`， `lastWhere()`， 或 `singleWhere()` 方法。
 {% comment %}
 {PENDING: example}
 {% endcomment %}
 
-If you care about a subset of events, you can use methods such as
-`skip()`, `skipWhile()`, `take()`, `takeWhile()`, and `where()`.
+如果只关心事件中的一个子集，可以使用，例如，`skip()`， `skipWhile()`，`take()`，`takeWhile()`， 和 `where()`。
 {% comment %}
 {PENDING: example}
 {% endcomment %}
 
 
-#### Transforming stream data
+#### 传递流数据（stream data）
 
-Often, you need to change the format of a stream's data before you can
-use it. Use the `transform()` method to produce a stream with a
-different type of data:
+常常，在使用流数据前需要改变数据的格式。
+使用 `transform()` 方法生成具有不同类型数据的流：
 
 <?code-excerpt "misc/lib/library_tour/async/stream.dart (transform)"?>
 {% prettify dart %}
@@ -1314,26 +1309,25 @@ var lines = inputStream
     .transform(LineSplitter());
 {% endprettify %}
 
-This example uses two transformers. First it uses utf8.decoder to
-transform the stream of integers into a stream of strings. Then it uses
-a LineSplitter to transform the stream of strings into a stream of
-separate lines. These transformers are from the dart:convert library (see the
-[dart:convert section](#dartconvert---decoding-and-encoding-json-utf-8-and-more)).
+上面例子中使用了两个 transformer 。
+第一个使用 utf8.decoder 将整型流转换为字符串流。
+接着，使用了 LineSplitter 将字符串流转换为多行字符串流。
+这些 transformer 来自 dart:convert 库
+（参考[dart:convert section](#dartconvert---decoding-and-encoding-json-utf-8-and-more)）。
 {% comment %}
   PENDING: add onDone and onError. (See "Streaming file contents".)
 {% endcomment %}
 
 
-#### Handling errors and completion
+#### 处理错误和完成
 
-How you specify error and completion handling code
-depends on whether you use an asynchronous for loop (`await for`)
-or the Stream API.
+处理错误和完成代码方式，
+取决于使用的是 异步 for 循环（`await for`）还是 Stream API 。
 
-If you use an asynchronous for loop,
-then use try-catch to handle errors.
-Code that executes after the stream is closed
-goes after the asynchronous for loop.
+如果使用的是异步 for 循环，
+那么通过  try-catch 来处理错误。
+代码位于异步 for 循环之后，
+会在 stream 被关闭后执行。
 
 <?code-excerpt "misc/lib/library_tour/async/stream.dart (readFileAwaitFor)" replace="/try|catch/[!$&!]/g"?>
 {% prettify dart %}
@@ -1355,10 +1349,10 @@ Future readFileAwaitFor() async {
 }
 {% endprettify %}
 
-If you use the Stream API,
-then handle errors by registering an `onError` listener.
-Run code after the stream is closed by registering
-an `onDone` listener.
+如果使用的是 Stream API，
+那么通过注册 `onError` 监听来处理错误。
+代码位于注册的 `onDone` 中，
+会在 stream 被关闭后执行。
 
 <?code-excerpt "misc/lib/library_tour/async/stream.dart (onDone)" replace="/onDone|onError/[!$&!]/g"?>
 {% prettify dart %}
@@ -1378,11 +1372,11 @@ inputStream
 {% endprettify %}
 
 
-### More information
+### 更多内容
 
-For some examples of using Future and Stream in command-line apps,
-see the [dart:io tour.][dart:io tour]
-Also see these articles and tutorials:
+更多在 command-line 应用中使用 Future 和 Stream 的实例，参考
+[dart:io tour.][dart:io tour]
+也可以参考下列文章和教程：
 
 -   [Asynchronous Programming: Futures](/tutorials/language/futures)
 -   [Futures and Error Handling](/guides/libraries/futures-error-handling)
@@ -1391,16 +1385,15 @@ Also see these articles and tutorials:
 -   [Creating Streams in Dart](/articles/libraries/creating-streams)
 
 
-## dart:math - math and random
+## dart:math - 数学和随机数
 
-The dart:math library ([API reference][dart:math])
-provides common functionality such as sine and cosine,
-maximum and minimum, and constants such as *pi* and *e*. Most of the
-functionality in the Math library is implemented as top-level functions.
+dart:math 库（[API reference][dart:math]）
+提供通用的功能，例如，正弦和余弦，
+最大值和最小值，以及数学常数，例如 *pi* 和 *e*。
+大多数在 Math 库中的功能是作为顶级函数实现的。
 
-To use this library in your app, import dart:math. The following
-examples use the prefix `math` to make clear which top-level functions
-and constants are from the Math library:
+通过 import dart:math 来引入使用该库。
+下面的实例中使用 `math` 前缀，来说明顶级函数及常量源于 Math 库。
 
 <?code-excerpt "misc/test/library_tour/math_test.dart (import)"?>
 {% prettify dart %}
@@ -1408,9 +1401,9 @@ import 'dart:math';
 {% endprettify %}
 
 
-### Trigonometry
+### 三角函数
 
-The Math library provides basic trigonometric functions:
+Math 库提供基本的三角函数：
 
 <?code-excerpt "misc/test/library_tour/math_test.dart (trig)"?>
 {% prettify dart %}
@@ -1427,14 +1420,14 @@ assert((sinOf30degrees - 0.5).abs() < 0.01);
 {% endprettify %}
 
 <div class="alert alert-info" markdown="1">
-**Note:**
-These functions use radians, not degrees!
+**提示：**
+这些函数参数单位是弧度，不是角度！
 </div>
 
 
-### Maximum and minimum
+### 最大值和最小值
 
-The Math library provides `max()` and `min()` methods:
+Math 库提供 `max()` 和 `min()` 方法：
 
 <?code-excerpt "misc/test/library_tour/math_test.dart (min-max)"?>
 {% prettify dart %}
@@ -1443,9 +1436,9 @@ assert(min(1, -1000) == -1000);
 {% endprettify %}
 
 
-### Math constants
+### 数学常数
 
-Find your favorite constants—*pi*, *e*, and more—in the Math library:
+在 Math 库中可以找到你需要的数学常熟，例如，*pi*， *e* 等等：
 
 <?code-excerpt "misc/test/library_tour/math_test.dart (constants)"?>
 {% prettify dart %}
@@ -1456,10 +1449,10 @@ print(sqrt2); // 1.4142135623730951
 {% endprettify %}
 
 
-### Random numbers
+### 随机数
 
-Generate random numbers with the [Random][] class. You can
-optionally provide a seed to the Random constructor.
+使用 [Random][] 类产生随机数。
+可以为 Random 构造函数提供一个可选的种子参数。
 
 <?code-excerpt "misc/test/library_tour/math_test.dart (Random)"?>
 {% prettify dart %}
@@ -1468,7 +1461,7 @@ random.nextDouble(); // Between 0.0 and 1.0: [0, 1)
 random.nextInt(10); // Between 0 and 9.
 {% endprettify %}
 
-You can even generate random booleans:
+也可以产生随机布尔值序列：
 
 <?code-excerpt "misc/test/library_tour/math_test.dart (Random-bool)"?>
 {% prettify dart %}
@@ -1477,23 +1470,21 @@ random.nextBool(); // true or false
 {% endprettify %}
 
 
-### More information
+### 更多内容
 
-Refer to the [Math API docs][dart:math] for a full list of methods.
-Also see the API docs for [num,][num] [int,][int] and [double.][double]
+完整方法列表参考 [Math API docs][dart:math]。
+在 API 文档中参考 [num,][num] [int,][int] 和 [double][double]。
 
 
-## dart:convert - decoding and encoding JSON, UTF-8, and more
+## dart:convert - 编解码JSON，UTF-8，等
 
-The dart:convert library ([API reference][dart:convert])
-has converters for JSON and UTF-8, as well as support for creating
-additional converters. [JSON][] is a simple text format for representing
-structured objects and collections. [UTF-8][] is a common variable-width
-encoding that can represent every character in the Unicode character
-set.
+dart:convert 库 （[API reference][dart:convert]）提供 JSON 和 UTF-8 转换器，
+以及创建其它转换器。
+[JSON][] 是一种用于表示结构化对象和集合的简单文本格式。
+[UTF-8][] 是一种常见的可变宽度编码，可以表示Unicode字符集中的每个字符。
 
-The dart:convert library works in both web apps and command-line apps.
-To use it, import dart:convert.
+dart:convert 库可以在 web 及 命令行应用中使用。
+使用时，通过 import dart:convert 引入。
 
 <?code-excerpt "misc/test/library_tour/convert_test.dart (import)"?>
 {% prettify dart %}
@@ -1501,15 +1492,15 @@ import 'dart:convert';
 {% endprettify %}
 
 
-### Decoding and encoding JSON
+### 编解码JSON
 
-Decode a JSON-encoded string into a Dart object with `jsonDecode()`:
+使用 `jsonDecode()` 解码 JSON 编码的字符串为 Dart 对象：
 
 <?code-excerpt "misc/test/library_tour/convert_test.dart (json-decode)"?>
 {% prettify dart %}
-// NOTE: Be sure to use double quotes ("),
-// not single quotes ('), inside the JSON string.
-// This string is JSON, not Dart.
+// 提示：在 JSON 字符串中，必须使用双引号（"）,
+// 而不是单引号（'）。
+// 下面是 JSON 字符串，非 Dart 字符串。
 var jsonString = '''
   [
     {"score": 40},
@@ -1525,8 +1516,8 @@ assert(firstScore is Map);
 assert(firstScore['score'] == 40);
 {% endprettify %}
 
-Encode a supported Dart object into a JSON-formatted string with
-`jsonEncode()`:
+
+使用 `jsonEncode()` 编码 Dart 对象为 JSON 格式的字符串：
 
 <?code-excerpt "misc/test/library_tour/convert_test.dart (json-encode)"?>
 {% prettify dart %}
@@ -1543,20 +1534,18 @@ assert(jsonText ==
     '"special_guest":null}]');
 {% endprettify %}
 
-Only objects of type int, double, String, bool, null, List, or Map (with
-string keys) are directly encodable into JSON. List and Map objects are
-encoded recursively.
+只有 int， double， String， bool, null, List, 或者 Map 类型对象可以直接编码成 JSON。
+List 和 Map 对象进行递归编码。
 
-You have two options for encoding objects that aren't directly
-encodable. The first is to invoke `encode()` with a second argument: a
-function that returns an object that is directly encodable. Your second
-option is to omit the second argument, in which case the encoder calls
-the object's `toJson()` method.
+不能直接编码的对象有两种方式对其编码。
+第一种方式是调用 `encode()` 时赋值第二个参数，
+这个参数是一个函数，
+该函数返回一个能够直接编码的对象
+第二种方式是省略第二个参数，着这种情况下编码器调用对象的 `toJson()` 方法。
 
+### 编解码 UTF-8 字符
 
-### Decoding and encoding UTF-8 characters
-
-Use `utf8.decode()` to decode UTF8-encoded bytes to a Dart string:
+使用 `utf8.decode()` 解码 UTF8 编码的字符创为 Dart 字符创：
 
 <?code-excerpt "misc/test/library_tour/convert_test.dart (utf8-decode)" replace="/ \/\/line-br.*//g"?>
 {% prettify dart %}
@@ -1573,8 +1562,7 @@ var funnyWord = utf8.decode(utf8Bytes);
 assert(funnyWord == 'Îñţérñåţîöñåļîžåţîờñ');
 {% endprettify %}
 
-To convert a stream of UTF-8 characters into a Dart string, specify
-`utf8.decoder` to the Stream `transform()` method:
+将 UTF-8 字符串流转换为 Dart 字符串，为 Stream 的 `transform()` 方法上指定 `utf8.decoder`：
 
 <?code-excerpt "misc/test/library_tour/io_test.dart (utf8-decoder)" replace="/utf8.decoder/[!$&!]/g"?>
 {% prettify dart %}
@@ -1591,8 +1579,7 @@ try {
 }
 {% endprettify %}
 
-Use `utf8.encode()` to encode a Dart string as a list of UTF8-encoded
-bytes:
+使用 `utf8.encode()` 将 Dart 字符串编码为一个 UTF8 编码的字节流：
 
 <?code-excerpt "misc/test/library_tour/convert_test.dart (utf8-encode)" replace="/ \/\/line-br.*//g"?>
 {% prettify dart %}
@@ -1605,32 +1592,29 @@ for (int i = 0; i < encoded.length; i++) {
 {% endprettify %}
 
 
-### Other functionality
+### 其它功能
 
-The dart:convert library also has converters for ASCII and ISO-8859-1
-(Latin1). For details, see the [API docs for the dart:convert library.][dart:convert]
+dart:convert 库同样包含 ASCII 和 ISO-8859-1 (Latin1) 转换器。
+更多详情，参考 [API docs for the dart:convert library。][dart:convert]
 
 
-## Summary
+## 总结
 
-This page introduced you to the most commonly used functionality in
-Dart’s built-in libraries. It didn’t cover all the built-in
-libraries, however. Others that you might want to look into include
-[dart:collection][] and [dart:typed\_data,][dart:typed\_data]
-as well as platform-specific libaries like the
-[Dart web development libraries][webdev libraries]
-and the [Flutter libraries.][docs.flutter.io]
+本页向您介绍了 Dart 内置库中最常用的功能。
+但是，并没有涵盖所有内置库。
+您可能想要查看的其他内容包括 [dart:collection][] 和 [dart:typed\_data,][dart:typed\_data] ，
+以及特定于平台的库，如 [Dart web development libraries][webdev libraries] 和 [Flutter libraries][docs.flutter.io] 。
 
-You can get yet more libraries by using the [pub tool](/tools/pub). The
-[collection,](https://pub.dartlang.org/packages/collection)
-[crypto,](https://pub.dartlang.org/packages/crypto)
-[http,](https://pub.dartlang.org/packages/http)
-[intl,](https://pub.dartlang.org/packages/intl) and
-[test](https://pub.dartlang.org/packages/test) libraries are just a
-sampling of what you can install using pub.
 
-To learn more about the Dart language, see the
-[language tour][].
+您可以使用 [pub tool](/tools/pub) 工具获得更多库。
+[collection，](https://pub.dartlang.org/packages/collection)
+[crypto，](https://pub.dartlang.org/packages/crypto)
+[http，](https://pub.dartlang.org/packages/http)
+[intl，](https://pub.dartlang.org/packages/intl) 以及
+[test](https://pub.dartlang.org/packages/test)，
+以上只是简单的列举了一些可以通过 pub 安装的库。
+
+要了解有关 Dart 语言的更多信息，请参考 [language tour][]。
 
 [language tour]: /guides/language/language-tour
 [docs.flutter.io]: https://docs.flutter.io/
