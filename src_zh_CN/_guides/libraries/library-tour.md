@@ -85,7 +85,7 @@ https://github.com/dart-lang/dart-pad/issues/310
 </aside>
 
 
-## dart:core - numbers, collections, strings, and more
+## dart:core - 数字，集合，字符串等
 
 dart:core 库 ([API reference][dart:core])
 提供了一个少量但是重要的内置功能集合。
@@ -108,7 +108,7 @@ print('I drink $tea.');
 [Strings](/guides/language/language-tour#strings) in the language tour.
 
 
-### Numbers
+### 数字
 
 dart:core 库定义了 num ，int 以及 double 类，
 这些类拥有一定的工具方法来处理数字。
@@ -165,7 +165,7 @@ assert(double.parse('1.2e+2') == 120.0);
 也可参考 [dart:math section](#dartmath---math-and-random)。
 
 
-### Strings and regular expressions
+### 字符和正则表达式
 
 在 Dart 中一个字符串是一个固定不变的 UTF-16 编码单元序列。
 语言概览中有更多关于 [strings](/guides/language/language-tour#strings) 的内容。
@@ -353,7 +353,7 @@ for (var match in numbers.allMatches(someDigits)) {
 [Pattern，][Pattern] [RegExp，][RegExp] 和 [Match][Match]
 的 API 文档。
 
-### Collections
+### 集合
 
 Dart 附带了核心集合 API ，其中包括 list ，set 和 map 类。
 
@@ -690,7 +690,7 @@ assert(!teas.every(isDecaffeinated));
 [List,][List] [Set,][Set] and [Map.][Map]
 
 
-### URIs
+### URI
 
 在使用 URI（可能你会称它为 *URLs*） 时，[Uri 类][Uri] 提供对字符串的编解码操作。
 这些函数用来处理 URI 特有的字符，例如 `＆` 和 `=` 。
@@ -776,7 +776,7 @@ assert(
 {% endprettify %}
 
 
-### Dates 和 times
+### 日期和时间
 
 
 DateTime 对象代表某个时刻，时区可以是 UTC 或者 本地时区。
@@ -1476,7 +1476,7 @@ random.nextBool(); // true or false
 在 API 文档中参考 [num,][num] [int,][int] 和 [double][double]。
 
 
-## dart:convert - 编解码JSON，UTF-8，等
+## dart:convert - 编解码JSON，UTF-8等
 
 dart:convert 库 （[API reference][dart:convert]）提供 JSON 和 UTF-8 转换器，
 以及创建其它转换器。
