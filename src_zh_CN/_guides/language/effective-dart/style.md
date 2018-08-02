@@ -12,34 +12,34 @@ prevpage:
 
 {% include effective-dart-banner.html %}
 
-A surprisingly important part of good code is good style. Consistent naming,
-ordering, and formatting helps code that *is* the same *look* the same. It takes
-advantage of the powerful pattern-matching hardware most of us have in our
-ocular systems.  If we use a consistent style across the entire Dart ecosystem,
-it makes it easier for all of us to learn from and contribute to each others'
-code.
+好的代码有一个非常重要的特点就是拥有好的风格。
+一致的命名、一致的顺序、 以及一致的格式让代码看起来是一样的。
+这非常有利于发挥我们视力系统强大的模式匹配能力。
+如果我们整个 Dart 生态系统中都使用统一的风格，
+那么这将让我们彼此之间更容易的互相学习和互相贡献。
+它使我们所有人都可以更容易地学习并为彼此的代码做出贡献。
 
 * TOC
 {:toc}
 
-## Identifiers
+## 标识符
 
-Identifiers come in three flavors in Dart.
+在 Dart 中标识符有三种类型。
 
-*   `UpperCamelCase` names capitalize the first letter of each word, including
-    the first.
+*   `UpperCamelCase` 每个单词的首字母都大写，包含第一个单词。
 
-*   `lowerCamelCase` names capitalize the first letter of each word, *except*
-    the first which is always lowercase, even if it's an acronym.
+*   `lowerCamelCase` 每个单词的首字母都大写，*除了*第一个单词，
+    第一个单词首字母小写，即使是缩略词。
 
-*   `lowercase_with_underscores` use only lowercase letters, even for acronyms,
-    and separate words with `_`.
+*   `lowercase_with_underscores` 只是用小写字母单词，即使是缩略词，
+    并且单词之间使用 `_` 连接。
 
 
-### DO name types using `UpperCamelCase`.
+### **要** 使用 `UpperCamelCase` 风格命名类型。
 
-Classes, enums, typedefs, and type parameters should capitalize the first letter
-of each word (including the first word), and use no separators.
+Classes（类名）、 enums（枚举类型）、 typedefs（类型定义）、
+以及 type parameters（类型参数）应该把每个单词的首字母都大写（包含第一个单词）， 
+不使用分隔符。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (type-names)"?>
@@ -51,7 +51,7 @@ class HttpRequest { ... }
 typedef Predicate = bool Function<T>(T value);
 {% endprettify %}
 
-This even includes classes intended to be used in metadata annotations.
+这里包括使用元数据注解的类。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (annotation-type-names)"?>
@@ -67,8 +67,8 @@ class A { ... }
 class B { ... }
 {% endprettify %}
 
-If the annotation class's constructor takes no parameters, you might want to
-create a separate `lowerCamelCase` constant for it.
+如果注解类的构造函数是无参函数，
+则可以使用一个 `lowerCamelCase` 风格的常量来初始化这个注解。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (annotation-const)"?>
@@ -80,13 +80,11 @@ class C { ... }
 {% endprettify %}
 
 
-### DO name libraries and source files using `lowercase_with_underscores`.
+### **要** 用 `lowercase_with_underscores` 风格命名库和源文件名。
 
-Some file systems are not case-sensitive, so many projects require filenames to
-be all lowercase. Using a separating character allows names to still be readable
-in that form. Using underscores as the separator ensures that the name is still
-a valid Dart identifier, which may be helpful if the language later supports
-symbolic imports.
+一些文件系统不区分大小写，所以很多项目要求文件名必须是小写字母。
+使用分隔符这种形式可以保证命名的可读性。使用下划线作为分隔符可确保名称仍然是有效的Dart标识符，
+如果语言后续支持符号导入，这将会起到非常大的帮助。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart" replace="/foo\///g"?>
@@ -107,12 +105,12 @@ import 'SliderMenu.dart';
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:** This guideline specifies *how* to name a library *if you choose to
-  name it*. It is fine to _omit_ the library directive in a file if you want.
+  **注意：** 如果你*选择命名库*，本准则给定了*如何*为库取名。
+  如果需要，可以在文件中_省略_库指令。
 </aside>
 
 
-### DO name import prefixes using `lowercase_with_underscores`.
+### **要** 使用 `lowercase_with_underscores` 风格命名导入的前缀。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (import-as)" replace="/(package):examples[^']*/$1:angular_components\/angular_components/g"?>
@@ -133,11 +131,10 @@ import 'package:js/js.dart' as JS;
 {% endprettify %}
 
 
-### DO name other identifiers using `lowerCamelCase`.
+### **要** 使用 `lowerCamelCase` 风格来命名其它的标识符。
 
-Class members, top-level definitions, variables, parameters, and named
-parameters should capitalize the first letter of each word *except* the first
-word, and use no separators.
+类成员、顶级定义、变量、参数以及命名参数等
+*除了*第一个单词，每个单词首字母都应大写，并且不使用分隔符。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (misc-names)"?>
@@ -152,11 +149,11 @@ void align(bool clearItems) {
 {% endprettify %}
 
 
-### PREFER using `lowerCamelCase` for constant names.
+### **推荐** 使用 `lowerCamelCase` 来命名常量。
 
-In new code, use `lowerCamelCase` for constant variables, including enum values.
-In existing code that uses `SCREAMING_CAPS`, you may continue to use all caps to
-stay consistent.
+在新的代码中，使用 `lowerCamelCase` 来命名常量，包括枚举的值。
+已有的代码使用了 `SCREAMING_CAPS` 风格，
+你可以继续全部使用该风格来保持代码的一致性。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (const-names)"?>
@@ -183,15 +180,15 @@ class Dice {
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-  **Note:** We initially used Java's `SCREAMING_CAPS` style for constants. We
-  changed because:
+  **注意：** 我们一开始使用 Java `SCREAMING_CAPS` 风格来命名常量。
+  我们之所以不再使用，是因为：
 
-  *   `SCREAMING_CAPS` looks bad for many cases, particularly enum values for
-      things like CSS colors.
-  *   Constants are often changed to final non-const variables, which would
-      necessitate a name change.
-  *   The `values` property automatically defined on an enum type is const and
-      lowercase.
+  *   `SCREAMING_CAPS` 很多情况下看起来比较糟糕，
+      尤其类似于 CSS 颜色这类的枚举值。
+  *   常量常常被修改为 final 类型的非常量变量，
+      这种情况你还需要修改变量的名字为小写字母形式。
+  *   在枚举类型中自动定义的 `values` 属性为常量并且是小写字母
+      形式的。
 </aside>
 
 
