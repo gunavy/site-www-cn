@@ -1,12 +1,12 @@
 ---
-title: "Effective Dart: Documentation"
+title: "Effective Dart: 文档"
 description: Clear, helpful comments and documentation.
 nextpage:
   url: /guides/language/effective-dart/usage
-  title: Usage
+  title: 使用
 prevpage:
   url: /guides/language/effective-dart/style
-  title: Style
+  title: 风格
 ---
 
 {% include effective-dart-banner.html %}

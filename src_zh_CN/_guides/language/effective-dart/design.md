@@ -1,9 +1,9 @@
 ---
-title: "Effective Dart: Design"
+title: "Effective Dart: 设计"
 description: Design consistent, usable libraries.
 prevpage:
   url: /guides/language/effective-dart/usage
-  title: Usage
+  title: 使用
 ---
 <?code-excerpt replace="/([A-Z]\w*)\d\b/$1/g"?>
 <?code-excerpt plaster="none"?>

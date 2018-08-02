@@ -1,12 +1,12 @@
 ---
-title: "Effective Dart: Usage"
+title: "Effective Dart: 使用"
 description: Guidelines for using language features to write maintainable code.
 nextpage:
   url: /guides/language/effective-dart/design
-  title: Design
+  title: 设计
 prevpage:
   url: /guides/language/effective-dart/documentation
-  title: Documentation
+  title: 文档注释
 ---
 <?code-excerpt replace="/([A-Z]\w*)\d\b/$1/g"?>
 
