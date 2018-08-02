@@ -191,8 +191,7 @@ class Dice {
       形式的。
 </aside>
 
-
-### DO capitalize acronyms and abbreviations longer than two letters like words.
+### **要** 把超过两个字母的缩略词和首字母缩略词当做一般单词来对待。
 
 Capitalized acronyms can be hard to read, and
 multiple adjacent acronyms can lead to ambiguous names.
