@@ -345,14 +345,13 @@ import 'foo.dart';
 
 ### **要** 使用 `dartfmt` 格式化你的代码。
 
-Formatting is tedious work and is particularly time-consuming during
-refactoring. Fortunately, you don't have to worry about it. We provide a
-sophisticated automated code formatter called [dartfmt][] that does **要** it for
-you. We have [some documentation][dartfmt docs] on the rules it applies, but the
-official whitespace-handling rules for Dart are *whatever dartfmt produces*.
+格式化是一项繁琐的工作，尤其在重构过程中特别耗时。
+庆幸的是，你不必担心。
+我们提供了一个名为 [dartfmt][] 的优秀的自动代码格式化程序，它可以为你完成格式化工作。
+我们有一些关于它适用的规则的 [文档][dartfmt docs] ，
+Dart 中任何官方的空格处理规则由 *[dartfmt][] 生成*。
 
-The remaining formatting guidelines are for the few things dartfmt cannot fix
-for you.
+其余格式指南用于 dartfmt 无法修复的一些规则。
 
 [dartfmt]: https://github.com/dart-lang/dart_style
 [dartfmt docs]: https://github.com/dart-lang/dart_style/wiki/Formatting-Rules
