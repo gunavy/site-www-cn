@@ -131,7 +131,7 @@ import 'package:js/js.dart' as JS;
 {% endprettify %}
 
 
-### **要** 使用 `lowerCamelCase` 风格来命名其它的标识符。
+### **要** 使用 `lowerCamelCase` 风格来命名其他的标识符。
 
 类成员、顶级定义、变量、参数以及命名参数等
 *除了*第一个单词，每个单词首字母都应大写，并且不使用分隔符。
@@ -191,16 +191,16 @@ class Dice {
       形式的。
 </aside>
 
-### **要** 把超过两个字母的缩略词和首字母缩略词当做一般单词来对待。
+### **要** 把超过两个字母的首字母大写缩略词和缩写词当做一般单词来对待。
 
-Capitalized acronyms can be hard to read, and
-multiple adjacent acronyms can lead to ambiguous names.
-For example, given a name that starts with `HTTPSFTP`, there's no way
-to tell if it's referring to HTTPS FTP or HTTP SFTP.
+首字母大写缩略词比较难阅读，
+特别是多个缩略词连载一起的时候会引起歧义。
+例如，一个以 `HTTPSFTP` 开头的名字，
+没有办法判断它是指 HTTPS FTP 还是 HTTP SFTP 。
 
-To avoid this, acronyms and abbreviations are capitalized like regular words,
-except for two-letter acronyms. (Two-letter *abbreviations* like
-ID and Mr. are still capitalized like words.)
+为了避免上面的情况，缩略词和缩写词要像普通单词一样首字母大写，
+两个字母的单词除外。
+（像 ID 和 Mr. 这样的双字母*缩写词*仍然像一般单词一样首字母大写。）
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (acronyms and abbreviations)" replace="/,//g"?>
@@ -223,14 +223,21 @@ ID
 Db
 {% endprettify %}
 
+<aside class="alert alert-info" markdown="1">
+  **译者注：** 
 
-### DON’T use prefix letters
+  *   `acronyms` ：首字母缩略词，指取若干单词首字母组成一个新单词，如：HTTP = HyperText Transfer Protocol
+  *   `abbreviations` : 缩写词，指取某一单词的部分字母（或其他缩短单词的方式）代表整个单词，如：ID = identification
+</aside>
 
-[Hungarian notation](https://en.wikipedia.org/wiki/Hungarian_notation) and
-other schemes arose in the time of BCPL, when the compiler didn't do much to
-help you understand your code. Because Dart can tell you the type, scope,
-mutability, and other properties of your declarations, there's no reason to
-encode those properties in identifier names.
+
+### **不要** 使用前缀字母
+
+在编译器无法帮助你了解自己代码的时，
+[匈牙利命名法](https://en.wikipedia.org/wiki/Hungarian_notation)
+和其他方案出现在了 BCPL ，
+但是因为 Dart 可以提示你声明的类型，范围，可变性和其他属性，
+所以没有理由在标识符名称中对这些属性进行编码。
 
 {:.good-style}
 {% prettify dart %}
@@ -243,13 +250,12 @@ kDefaultTimeout
 {% endprettify %}
 
 
-## Ordering
+## 顺序
 
-To keep the preamble of your file tidy, we have a prescribed order that
-directives should appear in. Each "section" should be separated by a blank line.
+为了使文件前面部分保持整洁，我们规定了关键字出现顺序的规则。
+每个“部分”应该使用空行分割。
 
-
-### DO place "dart:" imports before other imports.
+### **要** 把 "dart:" 导入语句放到其他导入语句之前。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (dart-import-first)" replace="/\w+\/effective_dart\///g"?>
@@ -262,7 +268,7 @@ import 'package:foo/foo.dart';
 {% endprettify %}
 
 
-### DO place "package:" imports before relative imports.
+### **要** 把 "package:" 导入语句放到项目相关导入语句之前。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (pkg-import-before-local)" replace="/\w+\/effective_dart\///g;/'foo/'util/g"?>
@@ -274,10 +280,10 @@ import 'util.dart';
 {% endprettify %}
 
 
-### PREFER placing "third-party" "package:" imports before other imports.
+### **推荐** 把"第三方" "package:" 导入语句放到其他语句之前。
 
-If you have a number of "package:" imports for your own package along with other
-third-party packages, place yours in a separate section after the external ones.
+如果你使用了多个 "package:" 导入语句来导入自己的包以及其他第三方包，
+推荐将自己的包分开放到一个额外的部分。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (third-party)" replace="/\w+\/effective_dart\///g;/(package):foo(.dart)/$1:my_package\/util$2/g"?>
@@ -289,7 +295,7 @@ import 'package:my_package/util.dart';
 {% endprettify %}
 
 
-### DO specify exports in a separate section after all imports.
+### **要** 把导出（export）语句作为一个单独的部分放到所有导入语句之后。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (export)"?>
@@ -309,7 +315,7 @@ import 'src/foo_bar.dart';
 {% endprettify %}
 
 
-### DO sort sections alphabetically.
+### **要** 按照字母顺序来排序每个部分中的语句。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (sorted)" replace="/\w+\/effective_dart\///g"?>
@@ -332,18 +338,16 @@ import 'foo.dart';
 {% endprettify %}
 
 
-## Formatting
+## 格式化
 
-Like many languages, Dart ignores whitespace. However, *humans* don't. Having a
-consistent whitespace style helps ensure that human readers see code the same
-way the compiler does.
+和其他大部分语言一样， Dart 忽略空格。但是，*人*不会。
+具有一致的空格风格有助于帮助我们能够用编译器相同的方式理解代码。
 
-
-### DO format your code using `dartfmt`.
+### **要** 使用 `dartfmt` 格式化你的代码。
 
 Formatting is tedious work and is particularly time-consuming during
 refactoring. Fortunately, you don't have to worry about it. We provide a
-sophisticated automated code formatter called [dartfmt][] that does do it for
+sophisticated automated code formatter called [dartfmt][] that does **要** it for
 you. We have [some documentation][dartfmt docs] on the rules it applies, but the
 official whitespace-handling rules for Dart are *whatever dartfmt produces*.
 
@@ -353,7 +357,7 @@ for you.
 [dartfmt]: https://github.com/dart-lang/dart_style
 [dartfmt docs]: https://github.com/dart-lang/dart_style/wiki/Formatting-Rules
 
-### CONSIDER changing your code to make it more formatter-friendly.
+### **考虑** changing your code to make it more formatter-friendly.
 
 The formatter does the best it can with whatever code you throw at it, but it
 can't work miracles. If your code has particularly long identifiers, deeply
@@ -368,7 +372,7 @@ dartfmt as a partnership where you work together, sometimes iteratively, to
 produce beautiful code.
 
 
-### AVOID lines longer than 80 characters.
+### **避免** lines longer than 80 characters.
 
 Readability studies show that long lines of text are harder to read because your
 eye has to travel farther when moving to the beginning of the next line. This is
@@ -381,7 +385,7 @@ yourself, "Does each word in that type name tell me something critical or
 prevent a name collision?" If not, consider omitting it.
 
 Note that dartfmt does 99% of this for you, but the last 1% is you. It does not
-split long string literals to fit in 80 columns, so you have to do that
+split long string literals to fit in 80 columns, so you have to **要** that
 manually.
 
 We make an exception for URIs and file paths. When those occur in comments or
@@ -390,7 +394,7 @@ if they go over the line limit. This makes it easier to search source files for
 a given path.
 
 
-### DO use curly braces for all flow control structures.
+### **要** use curly braces for all flow control structures.
 
 Doing so avoids the [dangling else][] problem.
 

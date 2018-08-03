@@ -232,7 +232,7 @@ assert(lineCount == null);
 
 ### Final 和 const
 
-使用过程中从来不会被修改的变量， 可以使用 `final` 或 `const`, 而不是 `var` 或者其它类型，
+使用过程中从来不会被修改的变量， 可以使用 `final` 或 `const`, 而不是 `var` 或者其他类型，
 final 变量的值只能被设置一次；
 const 变量在编译时就已经固定 (Const 变量
 是隐式 final 的类型.) 最高级 final 变量或类变量在第一次使用时被初始化。
@@ -817,7 +817,7 @@ Symbol 字面量是编译时常量。
 Dart 是一门真正面向对象的语言，
 甚至其中的函数也是对象，并且有它的类型 
 [Function][] 。
-这也意味着函数可以被赋值给变量或者作为参数传递给其它函数。
+这也意味着函数可以被赋值给变量或者作为参数传递给其他函数。
 也可以把 Dart 类的实例当做方法来调用。
 有关更多信息，参考 [Callable classes](#callable-classes).
 
@@ -907,7 +907,7 @@ const Scrollbar({Key key, [!@required!] Widget child})
 此时 `Scrollbar` 是一个构造函数， 当 `child` 参数缺少是，分析器会提示错误。
 
 [Required][@required] 被定义在 [meta][] package。 无论是直接引入（import）
-`package:meta/meta.dart` ，或者引入了其它 package，而这个 package 输出（export）了
+`package:meta/meta.dart` ，或者引入了其他 package，而这个 package 输出（export）了
 `meta`，比如 Flutter 的 `package:flutter/material.dart`。
 
 #### 位置可选参数
@@ -1648,7 +1648,7 @@ var visibility = isPublic ? 'public' : 'private';
 String playerName(String name) => name ?? 'Guest';
 {% endprettify %}
 
-下面给出了其它两种实现方式，
+下面给出了其他两种实现方式，
 但并不简洁：
 
 <?code-excerpt "misc/test/language_tour/operators_test.dart (if-null-alt)"?>
@@ -2019,7 +2019,7 @@ assert 语句只在开发环境中有效，
 Flutter 中的 assert 只在 [debug 模式][Flutter debug mode] 中有效。
 开发用的工具，例如 [dartdevc][]
 默认是开启 assert 功能。
-其它的一些工具， 例如 [dart][] 和 [dart2js,][dart2js]
+其他的一些工具， 例如 [dart][] 和 [dart2js,][dart2js]
 支持通过命令行开启 assert ： `--enable-asserts`。
 </div>
 
@@ -2074,7 +2074,7 @@ throw 'Out of llamas!';
 </div>
 
 因为抛出异常是一个表达式，
-所以可以在 =\> 语句中使用，也可以在其它使用表达式的地方抛出异常：
+所以可以在 =\> 语句中使用，也可以在其他使用表达式的地方抛出异常：
 
 
 <?code-excerpt "misc/lib/language_tour/exceptions.dart (throw-is-an-expression)"?>
@@ -2203,14 +2203,14 @@ try {
 Dart 是一种基于类和 mixin 继承机制的面向对象的语言。
 每个对象都是一个类的实例，所有的类都继承于 [Object.][Object] 。
 基于 * Mixin 继承* 意味着每个类（除 Object 外） 都只有一个超类，
-一个类中的代码可以在其它多个继承类中重复使用。
+一个类中的代码可以在其他多个继承类中重复使用。
 
 
 ### 使用类的成员变量
 
 对象的由函数和数据（即方法和实例变量）组成。 
 方法的调用要通过对象来完成：
-调用的方法可以访问其对象的其它函数和数据。
+调用的方法可以访问其对象的其他函数和数据。
 
 
 使用 (`.`) 来引用实例对象的变量和方法：
@@ -2468,7 +2468,7 @@ class Point {
 1. main class's no-arg constructor （主类的无名构造函数）
 
 如果父类中没有匿名无参的构造函数， 
-则需要手工调用父类的其它构造函数。 
+则需要手工调用父类的其他构造函数。 
 在当前构造函数冒号 (`:`) 之后，函数体之前，声明调用父类构造函数。
 
 下面的示例中，Employee 类的构造函数调用了父类 Person 的命名构造函数。 
@@ -2779,7 +2779,7 @@ void main() {
 #### 抽象方法
 
 实例方法， getter， 和 setter 方法可以是抽象的， 
-只定义接口不进行实现，而是留给其它类去实现。 
+只定义接口不进行实现，而是留给其他类去实现。 
 抽象方法只存在于 [抽象类](#abstract-classes) 中。
 
 定义一个抽象函数，使用分号 (;) 来代替函数体：

@@ -13,7 +13,7 @@ short-title: Dart 库概览
 {% endcomment %}
 
 [dart:core](#dartcore---numbers-collections-strings-and-more)
-: 内置类型，集合和其它核心功能。 
+: 内置类型，集合和其他核心功能。 
   该库会被自动导入到所有的 Dart 程序。
 
 [dart:async](#dartasync---asynchronous-programming)
@@ -1005,7 +1005,7 @@ class FooException implements Exception {
 ## dart:async - 异步编程
 
 异步编程通常使用回调方法来实现，但是 Dart
-提供了其它方案：[Future][] 和 [Stream][] 对象。
+提供了其他方案：[Future][] 和 [Stream][] 对象。
 Future 类似与 JavaScript 中的 Promise ，
 代表在将来某个时刻会返回一个结果。
 Stream 类可以用来获取一系列的值，比如，一些列事件。
@@ -1138,7 +1138,7 @@ HttpRequest.getString(url).then((String result) {
 这样就提供了一个非常好的方式让多个异步方法按顺序依次执行。
 如果用 `then()` 注册的回调返回一个 Future ，
 那么 `then()` 返回一个等价的 Future 。 
-如果回调返回任何其它类型的值，
+如果回调返回任何其他类型的值，
 那么 `then()` 会创建一个以该值完成的新 Future 。
 
 <?code-excerpt "misc/lib/library_tour/async/future.dart (then-chain)"?>
@@ -1479,7 +1479,7 @@ random.nextBool(); // true or false
 ## dart:convert - 编解码JSON，UTF-8等
 
 dart:convert 库 （[API reference][dart:convert]）提供 JSON 和 UTF-8 转换器，
-以及创建其它转换器。
+以及创建其他转换器。
 [JSON][] 是一种用于表示结构化对象和集合的简单文本格式。
 [UTF-8][] 是一种常见的可变宽度编码，可以表示Unicode字符集中的每个字符。
 
@@ -1592,7 +1592,7 @@ for (int i = 0; i < encoded.length; i++) {
 {% endprettify %}
 
 
-### 其它功能
+### 其他功能
 
 dart:convert 库同样包含 ASCII 和 ISO-8859-1 (Latin1) 转换器。
 更多详情，参考 [API docs for the dart:convert library。][dart:convert]
