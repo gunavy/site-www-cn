@@ -6,7 +6,7 @@ import 'package:markdown/markdown.dart' as md;
 import 'package:path/path.dart' as path;
 
 Future<Null> main() async {
-  var dirPath = "src/_guides/language/effective-dart";
+  var dirPath = "src_zh_CN/_guides/language/effective-dart";
   var filenames = const <String>[
     "style.md",
     "documentation.md",
