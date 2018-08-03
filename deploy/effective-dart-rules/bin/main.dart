@@ -122,8 +122,8 @@ class Subsection {
 String generateAnchorHash(md.Element element) => _concatenatedText(element)
     .toLowerCase()
     .trim()
-    .replaceFirst(new RegExp(r'^[^a-z]+'), '')
-    .replaceAll(new RegExp(r'[^a-z0-9 _-]'), '')
+    .replaceFirst(new RegExp(r'^[^a-z\u4e00-\u9fa5]+'), '')
+    .replaceAll(new RegExp(r'[^a-z0-9\u4e00-\u9fa5 _-]'), '')
     .replaceAll(new RegExp(r'\s'), '-');
 
 /// Concatenates the text found in all the children of [element].
