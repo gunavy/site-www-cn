@@ -343,6 +343,7 @@ import 'foo.dart';
 和其他大部分语言一样， Dart 忽略空格。但是，*人*不会。
 具有一致的空格风格有助于帮助我们能够用编译器相同的方式理解代码。
 
+
 ### **要** 使用 `dartfmt` 格式化你的代码。
 
 格式化是一项繁琐的工作，尤其在重构过程中特别耗时。
@@ -356,46 +357,51 @@ Dart 中任何官方的空格处理规则由 *[dartfmt][] 生成*。
 [dartfmt]: https://github.com/dart-lang/dart_style
 [dartfmt docs]: https://github.com/dart-lang/dart_style/wiki/Formatting-Rules
 
+
 ### **考虑** changing your code to make it more formatter-friendly.
 
-The formatter does the best it can with whatever code you throw at it, but it
-can't work miracles. If your code has particularly long identifiers, deeply
-nested expressions, a mixture of different kinds of operators, etc. the
-formatted output may still be hard to read.
+无论你扔给格式化程序什么样代码，它都会尽力去处理，
+但是格式化程序不会创造奇迹。
+如果代码里有特别长的标识符，深层嵌套的表达式，混合的不同类型运算符等。
+格式化输出的代码可能任然很难阅读。
 
-When that happens, reorganize or simplify your code. Consider shortening a local
-variable name or hoisting out an expression into a new local variable. In other
-words, make the same kinds of modifications that you'd make if you were
-formatting the code by hand and trying to make it more readable. Think of
-dartfmt as a partnership where you work together, sometimes iteratively, to
-produce beautiful code.
-
-
-### **避免** lines longer than 80 characters.
-
-Readability studies show that long lines of text are harder to read because your
-eye has to travel farther when moving to the beginning of the next line. This is
-why newspapers and magazines use multiple columns of text.
-
-If you really find yourself wanting lines longer than 80 characters, our
-experience is that your code is likely too verbose and could be a little more
-compact. The main offender is usually `VeryLongCamelCaseClassNames`. Ask
-yourself, "Does each word in that type name tell me something critical or
-prevent a name collision?" If not, consider omitting it.
-
-Note that dartfmt does 99% of this for you, but the last 1% is you. It does not
-split long string literals to fit in 80 columns, so you have to **要** that
-manually.
-
-We make an exception for URIs and file paths. When those occur in comments or
-strings (usually in imports and exports), they may remain on a single line even
-if they go over the line limit. This makes it easier to search source files for
-a given path.
+当有这样的情况发生时，那么就需要重新组织或简化你的代码。
+考虑缩短局部变量名或者将表达式抽取为一个新的局部变量。
+换句话说，你应该做一些手动格式化并增加代码的可读性的修改。
+在工作中应该把 dartfmt 看做一个合作伙伴，
+在代码的编写和迭代过程中互相协作输出优质的代码。
 
 
-### **要** use curly braces for all flow control structures.
+### **避免** 单行超过 80 个字符。
 
-Doing so avoids the [dangling else][] problem.
+可读性研究表明，长行的文字不易阅读，
+长行文字移动到下一行的开头时，眼睛需要移动更长的距离。
+这也是为什么报纸和杂志会使用多列样式的文字排版。
+
+如果你真的发现你需要的文字长度超过了 80 个字符，
+根据我们的经验，你的代码很可能过于冗长，
+而且有方式可以让它更紧凑。
+最常见的的一种情况就是使用 `VeryLongCamelCaseClassNames` （非常长的类名字和变量名字）。
+当遇到这种情况时，请自问一下：“那个类型名称中的每个单词都会告诉我一些关键的内容或阻止名称冲突吗？”，
+如果不是，考虑删除它。
+
+注意，dartfmt 能自动处理 99% 的情况，但是剩下的 1% 需要你自己处理。 
+dartfmt 不会把很长的字符串字面量分割为 80 个字符的列，
+所以这种情况你**需要**自己手工确保每行不超过 80 个字符。
+
+对于包含 URIs 的字符串则是一个例外&mdash;主要是导入和导出语句。
+如果导入导出语句很长，则还是放到同一行上。
+这样可以方便搜索某一个路径下的代码文件。
+
+我们对 URI 和文件路径做了例外。
+当情况出现在注释或字符串是（通常在导入和导出语句中），
+即使文字超出行限制，也可能会保留在一行中。
+这样可以更轻松地搜索给定路径的源文件。
+
+
+### **要** 对所有流控制结构使用花括号。
+
+这样可以避免 [dangling else][] （else悬挂）的问题。
 
 [dangling else]: http://en.wikipedia.org/wiki/Dangling_else
 
@@ -409,9 +415,9 @@ if (isWeekDay) {
 }
 {% endprettify %}
 
-There is one exception to this: an `if` statement with no `else` clause where
-the entire `if` statement and the then body all fit in one line. In that case,
-you may leave off the braces if you prefer:
+这里有一个例外：一个没有 `else` 的 `if` 语句，
+并且这个 `if` 语句以及它的执行体适合在一行中实现。
+在这种情况下，如果您愿意，可以不用括号：
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (one-line-if)"?>
@@ -419,7 +425,7 @@ you may leave off the braces if you prefer:
 if (arg == null) return defaultValue;
 {% endprettify %}
 
-If the body wraps to the next line, though, use braces:
+但是，如果执行体包含下一行，请使用大括号：
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (one-line-if-wrap)"?>
