@@ -44,43 +44,8 @@ You can find API documentation for all dart:* libraries in the
 the [Flutter API reference.][docs.flutter.io]
 
 <aside class="alert alert-info" markdown="1">
-**DartPad tip:**
-You can play with the code in this page
-by copying it into a [DartPad.][DartPad]
-Note, however, that [assert][] statements are no-ops in DartPad
-because DartPad executes in production mode, not checked mode.
-An easy workaround: **change `assert` to `print`.**
-<br>
-<br>
-
-{% comment %}
-update-for-dart-2
-[TODO: fix styling instead of using the <br><br> hack.]
-
-https://gist.github.com/2edc7174867be377021813ba4119ab8c
-https://dartpad.dartlang.org/2edc7174867be377021813ba4119ab8c
-
-{% prettify dart %}
-void main() {
-  assert(int.parse('42') == 42); // in checked mode: continues
-  print(int.parse('42') == 42); // true
-
-  assert(int.parse('43') == 42); // in checked mode: exception
-  print(int.parse('43') == 42); // false
-}
-{% endprettify %}
-{% endcomment %}
-
-<iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=2edc7174867be377021813ba4119ab8c&horizontalRatio=99&verticalRatio=70"
-    width="100%"
-    height="255px"
-    style="border: 1px solid #ccc;">
-</iframe>
-
-{% comment %}
-https://github.com/dart-lang/dart-pad/issues/310
-{% endcomment %}
+  **DartPad tip:** You can play with the code in this page by copying it into a
+  [DartPad.][DartPad]
 </aside>
 
 
@@ -431,7 +396,7 @@ assert(fruits[0] == 'apples');
 Lists are parameterized types, so you can specify the type that a list
 should contain:
 
-<?code-excerpt "misc/test/library_tour/core_test.dart (ListOfString)"?>
+<?code-excerpt "misc/test/library_tour/core_test.dart (List-of-String)"?>
 {% prettify dart %}
 // This list should contain only strings.
 var fruits = List<String>();
@@ -439,16 +404,13 @@ var fruits = List<String>();
 fruits.add('apples');
 var fruit = fruits[0];
 assert(fruit is String);
-
-// Generates static analysis warning, num is not a string.
-fruits.add(5); // BAD: Throws exception in checked mode.
 {% endprettify %}
 
-{% include checked-mode-2.0.html %}
-
-{% comment %}
-update-for-dart-2
-{% endcomment %}
+{:.fails-sa}
+<?code-excerpt "misc/lib/library_tour/core/collections.dart (List-of-String)"?>
+{% prettify dart %}
+fruits.add(5); // Error: 'int' can't be assigned to 'String'
+{% endprettify %}
 
 Refer to the [List API docs][List] for a full list of methods.
 
@@ -1434,9 +1396,7 @@ provides common functionality such as sine and cosine,
 maximum and minimum, and constants such as *pi* and *e*. Most of the
 functionality in the Math library is implemented as top-level functions.
 
-To use this library in your app, import dart:math. The following
-examples use the prefix `math` to make clear which top-level functions
-and constants are from the Math library:
+To use this library in your app, import dart:math.
 
 <?code-excerpt "misc/test/library_tour/math_test.dart (import)"?>
 {% prettify dart %}

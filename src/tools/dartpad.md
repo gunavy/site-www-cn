@@ -15,20 +15,13 @@ Here's what DartPad looks like:
 ## Library support
 
 DartPad supports
-[dart:* libraries]({{site.dart_api}})
+[dart:* libraries]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}})
 that work with web apps; it doesn't support
-[dart:io]({{site.dart_api}}/stable/dart-io) or
+[dart:io]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-io) or
 libraries from [packages.]({{site.pub}})
 If you want to use dart:io, use the [Dart SDK](/tools/sdk) instead.
 If you want to use a package, get the SDK for a
 [platform](/guides/platforms) that the package supports.
-
-{% comment %}
-update-for-dart-2
-Once DartPad is based on Dart 2, change all occurrences of
-{{site.dart_api}}/... to be
-{{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/....
-{% endcomment %}
 
 ## Getting started
 
@@ -168,30 +161,8 @@ To create a simple web app, start with the Hello World HTML sample.
   </li>
 </ol>
 
-### Checking Dart version info
+## Checking Dart version info
 
-DartPad's various language features and APIs depend on the
-<b>Dart SDK version</b> that DartPad is based on,
-to view the version number firstly go to the Dart editor.
-
-<ol>
-  <li>
-    Click the <b>DartPad</b> title,
-    which is at the upper left of your DartPad editor.
-  </li>
-  <li>
-     At the bottom of the dialog that appears,
-     you can see the <b>Dart SDK</b> version number.
-  </li>
-</ol>
-
-{% comment %}
-update-for-dart-2
-{% endcomment %}
-
-For example, if DartPad is based on Dart SDK 1.25.0,
-then DartPad partially supports type safety but doesn't support many other Dart 2 features.
-
-
-
-
+DartPad's various language features and APIs depend on the **Dart SDK version**
+that DartPad is based on. You can find the SDK version in the DartPad editor
+footer.
