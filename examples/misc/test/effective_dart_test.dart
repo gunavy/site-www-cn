@@ -25,20 +25,25 @@ void main() {
     });
 
     test('runtimeType', () {
-      _test() {
-        // #docregion list-from-2
+      expect(() {
+        // #docregion list-from-good
         // Creates a List<int>:
         var iterable = [1, 2, 3];
 
         // Prints "List<int>":
         print(iterable.toList().runtimeType);
+        // #enddocregion list-from-good
+      }, prints('List<int>\n'));
+
+      expect(() {
+        // #docregion list-from-bad
+        // Creates a List<int>:
+        var iterable = [1, 2, 3];
 
         // Prints "List<dynamic>":
         print(List.from(iterable).runtimeType);
-        // #enddocregion list-from-2
-      }
-
-      expect(_test, prints('List<int>\nList<dynamic>\n'));
+        // #enddocregion list-from-bad
+      }, prints('List<dynamic>\n'));
     });
 
     test('List.from<int>() from List<num>', () {
@@ -50,5 +55,14 @@ void main() {
 
       expect(ints, orderedEquals([1, 4]));
     });
+  });
+
+  test('whereType usage_good', () {
+    // #docregion whereType
+    var objects = [1, "a", 2, "b", 3];
+    var ints = objects.whereType<int>();
+    // #enddocregion whereType
+    expect(ints, TypeMatcher<Iterable<int>>());
+    expect(ints, [1, 2, 3]);
   });
 }
