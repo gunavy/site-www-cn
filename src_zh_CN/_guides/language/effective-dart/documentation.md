@@ -269,10 +269,8 @@ num min(num a, num b) => ...
 
 ### **要** 使用方括号在文档注释中引用作用域内的标识符。
 
-If you surround things like variable, method, or type names in square brackets,
-then dartdoc looks up the name and links to the relevant API docs. Parentheses
-are optional, but can make it clearer when you're referring to a method or
-constructor.
+如果给变量，方法，或类型等名称加上方括号，则 dartdoc 会查找名称并链接到相关的 API 文档。
+括号是可选的，但是当你在引用一个方法或者构造函数时，可以让注释更清晰。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/docs_good.dart (identifiers)"?>
@@ -281,8 +279,7 @@ constructor.
 /// similar to [anotherMethod()], but ...
 {% endprettify %}
 
-To link to a member of a specific class, use the class name and member name,
-separated by a dot:
+要链接到特定类的成员，请使用以点号分割的类名和成员名：
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/docs_good.dart (member)"?>
@@ -290,8 +287,7 @@ separated by a dot:
 /// Similar to [Duration.inDays], but handles fractional days.
 {% endprettify %}
 
-The dot syntax can also be used to refer to named constructors. For the unnamed
-constructor, put parentheses after the class name:
+点语法也可用于引用命名构造函数。 对于未命名的构造函数，在类名后面加上括号：
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/docs_good.dart (ctor)"?>
@@ -301,8 +297,7 @@ constructor, put parentheses after the class name:
 
 ### **要** 使用散文的方式来描述参数、返回值以及异常信息。
 
-Other languages use verbose tags and sections to describe what the parameters
-and returns of a method are.
+其他语言使用各种标签和额外的注释来描述参数和返回值。
 
 {:.bad-style}
 <?code-excerpt "misc/lib/effective_dart/docs_bad.dart (no-annotations)"?>
@@ -317,8 +312,8 @@ and returns of a method are.
 Flag addFlag(String name, String abbr) => ...
 {% endprettify %}
 
-The convention in Dart is to integrate that into the description of the method
-and highlight parameters using square brackets.
+而 Dart 把参数、返回值等描述放到文档注释中，
+并使用方括号来引用以及高亮这些参数和返回值。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/docs_good.dart (no-annotations)"?>
@@ -351,15 +346,21 @@ class ToggleComponent {}
 
 ## Markdown
 
+文档注释中允许使用大多数 [markdown][] 格式，
+并且 dartdoc 会更具 [markdown package][] 进行解析。
 You are allowed to use most [markdown][] formatting in your doc comments and
 dartdoc will process it accordingly using the [markdown package][].
 
 [markdown]: https://daringfireball.net/projects/markdown/
 [markdown package]: https://pub.dartlang.org/packages/markdown
 
-There are tons of guides out there already to introduce you to Markdown. Its
-universal popularity is why we chose it. Here's just a quick example to give you
-a flavor of what's supported:
+
+有很多指南已经向您介绍Markdown。 它普遍受欢迎是我们选择它的原因。 这里只是一个简单的例子，让您了解所支持的内容：
+
+现在到处都有介绍 Markdown 的文档，
+我们之所以选择它，是因为它受到了普遍的欢迎。
+为了让你了解它所支持的内容，我们提供了一个简单的例子：
+下面这个简单的例子可以让你了解他所支持的内容：
 
 <?code-excerpt "misc/lib/effective_dart/docs_good.dart (markdown)"?>
 {% prettify dart %}
@@ -417,25 +418,25 @@ a flavor of what's supported:
 
 ### **避免** 过度使用 markdown。
 
-When in doubt, format less. Formatting exists to illuminate your content, not
-replace it. Words are what matters.
+如果有格式缺少的问题，格式化已有的内容来阐明你的想法，而不是替换它，
+内容才是最重要的。
 
 ### **避免** 使用 HTML 来格式化文字。
 
-It *may* be useful to use it in rare cases for things like tables, but in almost
-all cases, if it's too complex too express in Markdown, you're better off not
-expressing it.
+例如表格，在极少数情况下它*可能*很有用。
+但几乎所有的情况下，在 Markdown 中表格的表示都非常复杂。
+这种情况下最好不要使用表格。
 
-### PREFER backtick fences for code blocks.
+### **推荐** 使用反引号标注代码。
 
-Markdown has two ways to indicate a block of code: indenting the code four
-spaces on each line, or surrounding it in a pair of triple-backtick "fence"
-lines. The former syntax is brittle when used inside things like Markdown lists
-where indentation is already meaningful or when the code block itself contains
-indented code.
+Markdown 有两种方式来标注一块代码：
+每行代码缩进4个空格，或者在代码上下各标注三个反引号。
+当缩进已经包含其他意义，或者代码段自身就包含缩进时，
+在 Markdown 中使用前一种语法就显得很脆弱。
 
-The backtick syntax avoids those indentation woes, lets you indicate the code's
-language, and is consistent with using backticks for inline code.
+反引号语法避免了那些缩进的问题，
+而且能够指出代码的语言类型，
+内联代码同样可以使用反引号标注。
 
 {:.good-style}
 {% prettify dart %}
