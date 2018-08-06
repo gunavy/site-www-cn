@@ -12,20 +12,37 @@ prevpage:
 
 {% include effective-dart-banner.html %}
 
+{% comment %}
 This is the most "blue-collar" guide in Effective Dart. You'll apply the
 guidelines here every day in the bodies of your Dart code. *Users* of your
 library may not be able to tell that you've internalized the ideas here, but
 *maintainers* of it sure will.
+{% endcomment %}
+
+该指南在 Effective Dart 中是最为基础的部分。
+每天在你写的 Dart 代码中都会应用到这些准则。
+库的*使用者*可能不需要知道你在其中的一些想法，
+但是*维护者*肯定是需要的。
 
 * TOC
 {:toc}
 
+{% comment %}
 ## Libraries
 
 These guidelines help you compose your program out of multiple files in a
 consistent, maintainable way. To keep these guidelines brief, they use "import"
 to cover `import` and `export` directives. The guidelines apply equally to both.
+{% endcomment %}
 
+## 库
+
+这些准则可以帮助你在多个文件编写程序的情况下保证一致性和可维护性。
+为了让准则简洁，这里使用“import”来同事代表 `import` 和 `export` 。
+准则同时适用于这两者。
+
+
+{% comment %}
 ### DO use strings in `part of` directives.
 
 Many Dart developers avoid using `part` entirely. They find it easier to reason
@@ -62,8 +79,59 @@ And not:
 {% prettify dart %}
 part of my_library;
 {% endprettify %}
+{% endcomment %}
 
+### **要** 在 `part of` 中使用字符串。
+
+很多 Dart 开发者会避免直接使用 `part` 。他们发现当库仅有一个文件的时候很容易读懂代码。
+如果你确实要使用 `part` 将库的一部分拆分为另一个文件，则 Dart 要求另一个文件指示它所属库的路径。 
+由于遗留原因， Dart 允许 `part of` 指令使用它所属的库的*名称*。
+这使得工具很难直接查找到这个文件对应主库文件，使得库和文件之间的关系模糊不清。
+
+推荐的现代语法是使用 URI 字符串直接指向库文件。
+首选的现代语法是使用直接指向库文件的URI字符串，URI 的使用和其他指令中一样。
+如果你有一些库，`my_library.dart`，其中包含：
+
+<?code-excerpt "misc/lib/effective_dart/my_library.dart"?>
+{% prettify dart %}
+library my_library;
+
+part "some/other/file.dart";
+{% endprettify %}
+
+从库中拆分的文件应该如下所示：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/some/other/file.dart"?>
+{% prettify dart %}
+part of "../../my_library.dart";
+{% endprettify %}
+
+而不是：
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/some/other/file_2.dart"?>
+{% prettify dart %}
+part of my_library;
+{% endprettify %}
+
+
+{% comment %}
 ### DON'T import libraries that are inside the `src` directory of another package.
+
+The `src` directory under `lib` [is specified][package guide] to contain
+libraries private to the package's own implementation. The way package
+maintainers version their package takes this convention into account. They are
+free to make sweeping changes to code under `src` without it being a breaking
+change to the package.
+
+[package guide]: https://www.dartlang.org/tools/pub/package-layout
+
+That means that if you import some other package's private library, a minor,
+theoretically non-breaking point release of that package could break your code.
+{% endcomment %}
+
+### **不要** import libraries that are inside the `src` directory of another package.
 
 The `src` directory under `lib` [is specified][package guide] to contain
 libraries private to the package's own implementation. The way package
@@ -123,10 +191,17 @@ library. Follow these two rules:
 * An import path should never contain `/lib/`.
 * A library under `lib` should never use `../` to escape the `lib` directory.
 
+{% comment %}
 ## Strings
 
 Here are some best practices to keep in mind when composing strings in Dart.
+{% endcomment %}
 
+## 字符串
+
+下面是一些需要记住的，关于在 Dart 中使用字符串的最佳实践。
+
+{% comment %}
 ### DO use adjacent strings to concatenate string literals.
 
 If you have two string literals&mdash;not values, but the actual quoted literal
@@ -148,7 +223,30 @@ raiseAlarm(
 raiseAlarm('ERROR: Parts of the spaceship are on fire. Other ' +
     'parts are overrun by martians. Unclear which are which.');
 {% endprettify %}
+{% endcomment %}
 
+### **要** 使用临近字符字的方式连接字面量字符串。
+
+如果你有两个字面量字符串（不是变量，是放在引号中的字符串），你不需要使用 `+` 来连接它们。
+应该想 C 和 C++ 一样，只需要将它们挨着在一起就可以了。
+这种方式非常适合不能放到一行的长字符串的创建。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (adjacent-strings-literals)"?>
+{% prettify dart %}
+raiseAlarm(
+    'ERROR: Parts of the spaceship are on fire. Other '
+    'parts are overrun by martians. Unclear which are which.');
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (adjacent-strings-literals)"?>
+{% prettify dart %}
+raiseAlarm('ERROR: Parts of the spaceship are on fire. Other ' +
+    'parts are overrun by martians. Unclear which are which.');
+{% endprettify %}
+
+{% comment %}
 ### PREFER using interpolation to compose strings and values.
 
 If you're coming from other languages, you're used to using long chains of `+`
@@ -166,7 +264,26 @@ it's almost always cleaner and shorter to use interpolation:
 {% prettify dart %}
 'Hello, ' + name + '! You are ' + (year - birth).toString() + ' y...';
 {% endprettify %}
+{% endcomment %}
 
+### **推荐** 使用插值的形式来组合字符串和值。
+
+如果你之前使用过其他语言，你一定习惯使用大量 `+` 将字面量字符串以及字符串变量链接构建字符串。
+这种方式在 Dart 中同样有效，但是通常情况下使用插值会更清晰简短。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (string-interpolation)"?>
+{% prettify dart %}
+'Hello, $name! You are ${year - birth} years old.';
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (string-interpolation)"?>
+{% prettify dart %}
+'Hello, ' + name + '! You are ' + (year - birth).toString() + ' y...';
+{% endprettify %}
+
+{% comment %}
 ### AVOID using curly braces in interpolation when not needed.
 
 If you're interpolating a simple identifier not immediately followed by more
@@ -186,12 +303,40 @@ alphanumeric text, the `{}` should be omitted.
 'Hi, ${name}!'
 "Wear your wildest ${decade}'s outfit."
 {% endprettify %}
+{% endcomment %}
 
+### **避免** 在字符串插值中使用不必要的大括号。
+
+如果要插入是一个简单的标识符，并且后面没有紧跟随在其他字母文本，则应省略 `{}` 。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (string-interpolation-avoid-curly)"?>
+{% prettify dart %}
+'Hi, $name!'
+"Wear your wildest $decade's outfit."
+'Wear your wildest ${decade}s outfit.'
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (string-interpolation-avoid-curly)"?>
+{% prettify dart %}
+'Hi, ${name}!'
+"Wear your wildest ${decade}'s outfit."
+{% endprettify %}
+
+{% comment %}
 ## Collections
 
 Out of the box, Dart supports four collection types: lists, maps, queues, and sets.
 The following best practices apply to collections.
+{% endcomment %}
 
+## 集合
+
+Dart 集合中原生支持了四种类型：list， map， queue， 和 set。
+下面是应用于集合的最佳实践。
+
+{% comment %}
 ### DO use collection literals when possible.
 
 There are two ways to make an empty growable list: `[]` and `List()`.
@@ -237,7 +382,53 @@ Note that this doesn't apply to the *named* constructors for those classes.
 `List.from()`, `Map.fromIterable()`, and friends all have their uses. Likewise,
 if you're passing a size to `List()` to create a non-growable one, then it
 makes sense to use that.
+{% endcomment %}
 
+### **要** 尽可能的使用集合字面量。
+
+有两种方式来构造一个空的可变 list ： `[]` 和 `List()` 。
+同样，有三总方式来构造一个空的链表哈希 map：`{}`，
+`Map()`， 和 `LinkedHashMap()` 。
+
+如果想创建一个固定不变的 list 或者其他自定义集合类型，这种情况下你需要使用构造函数。
+否则，使用字面量语法更加优雅。
+核心库中暴露这些构造函数易于扩展，但是通常在 Dart 代码中并不使用构造函数。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (collection-literals)"?>
+{% prettify dart %}
+var points = [];
+var addresses = {};
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (collection-literals)"?>
+{% prettify dart %}
+var points = List();
+var addresses = Map();
+{% endprettify %}
+
+如果需要的话，你甚至可以为它们提供一个类型参数。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (generic-collection-literals)"?>
+{% prettify dart %}
+var points = <Point>[];
+var addresses = <String, Address>{};
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (generic-collection-literals)"?>
+{% prettify dart %}
+var points = List<Point>();
+var addresses = Map<String, Address>();
+{% endprettify %}
+
+注意，对于集合类的 *命名* 构造函数则不适用上面的规则。
+`List.from()`、 `Map.fromIterable()` 都有其使用场景。 
+如果需要一个固定长度的结合，使用 ``List()`` 来创建一个固定长度的 list 也是合理的。
+
+{% comment %}
 ### DON'T use `.length` to see if a collection is empty.
 
 The [Iterable][] contract does not require that a collection know its length or
@@ -262,7 +453,33 @@ if (words.isNotEmpty) return words.join(' ');
 if (lunchBox.length == 0) return 'so hungry...';
 if (!words.isEmpty) return words.join(' ');
 {% endprettify %}
+{% endcomment %}
 
+### **不要** 使用 `.length` 来判断一个集合是否为空。
+
+[Iterable][] 合约并不要求集合知道其长度，也没要求在遍历的时候其长度不能改变。
+通过调用 `.length`  来判断集合是否包含内容是非常低效的。
+
+[iterable]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Iterable-class.html
+
+相反，Dart 提供了更加高效率和易用的 getter 函数：`.isEmpty` 和`.isNotEmpty`。
+使用这些函数并不需要对结果再次取非。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (dont-use-length)"?>
+{% prettify dart %}
+if (lunchBox.isEmpty) return 'so hungry...';
+if (words.isNotEmpty) return words.join(' ');
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (dont-use-length)"?>
+{% prettify dart %}
+if (lunchBox.length == 0) return 'so hungry...';
+if (!words.isEmpty) return words.join(' ');
+{% endprettify %}
+
+{% comment %}
 ### CONSIDER using higher-order methods to transform a sequence.
 
 If you have a collection and want to produce a new modified collection from it,
@@ -283,6 +500,27 @@ var aquaticNames = animals
 At the same time, this can be taken too far. If you are chaining or nesting
 many higher-order methods, it may be clearer to write a chunk of imperative
 code.
+{% endcomment %}
+
+### **考虑** 使用高阶（higher-order）函数来转换集合数据。
+
+如果你有一个集合并且想要修改里面的内容转换为另外一个集合，
+使用 `.map()`、 `.where()` 以及 `Iterable` 提供的其他函数会让代码更加简洁。
+
+使用这些函数替代 `for` 循环会让代码更加可以表述你的意图，
+生成一个新的集合系列并不具有副作用。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (use-higher-order-func)"?>
+{% prettify dart %}
+var aquaticNames = animals
+    .where((animal) => animal.isAquatic)
+    .map((animal) => animal.name);
+{% endprettify %}
+
+与此同时，这可以非常长，
+如果你串联或者嵌套调用很多高阶函数，
+则使用一些命令式代码可能会更加清晰。
 
 ### AVOID using `Iterable.forEach()` with a function literal.
 
