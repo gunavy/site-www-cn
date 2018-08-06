@@ -131,19 +131,18 @@ That means that if you import some other package's private library, a minor,
 theoretically non-breaking point release of that package could break your code.
 {% endcomment %}
 
-### **不要** import libraries that are inside the `src` directory of another package.
+### **不要** 引入 package 中 `src` 目录下的库。
 
-The `src` directory under `lib` [is specified][package guide] to contain
-libraries private to the package's own implementation. The way package
-maintainers version their package takes this convention into account. They are
-free to make sweeping changes to code under `src` without it being a breaking
-change to the package.
+`lib` 下的 `src` 目录[被指定][package guide]为 package 自己实现的私有库。
+基于包维护者对版本的考虑，package 使用了这种约定。
+在不破坏 package 的情况下，维护者可以自由地对 `src` 目录下的代码进行修改。
 
 [package guide]: https://www.dartlang.org/tools/pub/package-layout
 
-That means that if you import some other package's private library, a minor,
-theoretically non-breaking point release of that package could break your code.
+这意味着，你如果引入了其中的私有库，
+按理论来讲，一个不破坏 package 的次版本就会影响到你的代码。
 
+{% comment %}
 ### PREFER relative paths when importing libraries within your own package's `lib` directory.
 
 When referencing a library inside your package's `lib` directory from another
@@ -190,6 +189,50 @@ library. Follow these two rules:
 
 * An import path should never contain `/lib/`.
 * A library under `lib` should never use `../` to escape the `lib` directory.
+{% endcomment %}
+
+### **建议** 使用相对路径在引入你自己 package 中的 `lib` 目录。
+
+在同一个 package 下其中一个库引用另一个 `lib` 目录下的库时，
+应该使用相对的 URI 或者直接使用 `package:`。
+
+比如，下面是你的 package 目录结构：
+
+```text
+my_package
+└─ lib
+   ├─ src
+   │  └─ utils.dart
+   └─ api.dart
+```
+
+如果 `api.dart` 想引入 `utils.dart` ，应该这样使用：
+
+{:.good-style}
+{% prettify dart %}
+import 'src/utils.dart';
+{% endprettify %}
+
+而不是:
+
+{:.bad-style}
+{% prettify dart %}
+import 'package:my_package/src/utils.dart';
+{% endprettify %}
+
+喜欢一种方式没有什么深奥的原因——这里仅仅是因为更精简，或者是能够保持一致。
+
+“让 package 的 `lib` 目录”独立分离非常重要。
+`lib` 目录下的库可以互相引用（或者是其子目录下的库）。
+`lib` 目录外的库可以互相引用。
+例如，`test` 下可能有一个测试实用程序库被其它在 `test` 下的库引用。
+
+但你不能跨越引用。一个在 `lib` 外部的库应该永远不会引用一个 在 `lib` 内部的库，反之亦然。
+这样做会破坏 Dart 正确判断两个库的 URL 是否引用相同库的能力。
+遵循以下两条规则：
+
+* 导入路径不应包含 `/lib/` 。
+* `lib` 下的库永远不应该使用 `../` 来跳出 `lib` 目录。
 
 {% comment %}
 ## Strings
