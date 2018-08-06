@@ -565,6 +565,7 @@ var aquaticNames = animals
 如果你串联或者嵌套调用很多高阶函数，
 则使用一些命令式代码可能会更加清晰。
 
+{% comment %}
 ### AVOID using `Iterable.forEach()` with a function literal.
 
 `forEach()` functions are widely used in JavaScript because the built in
@@ -595,7 +596,40 @@ with each element as the argument. In that case, `forEach()` is handy.
 {% prettify dart %}
 people.forEach(print);
 {% endprettify %}
+{% endcomment %}
 
+### **避免** 在 `Iterable.forEach()` 中使用字面量函数。
+
+`forEach()` 函数在 JavaScript 中被广泛使用，
+这因为内置的 `for-in` 循环通常不能达到你想要的效果。
+在Dart中，如果要对序列进行迭代，惯用的方式是使用循环。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (avoid-forEach)"?>
+{% prettify dart %}
+for (var person in people) {
+  ...
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (avoid-forEach)"?>
+{% prettify dart %}
+people.forEach((person) {
+  ...
+});
+{% endprettify %}
+
+例外情况是，如果要执行的操作是调用一些已存在的并且将每个元素作为参数的函数，
+在这种情况下，`forEach()` 是很方便的。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (forEach-over-func)"?>
+{% prettify dart %}
+people.forEach(print);
+{% endprettify %}
+
+{% comment %}
 ### DON'T use `List.from()` unless you intend to change the type of the result.
 
 Given an Iterable, there are two obvious ways to produce a new List that
@@ -634,8 +668,47 @@ var ints = List<int>.from(numbers);
 
 But if your goal is just to copy the iterable and preserve its original type, or
 you don't care about the type, then use `toList()`.
+{% endcomment %}
+
+### **不要** 使用 `List.from()` 除非想修改结果的类型。
+
+给定一个可迭代的对象，有两种常见方式来生成一个包含相同元素的 list：
+
+<?code-excerpt "misc/test/effective_dart_test.dart (list-from-1)"?>
+{% prettify dart %}
+var copy1 = iterable.toList();
+var copy2 = List.from(iterable);
+{% endprettify %}
+
+明显的区别是前一个更短。
+更*重要*的区别在于第一个保留了原始对象的类型参数：
+
+<?code-excerpt "misc/test/effective_dart_test.dart (list-from-2)"?>
+{% prettify dart %}
+// Creates a List<int>:
+var iterable = [1, 2, 3];
+
+// Prints "List<int>":
+print(iterable.toList().runtimeType);
+
+// Prints "List<dynamic>":
+print(List.from(iterable).runtimeType);
+{% endprettify %}
+
+如果你*想要*改变类型，那么可以调用 `List.from()` ：
+
+<?code-excerpt "misc/test/effective_dart_test.dart (list-from-3)"?>
+{% prettify dart %}
+var numbers = [1, 2.3, 4]; // List<num>.
+numbers.removeAt(1); // Now it only contains integers.
+var ints = List<int>.from(numbers);
+{% endprettify %}
+
+但是如果你的目的只是复制可迭代对象并且保留元素原始类型，
+或者并不在乎类型，那么请使用 `toList()` 。
 
 
+{% comment %}
 ### DO use `whereType()` to filter a collection by type.
 
 {% comment %}
@@ -686,8 +759,61 @@ var ints = objects.whereType<int>();
 
 Using `whereType()` is concise, produces an [Iterable][] of the desired type,
 and has no unnecessary levels of wrapping.
+{% endcomment %}
 
+### **要** 使用 `whereType()` 按类型过滤集合。
 
+{% comment %}
+update-for-dart-2
+{% endcomment %}
+<aside class="alert alert-warning" markdown="1">
+  **在使用 `whereType()` 前，确认它是否已经被实现。**
+  我们期望 `whereType()` 会在后续的 Dart&nbsp;2 中添加。
+  更多详情，参考
+  [SDK issue #32463.](https://github.com/dart-lang/sdk/issues/32463#issuecomment-402975456)
+</aside>
+
+假设你有一个 list 里面包含了多种类型的对象，
+但是你指向从它里面获取整型类型的数据。
+那么你可以像下面这样使用 `where()` ：
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (where-type)"?>
+{% prettify dart %}
+var objects = [1, "a", 2, "b", 3];
+var ints = objects.where((e) => e is int);
+{% endprettify %}
+
+这个很罗嗦，但是更糟糕的是，它返回的可迭代对象类型可能并不是你想要的。
+在上面的例子中，虽然你想得到一个 `Iterable<int>`，然而它返回了一个 `Iterable<Object>`，
+这是因为，这是你过滤后得到的类型。
+
+有时候你会看到通过添加 `cast()` 来“修正”上面的错误：
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (where-type-2)"?>
+{% prettify dart %}
+var objects = [1, "a", 2, "b", 3];
+var ints = objects.where((e) => e is int).cast<int>();
+{% endprettify %}
+
+代码冗长，并导致创建了两个包装器，获取元素对象要间接通过两层，并进行两次多余的运行时检查。
+幸运的是，对于这个用例，核心库提供了 `whereType()`][where-type] 方法：
+
+[where-type]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Iterable/whereType.html
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (where-type)"?>
+{% prettify dart %}
+var objects = [1, "a", 2, "b", 3];
+var ints = objects.whereType<int>();
+{% endprettify %}
+
+使用 `whereType()` 简洁，
+生成所需的 [Iterable][]（可迭代）类型，
+并且没有不必要的层级包装。
+
+{% comment %}
 ### DON'T use `cast()` when a nearby operation will do.
 
 Often when you're dealing with an iterable or stream, you perform several
@@ -732,7 +858,54 @@ var reciprocals = stuff.map<double>((n) => 1 / n);
 var stuff = <dynamic>[1, 2];
 var reciprocals = stuff.map((n) => 1 / n).cast<double>();
 {% endprettify %}
+{% endcomment %}
 
+
+### **不要** 使用 `cast()`，如果有更贴切的方式可以实现。
+
+通常，当处理可迭代对象或 stream 时，
+你可以对其执行多次转换。
+最后，生成所希望的具有特定类型参数的对象。
+尝试查看是否有已有的转换方法来改变类型，而不是去掉用 `cast()` 。
+而不是调用cast（），看看是否有一个现有的转换可以改变类型。
+
+如果你已经使用了 `toList()` ，那么请使用 [`List<T>.from()`][list-from] 替换，
+这里的 `T` 是你想要的返回值的类型。
+
+[list-from]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/List/List.from.html
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (cast-list)"?>
+{% prettify dart %}
+var stuff = <dynamic>[1, 2];
+var ints = List<int>.from(stuff);
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (cast-list)"?>
+{% prettify dart %}
+var stuff = <dynamic>[1, 2];
+var ints = stuff.toList().cast<int>();
+{% endprettify %}
+
+如果你正在调用 `map()` ，给它一个显式的类型参数，
+这样它就能产生一个所需类型的可迭代对象。
+类型推断通常根据传递给 `map()` 的函数选择出正确的类型，
+但有的时候需要明确指明。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (cast-map)" replace="/\(n as int\)/n/g"?>
+{% prettify dart %}
+var stuff = <dynamic>[1, 2];
+var reciprocals = stuff.map<double>((n) => 1 / n);
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (cast-map)" replace="/\(n as int\)/n/g"?>
+{% prettify dart %}
+var stuff = <dynamic>[1, 2];
+var reciprocals = stuff.map((n) => 1 / n).cast<double>();
+{% endprettify %}
 
 ### AVOID using `cast()`.
 
