@@ -88,21 +88,39 @@
 
 **Libraries**
 
+
+**库**
+
 * <a href='/guides/language/effective-dart/usage#do-use-strings-in-part-of-directives'>DO use strings in <code>part of</code> directives.</a>
+* <a href='/guides/language/effective-dart/usage#%E8%A6%81-%E5%9C%A8-part-of-%E4%B8%AD%E4%BD%BF%E7%94%A8%E5%AD%97%E7%AC%A6%E4%B8%B2'><strong>要</strong> 在 <code>part of</code> 中使用字符串。</a>
 * <a href='/guides/language/effective-dart/usage#dont-import-libraries-that-are-inside-the-src-directory-of-another-package'>DON'T import libraries that are inside the <code>src</code> directory of another package.</a>
+* <a href='/guides/language/effective-dart/usage#%E4%B8%8D%E8%A6%81-%E5%AF%BC%E5%85%A5-package-%E4%B8%AD-src-%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E5%BA%93'><strong>不要</strong> 导入 package 中 <code>src</code> 目录下的库。</a>
 * <a href='/guides/language/effective-dart/usage#prefer-relative-paths-when-importing-libraries-within-your-own-packages-lib-directory'>PREFER relative paths when importing libraries within your own package's <code>lib</code> directory.</a>
+* <a href='/guides/language/effective-dart/usage#%E5%BB%BA%E8%AE%AE-%E4%BD%BF%E7%94%A8%E7%9B%B8%E5%AF%B9%E8%B7%AF%E5%BE%84%E5%9C%A8%E5%AF%BC%E5%85%A5%E4%BD%A0%E8%87%AA%E5%B7%B1-package-%E4%B8%AD%E7%9A%84-lib-%E7%9B%AE%E5%BD%95'><strong>建议</strong> 使用相对路径在导入你自己 package 中的 <code>lib</code> 目录。</a>
 
 **Strings**
 
+
+**字符串**
+
 * <a href='/guides/language/effective-dart/usage#do-use-adjacent-strings-to-concatenate-string-literals'>DO use adjacent strings to concatenate string literals.</a>
+* <a href='/guides/language/effective-dart/usage#%E8%A6%81-%E4%BD%BF%E7%94%A8%E4%B8%B4%E8%BF%91%E5%AD%97%E7%AC%A6%E5%AD%97%E7%9A%84%E6%96%B9%E5%BC%8F%E8%BF%9E%E6%8E%A5%E5%AD%97%E9%9D%A2%E9%87%8F%E5%AD%97%E7%AC%A6%E4%B8%B2'><strong>要</strong> 使用临近字符字的方式连接字面量字符串。</a>
 * <a href='/guides/language/effective-dart/usage#prefer-using-interpolation-to-compose-strings-and-values'>PREFER using interpolation to compose strings and values.</a>
+* <a href='/guides/language/effective-dart/usage#%E6%8E%A8%E8%8D%90-%E4%BD%BF%E7%94%A8%E6%8F%92%E5%80%BC%E7%9A%84%E5%BD%A2%E5%BC%8F%E6%9D%A5%E7%BB%84%E5%90%88%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%92%8C%E5%80%BC'><strong>推荐</strong> 使用插值的形式来组合字符串和值。</a>
 * <a href='/guides/language/effective-dart/usage#avoid-using-curly-braces-in-interpolation-when-not-needed'>AVOID using curly braces in interpolation when not needed.</a>
+* <a href='/guides/language/effective-dart/usage#%E9%81%BF%E5%85%8D-%E5%9C%A8%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%8F%92%E5%80%BC%E4%B8%AD%E4%BD%BF%E7%94%A8%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84%E5%A4%A7%E6%8B%AC%E5%8F%B7'><strong>避免</strong> 在字符串插值中使用不必要的大括号。</a>
 
 **Collections**
 
+
+**集合**
+
 * <a href='/guides/language/effective-dart/usage#do-use-collection-literals-when-possible'>DO use collection literals when possible.</a>
+* <a href='/guides/language/effective-dart/usage#%E8%A6%81-%E5%B0%BD%E5%8F%AF%E8%83%BD%E7%9A%84%E4%BD%BF%E7%94%A8%E9%9B%86%E5%90%88%E5%AD%97%E9%9D%A2%E9%87%8F'><strong>要</strong> 尽可能的使用集合字面量。</a>
 * <a href='/guides/language/effective-dart/usage#dont-use-length-to-see-if-a-collection-is-empty'>DON'T use <code>.length</code> to see if a collection is empty.</a>
+* <a href='/guides/language/effective-dart/usage#%E4%B8%8D%E8%A6%81-%E4%BD%BF%E7%94%A8-length-%E6%9D%A5%E5%88%A4%E6%96%AD%E4%B8%80%E4%B8%AA%E9%9B%86%E5%90%88%E6%98%AF%E5%90%A6%E4%B8%BA%E7%A9%BA'><strong>不要</strong> 使用 <code>.length</code> 来判断一个集合是否为空。</a>
 * <a href='/guides/language/effective-dart/usage#consider-using-higher-order-methods-to-transform-a-sequence'>CONSIDER using higher-order methods to transform a sequence.</a>
+* <a href='/guides/language/effective-dart/usage#%E8%80%83%E8%99%91-%E4%BD%BF%E7%94%A8%E9%AB%98%E9%98%B6higher-order%E5%87%BD%E6%95%B0%E6%9D%A5%E8%BD%AC%E6%8D%A2%E9%9B%86%E5%90%88%E6%95%B0%E6%8D%AE'><strong>考虑</strong> 使用高阶（higher-order）函数来转换集合数据。</a>
 * <a href='/guides/language/effective-dart/usage#avoid-using-iterableforeach-with-a-function-literal'>AVOID using <code>Iterable.forEach()</code> with a function literal.</a>
 * <a href='/guides/language/effective-dart/usage#dont-use-listfrom-unless-you-intend-to-change-the-type-of-the-result'>DON'T use <code>List.from()</code> unless you intend to change the type of the result.</a>
 * <a href='/guides/language/effective-dart/usage#do-use-wheretype-to-filter-a-collection-by-type'>DO use <code>whereType()</code> to filter a collection by type.</a>
