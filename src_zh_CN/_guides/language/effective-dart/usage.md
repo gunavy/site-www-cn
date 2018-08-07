@@ -1576,11 +1576,19 @@ class Circle {
 但是只应该在你只有你有这样的性能问题的时候再去处理，
 处理时要仔细，并留下挂关于优化的注释。
 
+{% comment %}
 ## Members
 
 In Dart, objects have members which can be functions (methods) or data (instance
 variables). The following best practices apply to an object's members.
+{% endcomment %}
 
+## 成员
+
+在 Dart 中，对象成员可以是函数（方法）或数据（实例变量）。
+下面是关于对象成员的最佳实践。
+
+{% comment %}
 ### DON'T wrap a field in a getter and setter unnecessarily.
 
 In Java and C#, it's common to hide all fields behind getters and setters (or
@@ -1613,8 +1621,40 @@ class Box {
   }
 }
 {% endprettify %}
+{% endcomment %}
 
+### **不要** 为字段创建不必要的 getter 和 setter 方法。
 
+在 Java 和 C# 中，通常情况下会将所有的字段隐藏到 getter 和 setter 方法中（在 C# 中被称为属性），
+即使实现中仅仅是指向这些字段。在这种方式下，即使你在这些成员上做多少的事情，你也不需要直接访问它们。
+这是因为，在 Java 中，调用 getter 方法和直接访问字段是不同的。
+在 C# 中，访问属性与访问字段不是二进制兼容的。
+
+Dart 不存在这个限制。字段和 getter/setter 是完全无法区分的。
+你可以在类中公开一个字段，然后将其包装在 getter 和 setter 中，
+而不会影响任何使用该字段的代码。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (dont-wrap-field)"?>
+{% prettify dart %}
+class Box {
+  var contents;
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (dont-wrap-field)"?>
+{% prettify dart %}
+class Box {
+  var _contents;
+  get contents => _contents;
+  set contents(value) {
+    _contents = value;
+  }
+}
+{% endprettify %}
+
+{% comment %}
 ### PREFER using a `final` field to make a read-only property.
 
 If you have a field that outside code should be able to see but not assign to, a
@@ -1640,8 +1680,35 @@ class Box {
 Of course, if you need to internally assign to the field outside of the
 constructor, you may need to do the "private field, public getter" pattern, but
 don't reach for that until you need to.
+{% endcomment %}
 
+### **推荐** 使用 `final` 关键字来创建只读属性。
 
+如果你有一个变量，对于外部代买来说只能读取不能修改，
+最简单的做法就是使用 `final` 关键字来标记这个变量。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (final)"?>
+{% prettify dart %}
+class Box {
+  final contents = [];
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (final)"?>
+{% prettify dart %}
+class Box {
+  var _contents;
+  get contents => _contents;
+}
+{% endprettify %}
+
+当然，如果你需要构造一个内部可以赋值，外部可以访问的字段，
+你可以需要这种“私有成员变量，公开访问函数”的模式，
+但是，如非必要，请不要使用这种模式。
+
+{% comment %}
 ### CONSIDER using `=>` for simple members.
 
 In addition to using `=>` for function expressions, Dart also lets you define
@@ -1699,8 +1766,67 @@ set x(num value) => center = Point(value, center.y);
 It's rarely a good idea to use `=>` for non-setter void members. The `=>`
 implies "returns a value", so readers may misinterpret what the void member does
 if you use it.
+{% endcomment %}
 
 
+### **考虑** 对简单成员使用 `=>` 。
+
+除了使用 `=>` 可以用作函数表达式以外，
+Dart 还允许使用它来定义成员。
+这种风格非常适合，仅进行计算并返回结果的简单成员。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (use-arrow)"?>
+{% prettify dart %}
+double get area => (right - left) * (bottom - top);
+
+bool isReady(num time) => minTime == null || minTime <= time;
+
+String capitalize(String name) =>
+    '${name[0].toUpperCase()}${name.substring(1)}';
+{% endprettify %}
+
+*编写*代码的人似乎很喜欢 `=>` 语法，但是它很容易被滥用，最后导致代码不容易被*阅读*。
+如果你有很多行声明或包含深层的嵌套表达式（级联和条件运算符就是常见的罪魁祸首），
+你以及其他人有谁会愿意读这样的代码！
+你应该换做使用代码块和一些语句来实现。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (arrow-long)"?>
+{% prettify dart %}
+Treasure openChest(Chest chest, Point where) {
+  if (_opened.containsKey(chest)) return null;
+
+  var treasure = Treasure(where);
+  treasure.addAll(chest.contents);
+  _opened[chest] = treasure;
+  return treasure;
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (arrow-long)"?>
+{% prettify dart %}
+Treasure openChest(Chest chest, Point where) =>
+    _opened.containsKey(chest) ? null : _opened[chest] = Treasure(where)
+      ..addAll(chest.contents);
+{% endprettify %}
+
+您还可以对不返回值的成员使用 `=>` 。 
+这里有个惯例，就是当 setter 和 getter 都比较简单的时候使用 `=>` 。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (arrow-setter)"?>
+{% prettify dart %}
+num get x => center.x;
+set x(num value) => center = Point(value, center.y);
+{% endprettify %}
+
+对非 setter，void 返回值的成员，使用 `=>` 是一个不错的注意，
+`=>` 语法暗示会“返回一个值”，如果你在 void 返回值的成员上使用，会让读代码的人误解成员的行为。
+
+
+{% comment %}
 ### DON'T use `this.` when not needed to avoid shadowing.
 
 JavaScript requires an explicit `this.` to refer to members on the object whose
@@ -1759,8 +1885,66 @@ class Box extends BaseBox {
 
 This looks surprising, but works like you want. Fortunately, code like this is
 relatively rare thanks to initializing formals.
+{% endcomment %}
+
+### **不要** 使用 `this.` ，除非遇到了变量冲突的情况。
+
+JavaScript 需要使用 `this.` 来引用对象的成员变量，
+但是 Dart&mdash;和 C++, Java, 以及C#&mdash;没有这种限制。
+
+只有当局部变量和成员变量名字一样的时候，你才需要使用 `this.` 来访问成员变量。
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (this-dot)"?>
+{% prettify dart %}
+class Box {
+  var value;
+
+  void clear() {
+    this.update(null);
+  }
+
+  void update(value) {
+    this.value = value;
+  }
+}
+{% endprettify %}
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (this-dot)"?>
+{% prettify dart %}
+class Box {
+  var value;
+
+  void clear() {
+    update(null);
+  }
+
+  void update(value) {
+    this.value = value;
+  }
+}
+{% endprettify %}
+
+注意，构造函数初始化列表中的字段有永远不会与构造函数参数列表参数产生冲突。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (param-dont-shadow-field-ctr-init)"?>
+{% prettify dart %}
+class Box extends BaseBox {
+  var value;
+
+  Box(value)
+      : value = value,
+        super(value);
+}
+{% endprettify %}
+
+这看起来很令人惊讶，但是实际结果是你想要的。
+幸运的是，由于初始化规则的特殊性，上面的代码很少见到。
 
 
+{% comment %}
 ### DO initialize fields at their declaration when possible.
 
 If a field doesn't depend on any constructor parameters, it can and should be
@@ -1793,12 +1977,54 @@ class Folder {
 
 Of course, if a field depends on constructor parameters, or is initialized
 differently by different constructors, then this guideline does not apply.
+{% endcomment %}
 
 
+### **要** 尽可能的在定义变量的时候初始化变量值。
+
+如果一个字段不依赖于构造函数中的参数，
+则应该在定义的时候就初始化字段值。
+这样可以减少需要的代码并可以确保在有多个构造函数的时候你不会忘记初始化该字段。
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (field-init-at-decl)"?>
+{% prettify dart %}
+class Folder {
+  final String name;
+  final List<Document> contents;
+
+  Folder(this.name) : contents = [];
+  Folder.temp() : name = 'temporary'; // Oops! Forgot contents.
+}
+{% endprettify %}
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (field-init-at-decl)"?>
+{% prettify dart %}
+class Folder {
+  final String name;
+  final List<Document> contents = [];
+
+  Folder(this.name);
+  Folder.temp() : name = 'temporary';
+}
+{% endprettify %}
+
+当然，对于变量取值依赖构造函数参数的情况以及不同的构造函数取值也不一样的情况，
+则不适合本条规则。
+
+
+{% comment %}
 ## Constructors
 
 The following best practices apply to declaring constructors for a class.
+{% endcomment %}
 
+## 构造函数
+
+下面对于类的构造函数的最佳实践。
+
+{% comment %}
 ### DO use initializing formals when possible.
 
 Many fields are initialized directly from a constructor parameter, like:
@@ -1830,8 +2056,41 @@ This `this.` syntax before a constructor parameter is called an "initializing
 formal". You can't always take advantage of it. In particular, using it means
 the parameter is not visible in the initialization list. But, when you can, you
 should.
+{% endcomment %}
+
+### **要** 尽可能的使用初始化形式。
+
+许多字段直接使用构造函数参数来初始化，如：
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (field-init-as-param)"?>
+{% prettify dart %}
+class Point {
+  num x, y;
+  Point(num x, num y) {
+    this.x = x;
+    this.y = y;
+  }
+}
+{% endprettify %}
+
+为了初始化一个字段，我们需要取_四_次 `x` 。使用下面的方式会更好：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (field-init-as-param)"?>
+{% prettify dart %}
+class Point {
+  num x, y;
+  Point(this.x, this.y);
+}
+{% endprettify %}
+
+这里的位于构造函数参数之前的 `this.` 语法被称之为初始化形式（initializing formal）。
+有些情况下这无法使用这种形式。特别是，这种形式下在初始化列表中无法看到变量。 
+但是如果能使用该方式，就应该尽量使用。
 
 
+{% comment %}
 ### DON'T type annotate initializing formals.
 
 If a constructor parameter is using `this.` to initialize a field, then the type
@@ -1854,8 +2113,33 @@ class Point {
   Point(int this.x, int this.y);
 }
 {% endprettify %}
+{% endcomment %}
+
+### **不要** 在初始化形式中做类型注释。
+
+如果构造函数参数使用 `this.` 的方式来初始化字段，
+这时参数的类型被认为和字段类型相同。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (dont-type-init-formals)"?>
+{% prettify dart %}
+class Point {
+  int x, y;
+  Point(this.x, this.y);
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (dont-type-init-formals)"?>
+{% prettify dart %}
+class Point {
+  int x, y;
+  Point(int this.x, int this.y);
+}
+{% endprettify %}
 
 
+{% comment %}
 ### DO use `;` instead of `{}` for empty constructor bodies.
 
 In Dart, a constructor with an empty body can be terminated with just a
@@ -1878,7 +2162,32 @@ class Point {
   Point(this.x, this.y) {}
 }
 {% endprettify %}
+{% endcomment %}
 
+### **要** 用 `;` 来替代空的构造函数体 `{}`。
+
+在 Dart 中，没有具体函数体的构造函数可以使用分号结尾。
+（事实上，这是不可变构造函数的要求。）
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (semicolon-for-empty-body)"?>
+{% prettify dart %}
+class Point {
+  int x, y;
+  Point(this.x, this.y);
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (semicolon-for-empty-body)"?>
+{% prettify dart %}
+class Point {
+  int x, y;
+  Point(this.x, this.y) {}
+}
+{% endprettify %}
+
+{% comment %}
 ### DON'T use `new`.
 
 Dart 2 makes the `new` keyword optional. Even in Dart 1, its meaning was never
@@ -1917,7 +2226,51 @@ Widget build(BuildContext context) {
   );
 }
 {% endprettify %}
+{% endcomment %}
 
+### **不要** 使用 `new` 。
+
+
+Dart 2 `new` 关键字成为可选项。
+即使在Dart 1中，其含义也从未明确过，
+因为工厂构造函数意味着new调用可能仍然不会实际返回新对象。
+
+Dart 2 makes the `new` keyword optional. Even in Dart 1, its meaning was never
+clear because factory constructors mean a `new` invocation may still not
+actually return a new object.
+
+The language still permits `new` in order to make migration less painful, but
+consider it deprecated and remove it from your code.
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (no-new)"?>
+{% prettify dart %}
+Widget build(BuildContext context) {
+  return Row(
+    children: [
+      RaisedButton(
+        child: Text('Increment'),
+      ),
+      Text('Click!'),
+    ],
+  );
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (no-new)" replace="/new/[!$&!]/g"?>
+{% prettify dart %}
+Widget build(BuildContext context) {
+  return [!new!] Row(
+    children: [
+      [!new!] RaisedButton(
+        child: [!new!] Text('Increment'),
+      ),
+      [!new!] Text('Click!'),
+    ],
+  );
+}
+{% endprettify %}
 
 ### DON'T use `const` redundantly.
 
