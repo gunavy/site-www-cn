@@ -20,6 +20,23 @@ Future<Null> main() async {
     var lines = section.file.readAsLinesSync();
     // Ignore the YAML front matter (can lead to false H3 elements.
     lines = lines.skip(1).skipWhile((line) => line.trim() != '---').toList();
+
+    // Ignore the comment front matter (can lead to false H3 elements.
+    var commentCount = 0;
+    var linesWithoutComment = <String>[];
+    for (var line in lines) {
+      if (line.trim().replaceAll(' ', '') == '{%comment%}') {
+        commentCount++;
+      }
+      if (line.trim().replaceAll(' ', '') == '{%endcomment%}') {
+        commentCount--;
+      }
+      if (commentCount == 0) {
+        linesWithoutComment.add(line);
+      }
+    }
+    lines = linesWithoutComment;
+
     var document = new md.Document();
     document.parseRefLinks(lines);
     var nodes = document.parseLines(lines);
