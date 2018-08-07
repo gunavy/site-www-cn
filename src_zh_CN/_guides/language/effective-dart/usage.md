@@ -861,7 +861,7 @@ var reciprocals = stuff.map((n) => 1 / n).cast<double>();
 {% endcomment %}
 
 
-### **不要** 使用 `cast()`，如果有更贴切的方式可以实现。
+### **不要** 使用 `cast()`，如果有更合适的方法。
 
 通常，当处理可迭代对象或 stream 时，
 你可以对其执行多次转换。
@@ -907,6 +907,7 @@ var stuff = <dynamic>[1, 2];
 var reciprocals = stuff.map((n) => 1 / n).cast<double>();
 {% endprettify %}
 
+{% comment %}
 ### AVOID using `cast()`.
 
 This is the softer generalization of the previous rule. Sometimes there is no
@@ -1003,14 +1004,115 @@ int median(List<Object> objects) {
 These alternatives don't always work, of course, and sometimes `cast()` is the
 right answer. But consider that method a little risky and undesirable&mdash;it
 can be slow and may fail at runtime if you aren't careful.
+{% endcomment %}
 
+### **避免** 使用 `cast()` 。
 
+这是对先前规则的一个宽松的定义。
+有些时候，并没有合适的方式来修改对象类型，即便如此，
+也应该尽可能的避免使用 `cast()` 来“改变”集合中元素的类型。
+
+推荐使用下面的方式来替代：
+
+*   **用恰当的类型创建集合。** 修改集合被首次创建时的代码，
+    为集合提供有一个恰当的类型。
+
+*   **在访问元素时进行 cast 操作。** 如果要立即对集合进行迭代，
+    在迭代内部 cast 每个元素。
+
+*   **逼不得已进行 cast，请使用 `List.from()` 。** 如果最终你会使用到集合中的大部分元素，
+    并且不需要对象还原到原始的对象类型，使用 `List.from()` 来转换它。
+
+    `cast()` 方法返回一个惰性集合（lazy collection），*每个操作*都会对元素进行检查。
+    如果只对少数元素执行少量操作，那么这种惰性方式就非常合适。
+    但在许多情况下，惰性验证和包裹（wrapping）所产生的开销已经超过了它们所带来的好处。
+
+下面是 **用恰当的类型创建集合** 的示例：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (cast-at-create)"?>
+{% prettify dart %}
+List<int> singletonList(int value) {
+  var list = <int>[];
+  list.add(value);
+  return list;
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (cast-at-create)"?>
+{% prettify dart %}
+List<int> singletonList(int value) {
+  var list = []; // List<dynamic>.
+  list.add(value);
+  return list.cast<int>();
+}
+{% endprettify %}
+
+下面是 **在访问元素时进行 cast 操作** 的示例：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (cast-iterate)" replace="/\(n as int\)/[!$&!]/g"?>
+{% prettify dart %}
+void printEvens(List<Object> objects) {
+  // We happen to know the list only contains ints.
+  for (var n in objects) {
+    if ([!(n as int)!].isEven) print(n);
+  }
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (cast-iterate)"?>
+{% prettify dart %}
+void printEvens(List<Object> objects) {
+  // We happen to know the list only contains ints.
+  for (var n in objects.cast<int>()) {
+    if (n.isEven) print(n);
+  }
+}
+{% endprettify %}
+
+下面是 **使用 `List.from()` 进行 cast 操作** 的示例：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (cast-from)"?>
+{% prettify dart %}
+int median(List<Object> objects) {
+  // We happen to know the list only contains ints.
+  var ints = List<int>.from(objects);
+  ints.sort();
+  return ints[ints.length ~/ 2];
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (cast-from)"?>
+{% prettify dart %}
+int median(List<Object> objects) {
+  // We happen to know the list only contains ints.
+  var ints = objects.cast<int>();
+  ints.sort();
+  return ints[ints.length ~/ 2];
+}
+{% endprettify %}
+
+当然，这些替代方案并不总能解决问题，显然，这时候就应该选择 `cast()` 方式了。
+但是考虑到这种方式的风险和缺点——如果使用不当，可能会导致执行缓慢和运行失败。
+
+{% comment %}
 ## Functions
 
 In Dart, even functions are objects. Here are some best practices
 involving functions.
+{% endcomment %}
+
+## 函数
+
+在 Dart 中，就连函数也是对象。以下是一些涉及函数的最佳实践。
 
 
+{% comment %}
 ### DO use a function declaration to bind a function to a name.
 
 Modern languages have realized how useful local nested functions and closures
@@ -1040,7 +1142,40 @@ void main() {
   };
 }
 {% endprettify %}
+{% endcomment %}
 
+
+### **要** 使用函数声明的方式为函数绑定名称。
+
+现代语言已经意识到本地嵌套函数和闭包的益处。
+在一个函数中定义另一个函数非常常见。
+在许多情况下，这些函数被立即执行并返回结果，而且不需要名字。
+这种情况下非常适合使用函数表达式来实现。
+
+但是，如果你确实需要给方法一个名字，请使用方法定义而不是把
+lambda 赋值给一个变量。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (func-decl)"?>
+{% prettify dart %}
+void main() {
+  localFunction() {
+    ...
+  }
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (func-decl)"?>
+{% prettify dart %}
+void main() {
+  var localFunction = () {
+    ...
+  };
+}
+{% endprettify %}
+
+{% comment %}
 ### DON'T create a lambda when a tear-off will do.
 
 If you refer to a method on an object but omit the parentheses, Dart gives you
@@ -1063,9 +1198,56 @@ names.forEach((name) {
   print(name);
 });
 {% endprettify %}
+{% endcomment %}
 
+### **不要** 使用 lambda 表达式来替代 tear-off。
 
+如果你在一个对象上调用函数并省略了括号， 
+Dart 称之为"tear-off"&mdash;一个和函数使用同样参数的闭包，
+当你调用闭包的时候执行其中的函数。
+
+如果你有一个方法，这个方法调用了参数相同的另一个方法。
+那么，你不需要人为将这个方法包装到一个 lambda 表达式中。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (use-tear-off)"?>
+{% prettify dart %}
+names.forEach(print);
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (use-tear-off)"?>
+{% prettify dart %}
+names.forEach((name) {
+  print(name);
+});
+{% endprettify %}
+
+{% comment %}
 ## Parameters
+{% endcomment %}
+
+## 参数
+
+{% comment %}
+### DO use `=` to separate a named parameter from its default value.
+
+For legacy reasons, Dart allows both `:` and `=` as the default value separator
+for named parameters. For consistency with optional positional parameters, use
+`=`.
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (default-separator)"?>
+{% prettify dart %}
+void insert(Object item, {int at = 0}) { ... }
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (default-separator)"?>
+{% prettify dart %}
+void insert(Object item, {int at: 0}) { ... }
+{% endprettify %}
+{% endcomment %}
 
 ### DO use `=` to separate a named parameter from its default value.
 
@@ -1084,7 +1266,6 @@ void insert(Object item, {int at = 0}) { ... }
 {% prettify dart %}
 void insert(Object item, {int at: 0}) { ... }
 {% endprettify %}
-
 
 ### DON'T use an explicit default value of `null`.
 
