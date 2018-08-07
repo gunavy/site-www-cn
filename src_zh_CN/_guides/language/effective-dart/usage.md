@@ -2230,17 +2230,12 @@ Widget build(BuildContext context) {
 
 ### **不要** 使用 `new` 。
 
-
 Dart 2 `new` 关键字成为可选项。
 即使在Dart 1中，其含义也从未明确过，
-因为工厂构造函数意味着new调用可能仍然不会实际返回新对象。
+以为在工厂构造函数中，调用 `new` 可能并不意味着一定会返回一个新对象。
 
-Dart 2 makes the `new` keyword optional. Even in Dart 1, its meaning was never
-clear because factory constructors mean a `new` invocation may still not
-actually return a new object.
-
-The language still permits `new` in order to make migration less painful, but
-consider it deprecated and remove it from your code.
+为了减少代码迁移时的痛苦， Dart 语言仍允许使用 `new` 关键字，
+但请考在你的代码中弃用和删除 `new` 。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/usage_good.dart (no-new)"?>
@@ -2272,6 +2267,7 @@ Widget build(BuildContext context) {
 }
 {% endprettify %}
 
+{% comment %}
 ### DON'T use `const` redundantly.
 
 In contexts where an expression *must* be constant, the `const` keyword is
@@ -2290,6 +2286,43 @@ may support non-const default values.)
 
 Basically, any place where it would be an error to write `new` instead of
 `const`, Dart 2 allows you to omit the `const`.
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (no-const)"?>
+{% prettify dart %}
+const primaryColors = [
+  Color("red", [255, 0, 0]),
+  Color("green", [0, 255, 0]),
+  Color("blue", [0, 0, 255]),
+];
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (no-const)" replace="/ (const)/ [!$1!]/g"?>
+{% prettify dart %}
+const primaryColors = [!const!] [
+  [!const!] Color("red", [!const!] [255, 0, 0]),
+  [!const!] Color("green", [!const!] [0, 255, 0]),
+  [!const!] Color("blue", [!const!] [0, 0, 255]),
+];
+{% endprettify %}
+{% endcomment %}
+
+### **不要** 冗余地使用 `const` 。
+
+在表达式一定是常量的上下文中，`const` 关键字是隐式的，不需要写，也不应该。
+这里包括：
+
+* 一个字面量常量集合。
+* 调用一个常量构造函数。
+* 元数据注解。
+* 一个常量声明的初始化方法。
+* switch case 表达式—— `case` 和 `:` 中间的部分，不是 case 执行体。
+
+（默认值并不包含在这个列表中，因为在 Dart 将来的版本中可能会在支持非常量的默认值。）
+
+基本上，任何地方用 `new` 替代 `const` 的写法都是错的，
+因为 Dart 2 中允许省略 `const` 。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/usage_good.dart (no-const)"?>
