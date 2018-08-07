@@ -2344,11 +2344,19 @@ const primaryColors = [!const!] [
 ];
 {% endprettify %}
 
+{% comment %}
 ## Error handling
 
 Dart uses exceptions when an error occurs in your program. The following
 best practices apply to catching and throwing exceptions.
+{% endcomment %}
 
+## 错误处理
+
+Dart 使用异常来表示程序执行错误。
+下面是关于如何捕获和抛出异常的最佳实践。
+
+{% comment %}
 ### AVOID catches without `on` clauses.
 
 A catch clause with no `on` qualifier catches *anything* thrown by the code in
@@ -2369,15 +2377,37 @@ framework or low-level code that tries to insulate arbitrary application code
 from causing problems. Even here, it is usually better to catch [Exception][]
 than to catch all types. Exception is the base class for all *runtime* errors
 and excludes errors that indicate *programmatic* bugs in the code.
+{% endcomment %}
 
+### **避免** 使用没有 `on` 语句的 catch。
 
+没有 `on` 限定的 catch 语句会捕获 try 代码块中抛出的*任何*异常。
+[Pokémon exception handling][pokemon] 可能并不是你想要的。
+你的代码是否正确的处理 [StackOverflowError][] 或者 [OutOfMemoryError][] 异常？
+如果你使用错误的参数调用函数，你是期望调试器定位出你的错误使用情况还是，
+把这个有用的 [ArgumentError][] 给吞噬了？
+由于你捕获了 [AssertionError][] 异常，
+导致所有 try 块内的 `assert()` 语句都失效了，这是你需要的结果吗？
+
+答案和可能是 "no"，在这种情况下，您应该过滤掉捕获的类型。
+在大多数情况下，您应该有一个 `on` 子句，
+这样它能够捕获程序在运行时你所关注的限定类型的异常并进行恰当处理。
+
+{% comment %}
 ### DON'T discard errors from catches without `on` clauses.
 
 If you really do feel you need to catch *everything* that can be thrown from a
 region of code, *do something* with what you catch. Log it, display it to the
 user or rethrow it, but do not silently discard it.
+{% endcomment %}
 
+### **不要** 丢弃没有使用 `on` 语句捕获的异常。
 
+如果你真的期望捕获一段代码内的 *所有* 异常，
+请*在捕获异常的地方做些事情*。 记录下来并显示给用户，
+或者重新抛出（rethrow）异常信息，记得不要默默的丢弃该异常信息。
+
+{% comment %}
 ### DO throw objects that implement `Error` only for programmatic errors.
 
 The [Error][] class is the base class for *programmatic* errors. When an object
@@ -2388,8 +2418,18 @@ that it is being used incorrectly throwing an Error sends that signal clearly.
 Conversely, if the exception is some kind of runtime failure that doesn't
 indicate a bug in the code, then throwing an Error is misleading. Instead, throw
 one of the core Exception classes or some other type.
+{% endcomment %}
 
+### **要** 只在代表编程错误的情况下才抛出实现了 `Error` 的异常。
 
+[Error][] 类是所有 *编码* 错误的基类。当一个该类型或者其子类型，
+例如 [ArgumentError][] 对象被抛出了，这意味着是你代码中的一个 *bug*。
+当你的 API 想要告诉调用者使用错误的时候可以抛出一个 Error 来表明你的意图。
+
+同样的，如果一个异常表示为运行时异常而不是代码 bug， 则抛出 Error 则会误导调用者。
+应该抛出核心定义的 Exception 类或者其他类型。
+
+{% comment %}
 ### DON'T explicitly catch `Error` or types that implement it.
 
 This follows from the above. Since an Error indicates a bug in your code, it
@@ -2401,8 +2441,19 @@ you can locate and fix the bug.
 Catching errors of these types breaks that process and masks the bug. Instead of
 *adding* error-handling code to deal with this exception after the fact, go back
 and fix the code that is causing it to be thrown in the first place.
+{% endcomment %}
 
+### **不要** 显示的捕获 `Error` 或者其子类。
 
+本条衔接上一天内容。既然 Error 表示代码中的 bug，
+应该展开整个调用堆栈，暂停程序并打印堆栈跟踪，以便找到错误并修复。
+
+[error]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/Error-class.html
+
+捕获这类错误打破了处理流程并且代码中有 bug。
+不要在这里使用错误处理代码，而是需要到导致该错误出现的地方修复你的代码。
+
+{% comment %}
 ### DO use `rethrow` to rethrow a caught exception.
 
 If you decide to rethrow an exception, prefer using the `rethrow` statement
@@ -2431,13 +2482,49 @@ try {
   handle(e);
 }
 {% endprettify %}
+{% endcomment %}
 
+### **要** 使用 `rethrow` 来重新抛出捕获的异常。
 
+如果你想重新抛出一个异常，推荐使用 `rethrow` 语句。
+`rethrow` 保留了原来的异常堆栈信息。 
+而 `throw` 会把异常堆栈信息重置为最后抛出的位置。
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (rethrow)"?>
+{% prettify dart %}
+try {
+  somethingRisky();
+} catch (e) {
+  if (!canHandle(e)) throw e;
+  handle(e);
+}
+{% endprettify %}
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (rethrow)" replace="/rethrow/[!$&!]/g"?>
+{% prettify dart %}
+try {
+  somethingRisky();
+} catch (e) {
+  if (!canHandle(e)) [!rethrow!];
+  handle(e);
+}
+{% endprettify %}
+
+{% comment %}
 ## Asynchrony
 
 Dart has several language features to support asynchronous programming.
 The following best practices apply to asynchronous coding.
+{% endcomment %}
 
+## 异步
+
+Dart 具有几个语言特性来支持异步编程。
+下面是针对异步编程的最佳实践。
+
+{% comment %}
 ### PREFER async/await over using raw futures.
 
 Asynchronous code is notoriously hard to read and debug, even when using a nice
@@ -2477,7 +2564,50 @@ Future<int> countActivePlayers(String teamName) {
   });
 }
 {% endprettify %}
+{% endcomment %}
 
+### **推荐** 使用 async/await 而不是直接使用底层的特性。
+
+显式的异步代码是非常难以阅读和调试的，
+即使使用很好的抽象（比如 future）也是如此。
+这就是为何 Dart 提供了 `async`/`await`。
+这样可以显著的提高代码的可读性并且让你可以在异步代码中使用语言提供的所有流程控制语句。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (async-await)" replace="/async|await/[!$&!]/g"?>
+{% prettify dart %}
+Future<int> countActivePlayers(String teamName) [!async!] {
+  try {
+    var team = [!await!] downloadTeam(teamName);
+    if (team == null) return 0;
+
+    var players = [!await!] team.roster;
+    return players.where((player) => player.isActive).length;
+  } catch (e) {
+    log.error(e);
+    return 0;
+  }
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (async-await)"?>
+{% prettify dart %}
+Future<int> countActivePlayers(String teamName) {
+  return downloadTeam(teamName).then((team) {
+    if (team == null) return Future.value(0);
+
+    return team.roster.then((players) {
+      return players.where((player) => player.isActive).length;
+    });
+  }).catchError((e) {
+    log.error(e);
+    return 0;
+  });
+}
+{% endprettify %}
+
+{% comment %}
 ### DON'T use `async` when it has no useful effect.
 
 It's easy to get in the habit of using `async` on any function that does
@@ -2523,13 +2653,69 @@ Future asyncError() async {
 
 Future asyncValue() async => 'value';
 {% endprettify %}
+{% endcomment %}
 
+### **不要** 在没有有用效果的情况下使用 `async` 。
+
+当成为习惯之后，你可能会在所有和异步相关的函数使用 `async`。但是在有些情况下，
+如果可以忽略 `async`  而不改变方法的行为，则应该这么做：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (unnecessary-async)"?>
+{% prettify dart %}
+Future afterTwoThings(Future first, Future second) {
+  return Future.wait([first, second]);
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (unnecessary-async)"?>
+{% prettify dart %}
+Future afterTwoThings(Future first, Future second) async {
+  return Future.wait([first, second]);
+}
+{% endprettify %}
+
+下面这些情况 `async` 是有用的：
+
+* 你使用了 `await`。 (这是一个很明显的例子。)
+
+* 你在异步的抛出一个异常。 `async` 然后 `throw` 比 `return new Future.error(...)` 要简短很多。
+
+* 你在返回一个值，但是你希望他显式的使用 Future。`async` 比 `new Future.value(...)` 要简短很多。
+
+* 你不希望在事件循环发生事件之前执行任何代码。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (async)"?>
+{% prettify dart %}
+Future usesAwait(Future later) async {
+  print(await later);
+}
+
+Future asyncError() async {
+  throw 'Error!';
+}
+
+Future asyncValue() async => 'value';
+{% endprettify %}
+
+
+{% comment %}
 ### CONSIDER using higher-order methods to transform a stream.
 
 This parallels the above suggestion on iterables. Streams support many of the
 same methods and also handle things like transmitting errors, closing, etc.
 correctly.
+{% endcomment %}
 
+### **考虑** 使用高阶函数来转换事件流（stream）
+
+This parallels the above suggestion on iterables. Streams support many of the
+same methods and also handle things like transmitting errors, closing, etc.
+correctly.
+
+{% comment %}
 ### AVOID using Completer directly.
 
 Many people new to asynchronous programming want to write code that produces a
@@ -2575,8 +2761,55 @@ Future<bool> fileContainsBear(String path) async {
   return contents.contains('bear');
 }
 {% endprettify %}
+{% endcomment %}
 
+### **避免** 直接使用 Completer  。
 
+很多异步编程的新手想要编写生成一个 future 的代码。
+而 Future 的构造函数看起来并不满足他们的要求，
+然后他们就发现 Completer 类并使用它：
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (avoid-completer)"?>
+{% prettify dart %}
+Future<bool> fileContainsBear(String path) {
+  var completer = Completer<bool>();
+
+  File(path).readAsString().then((contents) {
+    completer.complete(contents.contains('bear'));
+  });
+
+  return completer.future;
+}
+{% endprettify %}
+
+Completer 是用于两种底层代码的：
+新的异步原子操作和集成没有使用 Future 的异步代码。
+大部分的代码都应该使用 async/await 或者 [`Future.then()`][then]，
+这样代码更加清晰并且异常处理更加容易。
+
+[then]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-async/Future/then.html
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (avoid-completer)"?>
+{% prettify dart %}
+Future<bool> fileContainsBear(String path) {
+  return File(path).readAsString().then((contents) {
+    return contents.contains('bear');
+  });
+}
+{% endprettify %}
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (avoid-completer-alt)"?>
+{% prettify dart %}
+Future<bool> fileContainsBear(String path) async {
+  var contents = await File(path).readAsString();
+  return contents.contains('bear');
+}
+{% endprettify %}
+
+{% comment %}
 ### DO test for `Future<T>` when disambiguating a `FutureOr<T>` whose type argument could be `Object`.
 
 Before you can do anything useful with a `FutureOr<T>`, you typically need to do
@@ -2623,6 +2856,54 @@ Future<T> logValue<T>(FutureOr<T> value) async {
 
 In the bad example, if you pass it a `Future<Object>`, it incorrectly treats it
 like a bare, synchronous value.
+{% endcomment %}
+
+### **要** 使用 `Future<T>` 对 `FutureOr<T>` 参数进行测试，在消除参数可能是 `Object` 类型的歧义。
+
+在使用 `FutureOr<T>` 执行任何有用的操作之前，
+通常需要做 `is` 检查，来确定你拥有的是 `Future<T>` 还是一个空的 `T`。
+如果类型参数是某个特定类型，如 `FutureOr <int>`，
+使用 `is int` 或 `is Future<int>` 那种测试都可以。
+两者都有效，因为这两种类型是不相交的。
+
+但是，如果值的类型是 `Object` 或者可能使用 `Object` 实例化的类型参数，这时要分两种情况。
+`Future<Object>` 本身继承 `Object` ，使用 `is Object` 或 `is T` ，
+其中 `T` 表示参数的类型，该参数可能是 `Object` 的实例，
+在这种情况下，即使是 future 对象也会返回 true 。
+相反，下面是确切测试 `Future` 的例子：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (test-future-or)"?>
+{% prettify dart %}
+Future<T> logValue<T>(FutureOr<T> value) async {
+  if (value is Future<T>) {
+    var result = await value;
+    print(result);
+    return result;
+  } else {
+    print(value);
+    return value as T;
+  }
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (test-future-or)"?>
+{% prettify dart %}
+Future<T> logValue<T>(FutureOr<T> value) async {
+  if (value is T) {
+    print(value);
+    return value;
+  } else {
+    var result = await value;
+    print(result);
+    return result;
+  }
+}
+{% endprettify %}
+
+在错误的示例中，如果给它传一个 `Future<Object>` ，
+它会错误地将其视为一个空的同步对象值。
 
 [pokemon]: https://blog.codinghorror.com/new-programming-jargon/
 [StackOverflowError]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/StackOverflowError-class.html
