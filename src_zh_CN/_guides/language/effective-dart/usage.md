@@ -1249,11 +1249,10 @@ void insert(Object item, {int at: 0}) { ... }
 {% endprettify %}
 {% endcomment %}
 
-### DO use `=` to separate a named parameter from its default value.
+### **要** 使用 `=` 来分隔参数名和参数默认值。
 
-For legacy reasons, Dart allows both `:` and `=` as the default value separator
-for named parameters. For consistency with optional positional parameters, use
-`=`.
+由于遗留原因，Dart 同时支持 `:` 和 `=` 作为参数名和默认值的分隔符。
+为了与可选的位置参数保持一致，请使用 `=` 。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/usage_good.dart (default-separator)"?>
@@ -1267,6 +1266,7 @@ void insert(Object item, {int at = 0}) { ... }
 void insert(Object item, {int at: 0}) { ... }
 {% endprettify %}
 
+{% comment %}
 ### DON'T use an explicit default value of `null`.
 
 If you make a parameter optional but don't give it a default value, the language
@@ -1287,11 +1287,39 @@ void error([String message = null]) {
   stderr.write(message ?? '\n');
 }
 {% endprettify %}
+{% endcomment %}
 
+### **不要** 显式的为参数设置 `null` 值。
+
+如果你创建了一个可选参数，那么就不要为其赋默认值，
+Dart 默认使用 `null` 作为默认值，所以这里不需要为其 `null` 赋值语句。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (default-value-null)"?>
+{% prettify dart %}
+void error([String message]) {
+  stderr.write(message ?? '\n');
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (default-value-null)"?>
+{% prettify dart %}
+void error([String message = null]) {
+  stderr.write(message ?? '\n');
+}
+
+{% comment %}
 ## Variables
 
 The following best practices describe how to best use variables in Dart.
+{% endcomment %}
 
+## 变量
+
+下面是关于如何在 Dart 中使用变量的的最佳实践。
+
+{% comment %}
 ### DON'T explicitly initialize variables to `null`.
 
 In Dart, a variable or field that is not explicitly initialized automatically
@@ -1332,7 +1360,47 @@ class LazyId {
   }
 }
 {% endprettify %}
+{% endcomment %}
 
+### **不要** 显示的为参数初始化 `null` 值。
+
+在Dart中，未自动显式初始化的变量或字段将初始化为 `null` 。
+语言保证了赋值的可靠性。在 Dart 中没有“未初始化内存”的概念。
+所以使用 `= null` 是多余的。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (no-null-init)"?>
+{% prettify dart %}
+int _nextId;
+
+class LazyId {
+  int _id;
+
+  int get id {
+    if (_nextId == null) _nextId = 0;
+    if (_id == null) _id = _nextId++;
+
+    return _id;
+  }
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (no-null-init)"?>
+{% prettify dart %}
+int _nextId = null;
+
+class LazyId {
+  int _id = null;
+
+  int get id {
+    if (_nextId == null) _nextId = 0;
+    if (_id == null) _id = _nextId++;
+
+    return _id;
+  }
+}
+{% endprettify %}
 
 ### AVOID storing what you can calculate.
 
