@@ -1402,6 +1402,7 @@ class LazyId {
 }
 {% endprettify %}
 
+{% comment %}
 ### AVOID storing what you can calculate.
 
 When designing a class, you often want to expose multiple views into the same
@@ -1487,7 +1488,91 @@ get out of sync because there is only a single source of truth.
 In some cases, you may need to cache the result of a slow calculation, but only
 do that after you know you have a performance problem, do it carefully, and
 leave a comment explaining the optimization.
+{% endcomment %}
 
+### **避免** 保存可计算的结果。
+
+在设计类的时候，你常常希望暴露底层状态的多个表现属性。
+常常你会发现在类的构造函数中计算这些属性，然后保存起来：
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (cacl-vs-store1)"?>
+{% prettify dart %}
+class Circle {
+  num radius;
+  num area;
+  num circumference;
+
+  Circle(num radius)
+      : radius = radius,
+        area = pi * radius * radius,
+        circumference = pi * 2.0 * radius;
+}
+{% endprettify %}
+
+上面的代码有两个不妥之处。首先，浪费了内存。
+严格来说 面积和周长 是*缓存*对象。他们保存的结果
+可以通过已知的数据计算出来。他们主要用来减少 CPU 消耗而增加了内存消耗。
+我们是否知道这里有一个需要权衡的性能问题？
+
+更坏的情况是，上面的代码是 *错的*。上面的缓存是 *无效的*&mdash;你如何
+知道何时缓存失效了需要重新计算？这里我们无从得知，
+但是 `radius`  确是可变的。你可以给 `radius`  设置一个不同的值，但是
+ `area` 和 `circumference` 还是之前的值。
+
+为了避免缓存失效，我们需要这样做：
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/usage_bad.dart (cacl-vs-store2)"?>
+{% prettify dart %}
+class Circle {
+  num _radius;
+  num get radius => _radius;
+  set radius(num value) {
+    _radius = value;
+    _recalculate();
+  }
+
+  num _area;
+  num get area => _area;
+
+  num _circumference;
+  num get circumference => _circumference;
+
+  Circle(this._radius) {
+    _recalculate();
+  }
+
+  void _recalculate() {
+    _area = pi * _radius * _radius;
+    _circumference = pi * 2.0 * _radius;
+  }
+}
+{% endprettify %}
+
+这需要编写、维护、调试以及阅读更多的代码。
+如果你一开始这样写代码：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/usage_good.dart (cacl-vs-store)"?>
+{% prettify dart %}
+class Circle {
+  num radius;
+
+  Circle(this.radius);
+
+  num get area => pi * radius * radius;
+  num get circumference => pi * 2.0 * radius;
+}
+{% endprettify %}
+
+上面的代码更加简洁、使用更少的内存、减少出错的可能性。只是
+保存了尽可能少的数据，这样无需更新缓存，因为就没有缓存，面积和周长
+是通过计算得来的。
+
+在某些情况下，当计算结果比较费时的时候可能需要缓存，但是只有当你发现
+这样引起性能问题的时候才去缓存它，并且仔细的考虑实现方式并留下
+对应的注释来解释你所做的优化。
 
 ## Members
 
