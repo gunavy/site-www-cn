@@ -751,7 +751,7 @@ the [`whereType()`][where-type] method for this exact use case:
 [where-type]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Iterable/whereType.html
 
 {:.good-style}
-<?code-excerpt "misc/lib/effective_dart/usage_good.dart (where-type)"?>
+<?code-excerpt "misc/test/effective_dart_test.dart (whereType)"?>
 {% prettify dart %}
 var objects = [1, "a", 2, "b", 3];
 var ints = objects.whereType<int>();
@@ -2858,7 +2858,7 @@ In the bad example, if you pass it a `Future<Object>`, it incorrectly treats it
 like a bare, synchronous value.
 {% endcomment %}
 
-### **要** 使用 `Future<T>` 对 `FutureOr<T>` 参数进行测试，在消除参数可能是 `Object` 类型的歧义。
+### **要** 使用 `Future<T>` 对 `FutureOr<T>` 参数进行测试，以消除参数可能是 `Object` 类型的歧义。
 
 在使用 `FutureOr<T>` 执行任何有用的操作之前，
 通常需要做 `is` 检查，来确定你拥有的是 `Future<T>` 还是一个空的 `T`。
