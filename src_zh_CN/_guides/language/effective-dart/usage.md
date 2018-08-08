@@ -645,13 +645,21 @@ The obvious difference is that the first one is shorter. The *important*
 difference is that the first one preserves the type argument of the original
 object:
 
-<?code-excerpt "misc/test/effective_dart_test.dart (list-from-2)"?>
+{:.good-style}
+<?code-excerpt "misc/test/effective_dart_test.dart (list-from-good)"?>
 {% prettify dart %}
 // Creates a List<int>:
 var iterable = [1, 2, 3];
 
 // Prints "List<int>":
 print(iterable.toList().runtimeType);
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/test/effective_dart_test.dart (list-from-bad)"?>
+{% prettify dart %}
+// Creates a List<int>:
+var iterable = [1, 2, 3];
 
 // Prints "List<dynamic>":
 print(List.from(iterable).runtimeType);
@@ -659,6 +667,7 @@ print(List.from(iterable).runtimeType);
 
 If you *want* to change the type, then calling `List.from()` is useful:
 
+{:.good-style}
 <?code-excerpt "misc/test/effective_dart_test.dart (list-from-3)"?>
 {% prettify dart %}
 var numbers = [1, 2.3, 4]; // List<num>.
@@ -683,13 +692,21 @@ var copy2 = List.from(iterable);
 明显的区别是前一个更短。
 更*重要*的区别在于第一个保留了原始对象的类型参数：
 
-<?code-excerpt "misc/test/effective_dart_test.dart (list-from-2)"?>
+{:.good-style}
+<?code-excerpt "misc/test/effective_dart_test.dart (list-from-good)"?>
 {% prettify dart %}
 // Creates a List<int>:
 var iterable = [1, 2, 3];
 
 // Prints "List<int>":
 print(iterable.toList().runtimeType);
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/test/effective_dart_test.dart (list-from-bad)"?>
+{% prettify dart %}
+// Creates a List<int>:
+var iterable = [1, 2, 3];
 
 // Prints "List<dynamic>":
 print(List.from(iterable).runtimeType);
@@ -697,6 +714,7 @@ print(List.from(iterable).runtimeType);
 
 如果你*想要*改变类型，那么可以调用 `List.from()` ：
 
+{:.good-style}
 <?code-excerpt "misc/test/effective_dart_test.dart (list-from-3)"?>
 {% prettify dart %}
 var numbers = [1, 2.3, 4]; // List<num>.
