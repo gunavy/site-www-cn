@@ -33,7 +33,7 @@
 **格式化**
 
 * <a href='/guides/language/effective-dart/style#%E8%A6%81-%E4%BD%BF%E7%94%A8-dartfmt-%E6%A0%BC%E5%BC%8F%E5%8C%96%E4%BD%A0%E7%9A%84%E4%BB%A3%E7%A0%81'><strong>要</strong> 使用 <code>dartfmt</code> 格式化你的代码。</a>
-* <a href='/guides/language/effective-dart/style#%E8%80%83%E8%99%91-changing-your-code-to-make-it-more-formatter-friendly'><strong>考虑</strong> changing your code to make it more formatter-friendly.</a>
+* <a href='/guides/language/effective-dart/style#%E8%80%83%E8%99%91-%E4%BF%AE%E6%94%B9%E4%BD%A0%E7%9A%84%E4%BB%A3%E7%A0%81%E8%AE%A9%E6%A0%BC%E5%BC%8F%E6%9B%B4%E5%8F%8B%E5%A5%BD'><strong>考虑</strong> 修改你的代码让格式更友好。</a>
 * <a href='/guides/language/effective-dart/style#%E9%81%BF%E5%85%8D-%E5%8D%95%E8%A1%8C%E8%B6%85%E8%BF%87-80-%E4%B8%AA%E5%AD%97%E7%AC%A6'><strong>避免</strong> 单行超过 80 个字符。</a>
 * <a href='/guides/language/effective-dart/style#%E8%A6%81-%E5%AF%B9%E6%89%80%E6%9C%89%E6%B5%81%E6%8E%A7%E5%88%B6%E7%BB%93%E6%9E%84%E4%BD%BF%E7%94%A8%E8%8A%B1%E6%8B%AC%E5%8F%B7'><strong>要</strong> 对所有流控制结构使用花括号。</a>
 
