@@ -541,6 +541,7 @@ if (!socket.isDisconnected && !database.isEmpty) {
 文档还未属性 “*un*-saved” 到磁盘，或者 "changed"？
 在模棱两可的情况下，倾向于选择不太可能被用户否定或较短的名字。
 
+{% comment %}
 ### PREFER an imperative verb phrase for a function or method whose main purpose is a side effect.
 
 Callable members can return a result to the caller and perform other work or
@@ -558,10 +559,29 @@ list.add("element");
 queue.removeFirst();
 window.refresh();
 {% endprettify %}
+{% endcomment %}
 
-This way, an invocation reads like a command to do that work.
+### **推荐** 使用命令式动词短语来命名带有副作用的函数或者方法。
 
+函数通常返回一个结果给调用者，并且执行一些任务或者带有副作用。
+在像 Dart 这种命令式语言中，调用函数通常为了实现其副作用：
+可能改变了对象的内部状态、
+产生一些输出内容、或者和外部世界沟通等。
 
+这种类型的成员应该使用命令式动词短语来命名，强调
+该成员所执行的任务。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (verb-for-func-with-side-effect)"?>
+{% prettify dart %}
+list.add("element");
+queue.removeFirst();
+window.refresh();
+{% endprettify %}
+
+这样调用的代码看起来就像是要执行某个任务的命令。
+
+{% comment %}
 ### PREFER a noun phrase or non-imperative verb phrase for a function or method if returning a value is its primary purpose.
 
 Other callable members have few side effects but return a useful result to the
@@ -585,8 +605,32 @@ var char = string.codeUnitAt(4);
 This guideline is deliberately softer than the previous one. Sometimes a method
 has no side effects but is still simpler to name with a verb phrase like
 `list.take()` or `string.split()`.
+{% endcomment %}
 
 
+### **考虑** 使用名词短语或者非命令式动词短语命名返回数据为主要功能的方法或者函数。
+
+虽然这些函数可能也有副作用，但是其主要目的是返回一个数据给调用者。
+如果该函数无需参数通常应该是一个 getter 。
+有时候获取一个属性则需要一些参数，比如，
+`elementAt()` 从集合中返回一个数据，但是需要一个指定返回那个数据的参数。
+
+在*语法*上看这是一个函数，其实*严格来说*其返回的是集合中的一个属性，
+应该使用一个能够表示该函数返回的是*什么*的词语来命名。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (noun-for-func-returning-value)"?>
+{% prettify dart %}
+var element = list.elementAt(3);
+var first = list.firstWhere(test);
+var char = string.codeUnitAt(4);
+{% endprettify %}
+
+这条规则比前一条要宽松一些。有时候一些
+函数没有副作用，但仍然使用一个动词短语来命名，例如：
+`list.take()` 或者 `string.split()`。
+
+{% comment %}
 ### CONSIDER an imperative verb phrase for a function or method if you want to draw attention to the work it performs.
 
 When a member produces a result without any side effects, it should usually be a
@@ -609,7 +653,26 @@ operation performs is often an implementation detail that isn't relevant to the
 caller, and performance and robustness boundaries change over time. Most of the
 time, name your members based on *what* they do for the caller, not *how* they
 do it.
+{% endcomment %}
 
+### **考虑** 使用命令式动词短语命名一个函数或方法，若果你希望它的执行能被重视。
+
+当一个成员产生的结果没有额外的影响，它通常应该使用一个 getter 或者一个名词短语描述来命名，用于描述它返回的结果。
+但是，有时候执行产生的结果很重要。
+它可能容易导致运行时故障，或者使用重量级的资源（例如，网络或文件 I/O）。
+在这种情况下，你希望调用者考虑成员在进行的工作，
+这时，为成员提供描述该工作的动词短语。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (verb-for-func-with-work)"?>
+{% prettify dart %}
+var table = database.downloadData();
+var packageVersions = packageGraph.solveConstraints();
+{% endprettify %}
+
+但请注意，此准则比前两个更宽松。操作执行工作的实现细节通常与调用这无关，
+并且性能和健壮性是随时间经常改变的。
+大多数情况下，根据成员为调用者做了“什么”来命名，而不是“如何”做。
 
 ### AVOID starting a method name with `get`.
 
