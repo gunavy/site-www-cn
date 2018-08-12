@@ -11,19 +11,27 @@ prevpage:
 {% include effective-dart-banner.html %}
 
 {% comment %}
-
+Here are some guidelines for writing consistent, usable APIs for libraries.
 {% endcomment %}
 
-Here are some guidelines for writing consistent, usable APIs for libraries.
+下面给出的准则用于指导为库编写一致的、可用的 API。
 
 * TOC
 {:toc}
 
+{% comment %}
 ## Names
 
 Naming is an important part of writing readable, maintainable code.
 The following best practices can help you achieve that goal.
+{% endcomment %}
 
+## 命名
+
+命名是编写可读，可维护代码的重要部分。
+以下最佳实践可帮助你实现这个目标。
+
+{% comment %}
 ### DO use terms consistently.
 
 Use the same name for the same thing, throughout your code. If a precedent
@@ -52,8 +60,37 @@ their knowledge of the problem domain itself, the conventions of the core
 libraries, and other parts of your own API. By building on top of those, you
 reduce the amount of new knowledge they have to acquire before they can be
 productive.
+{% endcomment %}
+
+### **要** 使用一致的术语。
+
+在你的代码中，同样的东西要使用同样的名字。
+如果之前已经存在的 API 之外命名，并且用户已经熟知，
+那么请继续使用这个命名。
+
+{:.good-style}
+{% prettify dart %}
+pageCount         // A field.
+updatePageCount() // Consistent with pageCount.
+toSomething()     // Consistent with Iterable's toList().
+asSomething()     // Consistent with List's asMap().
+Point             // A familiar concept.
+{% endprettify %}
+
+{:.bad-style}
+{% prettify dart %}
+renumberPages()      // Confusingly different from pageCount.
+convertToSomething() // Inconsistent with toX() precedent.
+wrappedAsSomething() // Inconsistent with asX() precedent.
+Cartesian            // Unfamiliar to most users.
+{% endprettify %}
+
+总的目的是充分利用用户已经知道的内容。
+这里包括他们所了解的问题领域，所熟悉的核心库，以及你自己 API 那部分。
+基于以上这些内容，他们在使用之前，不需要学习大量的新知识。
 
 
+{% comment %}
 ### AVOID abbreviations.
 
 Unless the abbreviation is more common than the unabbreviated term, don't
@@ -76,8 +113,32 @@ buildRects
 InputOutputStream
 HypertextTransferProtocolRequest
 {% endprettify %}
+{% endcomment %}
 
+### **避免** 缩写。
 
+只使用广为人知的缩写，对于特有领域的缩写，请避免使用。
+如果要使用，请 [正确的指定首字母大小写][caps]。
+
+[caps]: /guides/language/effective-dart/style#identifiers
+
+{:.good-style}
+{% prettify dart %}
+pageCount
+buildRectangles
+IOStream
+HttpRequest
+{% endprettify %}
+
+{:.bad-style}
+{% prettify dart %}
+numPages    // "num" is an abbreviation of number(of)
+buildRects
+InputOutputStream
+HypertextTransferProtocolRequest
+{% endprettify %}
+
+{% comment %}
 ### PREFER putting the most descriptive noun last.
 
 The last word should be the most descriptive of what the thing is. You can
@@ -97,8 +158,29 @@ numPages                  // Not a collection of pages.
 CanvasRenderingContext2D  // Not a "2D".
 RuleFontFaceCss           // Not a CSS.
 {% endprettify %}
+{% endcomment %}
 
+### **推荐** 把最具描述性的名词放到最后。
 
+最后一个词应该是最具描述性的东西。
+你可以在其前面添加其他单词，例如形容词，以进一步描述该事物。
+
+{:.good-style}
+{% prettify dart %}
+pageCount             // A count (of pages).
+ConversionSink        // A sink for doing conversions.
+ChunkedConversionSink // A ConversionSink that's chunked.
+CssFontFaceRule       // A rule for font faces in CSS.
+{% endprettify %}
+
+{:.bad-style}
+{% prettify dart %}
+numPages                  // Not a collection of pages.
+CanvasRenderingContext2D  // Not a "2D".
+RuleFontFaceCss           // Not a CSS.
+{% endprettify %}
+
+{% comment %}
 ### CONSIDER making the code read like a sentence.
 
 When in doubt about naming, write some code that uses your API, and try to read
@@ -141,8 +223,51 @@ if (theCollectionOfErrors.isEmpty) ...
 
 monsters.producesANewSequenceWhereEach((monster) => monster.hasClaws);
 {% endprettify %}
+{% endcomment %}
 
+### **考虑** 尽量让代码看起来像普通的句子。
 
+当你不知道如何命名 API 的时候，
+使用你的 API 编写些代码，试着让代码看起来像普通的句子。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (code-like-prose)"?>
+{% prettify dart %}
+// "If errors is empty..."
+if (errors.isEmpty) ...
+
+// "Hey, subscription, cancel!"
+subscription.cancel();
+
+// "Get the monsters where the monster has claws."
+monsters.where((monster) => monster.hasClaws);
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (code-like-prose)" replace="/ as bool//g"?>
+{% prettify dart %}
+// Telling errors to empty itself, or asking if it is?
+if (errors.empty) ...
+
+// Toggle what? To what?
+subscription.toggle();
+
+// Filter the monsters with claws *out* or include *only* those?
+monsters.filter((monster) => monster.hasClaws);
+{% endprettify %}
+
+尝试着使用你自己的 API，并且阅读写出来的代码，可以帮助你为 API 命名，但是不要过于冗余。
+添加文章和其他词性以强制名字读起来就像语法正确的句子一样，是没用的。
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (code-like-prose-overdone)"?>
+{% prettify dart %}
+if (theCollectionOfErrors.isEmpty) ...
+
+monsters.producesANewSequenceWhereEach((monster) => monster.hasClaws);
+{% endprettify %}
+
+{% comment %}
 ### PREFER a noun phrase for a non-boolean property or variable.
 
 The reader's focus is on *what* the property is. If the user cares more about
@@ -160,8 +285,26 @@ quest.rampagingSwampBeast
 {% prettify dart %}
 list.deleteItems
 {% endprettify %}
+{% endcomment %}
 
+### **推荐** 使用名词短语来命名不是布尔类型的变量和属性。
 
+读者关注属性是*什么*。
+如果用户更关心*如何*确定一个属性，则很可能应该是一个使用动词短语命名函数。
+
+{:.good-style}
+{% prettify dart %}
+list.length
+context.lineWidth
+quest.rampagingSwampBeast
+{% endprettify %}
+
+{:.bad-style}
+{% prettify dart %}
+list.deleteItems
+{% endprettify %}
+
+{% comment %}
 ### PREFER a non-imperative verb phrase for a boolean property or variable.
 
 Boolean names are often used as conditions in control flow, so you want a name
@@ -222,7 +365,68 @@ setters are invoked in templates, not from other Dart code.
 
 [angular]: {{site.webdev}}/angular
 </aside>
+{% endcomment %}
 
+### **推荐** 使用非命令式动词短语命名布尔类型的变量和属性。
+
+
+布尔名称通常用在控制语句中当做条件，
+因此你要应该让这个名字在控制语句中读起来语感很好。比较下面的两个：
+
+{% prettify dart %}
+if (window.closeable) ...  // Adjective.
+if (window.canClose) ...   // Verb.
+{% endprettify %}
+
+好的名字往往以某一种动词作为开头：
+
+*    "to be" 形式： `isEnabled`， `wasShown`， `willFire`。 
+    就目前来看，这些时做常见的。
+
+*   一个 [辅助动词][]: `hasElements`， `canClose`，
+    `shouldConsume`， `mustSave`。
+
+*   一个主动动词： `ignoresInput`， `wroteFile`。
+    因为经常引起歧义，所以这种形式比较少见。
+    `loggedResult` 是一个不好的命名，因为它的意思可能是：
+    "whether or not a result was logged" 或者 "the result that was logged"。
+    `closingConnection` 的意思可能是：
+    "whether the connection is closing" 或者 "the connection that is closing"。
+    *只有* 当名字可以预期的时候才使用主动动词。
+
+[auxiliary verb]: https://en.wikipedia.org/wiki/Auxiliary_verb
+
+可以使用命令式动词来区分布尔变量名字和函数名字。
+一个布尔变量的名字不应该看起来像一个命令，告诉这个对象做什么事情。
+原因在于访问一个变量的属性并没有修改对象的状态。
+（如果这个属性*确实*修改了对象的状态，则它应该是一个函数。）
+
+{:.good-style}
+{% prettify dart %}
+isEmpty
+hasElements
+canClose
+closesWindow
+canShowPopup
+hasShownPopup
+{% endprettify %}
+
+{:.bad-style}
+{% prettify dart %}
+empty         // Adjective or verb?
+withElements  // Sounds like it might hold elements.
+closeable     // Sounds like an interface.
+              // "canClose" reads better as a sentence.
+closingWindow // Returns a bool or a window?
+showPopup     // Sounds like it shows the popup.
+{% endprettify %}
+
+<aside class="alert alert-info" markdown="1">
+这条规则有一个例外。 Angular组件中的输入属性有时会使用命令式动词来表示布尔设置器，
+因为这些 setter 是在模板中调用的，而不是从其它 Dart 代码中调用的。
+
+[angular]: {{site.webdev}}/angular
+</aside>
 
 ### CONSIDER omitting the verb for a named boolean *parameter*.
 
