@@ -369,7 +369,6 @@ setters are invoked in templates, not from other Dart code.
 
 ### **推荐** 使用非命令式动词短语命名布尔类型的变量和属性。
 
-
 布尔名称通常用在控制语句中当做条件，
 因此你要应该让这个名字在控制语句中读起来语感很好。比较下面的两个：
 
@@ -428,6 +427,7 @@ showPopup     // Sounds like it shows the popup.
 [angular]: {{site.webdev}}/angular
 </aside>
 
+{% comment %}
 ### CONSIDER omitting the verb for a named boolean *parameter*.
 
 This refines the previous rule. For named parameters that are boolean, the name
@@ -441,8 +441,22 @@ Isolate.spawn(entryPoint, message, paused: false);
 var copy = List.from(elements, growable: true);
 var regExp = RegExp(pattern, caseSensitive: false);
 {% endprettify %}
+{% endcomment %}
 
+### **考虑** 省略命名布尔*参数*的动词。
 
+提炼于上一条规则。对于命名布尔参数，
+没有动词的名称通常看起来更加舒服。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (omit-verb-for-bool-param)"?>
+{% prettify dart %}
+Isolate.spawn(entryPoint, message, paused: false);
+var copy = List.from(elements, growable: true);
+var regExp = RegExp(pattern, caseSensitive: false);
+{% endprettify %}
+
+{% comment %}
 ### PREFER the "positive" name for a boolean property or variable.
 
 Most boolean names have conceptually "positive" and "negative" forms where the
@@ -483,7 +497,49 @@ For some properties, there is no obvious positive form. Is a document that has
 been flushed to disk "saved" or "*un*-changed"? Is a document that *hasn't* been
 flushed "*un*-saved" or "changed"? In ambiguous cases, lean towards the choice
 that is less likely to be negated by users or has the shorter name.
+{% endcomment %}
 
+### **考虑** 为布尔属性或变量取“肯定”含义的名字。
+
+大多数布尔值名称具有概念形式上的“肯定”和“否定”，
+前者感觉更现实基本描述，后者是对基本描述的否定，例如：
+"open" 和 "closed"， "enabled" 和 "disabled"，等等。
+通常后者的名称字面上有个前缀，用来否定前者：
+"visible" 和 "*in*-visible"，
+"connected" 和 "*dis*-connected"，
+"zero" 和 "*non*-zero"。
+
+当选择 `true` 代表两种情况中的其中一种情况
+在布尔的两种情况中，当选择 `true` 代表其中一种情况，
+或使用这种情况作为属性名称时，更倾向使用“肯定”或基本描述的方式。
+布尔成员通常嵌套在逻辑表达式中，包括否定运算符。
+如果属性本身读起来想是个“否定”的，
+这将让读者耗费更多精力去阅读双重否定及理解代码的含义。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (positive)"?>
+{% prettify dart %}
+if (socket.isConnected && database.hasData) {
+  socket.write(database.read());
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (positive)"?>
+{% prettify dart %}
+if (!socket.isDisconnected && !database.isEmpty) {
+  socket.write(database.read());
+}
+{% endprettify %}
+
+上面规则中有一个例外，就是“否定”用户绝大多数用到的形式是。
+选择“肯定”方式，将会迫使在他们到处使用 `!` 对属性进行取反操作。
+这样相反，属性应该使用“否定”形式进行命名。
+
+对于一些属性，没有明显的“肯定”形式。
+文档已经刷新 “saved” 到磁盘，或者 "*un*-changed"？
+文档还未属性 “*un*-saved” 到磁盘，或者 "changed"？
+在模棱两可的情况下，倾向于选择不太可能被用户否定或较短的名字。
 
 ### PREFER an imperative verb phrase for a function or method whose main purpose is a side effect.
 
