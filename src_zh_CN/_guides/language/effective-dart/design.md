@@ -674,6 +674,8 @@ var packageVersions = packageGraph.solveConstraints();
 并且性能和健壮性是随时间经常改变的。
 大多数情况下，根据成员为调用者做了“什么”来命名，而不是“如何”做。
 
+
+{% comment %}
 ### AVOID starting a method name with `get`.
 
 In most cases, the method should be a getter with `get` removed from the name.
@@ -694,8 +696,32 @@ previous guidelines state, either:
 [noun]: #prefer-a-noun-phrase-or-non-imperative-verb-phrase-for-a-function-or-method-if-returning-a-value-is-its-primary-purpose
 
 [verb]: #consider-an-imperative-verb-phrase-for-a-function-or-method-if-you-want-to-draw-attention-to-the-work-it-performs
+{% endcomment %}
 
 
+### **避免** 在方法命名中使用 `get` 开头。
+
+在大多数情况下，getter 方法名称中应该移除 `get` 。
+例如，定义一个名为 `breakfastOrder` 的 getter 方法，
+来替代名为 `getBreakfastOrder()` 的方法。
+
+即使成员因为需要传入参数或者 getter 不适用，
+而需要通过方法来实现，也应该避免使用 `get` 开头。
+与之前的准则一样：
+
+* 如果调用者主要关心的是方法的返回值，只需删除 `get` 并使用[名词短语][noun]命名，
+  如 `breakfastOrder()` 。
+
+* 如果调用者关心的是正在完成的工作，请使用[动名词短语][verb]命名，
+  这种情况下应该选择一个更能准确描述工作的动名词，而不是使用 `get` 命名，
+  如 `create`， `download`， `fetch`， `calculate`， `request`， `aggregate`，等等。
+
+[noun]: #prefer-a-noun-phrase-or-non-imperative-verb-phrase-for-a-function-or-method-if-returning-a-value-is-its-primary-purpose
+
+[verb]: #consider-an-imperative-verb-phrase-for-a-function-or-method-if-you-want-to-draw-attention-to-the-work-it-performs
+
+
+{% comment %}
 ### PREFER naming a method `to___()` if it copies the object's state to a new object.
 
 A *conversion* method is one that returns a new object containing a copy of
@@ -712,8 +738,25 @@ list.toSet();
 stackTrace.toString();
 dateTime.toLocal();
 {% endprettify %}
+{% endcomment %}
 
 
+### **推荐** 使用 `to___()` 来命名把对象的状态转换到一个新的对象的函数。
+
+一个转换函数返回一个新的对象，里面包含一些原对象的状态，但通常新对象的形式或表现方式与原对象不同。
+核心库有一个约定，这些类型结果的方法名应该以 `to` 作为开头。
+
+如果要定义一个转换函数，遵循该约定是非常有益的。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (to___)"?>
+{% prettify dart %}
+list.toSet();
+stackTrace.toString();
+dateTime.toLocal();
+{% endprettify %}
+
+{% comment %}
 ### PREFER naming a method `as___()` if it returns a different representation backed by the original object.
 
 Conversion methods are "snapshots". The resulting object has its own copy of the
@@ -730,8 +773,27 @@ var map = table.asMap();
 var list = bytes.asFloat32List();
 var future = subscription.asFuture();
 {% endprettify %}
+{% endcomment %}
 
+### **推荐** 使用 `as___()` 来命名把原来对象转换为另外一种表现形式的函数。
 
+转换函数提供的是“快照功能”。返回的对象有自己的数据副本，
+修改原来对象的数据不会改变返回的对象中的数据。
+另外一种函数返回的是同一份数据的另外一种表现形式，返回的是一个新的对象，
+但是其内部引用的数据和原来对象引用的数据一样。
+修改原来对象中的数据，新返回的对象中的数据也一起被修改。
+
+这种函数在核心库中被命名为 `as___()`。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (as___)"?>
+{% prettify dart %}
+var map = table.asMap();
+var list = bytes.asFloat32List();
+var future = subscription.asFuture();
+{% endprettify %}
+
+{% comment %}
 ### AVOID describing the parameters in the function's or method's name.
 
 The user will see the argument at the callsite, so it usually doesn't help
@@ -759,8 +821,36 @@ similarly-named methods that take different types:
 map.containsKey(key);
 map.containsValue(value);
 {% endprettify %}
+{% endcomment %}
 
+### **避免** 在方法或者函数名称中描述参数。
 
+在调用代码的时候可以看到参数，所以无需再次显示参数了。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (avoid-desc-param-in-func)"?>
+{% prettify dart %}
+list.add(element);
+map.remove(key);
+{% endprettify %}
+
+{:.bad-style}
+{% prettify dart %}
+list.addElement(element)
+map.removeKey(key)
+{% endprettify %}
+
+但是，对于具有多个类似的函数的时候，使用参数名字可以消除歧义，
+这个时候应该带有参数名字。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (desc-param-in-func-ok)"?>
+{% prettify dart %}
+map.containsKey(key);
+map.containsValue(value);
+{% endprettify %}
+
+{% comment %}
 ### DO follow existing mnemonic conventions when naming type parameters.
 
 Single letter names aren't exactly illuminating, but almost all generic types
@@ -837,6 +927,78 @@ class Graph<Node, Edge> {
 {% endprettify %}
 
 In practice, the existing conventions cover most type parameters.
+{% endcomment %}
+
+### **要** 在命名参数时，遵循现有的助记符约定。
+
+单字母命名没有直接的启发性，但是几乎所有通用类型都使用时情况就不一样了。
+幸运的是，它们大多数以一致的助记方式在使用，这些约定如下：
+
+*   `E` 用于集合中的 **元素** 类型:
+
+    {:.good-style}
+    <?code-excerpt "misc/lib/effective_dart/design_good.dart (type-parameter-e)" replace="/\n\n/\n/g"?>
+    {% prettify dart %}
+    class IterableBase<E> {}
+    class List<E> {}
+    class HashSet<E> {}
+    class RedBlackTree<E> {}
+    {% endprettify %}
+
+*   `K` 和 `V` 分别用于关联集合中的 **key** 和 **value** 类型：
+
+    {:.good-style}
+    <?code-excerpt "misc/lib/effective_dart/design_good.dart (type-parameter-k-v)" replace="/\n\n/\n/g"?>
+    {% prettify dart %}
+    class Map<K, V> {}
+    class Multimap<K, V> {}
+    class MapEntry<K, V> {}
+    {% endprettify %}
+
+*   `R` 用于函数或类方法的 **返回值** 类型。 这种情况并不常见，
+    但有时会出现在typedef中，或实现访问者模式的类中：
+
+    {:.good-style}
+    <?code-excerpt "misc/lib/effective_dart/design_good.dart (type-parameter-r)"?>
+    {% prettify dart %}
+    abstract class ExpressionVisitor<R> {
+      R visitBinary(BinaryExpression node);
+      R visitLiteral(LiteralExpression node);
+      R visitUnary(UnaryExpression node);
+    }
+    {% endprettify %}
+
+*   除此以外，对于具有单个类型参数的泛型，如果助记符能在周围类型中明显表达泛型含义，
+    请使用`T`，`S` 和 `U` 。
+    这里允许多个字母嵌套且不会与周围命名产生歧义。例如：
+
+    {:.good-style}
+    <?code-excerpt "misc/lib/effective_dart/design_good.dart (type-parameter-t)"?>
+    {% prettify dart %}
+    class Future<T> {
+      Future<S> then<S>(FutureOr<S> onValue(T value)) => ...
+    }
+    {% endprettify %}
+
+    这里，通常 `then<S>()` 方法使用 `S` 避免 `Future<T>` 中的 `T` 产生歧义。
+
+如果上述情况都不合适，则可以使用另一个单字母助记符名称或描述性的名称：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (type-parameter-graph)"?>
+{% prettify dart %}
+class Graph<N, E> {
+  final List<N> nodes = [];
+  final List<E> edges = [];
+}
+
+class Graph<Node, Edge> {
+  final List<Node> nodes = [];
+  final List<Edge> edges = [];
+}
+{% endprettify %}
+
+在实践中，以上的约定涵盖了大多数参数类型。
 
 ## Libraries
 
