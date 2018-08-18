@@ -119,19 +119,26 @@ Once your package passes Dart 2 analysis, update the upper constraint
 to declare that the package is compatible with Dart 2:
 
 ```yaml
-# Works in Dart 1 (starting with 1.20.1), and works in Dart 2
-sdk: '>=1.20.1 <3.0.0'
+environment:
+  # Works in Dart 2 only.
+  sdk: '>=2.0.0 <3.0.0'
+```
 
-# Works in Dart 2 only, starting with Dart 2 dev build 61
-sdk: '>=2.0.0-dev.61.0 <3.0.0'
+If you plan to maintain compatibility with older versions of Dart, adjust the
+lower SDK constraint accordingly:
+
+```yaml
+environment:
+  # Works in Dart 1 (starting with 1.20.1), and works in Dart 2.
+  sdk: '>=1.20.1 <3.0.0'
 ```
 
 <aside class="alert alert-warning" markdown="1">
-  Packages that declare an upper constraint of `<2.0.0` can still be consumed by
-  Dart 2 dev builds, as those have lax upper constraint checking. However,
-  once Dart 2 ships on the stable channel, those constraints will no longer
-  resolve, and **only packages that declare an upper constraint of `<3.0.0` will
-  work with Dart 2**.
+  **Packages must have an upper constraint of `<3.0.0`** to work in
+  Dart 2 stable and subsequent Dart 2 releases.
+  Dart 2 dev builds _before_ the stable release have
+  lax upper constraint checking and can use packages that have
+  no SDK constraints or an upper constraint of `<2.0.0`.
 </aside>
 
 ## More resources
