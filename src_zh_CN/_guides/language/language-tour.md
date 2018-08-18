@@ -5904,7 +5904,7 @@ To narrow the type of a method parameter or instance variable in code that is
 [type safe](/guides/language/sound-dart),
 you can use the [`covariant` keyword](/guides/language/sound-problems#the-covariant-keyword).
 
-{% endcomment %}
+{% comment %}
 #### Overridable operators
 
 You can override the operators shown in the following table.

@@ -54,11 +54,14 @@ Place the analysis options file, `analysis_options.yaml`,
 at the root of the package, in the same directory as the pubspec file.
 
 <aside class="alert alert-warning" markdown="1">
-**Breaking change:** The conventional name for the analysis options file
-used to be `.analysis_options` (note the leading dot and missing `.yaml` suffix).
-We expect support for the `.analysis_options` name to go away in a future
-release, so we recommend that you **rename your `.analysis_options` files to
-`analysis_options.yaml`.**
+  **Breaking change:** The conventional name for the analysis options file
+  used to be `.analysis_options` (note the leading dot and missing `.yaml` suffix).
+  We expect support for the `.analysis_options` name to go away in a future
+  release, so we recommend that you **rename your `.analysis_options` files to
+  `analysis_options.yaml`.**
+  {% comment %}
+  Tracking issue: https://github.com/dart-lang/sdk/issues/28385
+  {% endcomment %}
 </aside>
 
 Here's a sample analysis options file:
@@ -78,6 +81,8 @@ linter:
     - avoid_empty_else
     - cancel_subscriptions
     - close_sinks
+    - unnecessary_const
+    - unnecessary_new
 {% endprettify %}
 
 YAML is sensitive to whitespace&mdash;don't use tabs in a YAML file,
@@ -100,23 +105,6 @@ The analyzer will use file #1 to analyze the code in `my_other_package`
 and `my_other_other_package`, and file #2 to analyze the code in
 `my_package`.
 
-
-## Enabling Dart 2 semantics (SDK \<2.0.0-dev.68.0) {#enabling-dart-2-semantics}
-
-{% comment %}
-update-for-dart-2
-{% endcomment %}
-
-As of release 2.0.0-dev.68.0, [Dart 2 semantics][sound-dart] are on by default.
-For earlier releases, the simplest way to enable Dart 2 semantics is to put
-`strong-mode: true` in the analysis-options file:
-
-{% prettify yaml %}
-analyzer:
-  strong-mode: true
-{% endprettify %}
-
-Another way to enable Dart 2 semantics is to enable additional type checks.
 
 ## Enabling additional type checks
 
