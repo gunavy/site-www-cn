@@ -1000,11 +1000,19 @@ class Graph<Node, Edge> {
 
 在实践中，以上的约定涵盖了大多数参数类型。
 
+{% comment %}
 ## Libraries
 
 A leading underscore character ( `_` ) indicates that a member is private to its
 library. This is not mere convention, but is built into the language itself.
+{% endcomment %}
 
+## 库
+
+以 ( `_` ) 开头的成员只能在其库的内部被访问，是库的私有成员。
+这是 Dart 语言的内置特性，不仅仅是惯例。
+
+{% comment %}
 ### PREFER making declarations private.
 
 A public declaration in a library&mdash;either top level or in a class&mdash;is
@@ -1017,6 +1025,21 @@ interfaces are easier for you to maintain and easier for users to learn. As a
 nice bonus, the analyzer will tell you about unused private declarations so you
 can delete dead code. It can't do that if the member is public because it
 doesn't know if any code outside of its view is using it.
+{% endcomment %}
+
+
+### **推荐** 使用私有声明。
+
+库中的公开声明&mdash;顶级定义或者在类中定义&mdash;是一种信号，
+表示其他库可以并应该访问这些成员。
+同时公开声明也是一种你的库需要实现的契约，
+当使用这些成员的时候，应该实现其宣称的功能。
+
+如果某个成员你不希望公开，则在成员名字之前添加一个 `_` 即可。
+减少公开的接口让你的库更容易维护，也让用户更加容易掌握你的库如何使用。
+
+另外，分析工具还可以分析出没有用到的私有成员定义，然后告诉你可以删除这些无用的代码。
+私有成员第三方代码无法调用而你自己在库中也没有使用，所以是无用的代码。
 
 
 ### CONSIDER declaring multiple classes in the same library.
