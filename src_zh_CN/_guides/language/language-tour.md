@@ -210,10 +210,15 @@ mind:
 -   *Identifiers* can start with a letter or underscore (\_), followed by any
     combination of those characters plus digits.
 
--   Sometimes it matters whether something is an *expression* or a
-    *statement*, so it helps to be precise about those two words.
+-   Dart has both *expressions* (which have runtime values) and
+    *statements* (which don't).
+    For example, the [conditional expression](#conditional-expressions)
+    `condition ? expr1 : expr2` has a value of `expr1` or `expr2`.
+    Compare that to an [if-else statement](#if-and-else), which has no value.
+    A statement often contains one or more expressions,
+    but an expression can't directly contain a statement.
 
--   Dart tools can report two kinds of problems: warnings and errors.
+-   Dart tools can report two kinds of problems: _warnings_ and _errors_.
     Warnings are just indications that your code might not work, but
     they don’t prevent your program from executing. Errors can be either
     compile-time or run-time. A compile-time error prevents the code
@@ -250,10 +255,13 @@ mind:
 
 -   *标识符* 以字母或下划线（\ _）开头，后跟任意字母和数字组合。
 
--   Sometimes it matters whether something is an *expression* or a
-    *statement*, so it helps to be precise about those two words.
+-   Dart 语法中包含 *表达式*（有运行时值）和 *语句*（没有运行时值）。
+    例如，[条件表达式](#conditional-expressions)
+    `condition ? expr1 : expr2` 的值可能是 `expr1` 或 `expr2` 。
+    将其与 [if-else 语句](#if-and-else) 相比较，if-else 语句没有值。
+    一条语句通常包含一个或多个表达式，相反表达式不能直接包含语句。
 
--   Dart 工具提示两种类型问题：警告和错误。 
+-   Dart 工具提示两种类型问题：_警告_和_错误_。 
     警告只是表明代码可能无法正常工作，但不会阻止程序的执行。 
     错误可能是编译时错误或者运行时错误。 
     编译时错误会阻止代码的执行;
@@ -264,78 +272,86 @@ mind:
 
 The following table lists the words that the Dart language treats specially.
 
-{% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">1</sup>' %}
-{% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">2</sup>' %}
-
-| abstract{{bii}}   | do                | import{{bii}}     | super             |
-| as{{bii}}         | dynamic{{bii}}    | in                | switch            |
-| assert            | else              | interface{{bii}}  | sync*{{lrw}}      |
-| async{{lrw}}      | enum              | is                | this              |
-| async*{{lrw}}     | export{{bii}}     | library{{bii}}    | throw             |
-| await{{lrw}}      | external{{bii}}   | mixin{{bii}}      | true              |
-| break             | extends           | new               | try               |
-| case              | factory{{bii}}    | null              | typedef{{bii}}    |
-| catch             | false             | operator{{bii}}   | var               |
-| class             | final             | part{{bii}}       | void              |
-| const             | finally           | rethrow           | while             |
-| continue          | for               | return            | with              |
-| covariant{{bii}}  | get{{bii}}        | set{{bii}}        | yield{{lrw}}      |
-| default           | if                | static{{bii}}     | yield*{{lrw}}     |
-| deferred{{bii}}   | implements{{bii}}
+{% assign ckw = '&nbsp;<sup title="contextual keyword" alt="contextual keyword">1</sup>' %}
+{% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">2</sup>' %}
+{% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">3</sup>' %}
+| abstract{{bii}}   | dynamic{{bii}}    | implements{{bii}} | show{{ckw}}   |
+| as{{bii}}         | else              | import{{bii}}     | static{{bii}} |
+| assert            | enum              | in                | super         |
+| async{{ckw}}      | export{{bii}}     | interface{{bii}}  | switch        |
+| await{{lrw}}      | external{{bii}}   | is                | sync{{ckw}}   |
+| break             | extends           | library{{bii}}    | this          |
+| case              | factory{{bii}}    | mixin{{bii}}      | throw         |
+| catch             | false             | new               | true          |
+| class             | final             | null              | try           |
+| const             | finally           | on{{ckw}}         | typedef{{bii}}|
+| continue          | for               | operator{{bii}}   | var           |
+| covariant{{bii}}  | Function{{bii}}   | part{{bii}}       | void          |
+| default           | get{{bii}}        | rethrow           | while         |
+| deferred{{bii}}   | hide{{ckw}}       | return            | with          |
+| do                | if                | set{{bii}}        | yield{{lrw}}  |
 {:.table .table-striped .nowrap}
 
-<sup>1</sup> Words with the superscript **1**
-are **built-in identifiers**. Avoid using
-built-in identifiers as identifiers.
-A compile-time error happens if you try to
-use a built-in identifier for a class or type name.
+Avoid using these words as identifiers.
+However, if necessary, the keywords marked with superscripts can be identifiers:
 
-<sup>2</sup> Words with the superscript **2**
-are newer, limited reserved words related to **asynchrony** support
-added after Dart's 1.0 release.
-You can't use `async`, `await`, or `yield` as
-an identifier in any function body marked with `async`, `async*`, or `sync*`.
-For more information, see
-[Asynchrony support](#asynchrony-support).
+* Words with the superscript **1** are **contextual keywords**,
+  which have meaning only in specific places.
+  They're valid identifiers everywhere.
 
-All other words in the keyword table are **reserved words**.
-You can't use reserved words as identifiers.
+* Words with the superscript **2** are **built-in identifiers**.
+  To simplify the task of porting JavaScript code to Dart,
+  these keywords are valid identifiers in most places,
+  but they can't be used as class or type names, or as import prefixes.
+
+* Words with the superscript **3** are newer, limited reserved words related to
+  the [asynchrony support](#asynchrony-support) that was added
+  after Dart's 1.0 release.
+  You can't use `await` or `yield` as an identifier
+  in any function body marked with `async`, `async*`, or `sync*`.
+
+All other words in the table are **reserved words**,
+which can't be identifiers.
 {% endcomment %}
 
 ## 关键字
 
 Dart 语言关键字列表。
 
-{% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">1</sup>' %}
-{% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">2</sup>' %}
-
-| abstract{{bii}}   | do                | import{{bii}}     | super             |
-| as{{bii}}         | dynamic{{bii}}    | in                | switch            |
-| assert            | else              | interface{{bii}}  | sync*{{lrw}}      |
-| async{{lrw}}      | enum              | is                | this              |
-| async*{{lrw}}     | export{{bii}}     | library{{bii}}    | throw             |
-| await{{lrw}}      | external{{bii}}   | mixin{{bii}}      | true              |
-| break             | extends           | new               | try               |
-| case              | factory{{bii}}    | null              | typedef{{bii}}    |
-| catch             | false             | operator{{bii}}   | var               |
-| class             | final             | part{{bii}}       | void              |
-| const             | finally           | rethrow           | while             |
-| continue          | for               | return            | with              |
-| covariant{{bii}}  | get{{bii}}        | set{{bii}}        | yield{{lrw}}      |
-| default           | if                | static{{bii}}     | yield*{{lrw}}     |
-| deferred{{bii}}   | implements{{bii}}
+{% assign ckw = '&nbsp;<sup title="contextual keyword" alt="contextual keyword">1</sup>' %}
+{% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">2</sup>' %}
+{% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">3</sup>' %}
+| abstract{{bii}}   | dynamic{{bii}}    | implements{{bii}} | show{{ckw}}   |
+| as{{bii}}         | else              | import{{bii}}     | static{{bii}} |
+| assert            | enum              | in                | super         |
+| async{{ckw}}      | export{{bii}}     | interface{{bii}}  | switch        |
+| await{{lrw}}      | external{{bii}}   | is                | sync{{ckw}}   |
+| break             | extends           | library{{bii}}    | this          |
+| case              | factory{{bii}}    | mixin{{bii}}      | throw         |
+| catch             | false             | new               | true          |
+| class             | final             | null              | try           |
+| const             | finally           | on{{ckw}}         | typedef{{bii}}|
+| continue          | for               | operator{{bii}}   | var           |
+| covariant{{bii}}  | Function{{bii}}   | part{{bii}}       | void          |
+| default           | get{{bii}}        | rethrow           | while         |
+| deferred{{bii}}   | hide{{ckw}}       | return            | with          |
+| do                | if                | set{{bii}}        | yield{{lrw}}  |
 {:.table .table-striped .nowrap}
 
-<sup>1</sup> 带有上标1的单词
-是**内置标识符**。 
-避免使用内置标识符作为标识符。 
-如果对类或类型名称使用内置标识符，
-编译时会发生错误。
+避免使用这些单词作为标识符。 
+但是，如有必要，标有上标的关键字可以用作标识符：
 
-<sup>2</sup> 带有上标2的单词
-是 Dart 1.0 发布后，为支持**异步**增加更新的，限制类保留字。 
-不能在标记为 `async` ，`async*` 或 `sync*` 的任何函数体中使用 `async` , `async*` , or `sync*` 作为标识符。
-有关更多信息，参考 [Asynchrony支持](#asynchrony-support)。
+* 带有 **1** 上标的单词为 **上下文关键字**，
+  仅在特定位置具有含义。 
+  他们在任何地方都是有效的标识符。
+  
+* 带有 **2** 上标的单词为 **内置标识符**，
+  为了简化将 JavaScript 代码移植到 Dart 的工作，
+  这些关键字在大多数地方都是有效的标识符，
+  但它们不能用作类或类型名称，也不能用作 import 前缀。
+  
+* 带有 **3** 上标的单词是与 Dart 1.0 发布后添加的[异步支持](#asynchrony-support)相关的更新，作为限制类保留字。  
+  不能在标记为 `async` ，`async*` 或 `sync*` 的任何函数体中使用 `await` 或 `yield` 作为标识符。
 
 关键字表中的剩余单词都是**保留字**。
 不能将保留字用作标识符。
@@ -480,6 +496,10 @@ the first time it's used.
 <div class="alert alert-info" markdown="1">
 **Note:**
 Instance variables can be `final` but not `const`.
+Final instance variables must be initialized before
+the constructor body starts —
+at the variable declaration, by a constructor parameter,
+or in the constructor's [initializer list](#initializer-list).
 </div>
 
 Here's an example of creating and setting a final variable:
@@ -555,6 +575,8 @@ const 变量在编译时就已经固定 (Const 变量
 <div class="alert alert-info" markdown="1">
 **提示：**
 实例变量可以是 `final` 类型但不能是 `const` 类型。
+必须在构造函数体执行之前初始化 final 实例变量 —— 
+在变量声明中，参数构造函数中或构造函数的[初始化列表](#initializer-list)中进行初始化。
 </div>
 
 创建和设置一个 final 变量：
@@ -1462,7 +1484,7 @@ The usual way to express a Unicode code point is
 For example, the heart character (♥) is `\u2665`.
 To specify more or less than 4 hex digits,
 place the value in curly brackets.
-For example, the laughing emoji (😆) is `\u{1f600}`.
+For example, the laughing emoji (�) is `\u{1f600}`.
 
 The [String][]
 class has several properties you can use to extract rune information.
@@ -1471,7 +1493,7 @@ units. Use the `runes` property to get the runes of a string.
 
 The following example illustrates the relationship between runes,
 16-bit code units, and 32-bit code points.
-Click the run button ( {% img 'red-run.png' %} )
+Click the run button {% asset red-run.png alt="" %}
 to see runes in action.
 
 {% comment %}
@@ -1495,9 +1517,9 @@ void main() {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=589bc5c95318696cefe5&horizontalRatio=99&verticalRatio=65"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=589bc5c95318696cefe5&verticalRatio=65"
     width="100%"
-    height="310px"
+    height="333px"
     style="border: 1px solid #ccc;">
 </iframe>
 
@@ -1535,7 +1557,7 @@ Unicode 定义了一个全球的书写系统编码，
 
 下面是示例演示了 runes、 16-bit code units、
 和 32-bit code points 之间的关系。
-点击运行按钮 ( {% img 'red-run.png' %} )
+点击运行按钮 {% asset red-run.png alt="" %}
 查看 runes 结果。
 
 {% comment %}
@@ -1559,9 +1581,9 @@ void main() {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=589bc5c95318696cefe5&horizontalRatio=99&verticalRatio=65"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=589bc5c95318696cefe5&verticalRatio=65"
     width="100%"
-    height="310px"
+    height="333px"
     style="border: 1px solid #ccc;">
 </iframe>
 
@@ -1943,7 +1965,7 @@ that specifies a default list for the `list`
 parameter and a default map for the `gifts` parameter.
 {% comment %}
 The function is called three times with different values.
-Click the run button ( {% img 'red-run.png' %} )
+Click the run button {% asset red-run.png alt="" %}
 to see list and map default values in action.
 {% endcomment %}
 
@@ -1966,7 +1988,7 @@ https://gist.github.com/d988cfce0a54c6853799
 https://dartpad.dartlang.org/d988cfce0a54c6853799
 (The gist needs updating: see https://github.com/dart-lang/site-www/issues/189)
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=d988cfce0a54c6853799&horizontalRatio=99&verticalRatio=70"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=d988cfce0a54c6853799&verticalRatio=70"
     width="100%"
     height="450px"
     style="border: 1px solid #ccc;">
@@ -2068,7 +2090,7 @@ list 或 map 可以作为默认值传递。
 的默认值。
 {% comment %}
 The function is called three times with different values.
-Click the run button ( {% img 'red-run.png' %} )
+Click the run button {% asset red-run.png alt="" %}
 to see list and map default values in action.
 {% endcomment %}
 
@@ -2091,7 +2113,7 @@ https://gist.github.com/d988cfce0a54c6853799
 https://dartpad.dartlang.org/d988cfce0a54c6853799
 (The gist needs updating: see https://github.com/dart-lang/site-www/issues/189)
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=d988cfce0a54c6853799&horizontalRatio=99&verticalRatio=70"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=d988cfce0a54c6853799&verticalRatio=70"
     width="100%"
     height="450px"
     style="border: 1px solid #ccc;">
@@ -2271,7 +2293,7 @@ list.forEach((item) {
 });
 {% endprettify %}
 
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+Click the run button {% asset red-run.png alt="" %} to execute the code.
 
 {% comment %}
 https://gist.github.com/chalin/5d70bc1889d055c7a18d35d77874af88
@@ -2279,7 +2301,7 @@ https://dartpad.dartlang.org/5d70bc1889d055c7a18d35d77874af88
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=5d70bc1889d055c7a18d35d77874af88&horizontalRatio=99&verticalRatio=50"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=5d70bc1889d055c7a18d35d77874af88&verticalRatio=60"
     width="100%"
     height="250px"
     style="border: 1px solid #ccc;">
@@ -2326,7 +2348,7 @@ list.forEach((item) {
 });
 {% endprettify %}
 
-点击运行按钮 ( {% img 'red-run.png' %} ) 执行代码。
+点击运行按钮 {% asset red-run.png alt="" %} 执行代码。
 
 {% comment %}
 https://gist.github.com/chalin/5d70bc1889d055c7a18d35d77874af88
@@ -2334,7 +2356,7 @@ https://dartpad.dartlang.org/5d70bc1889d055c7a18d35d77874af88
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=5d70bc1889d055c7a18d35d77874af88&horizontalRatio=99&verticalRatio=50"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=5d70bc1889d055c7a18d35d77874af88&verticalRatio=60"
     width="100%"
     height="250px"
     style="border: 1px solid #ccc;">
@@ -4404,7 +4426,8 @@ try {
 {% endprettify %}
 
 Learn more by reading the
-[Exceptions](/guides/libraries/library-tour#exceptions) section.
+[Exceptions](/guides/libraries/library-tour#exceptions)
+section of the library tour.
 {% endcomment %}
 
 ### Finally
@@ -4981,7 +5004,7 @@ before the constructor body (if any).
 
 In the following example, the constructor for the Employee class
 calls the named constructor for its superclass, Person.
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+Click the run button {% asset red-run.png alt="" %} to execute the code.
 
 {% comment %}
 https://gist.github.com/Sfshaza/e57aa06401e6618d4eb8
@@ -5021,7 +5044,7 @@ void main() {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=e57aa06401e6618d4eb8&horizontalRatio=99&verticalRatio=80"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=e57aa06401e6618d4eb8&verticalRatio=80"
     width="100%"
     height="500px"
     style="border: 1px solid #ccc;">
@@ -5064,7 +5087,7 @@ For example, arguments can call static methods but not instance methods.
 在当前构造函数冒号 (`:`) 之后，函数体之前，声明调用父类构造函数。
 
 下面的示例中，Employee 类的构造函数调用了父类 Person 的命名构造函数。 
-点击运行按钮( {% img 'red-run.png' %} ) 执行示例代码。
+点击运行按钮{% asset red-run.png alt="" %} 执行示例代码。
 
 {% comment %}
 https://gist.github.com/Sfshaza/e57aa06401e6618d4eb8
@@ -5104,7 +5127,7 @@ void main() {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=e57aa06401e6618d4eb8&horizontalRatio=99&verticalRatio=80"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=e57aa06401e6618d4eb8&verticalRatio=80"
     width="100%"
     height="500px"
     style="border: 1px solid #ccc;">
@@ -5172,7 +5195,7 @@ https://github.com/dart-lang/sdk/blob/master/docs/language/informal/assert-in-in
 
 Initializer lists are handy when setting up final fields.
 The following example initializes three final fields in an initializer list.
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+Click the run button {% asset red-run.png alt="" %} to execute the code.
 
 {% comment %}
 https://gist.github.com/Sfshaza/7a9764702c0608711e08
@@ -5201,7 +5224,7 @@ void main() {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=7a9764702c0608711e08&horizontalRatio=99&verticalRatio=85"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=7a9764702c0608711e08&verticalRatio=85"
     width="100%"
     height="420px"
     style="border: 1px solid #ccc;">
@@ -5251,7 +5274,7 @@ https://github.com/dart-lang/sdk/blob/master/docs/language/informal/assert-in-in
 
 使用初始化列表可以很方便的设置 final 字段。
 下面示例演示了，如何使用初始化列表初始化设置三个 final 字段。
-点击运行按钮 ( {% img 'red-run.png' %} ) 执行示例代码。
+点击运行按钮 {% asset red-run.png alt="" %} 执行示例代码。
 
 {% comment %}
 https://gist.github.com/Sfshaza/7a9764702c0608711e08
@@ -5280,7 +5303,7 @@ void main() {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=7a9764702c0608711e08&horizontalRatio=99&verticalRatio=85"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=7a9764702c0608711e08&verticalRatio=85"
     width="100%"
     height="420px"
     style="border: 1px solid #ccc;">
@@ -6985,6 +7008,27 @@ import 'package:lib2/lib2.dart' hide foo;
 {% endprettify %}
 
 <a id="deferred-loading"></a>
+{% endcomment %}
+
+
+#### 导入库的一部分
+
+如果你只使用库的一部分功能，则可以选择需要导入的
+内容。例如：
+
+<?code-excerpt "misc/lib/language_tour/libraries/show_hide.dart" replace="/(lib\d)\.dart/package:$1\/$&/g"?>
+{% prettify dart %}
+// Import only foo.
+import 'package:lib1/lib1.dart' show foo;
+
+// Import all names EXCEPT foo.
+import 'package:lib2/lib2.dart' hide foo;
+{% endprettify %}
+
+<a id="deferred-loading"></a>
+
+
+{% comment %}
 #### Lazily loading a library
 
 _Deferred loading_ (also called _lazy loading_)
@@ -7037,51 +7081,35 @@ Keep in mind the following when you use deferred loading:
 
 <aside class="alert alert-warning" markdown="1">
 **Dart VM difference:**
-Due to [issue #33118](https://github.com/dart-lang/sdk/issues/33118),
-the Dart VM allows access to members of deferred libraries
+The Dart VM allows access to members of deferred libraries
 even before the call to `loadLibrary()`.
-We expect this bug to be fixed soon, so
+This behavior might change, so
 **don't depend on the current VM behavior.**
+For details, see [issue #33118.](https://github.com/dart-lang/sdk/issues/33118)
 </aside>
 {% endcomment %}
 
-#### 仅导入库的一部分
 
-如果只想使用库的一部分，
-则可以有选择地导入库。 
-例如：
+#### 延迟加载库
 
-<?code-excerpt "misc/lib/language_tour/libraries/show_hide.dart" replace="/(lib\d)\.dart/package:$1\/$&/g"?>
-{% prettify dart %}
-// 仅导入 foo 。
-import 'package:lib1/lib1.dart' show foo;
+_Deferred loading_ (也称之为 _lazy loading_)
+可以让应用在需要的时候再加载库。
+下面是一些使用延迟加载库的场景：
 
-// 导入所有内容，除了 foo 。
-import 'package:lib2/lib2.dart' hide foo;
-{% endprettify %}
+* 减少 APP 的启动时间。
+* 执行 A/B 测试，例如 尝试各种算法的
+  不同实现。
+* 加载很少使用的功能，例如可选的屏幕和对话框。
 
-<a id="deferred-loading"></a>
-#### 懒加载库
-
-延迟加载（也称为懒加载）允许应用程序根据需要加载库。
-以下是可能使用延迟加载的一些情况：
-减少应用程序的初始启动时间。
-例如，执行A / B测试 - 尝试算法的替代实现。
-加载很少使用的功能，例如可选的屏幕和对话框。
-
-* 减少应用程序的初始化启动时间。
-* 例如，要执行A/B测试 ———— 测试算法的实现。
-* 加载不常用的功能，比如可选的界面或者对话框。
-
-要延迟加载一个库，必须使用 `deferred as` 来导入。
+要延迟加载一个库，需要先使用 `deferred as` 来导入：
 
 <?code-excerpt "misc/lib/language_tour/libraries/greeter.dart (import)" replace="/hello\.dart/package:greetings\/$&/g"?>
 {% prettify dart %}
 import 'package:greetings/hello.dart' deferred as hello;
 {% endprettify %}
 
-当需要库的时候，
-通过使用库的标示符调用 loadLibrary()。
+当需要使用的时候，使用库标识符调用
+`loadLibrary()` 函数来加载库：
 
 <?code-excerpt "misc/lib/language_tour/libraries/greeter.dart (loadLibrary)"?>
 {% prettify dart %}
@@ -7091,32 +7119,29 @@ Future greet() async {
 }
 {% endprettify %}
 
-在上面代码中，
-`await` 关键字表示程序暂停执行，直到库被加载完成。
-有关 `async` 和 `await` 的详细信息，
-请参考 [asynchrony support](#asynchrony-support)。
+在前面的代码，使用 `await` 关键字暂停代码执行一直到库加载完成。
+关于 `async` 和 `await` 的更多信息请参考 [异步支持](#asynchrony-support)。
 
-使用库时，是可以调用多次 `loadLibrary()` 的，
-但是库仅被加载一次。
+在一个库上你可以多次调用 `loadLibrary()` 函数。但是该库只是载入一次。
 
-使用延迟加载时请记住以下内容：
+使用延迟加载库的时候，请注意一下问题：
 
-* 延迟加载库的常量在导入的时候是不可用的。 
+* 延迟加载库的常量在导入的时候是不可用的。
   只有当库加载完毕的时候，库中常量才可以使用。
-* 在导入文件的时候无法使用延迟库中的类型。 
-  如果需要使用类型，
-  应该考虑把接口类型移动到另外一个库中，
+* 在导入文件的时候无法使用延迟库中的类型。
+  如果你需要使用类型，则考虑把接口类型移动到另外一个库中，
   让两个库都分别导入这个接口库。
-* Dart 隐含的把 `loadLibrary()` 函数导入到使用 <code>deferred as <em>namespace</em></code> 的命名空间。 
+* Dart 隐含的把 `loadLibrary()` 函数导入到使用
+  <code>deferred as <em>的命名空间</em></code> 中。
   `loadLibrary()` 方法返回一个 [Future](/guides/libraries/library-tour#future)。
 
-
 <aside class="alert alert-warning" markdown="1">
-**Dart VM 的差异**
-
-由于 ＃33118 问题，
-Dart VM甚至可以在调用 `loadLibrary()` 之前访问延迟库的成员。
-我们会尽快修复此错误，因此 **不要依赖于当前的 VM 判断 **。
+**Dart VM difference:**
+The Dart VM allows access to members of deferred libraries
+even before the call to `loadLibrary()`.
+This behavior might change, so
+**don't depend on the current VM behavior.**
+For details, see [issue #33118.](https://github.com/dart-lang/sdk/issues/33118)
 </aside>
 
 {% comment %}
@@ -7645,7 +7670,7 @@ implement the `call()` method.
 In the following example, the `WannabeFunction` class defines
 a call() function that takes three strings and concatenates them,
 separating each with a space, and appending an exclamation.
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+Click the run button {% asset red-run.png alt="" %} to execute the code.
 
 {% comment %}
 https://gist.github.com/405379bacf30335f3aed
@@ -7665,7 +7690,7 @@ main() => print(out);
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=405379bacf30335f3aed&horizontalRatio=99&verticalRatio=73"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=405379bacf30335f3aed&verticalRatio=73"
     width="100%"
     height="240px"
     style="border: 1px solid #ccc;">
@@ -7683,7 +7708,7 @@ For more information on treating classes like functions, see
 
 在下面的示例中，`WannabeFunction` 类定义了一个 call() 函数，
 函数接受三个字符串参数，函数体将三个字符串拼接，字符串间用空格分割，并在结尾附加了一个感叹号。
-单击运行按钮 ( {% img 'red-run.png' %} ) 执行代码。
+单击运行按钮 {% asset red-run.png alt="" %} 执行代码。
 
 {% comment %}
 https://gist.github.com/405379bacf30335f3aed
@@ -7703,7 +7728,7 @@ main() => print(out);
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=405379bacf30335f3aed&horizontalRatio=99&verticalRatio=73"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=405379bacf30335f3aed&verticalRatio=73"
     width="100%"
     height="240px"
     style="border: 1px solid #ccc;">

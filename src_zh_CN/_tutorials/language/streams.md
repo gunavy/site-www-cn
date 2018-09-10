@@ -89,15 +89,15 @@ main() async {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=15d5ef986238c97dbc14&horizontalRatio=70&verticalRatio=80"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=15d5ef986238c97dbc14&verticalRatio=85"
     width="100%"
-    height="500px"
+    height="490px"
     style="border: 1px solid #ccc;">
 </iframe>
 
 <aside class="alert alert-info" markdown="1">
 **Note:**
-Click run ( {% img 'red-run.png' %} )
+Click run {% asset red-run.png alt="" %}
 to see the result in the **Console output**.
 </aside>
 
@@ -163,7 +163,7 @@ main() async {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=df7c1168a5c6b20fda2a76d6ff33a1da&horizontalRatio=70&verticalRatio=80"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=df7c1168a5c6b20fda2a76d6ff33a1da&verticalRatio=80"
     width="100%"
     height="450px"
     style="border: 1px solid #ccc;">
@@ -171,7 +171,7 @@ src="{{site.custom.dartpad.embed-dart-prefix}}?id=df7c1168a5c6b20fda2a76d6ff33a1
 
 <aside class="alert alert-info" markdown="1">
 **Note:**
-Click run ( {% img 'red-run.png' %} )
+Click run {% asset red-run.png alt="" %}
 to see the result in the **Console output**.
 </aside>
 

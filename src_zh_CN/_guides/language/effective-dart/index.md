@@ -96,8 +96,8 @@ For links to all the guidelines, see the
   **Have feedback on the guides?** <br>
   Please create a [new issue][] or comment on one of our [existing issues][].
 
-  [new issue]: {{site.repo}}/issues/new
-  [existing issues]: {{site.repo}}/issues?q=is%3Aopen+is%3Aissue+label%3AEffectiveDart
+  [new issue]: {{site.repo.this}}/issues/new
+  [existing issues]: {{site.repo.this}}/issues?q=is%3Aopen+is%3Aissue+label%3AEffectiveDart
 </aside>
 {% endcomment %}
 
@@ -135,8 +135,8 @@ For links to all the guidelines, see the
   **Have feedback on the guides?** <br>
   Please create a [new issue][] or comment on one of our [existing issues][].
 
-  [new issue]: {{site.repo}}/issues/new
-  [existing issues]: {{site.repo}}/issues?q=is%3Aopen+is%3Aissue+label%3AEffectiveDart
+  [new issue]: {{site.repo.this}}/issues/new
+  [existing issues]: {{site.repo.this}}/issues?q=is%3Aopen+is%3Aissue+label%3AEffectiveDart
 </aside>
 {% endcomment %}
 
