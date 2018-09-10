@@ -125,10 +125,15 @@ mind:
 -   *Identifiers* can start with a letter or underscore (\_), followed by any
     combination of those characters plus digits.
 
--   Sometimes it matters whether something is an *expression* or a
-    *statement*, so it helps to be precise about those two words.
+-   Dart has both *expressions* (which have runtime values) and
+    *statements* (which don't).
+    For example, the [conditional expression](#conditional-expressions)
+    `condition ? expr1 : expr2` has a value of `expr1` or `expr2`.
+    Compare that to an [if-else statement](#if-and-else), which has no value.
+    A statement often contains one or more expressions,
+    but an expression can't directly contain a statement.
 
--   Dart tools can report two kinds of problems: warnings and errors.
+-   Dart tools can report two kinds of problems: _warnings_ and _errors_.
     Warnings are just indications that your code might not work, but
     they don’t prevent your program from executing. Errors can be either
     compile-time or run-time. A compile-time error prevents the code
@@ -140,42 +145,46 @@ mind:
 
 The following table lists the words that the Dart language treats specially.
 
-{% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">1</sup>' %}
-{% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">2</sup>' %}
-
-| abstract{{bii}}   | do                | import{{bii}}     | super             |
-| as{{bii}}         | dynamic{{bii}}    | in                | switch            |
-| assert            | else              | interface{{bii}}  | sync*{{lrw}}      |
-| async{{lrw}}      | enum              | is                | this              |
-| async*{{lrw}}     | export{{bii}}     | library{{bii}}    | throw             |
-| await{{lrw}}      | external{{bii}}   | mixin{{bii}}      | true              |
-| break             | extends           | new               | try               |
-| case              | factory{{bii}}    | null              | typedef{{bii}}    |
-| catch             | false             | operator{{bii}}   | var               |
-| class             | final             | part{{bii}}       | void              |
-| const             | finally           | rethrow           | while             |
-| continue          | for               | return            | with              |
-| covariant{{bii}}  | get{{bii}}        | set{{bii}}        | yield{{lrw}}      |
-| default           | if                | static{{bii}}     | yield*{{lrw}}     |
-| deferred{{bii}}   | implements{{bii}}
+{% assign ckw = '&nbsp;<sup title="contextual keyword" alt="contextual keyword">1</sup>' %}
+{% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">2</sup>' %}
+{% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">3</sup>' %}
+| abstract{{bii}}   | dynamic{{bii}}    | implements{{bii}} | show{{ckw}}   |
+| as{{bii}}         | else              | import{{bii}}     | static{{bii}} |
+| assert            | enum              | in                | super         |
+| async{{ckw}}      | export{{bii}}     | interface{{bii}}  | switch        |
+| await{{lrw}}      | external{{bii}}   | is                | sync{{ckw}}   |
+| break             | extends           | library{{bii}}    | this          |
+| case              | factory{{bii}}    | mixin{{bii}}      | throw         |
+| catch             | false             | new               | true          |
+| class             | final             | null              | try           |
+| const             | finally           | on{{ckw}}         | typedef{{bii}}|
+| continue          | for               | operator{{bii}}   | var           |
+| covariant{{bii}}  | Function{{bii}}   | part{{bii}}       | void          |
+| default           | get{{bii}}        | rethrow           | while         |
+| deferred{{bii}}   | hide{{ckw}}       | return            | with          |
+| do                | if                | set{{bii}}        | yield{{lrw}}  |
 {:.table .table-striped .nowrap}
 
-<sup>1</sup> Words with the superscript **1**
-are **built-in identifiers**. Avoid using
-built-in identifiers as identifiers.
-A compile-time error happens if you try to
-use a built-in identifier for a class or type name.
+Avoid using these words as identifiers.
+However, if necessary, the keywords marked with superscripts can be identifiers:
 
-<sup>2</sup> Words with the superscript **2**
-are newer, limited reserved words related to **asynchrony** support
-added after Dart's 1.0 release.
-You can't use `async`, `await`, or `yield` as
-an identifier in any function body marked with `async`, `async*`, or `sync*`.
-For more information, see
-[Asynchrony support](#asynchrony-support).
+* Words with the superscript **1** are **contextual keywords**,
+  which have meaning only in specific places.
+  They're valid identifiers everywhere.
 
-All other words in the keyword table are **reserved words**.
-You can't use reserved words as identifiers.
+* Words with the superscript **2** are **built-in identifiers**.
+  To simplify the task of porting JavaScript code to Dart,
+  these keywords are valid identifiers in most places,
+  but they can't be used as class or type names, or as import prefixes.
+
+* Words with the superscript **3** are newer, limited reserved words related to
+  the [asynchrony support](#asynchrony-support) that was added
+  after Dart's 1.0 release.
+  You can't use `await` or `yield` as an identifier
+  in any function body marked with `async`, `async*`, or `sync*`.
+
+All other words in the table are **reserved words**,
+which can't be identifiers.
 
 
 ## Variables
@@ -252,6 +261,10 @@ the first time it's used.
 <div class="alert alert-info" markdown="1">
 **Note:**
 Instance variables can be `final` but not `const`.
+Final instance variables must be initialized before
+the constructor body starts —
+at the variable declaration, by a constructor parameter,
+or in the constructor's [initializer list](#initializer-list).
 </div>
 
 Here's an example of creating and setting a final variable:
@@ -758,7 +771,7 @@ units. Use the `runes` property to get the runes of a string.
 
 The following example illustrates the relationship between runes,
 16-bit code units, and 32-bit code points.
-Click the run button ( {% img 'red-run.png' %} )
+Click the run button {% asset red-run.png alt="" %}
 to see runes in action.
 
 {% comment %}
@@ -782,9 +795,9 @@ void main() {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=589bc5c95318696cefe5&horizontalRatio=99&verticalRatio=65"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=589bc5c95318696cefe5&verticalRatio=65"
     width="100%"
-    height="310px"
+    height="333px"
     style="border: 1px solid #ccc;">
 </iframe>
 
@@ -1026,7 +1039,7 @@ that specifies a default list for the `list`
 parameter and a default map for the `gifts` parameter.
 {% comment %}
 The function is called three times with different values.
-Click the run button ( {% img 'red-run.png' %} )
+Click the run button {% asset red-run.png alt="" %}
 to see list and map default values in action.
 {% endcomment %}
 
@@ -1049,7 +1062,7 @@ https://gist.github.com/d988cfce0a54c6853799
 https://dartpad.dartlang.org/d988cfce0a54c6853799
 (The gist needs updating: see https://github.com/dart-lang/site-www/issues/189)
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=d988cfce0a54c6853799&horizontalRatio=99&verticalRatio=70"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=d988cfce0a54c6853799&verticalRatio=70"
     width="100%"
     height="450px"
     style="border: 1px solid #ccc;">
@@ -1158,7 +1171,7 @@ list.forEach((item) {
 });
 {% endprettify %}
 
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+Click the run button {% asset red-run.png alt="" %} to execute the code.
 
 {% comment %}
 https://gist.github.com/chalin/5d70bc1889d055c7a18d35d77874af88
@@ -1166,7 +1179,7 @@ https://dartpad.dartlang.org/5d70bc1889d055c7a18d35d77874af88
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=5d70bc1889d055c7a18d35d77874af88&horizontalRatio=99&verticalRatio=50"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=5d70bc1889d055c7a18d35d77874af88&verticalRatio=60"
     width="100%"
     height="250px"
     style="border: 1px solid #ccc;">
@@ -1782,15 +1795,10 @@ For more information about the `.`, `?.`, and `..` operators, see
 You can control the flow of your Dart code using any of the following:
 
 -   `if` and `else`
-
 -   `for` loops
-
 -   `while` and `do`-`while` loops
-
 -   `break` and `continue`
-
 -   `switch` and `case`
-
 -   `assert`
 
 You can also affect the control flow using `try-catch` and `throw`, as
@@ -2225,7 +2233,8 @@ try {
 {% endprettify %}
 
 Learn more by reading the
-[Exceptions](/guides/libraries/library-tour#exceptions) section.
+[Exceptions](/guides/libraries/library-tour#exceptions)
+section of the library tour.
 
 ## Classes
 
@@ -2506,7 +2515,7 @@ before the constructor body (if any).
 
 In the following example, the constructor for the Employee class
 calls the named constructor for its superclass, Person.
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+Click the run button {% asset red-run.png alt="" %} to execute the code.
 
 {% comment %}
 https://gist.github.com/Sfshaza/e57aa06401e6618d4eb8
@@ -2546,7 +2555,7 @@ void main() {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=e57aa06401e6618d4eb8&horizontalRatio=99&verticalRatio=80"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=e57aa06401e6618d4eb8&verticalRatio=80"
     width="100%"
     height="500px"
     style="border: 1px solid #ccc;">
@@ -2612,7 +2621,7 @@ https://github.com/dart-lang/sdk/blob/master/docs/language/informal/assert-in-in
 
 Initializer lists are handy when setting up final fields.
 The following example initializes three final fields in an initializer list.
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+Click the run button {% asset red-run.png alt="" %} to execute the code.
 
 {% comment %}
 https://gist.github.com/Sfshaza/7a9764702c0608711e08
@@ -2641,7 +2650,7 @@ void main() {
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=7a9764702c0608711e08&horizontalRatio=99&verticalRatio=85"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=7a9764702c0608711e08&verticalRatio=85"
     width="100%"
     height="420px"
     style="border: 1px solid #ccc;">
@@ -2828,8 +2837,6 @@ class EffectiveDoer extends Doer {
   }
 }
 {% endprettify %}
-
-Calling an abstract method results in a runtime error.
 
 
 ### Abstract classes
@@ -3558,11 +3565,11 @@ Keep in mind the following when you use deferred loading:
 
 <aside class="alert alert-warning" markdown="1">
 **Dart VM difference:**
-Due to [issue #33118](https://github.com/dart-lang/sdk/issues/33118),
-the Dart VM allows access to members of deferred libraries
+The Dart VM allows access to members of deferred libraries
 even before the call to `loadLibrary()`.
-We expect this bug to be fixed soon, so
+This behavior might change, so
 **don't depend on the current VM behavior.**
+For details, see [issue #33118.](https://github.com/dart-lang/sdk/issues/33118)
 </aside>
 
 ### Implementing libraries
@@ -3840,7 +3847,7 @@ implement the `call()` method.
 In the following example, the `WannabeFunction` class defines
 a call() function that takes three strings and concatenates them,
 separating each with a space, and appending an exclamation.
-Click the run button ( {% img 'red-run.png' %} ) to execute the code.
+Click the run button {% asset red-run.png alt="" %} to execute the code.
 
 {% comment %}
 https://gist.github.com/405379bacf30335f3aed
@@ -3860,7 +3867,7 @@ main() => print(out);
 {% endcomment %}
 
 <iframe
-src="{{site.custom.dartpad.embed-dart-prefix}}?id=405379bacf30335f3aed&horizontalRatio=99&verticalRatio=73"
+src="{{site.custom.dartpad.embed-inline-prefix}}?id=405379bacf30335f3aed&verticalRatio=73"
     width="100%"
     height="240px"
     style="border: 1px solid #ccc;">
