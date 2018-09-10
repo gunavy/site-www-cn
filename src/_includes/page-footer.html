@@ -1,10 +1,10 @@
 <footer id="page-footer">
   <div class="container">
     <div class="row">
-      <div class="col-sm-12 col-md-3">
+      <div class="col-md-12 col-lg-3">
         <div class="content">
           <div class="brand">
-            <img src="{% asset_path 'shared/dart/logo+text/horizontal/mono.svg' %}" alt="Dart logo" class="brand"/>
+            <img src="{% asset shared/dart/logo+text/horizontal/mono.svg @path %}" alt="Dart logo" class="brand"/>
           </div>
           <h4><a href="/terms">Terms</a> | <a href="https://policies.google.com/privacy">Privacy</a></h4>
           <style>.menu .material-icons { font-size: 14px; }</style>
@@ -12,16 +12,16 @@
           <ul class="menu">
             <li>Site&nbsp;<a href="http://creativecommons.org/licenses/by/3.0/" class="no-automatic-external">CC&nbsp;BY&nbsp;3.0</a></li>
             <li>
-              <a href="{{site.repo}}"
+              <a href="{{site.repo.this}}"
                  title="This site's source is on GitHub."
                  class="no-automatic-external"><i class="fab fa-github fa-sm"></i></a>
               &nbsp;
-              <a href="{{site.repo}}/issues"
+              <a href="{{site.repo.this}}/issues"
                  title="File an issue about this site."
                  class="no-automatic-external"><i class="fas fa-bug fa-sm"></i></a>
               &nbsp;
               <a {% if site.data.ci.job-id %}
-                 href="{{site.repo | regex_replace: 'github.com','travis-ci.org'}}/jobs/{{site.data.ci.job-id}}"
+                 href="{{site.repo.this | regex_replace: 'github.com','travis-ci.org'}}/jobs/{{site.data.ci.job-id}}"
                  title="Site build #{{site.data.ci.build-number}} ({{site.data.ci.build-time | date: dateFormat}})"
                  {% else %}
                  title="Site built on {{site.now | default: site.time | date: dateFormat}}"
@@ -31,7 +31,7 @@
           </ul>
         </div>
       </div>
-      <div class="col-sm-4 col-md-3">
+      <div class="col-md-4 col-lg-3">
         <div class="content">
           <h4>Technologies</h4>
           <ul>
@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <div class="col-sm-4 col-md-3">
+      <div class="col-md-4 col-lg-3">
         <div class="content">
           <h4>Resources</h4>
           <ul>
@@ -58,7 +58,7 @@
         </div>
       </div>
 
-      <div class="col-sm-4 col-md-3">
+      <div class="col-md-4 col-lg-3">
         <div class="content">
           <h4>Community</h4>
           <ul>
