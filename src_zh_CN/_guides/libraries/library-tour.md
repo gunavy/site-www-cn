@@ -435,11 +435,11 @@ assert(fruit is String);
 fruits.add(5); // BAD: Throws exception in checked mode.
 {% endprettify %}
 
-{% include checked-mode-2.0.html %}
-
-{% comment %}
-update-for-dart-2
-{% endcomment %}
+{:.fails-sa}
+<?code-excerpt "misc/lib/library_tour/core/collections.dart (List-of-String)"?>
+{% prettify dart %}
+fruits.add(5); // Error: 'int' can't be assigned to 'String'
+{% endprettify %}
 
 全部的方法介绍 ，请参考 [List API docs][List] 。
 

@@ -9,9 +9,6 @@ prevpage:
   title: 风格
 ---
 
-{% include effective-dart-banner.html %}
-
-
 {% comment %}
 It's easy to think your code is obvious today without realizing how much you
 rely on context already in your head. People new to your code, and

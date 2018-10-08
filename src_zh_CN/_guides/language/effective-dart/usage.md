@@ -10,8 +10,6 @@ prevpage:
 ---
 <?code-excerpt replace="/([A-Z]\w*)\d\b/$1/g"?>
 
-{% include effective-dart-banner.html %}
-
 {% comment %}
 This is the most "blue-collar" guide in Effective Dart. You'll apply the
 guidelines here every day in the bodies of your Dart code. *Users* of your

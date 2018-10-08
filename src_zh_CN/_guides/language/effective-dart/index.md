@@ -8,8 +8,6 @@ nextpage:
   title: 风格
 ---
 
-{% include effective-dart-banner.html %}
-
 {% comment %}
 Over the past several years, we've written a ton of Dart code and learned a lot
 about what works well and what doesn't. We're sharing this with you so you can

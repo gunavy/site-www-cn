@@ -25,6 +25,8 @@ pub: https://pub.dartlang.org
 pub-api: https://pub.dartlang.org/documentation
 pub-pkg: https://pub.dartlang.org/packages
 
+show_banner: false
+
 collections:
   articles:
     output: true
@@ -82,17 +84,15 @@ custom:
         editor-ext: zip
 
 # Build settings
+
+# bundler_args: --without production
+exclude: [diagrams]
+plugins: [jekyll-toc]
 source: src_zh_CN
 # `symlinked-sources` can refer to individual files or directories
 # under `src` that are symlinked to somewhere outside `src`, or it can
 # refer to the root folder of the symlinked content (like `site-shared/src`):
 symlinked-sources: [site-shared/src]
-bundler_args: --without production
-
-exclude: [diagrams]
-
-plugins:
-- jekyll-toc
 
 # Increment this global og:image URL version number (used as a query parameter)
 # when you update any og:image file. (Also increment the corresponding number
@@ -104,4 +104,4 @@ assets:
 
 toc:
   min_level: 2
-  max_level: 2 # FIXME(temporary): disable level 3 headings until we've fully fixed migrated the TOC
+  max_level: 3
