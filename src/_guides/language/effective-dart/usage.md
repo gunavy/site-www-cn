@@ -10,8 +10,6 @@ prevpage:
 ---
 <?code-excerpt replace="/([A-Z]\w*)\d\b/$1/g"?>
 
-{% include effective-dart-banner.html %}
-
 This is the most "blue-collar" guide in Effective Dart. You'll apply the
 guidelines here every day in the bodies of your Dart code. *Users* of your
 library may not be able to tell that you've internalized the ideas here, but
@@ -365,18 +363,6 @@ you don't care about the type, then use `toList()`.
 
 
 ### DO use `whereType()` to filter a collection by type.
-
-{% comment %}
-update-for-dart-2
-{% endcomment %}
-<aside class="alert alert-warning" markdown="1">
-  This feature was implemented late in Dart&nbsp;2 development, so
-  **before using `whereType()`, make sure it's implemented.**
-  The first Flutter release expected to implement `whereType()` is
-  **Flutter v0.7.0.**
-  For more information, see
-  [SDK issue #32463.](https://github.com/dart-lang/sdk/issues/32463)
-</aside>
 
 Let's say you have a list containing a mixture of objects, and you want to get
 just the integers out of it. You could use `where()` like this:
