@@ -1039,7 +1039,7 @@ doesn't know if any code outside of its view is using it.
 另外，分析工具还可以分析出没有用到的私有成员定义，然后告诉你可以删除这些无用的代码。
 私有成员第三方代码无法调用而你自己在库中也没有使用，所以是无用的代码。
 
-
+{% comment %}
 ### CONSIDER declaring multiple classes in the same library.
 
 Some languages, such as Java, tie the organization of files to the organization of
@@ -1057,14 +1057,36 @@ outside of that library cannot.
 Of course, this guideline doesn't mean you *should* put all of your classes into
 a huge monolithic library, just that you are allowed to place more than one
 class in a single library.
+{% endcomment %}
+
+### **考虑** 声明多个类在一个库中。
+
+一些其他语言，比如 Java。将文件结构和类结构进行捆绑&mdash：每个文件仅能定义一个顶级类。
+Dart 没有这样的限制。库与类是相互独立的。如果多个类，顶级变量，以及函数，他们再逻辑上
+归为同一类，那么将他们包含到单一的库中，这样做是非常棒的。
+
+将多个类组织到一个库中，就可以使用一些有用的模式。因为在 Dart 中私有特性是在库级别上有效，
+而不是在类级别，基于这个模式你可以定义类似于 C++ 中的 "friend" 类。所有定义在同一个库中
+的类可以互相访问彼此的私有成员，但库以外的代码无法发访问。
+
+当然，该规则并不意味着你*应该*将你所有的类组织到一个庞大单一的库中，规则只是说允许你将多
+个类组织到一个库中。
 
 
+{% comment %}
 ## Classes
 
 Dart is a "pure" object-oriented language in that all objects are instances of
 classes. But Dart does not require all code to be defined inside a
 class&mdash;you can define top-level variables, constants, and functions like
 you can in a procedural or functional language.
+{% endcomment %}
+
+## 类
+
+Dart是一种 “纯粹的” 面向对象语言，因为所有对象都是类的实例。但是 Dart 并没有要求所有代码都
+定义到类中&mdash; 类似在面向过程或函数的语言， 你可以在 Dart 中定义顶级变量，常量，以及函数。
+
 
 ### AVOID defining a one-member abstract class when a simple function will do.
 
