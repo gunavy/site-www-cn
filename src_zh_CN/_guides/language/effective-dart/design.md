@@ -1085,9 +1085,9 @@ you can in a procedural or functional language.
 ## 类
 
 Dart是一种 “纯粹的” 面向对象语言，因为所有对象都是类的实例。但是 Dart 并没有要求所有代码都
-定义到类中&mdash; 类似在面向过程或函数的语言， 你可以在 Dart 中定义顶级变量，常量，以及函数。
+定义到类中&mdash; 类似在面向过程或函数的语言，你可以在 Dart 中定义顶级变量，常量，以及函数。
 
-
+{% comment %}
 ### AVOID defining a one-member abstract class when a simple function will do.
 
 Unlike Java, Dart has first-class functions, closures, and a nice light syntax
@@ -1109,8 +1109,29 @@ abstract class Predicate<E> {
   bool test(E element);
 }
 {% endprettify %}
+{% endcomment %}
 
+### **避免** 避免为了使用一个简单的函数而去定义一个单一成员的抽象类
 
+和 Java 不同，Dart 拥有一等公民的函数，闭包，以及它们简洁的使用语法。如果你仅仅是需要一个
+类似于回调的功能，那么使用函数即可。 例如如果你正在定义一个类，并且它仅拥有一个毫无意义名称的
+抽象成员，如 `call` 或 `invoke` ，那么这时你很可能只是需要一个函数。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (one-member-abstract-class)"?>
+{% prettify dart %}
+typedef Predicate<E> = bool Function(E element);
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (one-member-abstract-class)"?>
+{% prettify dart %}
+abstract class Predicate<E> {
+  bool test(E element);
+}
+{% endprettify %}
+
+{% comment %}
 ### AVOID defining a class that contains only static members.
 
 In Java and C#, every definition *must* be inside a class, so it's common to see
@@ -1169,8 +1190,65 @@ class Color {
   static const white = '#fff';
 }
 {% endprettify %}
+{% endcomment %}
+
+### **避免** 定义仅包含静态成员的累。
+
+在 Java 和 C# 中，所有的定义*必须*要在类中。所有常常会看到一些这样的类，这些
+类中仅仅放置了些静态成员。其他类仅用于命名空间&mdash;一种为一堆成员提供共享
+前缀将它们相互关联或避免名称冲突的方法。
+
+Dart 拥有一等公民的函数，变量，以及常量，所以你不*需要*通过类来定义这些东西。
+如果你想要的是一个命名空间，那么使用库即可。库支持导入前缀和显示/隐藏组合器。
+这些功能强大的工具可让代码的开发者以最适合他们的方式处理名称冲突。
+
+如果函数或变量在逻辑上与类无关，那么应该将其置于顶层。如果担心名称冲突，
+那么请为其指定更精确的名称，或将其移动到可以使用前缀导入的单独库中。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (class-only-static)"?>
+{% prettify dart %}
+DateTime mostRecent(List<DateTime> dates) {
+  return dates.reduce((a, b) => a.isAfter(b) ? a : b);
+}
+
+const _favoriteMammal = 'weasel';
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (class-only-static)"?>
+{% prettify dart %}
+class DateUtils {
+  static DateTime mostRecent(List<DateTime> dates) {
+    return dates.reduce((a, b) => a.isAfter(b) ? a : b);
+  }
+}
+
+class _Favorites {
+  static const mammal = 'weasel';
+}
+{% endprettify %}
+
+通常在 Dart 中，类定义了*一类对象*。一个类型，如果类型从来没有被初始化，
+那么这是另一种的代码气息。
+
+当然，这并不是一条硬性规则。对于常量和类似枚举的类型，将它们组合在一个类
+中看起来也是很自然。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (class-only-static-exception)"?>
+{% prettify dart %}
+class Color {
+  static const red = '#f00';
+  static const green = '#0f0';
+  static const blue = '#00f';
+  static const black = '#000';
+  static const white = '#fff';
+}
+{% endprettify %}
 
 
+{% comment %}
 ### AVOID extending a class that isn't intended to be subclassed.
 
 If a constructor is changed from a generative constructor to a factory
@@ -1184,13 +1262,32 @@ wants to allow subclassing. This can be communicated in a doc comment, or by
 giving the class an obvious name like `IterableBase`. If the author of the class
 doesn't do that, it's best to assume you should *not* extend the class.
 Otherwise, later changes to it may break your code.
+{% endcomment %}
 
 
+### **避免** 集成一个不期望被集成的类。
+
+如果一个类的构造函数从生成构造函数被更改为工厂构造函数，则调用该构造函数的任何子类构造函数都
+将失败。 此外，如果一个类改变了它在 `this` 上调用的自己的方法，那么覆盖这些方法并期望他们在
+某些点被调用的子类再调用时会失败。
+
+以上两种情况都意味着一个类需要考虑是否要允许被子类化。这种情况可以通过文档注释来沟通，或者为类
+提供一个显示命名，如 `IterableBase`。如果该类的作者不这样做，最好假设你*不*能够继承这个类。
+否则，后续对它的修改可能会破坏你的代码。
+
+
+{% comment %}
 ### DO document if your class supports being extended.
 
 This is the corollary to the above rule. If you want to allow subclasses of your
 class, state that. Suffix the class name with `Base`, or mention it in the
 class's doc comment.
+{% endcomment %}
+
+### **要** 把能够继承的说明添加到文档中，如果这个类可以继承。
+
+该规则是上条规则的结果。如果允许你的类被子类化，请在文档中说明情况。使用 `Base` 作为类名的后缀，
+或者在类的注释文档中注明。
 
 
 ### AVOID implementing a class that isn't intended to be an interface.
