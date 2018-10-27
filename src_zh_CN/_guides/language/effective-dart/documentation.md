@@ -934,7 +934,7 @@ dartdoc will process it accordingly using the [markdown package][].
 ### AVOID using markdown excessively.
 
 When in doubt, format less. Formatting exists to illuminate your content, not
-replace it. Words are what matters.
+replace it. Words are what matter.
 {% endcomment %}
 
 
