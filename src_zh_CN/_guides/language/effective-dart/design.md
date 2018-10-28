@@ -1498,10 +1498,17 @@ immutable data record sorts of classes.
 `const` 构造函数对于简单的，不可变的数据记录类是非常有用的。
 
 
+{% comment %}
 ## Members
 
 A member belongs to an object and can be either methods or instance variables.
+{% endcomment %}
 
+## 成员
+
+成员属于对象，成员可以是方法或实例变量。
+
+{% comment %}
 ### PREFER making fields and top-level variables `final`.
 
 State that is not *mutable*&mdash;that does not change over time&mdash;is
@@ -1511,8 +1518,17 @@ amount of mutable state they work with tend to be easier to maintain.
 Of course, it is often useful to have mutable data. But, if you don't need it,
 your default should be to make fields and top-level variables `final` when you
 can.
+{% endcomment %}
+
+### **推荐** 指定字段或顶级变量为 `final` 。
+
+状态不可变&mdash;随着时间推移状态不发生变化&mdash;有益于程序员推理。类和库中可变状态量越少，类和库
+越容易维护。
+
+当然，可变数据是非常有用的。但是，如果并不需要可变数据，应该尽可能默认指定字段和顶级变量为 `final` 。
 
 
+{% comment %}
 ### DO use getters for operations that conceptually access properties.
 
 Deciding when a member should be a getter versus a method is a challenging,
@@ -1609,7 +1625,37 @@ collection.isEmpty;
 button.canShow;
 dataSet.minimumValue;
 {% endprettify %}
+{% endcomment %}
 
+### **要** 使用 getter 对变量进行访问操作。
+
+判定一个成员应该是一个 getter 而不是一个方式是一件具有挑战性的事情。它虽然微妙，但对于好的
+API 设计是非常重要的，也导致本规则会很长。其他的一些语言文化中回避了getter。他们只有在几乎
+类似于字段访问的时候才会使用&mdash;它仅仅是根据对象的状态进行微小的计算。任何比这更复杂或
+重量级的东西得到带有 `()` 的名字后面，给出一种"计算的操作在这！"信号。因为 `.` 后面只跟名称
+意味着是"字段"。
+
+Dart 与他们 *不* 同。在 Dart 中，所有点名称都可以是进行计算的成员调用。字段是特殊的&mdash;
+字段的 getter 的实现是有语言提供的。换句话说，在 Dart 中，getter 不是"访问特别慢的字段"；
+字段是"访问特别快的 getter "。
+
+即便如此，选择 getter 而不是方法对于调用者来说是一个重要信号。信号大致的意思成员的操作
+"类似于字段"。至少原则上可以这么认为，只要调用者清楚，这个操作*可以*使用字段来实现。这意味着：
+
+*   **该操作返回一个结果但不接受任何参数。**
+
+*   **调用者主要关系结果。** 如果希望调用者关系操作产生结果的方式多于产生的结果，那么为操作
+    提供一个方法，使用描述工作的动词作为方法的名称。
+
+    这并*不*意味着操作必须特别快才能成为 getter 方法。`IterableBase.length` 复杂度是
+     `O(n)`，是可以的。使用 getter 方法进行重要计算是没问题的。但是如果它做了*超*大量的工作，
+     你可能需要通过一个描述其功能的动词的方法来引起使用者的注意。
+
+    {:.bad-style}
+    {% prettify dart %}
+    connection.nextIncomingMessage; // Does network I/O.
+    expression.normalForm; // Could be exponential to calculate.
+    {% endprettify %}
 
 ### DO use setters for operations that conceptually change properties.
 
