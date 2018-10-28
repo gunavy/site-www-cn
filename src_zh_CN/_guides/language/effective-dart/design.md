@@ -1383,12 +1383,21 @@ mixin. If your class is designed for use only as a mixin, then consider adding
 那么考虑在类名以 `Mixin` 结尾。
 
 
+{% comment %}
 ## Constructors
 
 Dart constructors are created by declaring a function with the same name as the
 class and, optionally, an additional identifier. The latter are called *named
 constructors*.
+{% endcomment %}
 
+## 构造函数
+
+通过声明与类具有相同名称的函数以及附加可选的标识符来创建 Dart 构造函数。 后者附加标示符的
+构造函数被称为*命名构造函数*。
+
+
+{% comment %}
 ### PREFER defining constructors instead of static methods to create instances.
 
 Constructors are invoked using `new` or `const`, which communicates
@@ -1434,8 +1443,28 @@ class Point {
       Point(radius * cos(theta), radius * sin(theta));
 }
 {% endprettify %}
+{% endcomment %}
 
 
+### **推荐** 通过定义构造函数创建实例，避免使用静态方法
+
+使用 `new` 或 `const` 调用构造函数，它能够传达方法调用的主要目的是返回
+一个类的实例（或者至少是一个其接口的实现）。
+
+命名构造函数能够阐明对象是如何创建的，工厂构造函数也能够让在适当时机构造子
+类或子接口的实例。所以你是_不需要_通过静态方法来创建实例。
+
+尽管如此，从技术上来讲， 一些创建新对象的方法并不像是"类似构造函数"。 
+例如，[`Uri.parse()`][uri.parse] 是一个静态方法，即使它通过传递参数创
+建了一个新的 URI 对象。 同样，使用静态方法可以更好地读取实现了 [Builder 模式][] 的类。
+
+[uri.parse]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Uri/parse.html
+[builder pattern]: http://en.wikipedia.org/wiki/Builder_pattern
+
+但在大多数情况下，应该使用构造函数，即便它更冗长。当用户想要一个类的实例时，他们希望的常规方法是通过构造函数来创建。
+
+
+{% comment %}
 ### CONSIDER making your constructor `const` if the class supports it.
 
 If you have a class where all the fields are final, and the constructor does
@@ -1451,6 +1480,22 @@ you later change the constructor to non-`const`, it will break users that are
 calling it in constant expressions. If you don't want to commit to that, don't
 make it `const`. In practice, `const` constructors are most useful for simple,
 immutable data record sorts of classes.
+{% endcomment %}
+
+
+### **考虑** 在类支持的情况下，指定构造函数为  `const`。
+
+如果一个类，它所有的字段都是 final ，并且构造函数出了初始化他们之外没有任
+何其他操作，那么可以将其作为 `const` 构造函数。这样就能够允许用户在需要
+常量的位置创建类的实例&mdash;一些大型的常量，switch case 语句，默认参数中，
+以及其他的情况。
+
+如果没有显示的指定为 `const` 构造函数，那么就无法实现上述目的。
+
+但需要注意的是，构造函数被指定为 `const` ，那它就是公共 API 的一中承诺。
+如果后面将构造函数更改为非 `const` ，那么在常量表达式中调用它的代码就会被破坏。
+如果不想做出这样的承诺，那么就不要指定它为 `const` 构造函数。在实际运用中，
+`const` 构造函数对于简单的，不可变的数据记录类是非常有用的。
 
 
 ## Members
