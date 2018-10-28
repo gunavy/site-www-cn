@@ -1290,6 +1290,7 @@ class's doc comment.
 或者在类的注释文档中注明。
 
 
+{% comment %}
 ### AVOID implementing a class that isn't intended to be an interface.
 
 Implicit interfaces are a powerful tool in Dart to avoid having to repeat the
@@ -1313,13 +1314,36 @@ To give the authors of the classes you use more leeway, avoid implementing
 implicit interfaces except for classes that are clearly intended to be
 implemented. Otherwise, you may introduce a coupling that the author doesn't
 intend, and they may break your code without realizing it.
+{% endcomment %}
 
+### **避免** 去实现一个不期望成为接口的类（该类不想作为接口被实现）。
+
+隐式接口是Dart中的一个强大工具，当一个类中可以很容易的推断出一些已经约定的有特征的实现时，
+隐式接口可以避免重复定义这个类的约定。
+
+但是通过类的隐式接口实现的新类，新类会与这个类产生非常紧密的耦合。也就是说，对于接口类的
+*任何*修改，你实现的新类都会被破坏。例如，向类中添加新成员通常是安全，不会产生破坏性的改变。
+但是如果你实现了这个类的接口，那么现在你的类会产生一个静态错误，因为它缺少了新方法的实现。
+
+库的维护人员需要能够在不破坏用户代码的情况下迭代现有的累。如果把每个类都看待成是暴露给用户
+的接口，用户可以自由的实现，这时修改这些类将变得非常困难。反过来，这个困难将导致你的库
+迭代缓慢，从而无法适应新的需求。
+
+为了给你的类的开发人员提供更多的余地，避免实现隐式接口，除非那些类明确需要实现。否则，
+你可能会引入开发者没有预料到的耦合情况，这样可能会在没有意识到的情况下破坏你的代码。
+
+{% comment %}
 ### DO document if your class supports being used as an interface.
 
 If your class can be used as an interface, mention that in the class's doc
 comment.
+{% endcomment %}
 
+### **要** 对支持接口的类在文档注明
 
+如果你的类可以被用作接口，那么将这个情况注明到类的文档中。
+
+{% comment %}
 ### AVOID mixing in a class that isn't intended to be a mixin.
 
 If a constructor is added to a class that previously did not define any, that
@@ -1332,13 +1356,31 @@ Like with subclassing, this means a class needs to be deliberate about whether
 or not it wants to allow being used as a mixin. If the class doesn't have a doc
 comment or an obvious name like `IterableMixin`, you should assume you cannot
 mix in the class.
+{% endcomment %}
 
 
+### **避免** 去 mixin 一个不期望被 mixin 的类
+
+如果在一个类中定义了一个之前从来没有被定义过的构造函数，那么这会破坏已被混入的其他类。
+在类中，这样看似无害的变化，并且对 mixin 的限制和并不为其他人说知。作者可能会添加一
+个构造函数但并没有意识到它会破坏你 mixin 到它里的类。
+
+与子类化一样，这意味着需要考虑一个类是否允许用于 mixin。如果该类没有文档注释或明显的名称，
+如 `IterableMixin` ，你应该假设你不能 mix 这个类。
+
+
+{% comment %}
 ### DO document if your class supports being used as a mixin.
 
 Mention in the class's doc comment whether the class can or must be used as a
 mixin. If your class is designed for use only as a mixin, then consider adding
 `Mixin` to the end of the class name.
+{% endcomment %}
+
+### **要** 对支持 mixin 的类在文档注明
+
+在类的文档中要提到，这个类是否可以或必须用于 mixin 。如果你的类被设计只作为 mixin 使用，
+那么考虑在类名以 `Mixin` 结尾。
 
 
 ## Constructors
