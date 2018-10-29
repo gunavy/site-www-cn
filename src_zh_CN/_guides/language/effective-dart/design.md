@@ -1642,7 +1642,7 @@ Dart 与他们 *不* 同。在 Dart 中，所有点名称都可以是进行计�
 即便如此，选择 getter 而不是方法对于调用者来说是一个重要信号。信号大致的意思成员的操作
 "类似于字段"。至少原则上可以这么认为，只要调用者清楚，这个操作*可以*使用字段来实现。这意味着：
 
-*   **该操作返回一个结果但不接受任何参数。**
+*   **操作返回一个结果但不接受任何参数。**
 
 *   **调用者主要关系结果。** 如果希望调用者关系操作产生结果的方式多于产生的结果，那么为操作
     提供一个方法，使用描述工作的动词作为方法的名称。
@@ -1656,6 +1656,52 @@ Dart 与他们 *不* 同。在 Dart 中，所有点名称都可以是进行计�
     connection.nextIncomingMessage; // Does network I/O.
     expression.normalForm; // Could be exponential to calculate.
     {% endprettify %}
+
+*   **操作不会产生使用者可见的副作用。** 在程序中访问一个实际的字段不会改变对象或者其他的状态。
+    操作不会产生输出，写入文件等。同样 getter 方法也一样。
+
+    注意关键字"使用者可见"。只要调用者不*关心*这些副作用。getter 方法可以修改隐藏状态或产生
+    带外副作用。 getter 方法可以惰性计算和存储他们的结果，写入缓存， log 等。这样是没有问题的。
+
+    {:.bad-style}
+    {% prettify dart %}
+    stdout.newline; // Produces output.
+    list.clear; // Modifies object.
+    {% endprettify %}
+
+*   **操作是*幂等*的。** "幂等"是一个怪异的词，在这里可以理解为调用多次操作，除非在这些操作
+    调用之间某些状态被修改，否则每次操作都产生相同的结果。（很明显，如果在调用之间向列表添加
+    元素， `list.length` 会产生不同的结果。）
+
+    这里"相同的结果"并不意味着 getter 方法必须一定要在每次调用成功后都返回相同的对象。如果
+    按这样的要求会迫使很过 getter 方法需要进行脆弱的缓存（brittle caching），这样就否定了
+    使用 getter 的全部意义。常见的非常好的示例是，每次调用一个 getter 方法返回一个新的 
+    future 或 list。重点在于， future 完成后返回相同的值，list 包含了相同的元素。
+    
+    换句话说，*调用者关系的*是结果值应该相等。
+
+    {:.bad-style}
+    {% prettify dart %}
+    DateTime.now; // New result each time.
+    {% endprettify %}
+
+*   **结果对象不用公开所有原始对象的状态。** 一个字段仅公开对象的一部分。如果操作返回的结果
+    公开了原始对象的整个状态，那么把该操作作为 [`to___()`][to] 或 [`as___()`][as] 方法
+    可能会更好。
+
+[to]: #prefer-naming-a-method-to___-if-it-copies-the-objects-state-to-a-new-object
+[as]: #prefer-naming-a-method-as___-if-it-returns-a-different-representation-backed-by-the-original-object
+
+如果操作符合上述描述，那么它应该是一个 getter 方法。看似满足这一系列要求的成员并不多，但实际上
+会超出你的想象。许多操作只是对某些状态进行一些计算，其中大多数能够，并且也应该作为 getter 方法。
+
+{:.good-style}
+{% prettify dart %}
+rectangle.area;
+collection.isEmpty;
+button.canShow;
+dataSet.minimumValue;
+{% endprettify %}
 
 ### DO use setters for operations that conceptually change properties.
 
