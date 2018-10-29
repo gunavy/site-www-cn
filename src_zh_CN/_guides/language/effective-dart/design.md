@@ -1627,9 +1627,9 @@ dataSet.minimumValue;
 {% endprettify %}
 {% endcomment %}
 
-### **要** 使用 getter 对变量进行访问操作。
+### **要** 对概念上是访问的属性使用 getter 方法。
 
-判定一个成员应该是一个 getter 而不是一个方式是一件具有挑战性的事情。它虽然微妙，但对于好的
+判定一个成员应该是一个 getter 而不是一个方法是一件具有挑战性的事情。它虽然微妙，但对于好的
 API 设计是非常重要的，也导致本规则会很长。其他的一些语言文化中回避了getter。他们只有在几乎
 类似于字段访问的时候才会使用&mdash;它仅仅是根据对象的状态进行微小的计算。任何比这更复杂或
 重量级的东西得到带有 `()` 的名字后面，给出一种"计算的操作在这！"信号。因为 `.` 后面只跟名称
@@ -1703,6 +1703,7 @@ button.canShow;
 dataSet.minimumValue;
 {% endprettify %}
 
+{% comment %}
 ### DO use setters for operations that conceptually change properties.
 
 Deciding between a setter versus a method is similar to deciding between a
@@ -1726,8 +1727,31 @@ For a setter, "field-like" means:
 rectangle.width = 3;
 button.visible = false;
 {% endprettify %}
+{% endcomment %}
+
+### **要** 对概念上是修改的属性使用 setter 方法。
+
+判定一个成员应该是一个 setter 而不是一个方法与 getter 的判定一样。两者的操作都应该是
+"类似于字段"的操作。
+
+对于 setter 方法，"类似于字段"意味着：
+
+*   **操作只有一个参数，不会返回结果。**
+
+*   **操作会更改对象中的某些状态。**
+
+*   **操作是*幂等*的。** 使用相同的值调用相同的 setter 两次，就调用者而言，第二次不应该执
+    行任何操作。在内部，也许你会得到一些无效的缓存或者多次的日志记录。没关系，从调用者的角度
+    来看，第二次调用似乎没做任何事情。
+
+{:.good-style}
+{% prettify dart %}
+rectangle.width = 3;
+button.visible = false;
+{% endprettify %}
 
 
+{% comment %}
 ### DON'T define a setter without a corresponding getter.
 
 Users think of getters and setters as visible properties of an object. A
@@ -1749,7 +1773,28 @@ getter.)
 
 [angular]: {{site.webdev}}/angular
 </aside>
+{% endcomment %}
 
+
+### **不要** 在没有对应的 getter 的情况下定义 setter。
+
+用户将 getter 和 setter 视为一个对象的可见属性。一个 "dropbox" 属性可以被写入但无法读
+取，会令人感到困惑。并且也混淆了他们对属性如何工作的直观理解。 例如，没有 getter 的 setter 
+意味着你可以使用 `=` 来修改它，但却不能使用 `+=` 。
+
+本规则意义并*不*是说，你需要先添加一个 getter 才被允许添加 setter ，对象通常不应该暴露出
+多余的状态。如果某个对象的某个状态可以修改但不能以相同的方式访问，请改用方法实现。
+
+<aside class="alert alert-info" markdown="1">
+这条规则有一处例外。在[Angular][] 组件类上，从模板调用的初始化组件 setter 可以公开。
+通常，这些 setter 是不打算在 Dart 中调用的，也就不需要相应的 getter。（如果在 Dart 代码
+中使用它们，那么它们*应该*有一个对应的 getter 。）
+
+[angular]: {{site.webdev}}/angular
+</aside>
+
+
+{% comment %}
 ### AVOID returning `null` from members whose return type is `bool`, `double`, `int`, or `num`.
 
 Even though all types are nullable in Dart, users assume those types almost
@@ -1762,11 +1807,48 @@ should be rare.
 
 If you do have a member of this type that may return `null`, document it very
 clearly, including the conditions under which `null` will be returned.
+{% endcomment %}
 
 
+### **避免** 从返回类型为 `bool` ， `double` ， `int` 或 `num` 的成员返回 `null` 。
+
+尽管在 Dart 中所有类型都可以为空，但用户几乎都不会考虑它们是 `null` 的情况。而小写命名是
+源于 "Java primitive" 的提倡。
+
+在 API 中有一个 "nullable primitive" 类型可能会偶尔被用到。例如，指出 map 中不存在的 
+key 值，但这样的应用并不多见。
+
+如果确实有成员可能返回 `null` 的类型，请在文档中注明，以及在什么情况下回返回 `null`。 
+
+
+{% comment %}
 ### AVOID returning `this` from methods just to enable a fluent interface.
 
 Method cascades are a better solution for chaining method calls.
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (cascades)"?>
+{% prettify dart %}
+var buffer = StringBuffer()
+  ..write('one')
+  ..write('two')
+  ..write('three');
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (cascades)"?>
+{% prettify dart %}
+var buffer = StringBuffer()
+    .write('one')
+    .write('two')
+    .write('three');
+{% endprettify %}
+{% endcomment %}
+
+
+### **避免** 为了书写流畅，而从方法中返回 `this` 。
+
+方法级联是链接方法调用的更好的解决方式。
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/design_good.dart (cascades)"?>
