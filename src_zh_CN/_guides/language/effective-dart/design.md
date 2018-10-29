@@ -1869,6 +1869,7 @@ var buffer = StringBuffer()
 {% endprettify %}
 
 
+{% comment %}
 ## Types
 
 When you write down a type in your program, you constrain the kinds of values
@@ -1968,8 +1969,92 @@ These cover the second:
 * [PREFER annotating with `dynamic` instead of letting inference fail.](#prefer-annotating-with-dynamic-instead-of-letting-inference-fail)
 
 The remaining guidelines cover other more specific questions around types.
+{% endcomment %}
 
 
+## 类型
+
+程序中的类型用于约束流入代码各位置的*值*的不同类型。类型会出现在两种位置：声明中的*类型注解（type 
+annotations）*和*泛型调用（generic invocations）*的类型参数。
+
+当你想到*静态类型*时，通常会联想到类型注解。类型注解可以用于为变量，参数，字段，或者返回值
+声明类型。在下面的示例中，`bool` 和 `String` 是类型注解。他们位于代码静态声明结构的前面，
+并且他们不会在运行时"执行"。
+
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (annotate-declaration)"?>
+{% prettify dart %}
+bool isEmpty(String parameter) {
+  bool result = parameter.length == 0;
+  return result;
+}
+{% endprettify %}
+
+泛型调用可以是一个字面量集合的定义，一个泛型类构造函数的调用，或者一个泛型方法的调用。在下面
+的示例中，`num` 和 `int` 都是泛型调用的类型参数。虽然它们是类型，但是它们也是第一类实体，
+在运行时会被提升并传递给调用。
+
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (annotate-invocation)"?>
+{% prettify dart %}
+var lists = <num>[1, 2];
+lists.addAll(List<num>.filled(3, 4));
+lists.cast<int>();
+{% endprettify %}
+
+这里再强调一下"泛型调用"，因为类型参数*也*可以出现在类型注解中：
+
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (annotate-type-arg)"?>
+{% prettify dart %}
+List<int> ints = [1, 2];
+{% endprettify %}
+
+这里，`int` 是一个类型参数，但它出现在了类型注解中，而不是泛型调用。通常来说不需要担心这种情况，
+但在几个地方，对于类型的运用是泛型调用而不是类型注解有不同的指导。
+
+在大多数地方，Dart 允许省略类型注解并根据附近的上下文提供推断类型，或默认指定为 `dynamic` 
+类型。Dart 同时具有类型推断和 `dynamic` 类型的情况，导致对代码中 "untyped" 的含义产生一些
+混淆。意思就是不*写*类型就是动态类型吗？为避免这种混淆，应该避免说 "untyped" ，而是使用以下
+术语：
+
+*   如果代码是*类型注解*，则在代码中显式写入类型。
+
+*   如果代码的类型是*推断*的，则不必写类型注解，Dart 会自己会找出它的类型。规则不考虑推断可能
+    会失败的情况，在一些地方，推理失败会产生一个静态错误。在其他情况下，Dart 使用 `dynamic`
+    作为备选类型。
+
+*   如果代码是*动态类型*，那么它的静态类型就是特殊的 `dynamic` 类型。代码可以明确地注解为 
+    `dynamic` 类型，也可以由 Dart 进行推断。
+
+换句话说，对于代码的类型是 `dynamic` 类型还是其他类型，在类型注解或类型推断中是正交的。
+
+类型推断是一种强大的工具，可以免于编写和阅读那些明显或无趣的类型。在明显的情况下省略类型也会
+引起读者注意那些被显式注解的重要类型，例如强制类型转换。
+
+显示类型也是代码健壮和高可维护的关键。它们定义了API的静态形状。注明并约束流入代码各位置的值
+的不同类型值。
+
+这些准则促使我们在简洁性和明确性，灵活性和安全性之间找到了最佳平衡。在决定要编写类型钱前
+您需要回答这两问题：
+
+* 我应该书写哪种类型那？因为我期望这些类型在代码中最好是被看到！
+* 我应该书写哪种类型那？因为推理无法为我提供这些类型！
+
+这些规则可以帮助你回答第一个问题：
+
+* [**推荐** 为类型不明显的公共字段和顶级变量指定类型注解。](#prefer-type-annotating-public-fields-and-top-level-variables-if-the-type-isnt-obvious)
+* [CONSIDER type annotating private fields and top-level variables if the type isn't obvious.](#consider-type-annotating-private-fields-and-top-level-variables-if-the-type-isnt-obvious)
+* [AVOID type annotating initialized local variables.](#avoid-type-annotating-initialized-local-variables)
+* [AVOID annotating inferred parameter types on function expressions.](#avoid-annotating-inferred-parameter-types-on-function-expressions)
+* [AVOID redundant type arguments on generic invocations.](#avoid-redundant-type-arguments-on-generic-invocations)
+
+这些规则涵盖了第二个问题：
+
+* [DO annotate when Dart infers the wrong type.](#do-annotate-when-dart-infers-the-wrong-type)
+* [PREFER annotating with `dynamic` instead of letting inference fail.](#prefer-annotating-with-dynamic-instead-of-letting-inference-fail)
+
+其余指南涵盖了和类型有关的其他具体问题。
+
+
+{% comment %}
 ### PREFER type annotating public fields and top-level variables if the type isn't obvious.
 
 Type annotations are important documentation for how a library should be used.
@@ -2013,7 +2098,46 @@ wish to explicitly annotate. If the inferred type relies on values or
 declarations from other libraries, you may want to type annotate *your*
 declaration so that a change to that other library doesn't silently change the
 type of your own API without you realizing.
+{% endcomment %}
 
+
+### **推荐** 为类型不明显的公共字段和顶级变量指定类型注解。
+
+类型注解是关于如何使用库的重要文档。它们在程序的区域之间形成边界以隔离类型错误来源。思考下面代码：
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (type_annotate_public_apis)"?>
+{% prettify dart %}
+install(id, destination) => ...
+{% endprettify %}
+
+在这里，无法判断：这个 `id` 是什么，一个字符串？`destination` 又是什么，一个字符串还是一个 
+`File` 对象？方法是同步的还是异步的？下面的实例会清晰很多：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (type_annotate_public_apis)"?>
+{% prettify dart %}
+Future<bool> install(PackageId id, String destination) => ...
+{% endprettify %}
+
+但在一些情况下，类型非常明显，根本没有指明类型的必要：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (inferred)"?>
+{% prettify dart %}
+const screenWidth = 640; // Inferred as int.
+{% endprettify %}
+
+这里的"明显"并没有精确的定义，下面这些可以作为很好的参考：
+
+* 字面量。
+* 构造函数调用。
+* 引用的其他类型明确的常量。
+* 数字和字符串的简单表达式。
+* 读者熟悉的工厂方法，如 `int.parse()`， `Future.wait()` 等。
+
+如有疑问，请添加类型注解。即使类型很明显，但可能任然希望明确的注解。如果推断类型依赖于其他库中的值
+或声明，可能需要添加注解的声明。这样自己的API就不会因为其他库的修改而被悄无声息的改变了类型。
 
 ### CONSIDER type annotating private fields and top-level variables if the type isn't obvious.
 
