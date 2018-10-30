@@ -2101,7 +2101,7 @@ type of your own API without you realizing.
 {% endcomment %}
 
 
-### **推荐** 为类型不明显的公共字段和顶级变量指定类型注解。
+### **推荐** 为类型不明显的公共字段和公共顶级变量指定类型注解。
 
 类型注解是关于如何使用库的重要文档。它们在程序的区域之间形成边界以隔离类型错误来源。思考下面代码：
 
@@ -2139,6 +2139,8 @@ const screenWidth = 640; // Inferred as int.
 如有疑问，请添加类型注解。即使类型很明显，但可能任然希望明确的注解。如果推断类型依赖于其他库中的值
 或声明，可能需要添加注解的声明。这样自己的API就不会因为其他库的修改而被悄无声息的改变了类型。
 
+
+{% comment %}
 ### CONSIDER type annotating private fields and top-level variables if the type isn't obvious.
 
 Type annotations on your public declarations help *users* of your code. Types on
@@ -2151,8 +2153,20 @@ why this guideline is softer than the previous one.
 If you think the initializer expression&mdash;whatever it is&mdash;is
 sufficiently clear, then you may omit the annotation. But if you think
 annotating helps make the code clearer, then add one.
+{% endcomment %}
 
 
+### **考虑** 为类型不明显的私有字段和私有顶级变量指定类型注解。
+
+为公共声明进行类型注解有助于使用代码的*用户*，为私有成员进行类型注解有助于代码的*维护人员*。
+私有声明的范围较小，熟悉与它相关代码的人才需要知道它们的声明类型。在这里就更倾向于省略注解，
+通过推理得到私有声明的类型。这也是为什么该规则相对于上一条更为柔和。
+
+如果你认为初始化表达式&mdash;无论是什么表达式&mdash;足够清晰，那么可以省略它的注解。但是
+如果你认为注解有助于使代码更清晰，那么你应该加上这个注解。
+
+
+{% comment %}
 ### AVOID type annotating initialized local variables.
 
 Local variables, especially in modern code where functions tend to be small,
@@ -2203,8 +2217,60 @@ if (node is Constructor) {
   parameters = node.parameters;
 }
 {% endprettify %}
+{% endcomment %}
 
 
+### **避免** 为初始化的局部变量添加类型注解。
+
+局部变量，特别是现代的函数往往很少，范围也很小。省略局部变量类型会将读者的注意力集中在变量的
+*名称*及初始化值上。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (omit-types-on-locals)"?>
+{% prettify dart %}
+List<List<Ingredient>> possibleDesserts(Set<Ingredient> pantry) {
+  var desserts = <List<Ingredient>>[];
+  for (var recipe in cookbook) {
+    if (pantry.containsAll(recipe)) {
+      desserts.add(recipe);
+    }
+  }
+
+  return desserts;
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (omit-types-on-locals)"?>
+{% prettify dart %}
+List<List<Ingredient>> possibleDesserts(Set<Ingredient> pantry) {
+  List<List<Ingredient>> desserts = <List<Ingredient>>[];
+  for (List<Ingredient> recipe in cookbook) {
+    if (pantry.containsAll(recipe)) {
+      desserts.add(recipe);
+    }
+  }
+
+  return desserts;
+}
+{% endprettify %}
+
+如果局部变量没有初始值设定项，那么就无法判断它的类型了。这种情况下，最好是为变量加上类型注解。
+否则，你的到的会是一个 `dynamic` 类型，并失去静态类型的好处。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (uninitialized-local)"?>
+{% prettify dart %}
+List<AstNode> parameters;
+if (node is Constructor) {
+  parameters = node.signature;
+} else if (node is Method) {
+  parameters = node.parameters;
+}
+{% endprettify %}
+
+
+{% comment %}
 ### AVOID annotating inferred parameter types on function expressions.
 
 Anonymous functions are almost always immediately passed to a method taking a
@@ -2232,8 +2298,34 @@ var names = people.map((Person person) => person.name);
 In rare cases, the surrounding context is not precise enough to provide a type
 for one or more of the function's parameters. In those cases, you may need to
 annotate.
+{% endcomment %}
 
 
+### **避免** 在函数表达式上注解推断的参数类型。
+
+匿名函数几乎都是作为一个回调参数类型立即传递给一个方法。（如果一个匿名函数没有立即使用，那么
+有必要为它进行命名声明。）当在类型化上下文中创建函数表达式时，Dart 会尝试根据预期类型来推断
+函数的参数类型。
+
+例如，当为 `Iterable.map()` 传递一个函数表达式时，函数的参数类型会根据 `map()` 回调中所
+期望的类型进行推断。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (func-expr-no-param-type)"?>
+{% prettify dart %}
+var names = people.map((person) => person.name);
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (func-expr-no-param-type)"?>
+{% prettify dart %}
+var names = people.map((Person person) => person.name);
+{% endprettify %}
+
+在极少数周围环境不明确的情况下，当无法为一个或多个函数提供参数类型时，需要为它们进行类型注解。
+
+
+{% comment %}
 ### AVOID redundant type arguments on generic invocations.
 
 A type argument is redundant if inference would fill in the same type. If the
@@ -2273,7 +2365,44 @@ var things = Set();
 Here, since the variable has no type annotation, there isn't enough context to
 determine what kind of `Set` to create, so the type argument should be provided
 explicitly.
+{% endcomment %}
 
+
+### **避免** 在泛型调用中参数类型的冗余使用。
+
+如果推断的类型结果与注解相同，那么参数注解就是多余的。如果泛型调用是初始化变量，或者是函数参数，
+那么推断会自动为其填充类型：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (redundant)"?>
+{% prettify dart %}
+Set<String> things = Set();
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (redundant)"?>
+{% prettify dart %}
+Set<String> things = Set<String>();
+{% endprettify %}
+
+在这里，初始化过程中，构造函数参数的类型是通过变量的类型注解推断得到的。
+
+在其他情况下，如果没有足够的信息来推断类型时，应该为参数添加类型注解：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (explicit)"?>
+{% prettify dart %}
+var things = Set<String>();
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (explicit)"?>
+{% prettify dart %}
+var things = Set();
+{% endprettify %}
+
+在这里，由于变量没有类型注解，因此没有足够的上下文来确定创建的 `Set` 是什么类型，因此应该显式
+的提供参数类型。
 
 ### DO annotate when Dart infers the wrong type.
 
