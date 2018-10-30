@@ -2370,7 +2370,7 @@ explicitly.
 
 ### **避免** 在泛型调用中参数类型的冗余使用。
 
-如果推断的类型结果与注解相同，那么参数注解就是多余的。如果泛型调用是初始化变量，或者是函数参数，
+如果推断的类型结果与指定相同，那么参数指定就是多余的。如果泛型调用是初始化变量，或者是函数参数，
 那么推断会自动为其填充类型：
 
 {:.good-style}
@@ -2404,6 +2404,8 @@ var things = Set();
 在这里，由于变量没有类型注解，因此没有足够的上下文来确定创建的 `Set` 是什么类型，因此应该显式
 的提供参数类型。
 
+
+{% comment %}
 ### DO annotate when Dart infers the wrong type.
 
 Sometimes, Dart infers a type, but not the type you want. For example, you may
@@ -2437,8 +2439,43 @@ num highScore(List<num> scores) {
 Here, if `scores` contains doubles, like `[1.2]`, then the assignment to
 `highest` will fail since its inferred type is `int`, not `num`. In these cases,
 explicit annotations make sense.
+{% endcomment %}
 
 
+### **要** 在 Dart 推断类型错误的时候进行类型注解。
+
+有时候，Dart 推断的并不是你期望的类型。例如，你可能希望初始化变量的类型是超类型（父类的类型），
+以便后续可以为变量赋值一些同级别的其它变量：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (inferred-wrong)"?>
+{% prettify dart %}
+num highScore(List<num> scores) {
+  num highest = 0;
+  for (var score in scores) {
+    if (score > highest) highest = score;
+  }
+  return highest;
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (inferred-wrong)" replace="/ +\/\/ ignore: .*?\n//g"?>
+{% prettify dart %}
+num highScore(List<num> scores) {
+  var highest = 0;
+  for (var score in scores) {
+    if (score > highest) highest = score;
+  }
+  return highest;
+}
+{% endprettify %}
+
+在这里，如果 `scores` 中包含双精度数字，如 `[1.2]` ，那么 `highest` 的赋值会失败，因为 
+`highest` 的推断类型是 `int` ，而不是 `num` 。在这些情况下，就需要显式注解了。
+
+
+{% comment %}
 ### PREFER annotating with `dynamic` instead of letting inference fail.
 
 Dart allows you to omit type annotations in many places and will try to infer a
@@ -2477,8 +2514,43 @@ a region of code has silently lost all of the safety and performance of static
 types.
 
 </aside>
+{% endcomment %}
 
 
+### **推荐** 使用 `dynamic` 注解替换推断失败的情况。
+
+Dart 允许在许多地方省略类型注解，并尝试推断类型。在某些情况下，如果推断失败了，会默认指定为 
+`dynamic` 类型。如果 `dynamic` 类型与期望相同，那么从技术的角度来讲，这是获取类型最简洁
+的方式。
+
+但是，这种方式是最不*清晰*的。任何一个阅读代码的人，当看到一个类型确实的成员时，是没有办法
+知道，编写的人是希望它是 `dynamic` 类型，还是期望它是其他的什么类型，或者阅读的人就简单的
+认为是编写的人忘记了指定类型。
+
+当 `dynamic` 是你期望的类型，就应该指明它，这样能让你的意图更清晰。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (prefer-dynamic)"?>
+{% prettify dart %}
+dynamic mergeJson(dynamic original, dynamic changes) => ...
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (prefer-dynamic)"?>
+{% prettify dart %}
+mergeJson(original, changes) => ...
+{% endprettify %}
+
+<aside class="alert alert-info" markdown="1">
+
+在Dart 2之前，本规则恰恰是相反的：*不要* 为隐性类型的成员指定 `dynamic` 注解。基于强类型系统
+和类型推断，现在的开发者更希望 Dart 的行为类似于推断的静态类型语言。基于这种心理模型，我们发现
+代码区域慢慢地失去了静态类型所具有的安全及性能。
+
+</aside>
+
+
+{% comment %}
 ### PREFER signatures in function type annotations.
 
 The identifier `Function` by itself without any return type or parameter
@@ -2508,6 +2580,52 @@ of multiple different function types. For example, you may accept a function
 that takes one parameter or a function that takes two. Since we don't have union
 types, there's no way to precisely type that and you'd normally have to use
 `dynamic`. `Function` is at least a little more helpful than that:
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (function-arity)" replace="/(void )?Function(\(.*?\))?/[!$&!]/g"?>
+{% prettify dart %}
+void handleError([!void Function()!] operation, [!Function!] errorHandler) {
+  try {
+    operation();
+  } catch (err, stack) {
+    if (errorHandler is [!Function(Object)!]) {
+      errorHandler(err);
+    } else if (errorHandler is [!Function(Object, StackTrace)!]) {
+      errorHandler(err, stack);
+    } else {
+      throw ArgumentError("errorHandler has wrong signature.");
+    }
+  }
+}
+{% endprettify %}
+{% endcomment %}
+
+
+### **推荐** 使 function 类型注解的特征更明显
+
+成员类型注解标识符只有 `Function` ，注解标识符不包括任何返回值类型或参数类型，请参考
+专门的 [Function][] 类型说明。使用 `Function` 类型要稍微比使用 `dynamic` 更好些。
+如果要使用 `Function` 来进行类型注解，注解类型应该包含函数的所有参数及返回值类型。
+
+[Function]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Function-class.html
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (avoid-Function)" replace="/(void )?Function(\(.*?\))?/[!$&!]/g"?>
+{% prettify dart %}
+bool isValid(String value, bool [!Function(String)!] test) => ...
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (avoid-Function)" replace="/Function/[!$&!]/g"?>
+{% prettify dart %}
+bool isValid(String value, [!Function!] test) => ...
+{% endprettify %}
+
+[fn syntax]: #prefer-inline-function-types-over-typedefs
+
+此条规则有个例外，如果期望一个类型能够表示多种函数类型的集合。例如，我们希望接受的可能是一个参数
+的函数，也可能是两个参数的函数。由于 Dart 没有集合类型，所以没有办法为类似成员精确的指定类型，
+这个时候通常只能使用 `dynamic`。但这里使用 `Function` 要稍微比使用 `dynamic` 更有帮助些：
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/design_good.dart (function-arity)" replace="/(void )?Function(\(.*?\))?/[!$&!]/g"?>
