@@ -2646,6 +2646,7 @@ void handleError([!void Function()!] operation, [!Function!] errorHandler) {
 {% endprettify %}
 
 
+{% comment %}
 ### DON'T specify a return type for a setter.
 
 Setters always return `void` in Dart. Writing the word is pointless.
@@ -2661,8 +2662,27 @@ void set foo(Foo value) { ... }
 {% prettify dart %}
 set foo(Foo value) { ... }
 {% endprettify %}
+{% endcomment %}
 
 
+### **不要** 为 setter 方法指定返回类型。
+
+在 Dart 中，setter 永远返回 `void` 。为 setter 指定类型没有意义。
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (avoid_return_types_on_setters)"?>
+{% prettify dart %}
+void set foo(Foo value) { ... }
+{% endprettify %}
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (avoid_return_types_on_setters)"?>
+{% prettify dart %}
+set foo(Foo value) { ... }
+{% endprettify %}
+
+
+{% comment %}
 ### DON'T use the legacy typedef syntax.
 
 Dart has two notations for defining a named typedef for a function type. The
@@ -2721,8 +2741,62 @@ us a single consistent way to write function types anywhere in a program.
 
 The old typedef syntax is still supported to avoid breaking existing code, but
 it's deprecated.
+{% endcomment %}
 
 
+### **不要** 使用弃用的 typedef 语法。
+
+Dart 有两种为函数类型定义命名 typedef 注解语法。 原始语法如下：
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (old-typedef)"?>
+{% prettify dart %}
+typedef int Comparison<T>(T a, T b);
+{% endprettify %}
+
+该语法有几个问题：
+
+*   无法为一个*泛型*函数类型指定名称。在上面的例子中，typedef 自己就是泛型。如果在代码中去
+    引用 `Comparison` 却不指定参数类型，那么你会隐式的得到一个 `int Function(dynamic, dynamic)`
+    类型的函数，*而不是* `int Function<T>(T, T)` 。在实际应用中虽然不常用，但是在极少数
+    情况下是很重要的。
+    
+*   参数中的单个标识符会被认为是参数名称，而不是参数类型。参考下面代码：
+
+    {:.bad-style}
+    <?code-excerpt "misc/lib/effective_dart/design_bad.dart (typedef-param)"?>
+    {% prettify dart %}
+    typedef bool TestNumber(num);
+    {% endprettify %} 
+
+    大多数用户希望这是一个接受 `num` 返回 `bool` 的函数类型。但它实际上是一个接受*任何*
+    对象（`dynamic`）返回 `bool` 的类型。 "num" 是参数*名称*（ 它除了被用在 typedef 的
+    声明代码中，再也没有其他作用）。这个错误在 Dart 中存在了很长时间。
+
+新语法如下所示：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (new-typedef)"?>
+{% prettify dart %}
+typedef Comparison<T> = int Function(T, T);
+{% endprettify %}
+
+如果想在方法中包含参数名称，可以这样做：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (new-typedef-param-name)"?>
+{% prettify dart %}
+typedef Comparison<T> = int Function(T a, T b);
+{% endprettify %}
+
+新语法可以表达旧语法所表达的任何内容，并且避免了单个标识符会被认为是参数类型的常见错误。同一个函数
+类型语法（typedef 中 `=` 之后的部分）允许出现在任何类型注解可以能出现的地方。这样在程序的任何位置，
+我们都可以以一致的方式来书写函数类型。
+
+为了避免对已有代码产生破坏， typedef 的旧语法依旧支持。但已被弃用。
+
+
+{% comment %}
 ### PREFER inline function types over typedefs.
 
 In Dart 1, if you wanted to use a function type for a field, variable, or
@@ -2756,8 +2830,42 @@ It may still be worth defining a typedef if the function type is particularly
 long or frequently used. But in most cases, users want to see what the function
 type actually is right where it's used, and the function type syntax gives them
 that clarity.
+{% endcomment %}
 
 
+### **推荐** 优先使用内联函数类型，而后是 typedef 。
+
+在 Dart 1中，如果要在字段，变量或泛型参数中使用函数类型，首选需要使用 typedef 定义这个类型。
+Dart 2中任何使用类型注解的地方都可以使用函数类型声明语法：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (function-type)"  replace="/(bool|void) Function\(Event\)/[!$&!]/g"?>
+{% prettify dart %}
+class FilteredObservable {
+  final [!bool Function(Event)!] _predicate;
+  final List<[!void Function(Event)!]> _observers;
+
+  FilteredObservable(this._predicate, this._observers);
+
+  [!void Function(Event)!] notify(Event event) {
+    if (!_predicate(event)) return null;
+
+    [!void Function(Event)!] last;
+    for (var observer in _observers) {
+      observer(event);
+      last = observer;
+    }
+
+    return last;
+  }
+}
+{% endprettify %}
+
+如果函数类型特别长或经常使用，那么还是有必要使用 typedef 进行定义。但在大多数情况下，使用者
+更希望知道函数使用时的真实类型，这样函数类型语法使它们清晰。
+
+
+{% comment %}
 ### CONSIDER using function type syntax for parameters.
 
 Dart has a special syntax when defining a parameter whose type is a function.
@@ -2782,8 +2890,31 @@ Iterable<T> where(bool Function(T) predicate) => ...
 
 The new syntax is a little more verbose, but is consistent with other locations
 where you must use the new syntax.
+{% endcomment %}
 
 
+### **考虑** 在参数上使用函数类型语法。
+
+在定义参数为函数类型时， Dart 具有特殊的语法。与 C 类似，使用参数名称作为函数参数的函数名：
+
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (function-type-param)"?>
+{% prettify dart %}
+Iterable<T> where(bool predicate(T element)) => ...
+{% endprettify %}
+
+在 Dart 2 添加函数类型语法之前，如果希望不通过 typedef 使用函数参数类型，上例是唯一的方法。
+如今 Dart 已经可以为函数提供泛型注解，那么也可以将泛型注解用于函数类型参数中：
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (function-type-param)"?>
+{% prettify dart %}
+Iterable<T> where(bool Function(T) predicate) => ...
+{% endprettify %}
+
+虽然新语法稍微冗长一点，但是你必须使用新语法才能与其他位置的类型注解的语法保持一致。
+
+
+{% comment %}
 ### DO annotate with `Object` instead of `dynamic` to indicate any object is allowed.
 
 Some operations work with any possible object. For example, a `log()` method
@@ -2813,8 +2944,37 @@ bool convertToBool(dynamic arg) {
   throw ArgumentError('Cannot convert $arg to a bool.');
 }
 {% endprettify %}
+{% endcomment %}
 
 
+### **要** 为类型是任何对象的参数使用 `Object` 注解，而不是 `dynamic` 。
+
+某些操作适用于任何对象。例如，`log()` 方法可以接受任何对象，并调用对象上的 `toString()` 方法。
+在 Dart 中两种类型可以表示所有类型：`Object` 和 `dynamic` 。但是，他们传达的意义并不相同。
+和 Java 或 C# 类似，要表示成员类型为所有对象，使用 `Object` 进行注解。
+
+使用 `dynamic` 释放出一种复杂的信号。它可能意味着成员的类型集合不足以使用 Dart 类型系统表达，或者
+是变量来源于操作过程中，以及其他范围外的静态类型系统，或者是你明确的希望成员类型在 runtime 中动态
+确定。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (Object-vs-dynamic)"?>
+{% prettify dart %}
+void log(Object object) {
+  print(object.toString());
+}
+
+/// 返回一个表示 [arg] 参数的布尔值，[arg] 
+/// 必须是字符串或布尔值。
+bool convertToBool(dynamic arg) {
+  if (arg is bool) return arg;
+  if (arg is String) return arg == 'true';
+  throw ArgumentError('Cannot convert $arg to a bool.');
+}
+{% endprettify %}
+
+
+{% comment %}
 ### DO use `Future<void>` as the return type of asynchronous members that do not produce values.
 
 When you have a synchronous function that doesn't return a value, you use `void`
@@ -2830,8 +2990,23 @@ body of the function.
 For asynchronous functions that do not return a useful value and where no
 callers need to await the asynchronous work or handle an asynchronous failure,
 use a return type of `void`.
+{% endcomment %}
 
 
+### **要** 使用 `Future<void>` 作为无法回值异步成员的返回类型。
+
+对于不返回值得同步函数，要使用 `void` 作为返回类型。对于需要等待的，但无返回值的异步方法方法，
+使用 `Future<void>` 作为返回值类型。
+
+你可能会见到使用 `Future` 或 `Future<Null>` 作为返回值类型，这是因为旧版本的 Dart 不允许
+`void` 作为类型参数。既然现在允许了，那么就应该使用新的方式。使用新的方式能够更直接地匹配那些
+已经指定了类型的同步函数，并在函数体中为调用者提供更好的错误检查。
+
+对于一些异步函数，这些异步函数不会返回有用的值，而且不需要等待异步执行结束或不需要处理错误结果。
+那么使用 `void` 作为这些异步函数的返回类型。
+
+
+{% comment %}
 ### AVOID using `FutureOr<T>` as a return type.
 
 If a method accepts a `FutureOr<int>`, it is [generous in what it
@@ -2869,6 +3044,53 @@ covariant. In nested function types, this gets flipped&mdash;if you have a
 parameter whose type is itself a function, then the callback's return type is
 now in contravariant position and the callback's parameters are covariant. This
 means it's OK for a *callback's* type to return `FutureOr<T>`:
+
+[contravariant]: https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (future-or-contra)" replace="/FutureOr.S./[!$&!]/g"?>
+{% prettify dart %}
+Stream<S> asyncMap<T, S>(
+    Iterable<T> iterable, [!FutureOr<S>!] Function(T) callback) async* {
+  for (var element in iterable) {
+    yield await callback(element);
+  }
+}
+{% endprettify %}
+{% endcomment %}
+
+
+### **避免** 使用 `FutureOr<T>` 作为返回类型。
+
+如果一个方法接受了一个 `FutureOr<int>` 参数，那么[参数接受的类型范围就会变大][postel] 。使用者
+可以使用 `int` 或者 `Future<int>` 来调用这个方法，所以调用这个方法时就不用把 `int` 包装到一个
+`Future` 中再传到方法中。而在方法中这个参数一定会进行被解包处理。
+
+[postel]: https://en.wikipedia.org/wiki/Robustness_principle
+
+如果是*返回*一个 `FutureOr<int>` 类型的值，那么方法调用者在做任何有意义的操作之前，需要检查
+返回值是一个 `int` 还是 `Future<int>` （或者调用者仅 `await` 得到一个值，却把它当做了 
+`Future` ）。返回值使用 `Future<int>` ，类型就清晰了。一个函数要么一直异步，要么一直是同步，
+这样才能够让调用者更容易理解，否则这个函数很难被正确的使用。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (future-or)"?>
+{% prettify dart %}
+Future<int> triple(FutureOr<int> value) async => (await value) * 3;
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (future-or)"?>
+{% prettify dart %}
+FutureOr<int> triple(FutureOr<int> value) {
+  if (value is int) return value * 3;
+  return (value as Future<int>).then((v) => v * 3);
+}
+{% endprettify %}
+
+对这条规则更准确的描述是，*仅在[逆变][contravariant]位置使用 `FutureOr<T>` *。参数是逆变（contravariant），
+返回类型是协变（covariant）。在嵌套函数类型中，描述是相反的&mdash;如果一个参数自身就是函数参数类型，那么此时
+回调函数的返回类型处于逆变位置，回调函数的参数是协变。这意味着回调中的函数类型可以返回 `FutureOr<T>` ：
 
 [contravariant]: https://en.wikipedia.org/wiki/Covariance_and_contravariance_(computer_science)
 
