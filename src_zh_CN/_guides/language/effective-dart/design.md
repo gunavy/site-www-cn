@@ -2040,16 +2040,16 @@ List<int> ints = [1, 2];
 
 这些规则可以帮助你回答第一个问题：
 
-* [**推荐** 为类型不明显的公共字段和顶级变量指定类型注解。](#prefer-type-annotating-public-fields-and-top-level-variables-if-the-type-isnt-obvious)
-* [CONSIDER type annotating private fields and top-level variables if the type isn't obvious.](#consider-type-annotating-private-fields-and-top-level-variables-if-the-type-isnt-obvious)
-* [AVOID type annotating initialized local variables.](#avoid-type-annotating-initialized-local-variables)
-* [AVOID annotating inferred parameter types on function expressions.](#avoid-annotating-inferred-parameter-types-on-function-expressions)
-* [AVOID redundant type arguments on generic invocations.](#avoid-redundant-type-arguments-on-generic-invocations)
+* [**推荐** 为类型不明显的公共字段和顶级变量指定类型注解。](#推荐-为类型不明显的公共字段和公共顶级变量指定类型注解)
+* [**考虑** 为类型不明显的私有字段和私有顶级变量指定类型注解。](#考虑-为类型不明显的私有字段和私有顶级变量指定类型注解)
+* [**避免** 为初始化的局部变量添加类型注解。](#避免-为初始化的局部变量添加类型注解)
+* [**避免** 在函数表达式上注解推断的参数类型。](#避免-在函数表达式上注解推断的参数类型)
+* [**避免** 在泛型调用中参数类型的冗余使用。](#避免-在泛型调用中参数类型的冗余使用)
 
 这些规则涵盖了第二个问题：
 
-* [DO annotate when Dart infers the wrong type.](#do-annotate-when-dart-infers-the-wrong-type)
-* [PREFER annotating with `dynamic` instead of letting inference fail.](#prefer-annotating-with-dynamic-instead-of-letting-inference-fail)
+* [**要** 在 Dart 推断类型错误的时候进行类型注解。](#要-在-dart-推断类型错误的时候进行类型注解)
+* [**推荐** 使用 `dynamic` 注解替换推断失败的情况。](#推荐-使用-dynamic-注解替换推断失败的情况)
 
 其余指南涵盖了和类型有关的其他具体问题。
 
