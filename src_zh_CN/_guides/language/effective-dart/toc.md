@@ -237,12 +237,12 @@
 * <a href='/guides/language/effective-dart/design#%E9%81%BF%E5%85%8D-%E5%BC%BA%E5%88%B6%E5%8F%82%E6%95%B0%E5%8E%BB%E6%8E%A5%E5%8F%97%E4%B8%80%E4%B8%AA%E7%89%B9%E5%AE%9A%E8%A1%A8%E7%A4%BA%E7%A9%BA%E5%8F%82%E6%95%B0%E7%9A%84%E5%80%BC'><strong>避免</strong> 强制参数去接受一个特定表示"空参数"的值。</a>
 * <a href='/guides/language/effective-dart/design#%E8%A6%81-%E4%BD%BF%E7%94%A8%E5%80%BC%E5%9C%A8%E5%BA%8F%E5%88%97%E8%8C%83%E5%9B%B4%E5%86%85%E7%9A%84%E5%BC%80%E5%A7%8B%E7%B4%A2%E5%BC%95%E5%92%8C%E5%80%BC%E5%8F%AF%E4%BB%A5%E8%B6%85%E5%87%BA%E5%BA%8F%E5%88%97%E8%8C%83%E5%9B%B4%E5%A4%96%E7%9A%84%E7%BB%93%E6%9D%9F%E7%B4%A2%E5%BC%95%E4%BD%9C%E4%B8%BA%E9%80%89%E6%8B%A9%E7%9A%84%E8%8C%83%E5%9B%B4'><strong>要</strong> 使用值在序列范围内的开始索引和值可以超出序列范围外的结束索引作为选择的范围。</a>
 
-**Equality**
+**相等**
 
-* <a href='/guides/language/effective-dart/design#do-override-hashcode-if-you-override-'>DO override <code>hashCode</code> if you override <code>==</code>.</a>
-* <a href='/guides/language/effective-dart/design#do-make-your--operator-obey-the-mathematical-rules-of-equality'>DO make your <code>==</code> operator obey the mathematical rules of equality.</a>
-* <a href='/guides/language/effective-dart/design#avoid-defining-custom-equality-for-mutable-classes'>AVOID defining custom equality for mutable classes.</a>
-* <a href='/guides/language/effective-dart/design#dont-check-for-null-in-custom--operators'>DON'T check for <code>null</code> in custom <code>==</code> operators.</a>
+* <a href='/guides/language/effective-dart/design#%E8%A6%81-%E5%AF%B9%E9%87%8D%E5%86%99--%E7%9A%84%E7%B1%BB%E9%87%8D%E5%86%99-hashcode'><strong>要</strong> 对重写 <code>==</code> 的类，重写 <code>hashCode</code>。</a>
+* <a href='/guides/language/effective-dart/design#%E8%A6%81-%E8%AE%A9--%E6%93%8D%E4%BD%9C%E7%AC%A6%E7%9A%84%E7%9B%B8%E7%AD%89%E9%81%B5%E5%AE%88%E6%95%B0%E5%AD%A6%E8%A7%84%E5%88%99'><strong>要</strong> 让 <code>==</code> 操作符的相等遵守数学规则。</a>
+* <a href='/guides/language/effective-dart/design#%E9%81%BF%E5%85%8D-%E9%81%BF%E5%85%8D%E4%B8%BA%E5%8F%AF%E5%8F%98%E7%B1%BB%E8%87%AA%E5%AE%9A%E4%B9%89%E7%9B%B8%E7%AD%89'><strong>避免</strong> 避免为可变类自定义相等。</a>
+* <a href='/guides/language/effective-dart/design#%E4%B8%8D%E8%A6%81-%E5%9C%A8%E8%87%AA%E5%AE%9A%E4%B9%89--%E6%93%8D%E4%BD%9C%E7%AC%A6%E4%B8%AD%E6%A3%80%E6%9F%A5-null-'><strong>不要</strong> 在自定义 <code>==</code> 操作符中检查 <code>null</code> 。</a>
 
 </div>
 <div style='clear:both'></div>
