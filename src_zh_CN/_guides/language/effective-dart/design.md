@@ -3337,13 +3337,23 @@ difference won't be visible at all at the callsite.
 方法调用结果的差异是无法在调用位置完全可见的。
 
 
+{% comment %}
 ## Equality
 
 Implementing custom equality behavior for a class can be tricky. Users have deep
 intuition about how equality works that your objects need to match, and
 collection types like hash tables have subtle contracts that they expect
 elements to follow.
+{% endcomment %}
 
+
+## 相等
+
+可能为类实现自定义相等的判定是比较棘手事情。用户对于对象的判等情况有着很深的直觉，同时像哈希表这样
+的集合类型拥有一些细微的规则，包含在这些集合中的元素需要遵循这些规则。
+
+
+{% comment %}
 ### DO override `hashCode` if you override `==`.
 
 The default hash code implementation provides an *identity* hash&mdash;two
@@ -3354,7 +3364,19 @@ If you are overriding `==`, it implies you may have different objects that are
 considered "equal" by your class. **Any two objects that are equal must have the
 same hash code.** Otherwise, maps and other hash-based collections will fail to
 recognize that the two objects are equivalent.
+{% endcomment %}
 
+
+### **要** 对重写 `==` 的类，重写 `hashCode`。
+
+默认的哈希实现为对象提供了一个*身份*哈希&mdash;如果两个对象是完全相同的，那么它们通常具有
+相同的哈希值。同样，`==` 的默认行为是比较两个对象的身份哈希。
+
+如果你重写 `==` ，就意味着你可能有不同的对象要让你的类认为是"相等的"。**任何两个对象要相等就
+必须必须具有相同的哈希值。** 否则，这两个对象就无法被 map 和其他基于哈希的集合识别为等效对象。
+
+
+{% comment %}
 ### DO make your `==` operator obey the mathematical rules of equality.
 
 An equivalence relation should be:
@@ -3369,7 +3391,22 @@ An equivalence relation should be:
 Users and code that uses `==` expect all of these laws to be followed. If your
 class can't obey these rules, then `==` isn't the right name for the operation
 you're trying to express.
+{% endcomment %}
 
+
+### **要** 让 `==` 操作符的相等遵守数学规则。
+
+等价关系应该是：
+
+* **自反性**: `a == a` 应该始终返回 `true`。
+
+* **对称性**: `a == b` 应该与 `b == a` 的返回值相同。
+
+* **传递性**: If `a == b` 和 `b == c` 都返回 `true`，那么 `a == c`
+  也应该返回 `true` 。
+
+
+{% comment %}
 ### AVOID defining custom equality for mutable classes.
 
 When you define `==`, you also have to define `hashCode`. Both of those should
@@ -3379,7 +3416,19 @@ implies the object's hash code can change.
 Most hash-based collections don't anticipate that&mdash;they assume an object's
 hash code will be the same forever and may behave unpredictably if that isn't
 true.
+{% endcomment %}
 
+
+### **避免** 避免为可变类自定义相等。
+
+定义 `==` 时，必须要定义 `hashCode` 。两者都需要考虑对象的字段。如果这些字段发生了变化，
+则意味着对象的哈希值可能会改变。
+
+大多数基于哈希的集合是无法预料元素哈希值的改变&mdash;他们假设元素对象的哈希值是永远不变的，
+如果元素哈希值发生了改变，可能会出现不可预测的结果。
+
+
+{% comment %}
 ### DON'T check for `null` in custom `==` operators.
 
 The language specifies that this check is done automatically and your `==`
@@ -3406,4 +3455,33 @@ class Person {
   operator ==(other) => [!other != null!] && ...
 }
 {% endprettify %}
+{% endcomment %}
+
+
+### **不要** 在自定义 `==` 操作符中检查 `null` 。
+
+Dart 指定此检查是自动完成的，只有当右侧不是 `null` 时才调用 `==` 方法。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (eq-dont-check-for-null)" replace="/operator ==/[!$&!]/g" plaster?>
+{% prettify dart %}
+class Person {
+  final String name;
+  // ···
+  [!operator ==!](other) => other is Person && name == other.name;
+
+  int get hashCode => name.hashCode;
+}
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (eq-dont-check-for-null)" replace="/\w+ != null/[!$&!]/g" plaster?>
+{% prettify dart %}
+class Person {
+  final String name;
+  // ···
+  operator ==(other) => [!other != null!] && ...
+}
+{% endprettify %}
+
 
