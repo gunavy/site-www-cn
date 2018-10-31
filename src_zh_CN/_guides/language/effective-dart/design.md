@@ -3106,11 +3106,18 @@ Stream<S> asyncMap<T, S>(
 {% endprettify %}
 
 
+{% comment %}
 ## Parameters
 
 In Dart, optional parameters can be either positional or named, but not both.
+{% endcomment %}
+
+## 参数
+
+在 Dart 中，可选参数可以是位置参数，也可以是命名参数，但不能两者都是。
 
 
+{% comment %}
 ### AVOID positional boolean parameters.
 
 Unlike other types, booleans are usually used in literal form. Things like
@@ -3146,8 +3153,43 @@ value represents:
 listBox.canScroll = true;
 button.isEnabled = false;
 {% endprettify %}
+{% endcomment %}
 
 
+### **避免** 布尔类型的位置参数。
+
+与其他类型不同，布尔值通常以字面量方式使用。数字值的通常可以包含在命名的常量里，但对于布尔值通常
+喜欢直接传 `true` 和 `false` 。如果不清楚布尔值的含义，这样会造成调用者的代码不可读：
+
+{:.bad-style}
+{% prettify dart %}
+new Task(true);
+new Task(false);
+new ListBox(false, true, true);
+new Button(false);
+{% endprettify %}
+
+这里，应该考虑使用命名参数，命名构造函数或命名常量来阐明调用所执行的操作。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (avoid-positional-bool-param)"?>
+{% prettify dart %}
+Task.oneShot();
+Task.repeating();
+ListBox(scroll: true, showScrollbars: true);
+Button(ButtonState.enabled);
+{% endprettify %}
+
+请注意，这并不适用于 setter ，因为 setter 的名称能够清楚的阐明值得含义：
+
+{:.good-style}
+{% prettify dart %}
+listBox.canScroll = true;
+button.isEnabled = false;
+{% endprettify %}
+
+
+{% comment %}
 ### AVOID optional positional parameters if the user may want to omit earlier parameters.
 
 Optional positional parameters should have a logical progression such that
@@ -3177,8 +3219,39 @@ Duration(
     int milliseconds = 0,
     int microseconds = 0});
 {% endprettify %}
+{% endcomment %}
 
 
+### **避免** 在调用者需要省略前面参数的方法中，使用位置可选参数。
+
+可选的位置参数应该具有逻辑性，前面参数应该比后面的参数使用更频繁。调用者不需要刻意的跳过或省略前面
+的一个参数而为后面的参数赋值。如果需要省略前面参数，这种情况最好使用命名可选参数。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (omit-optional-positional)"?>
+{% prettify dart %}
+String.fromCharCodes(Iterable<int> charCodes, [int start = 0, int end]);
+
+DateTime(int year,
+    [int month = 1,
+    int day = 1,
+    int hour = 0,
+    int minute = 0,
+    int second = 0,
+    int millisecond = 0,
+    int microsecond = 0]);
+
+Duration(
+    {int days = 0,
+    int hours = 0,
+    int minutes = 0,
+    int seconds = 0,
+    int milliseconds = 0,
+    int microseconds = 0});
+{% endprettify %}
+
+
+{% comment %}
 ### AVOID mandatory parameters that accept a special "no argument" value.
 
 If the user is logically omitting a parameter, prefer letting them actually omit
@@ -3200,8 +3273,30 @@ var rest = string.substring(start);
 {% prettify dart %}
 var rest = string.substring(start, null);
 {% endprettify %}
+{% endcomment %}
 
 
+### **避免** 强制参数去接受一个特定表示"空参数"的值。
+
+如果调用者在逻辑上省略了参数，那么建议使用可选参数的方式让这些参数能够实际性的被省略，而不是
+强制让调用者去为他们传入 `null`，或者空字符串，或者是一些其他特殊的值来表示该参数"不需要传值"。
+
+省略参数更加简洁，也有助于防止在调用者偶然地将 `null` 作为实际值传递到方法中而引起 bug。
+
+{:.good-style}
+<?code-excerpt "misc/lib/effective_dart/design_good.dart (avoid-mandatory-param)"?>
+{% prettify dart %}
+var rest = string.substring(start);
+{% endprettify %}
+
+{:.bad-style}
+<?code-excerpt "misc/lib/effective_dart/design_bad.dart (avoid-mandatory-param)"?>
+{% prettify dart %}
+var rest = string.substring(start, null);
+{% endprettify %}
+
+
+{% comment %}
 ### DO use inclusive start and exclusive end parameters to accept a range.
 
 If you are defining a method or function that lets a user select a range of
@@ -3221,6 +3316,25 @@ This is consistent with core libraries that do the same thing.
 It's particularly important to be consistent here because these parameters are
 usually unnamed. If your API takes a length instead of an end point, the
 difference won't be visible at all at the callsite.
+{% endcomment %}
+
+
+### **要** 使用值在序列范围内的开始索引和值可以超出序列范围外的结束索引作为选择的范围。
+
+如果定义一个方法或函数来让调用者能够从某个整数索引序列中选择一系列元素或项，请使用一个指定了第
+一个项的开始索引，和一个可以大于序列最后一项索引值的结束索引（结束索引可以为可选参数）。
+
+这种方式与核心库一致。
+
+{:.good-style}
+<?code-excerpt "misc/test/effective_dart_test.dart (param-range)" replace="/expect\(//g; /, \/\*\*\// \/\//g; /\);//g"?>
+{% prettify dart %}
+[0, 1, 2, 3].sublist(1, 3) // [1, 2]
+'abcd'.substring(1, 3) // 'bc'
+{% endprettify %}
+
+在这里保持一致尤为重要，因为这些参数通常是未命名参数。如果方法的 API 使用长度替换了结束索引，
+方法调用结果的差异是无法在调用位置完全可见的。
 
 
 ## Equality
