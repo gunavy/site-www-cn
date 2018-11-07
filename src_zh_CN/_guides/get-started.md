@@ -26,11 +26,13 @@ you'll need to download platform-specific tools.
 
 
 不要怂，就是干！使用下面嵌入的 DartPad 体验 Dart 语言和它的核心 API。
-DartPad 是熟悉 Dart 语言简单而快速的途径。
-([更多](/tools/dartpad)).
+DartPad 是熟悉
+Dart 语言简单而快速的途径
+([更多](/tools/dartpad))。
 你也可以在新窗口打开 [DartPad]({{site.custom.dartpad.direct-link}}){:target="_blank"} 。
 
-由于众所周知的原因，页面内嵌 DartPad 示例代码的执行需要科学上网。例如，下面的 DartPad 示例。
+由于众所周知的原因，执行页面内嵌 DartPad 示例代码需要科学上网。例如，下面的 DartPad 示例点击
+红色执行按钮，超时后会提示 `Error compiling to JavaScript:` 异常。
 如果暂时无法科学上网，
 可以访问 Google 提供的镜像站点 [dartpad.cn](https://dartpad.cn){:target="_blank"} 。
 将内嵌示例粘贴到镜像站点页面，查看执行结果。
