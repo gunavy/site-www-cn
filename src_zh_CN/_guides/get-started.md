@@ -32,7 +32,7 @@ DartPad 是熟悉 Dart 语言简单而快速的途径。
 
 由于众所周知的原因，页面内嵌 DartPad 示例代码的执行需要科学上网。例如，下面的 DartPad 示例。
 如果暂时无法科学上网，
-可以访问 Google 提供的镜像 [DartPad](https://dartpad.cn){:target="_blank"} 站点。
+可以访问 Google 提供的镜像站点 [dartpad.cn](https://dartpad.cn){:target="_blank"} 。
 将内嵌示例粘贴到镜像站点页面，查看执行结果。
 
 <iframe
