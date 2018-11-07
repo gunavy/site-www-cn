@@ -3334,7 +3334,7 @@ difference won't be visible at all at the callsite.
 {% endprettify %}
 
 在这里保持一致尤为重要，因为这些参数通常是未命名参数。如果你的 API 中第二个参数使用了长度值，
-而不是结束索引，在调用端是无法区分它们的差异的。
+而不是结束索引，那么在调用端是无法区分两者之间的差异的。
 
 
 {% comment %}
