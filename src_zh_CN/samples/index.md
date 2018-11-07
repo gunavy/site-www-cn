@@ -475,7 +475,7 @@ class Orbiter extends Spacecraft {
 }
 {% endprettify %}
 
-[阅读更多](/guides/language/language-tour#扩展类（继承）) 关于类继承，可选的 `@override` 注解，以及其他内容。
+[阅读更多](/guides/language/language-tour#扩展类继承) 关于类继承，可选的 `@override` 注解，以及其他内容。
 
 
 {% comment %}
