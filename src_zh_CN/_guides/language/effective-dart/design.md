@@ -3367,7 +3367,7 @@ recognize that the two objects are equivalent.
 {% endcomment %}
 
 
-### **要** 对重写 `==` 的类，重写 `hashCode`。
+### **要** 对重写 `==` 操作符的类，重写 `hashCode` 方法。
 
 默认的哈希实现为对象提供了一个*身份*哈希&mdash;如果两个对象是完全相同的，那么它们通常具有
 相同的哈希值。同样，`==` 的默认行为是比较两个对象的身份哈希。
