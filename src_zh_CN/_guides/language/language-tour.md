@@ -255,7 +255,7 @@ mind:
 
 -   *标识符* 以字母或下划线（\ _）开头，后跟任意字母和数字组合。
 
--   Dart 语法中包含 *表达式*（有运行时值）和 *语句*（没有运行时值）。
+-   Dart 语法中包含 *表达式（ expressions ）*（有运行时值）和 *语句（ statements ）*（没有运行时值）。
     例如，[条件表达式](#conditional-expressions)
     `condition ? expr1 : expr2` 的值可能是 `expr1` 或 `expr2` 。
     将其与 [if-else 语句](#if-and-else) 相比较，if-else 语句没有值。
