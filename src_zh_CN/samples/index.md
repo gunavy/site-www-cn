@@ -1,8 +1,9 @@
 ---
-title: Sample Code
-description: Examples of idiomatic Dart with links to larger examples.
+title: 示例代码
+description: 常用示例代码中包含详细示例说明链接。
 ---
 
+{% comment %}
 This collection is not exhaustive&mdash;it's just a brief
 introduction to the language for people who like to learn by example. You may
 also want to check out the language and library tours.
@@ -22,6 +23,28 @@ also want to check out the language and library tours.
       An example-based introduction to the Dart core libraries.
       See how to use the built-in types, collections,
       dates and times, streams, and more.
+    </p>
+  </div>
+</div>
+{% endcomment %}
+
+
+这里的示例并不全面&mdash;它只是为那些喜欢通过示例了解语言的人提供一个语言的介绍。
+你可能还希望阅读语言概览和库概览。
+
+<div class="card-grid">
+  <div class="card">
+    <h3><a href="/guides/language/language-tour">语言概览</a></h3>
+    <p>
+      包含示例的 Dart 语言综合概览。
+      文中多数的<em>继续阅读</em>会跳转到此概览。
+    </p>
+  </div>
+  <div class="card">
+    <h3><a href="/guides/libraries/library-tour">库概览</a></h3>
+    <p>
+      基于示例的 Dart 核心库简介。通过概览可以了解内置类型，
+      集合，日期和时间，stream 等的使用方法。
     </p>
   </div>
 </div>
