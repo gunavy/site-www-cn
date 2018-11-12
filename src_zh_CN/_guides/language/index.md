@@ -81,38 +81,38 @@ These two resources are popular with both beginning Dartisans and experts.
 ## 其他资源
 
 <ul markdown="1">
-<li markdown="1"> [Dart's Type System](/guides/language/sound-dart)<br>
-    Learn about Dart's sound type system.
+<li markdown="1"> [Dart 类型系统](/guides/language/sound-dart)<br>
+    了解 Dart 的健全类型系统。
 </li>
 
 <ul markdown="1">
-<li markdown="1"> [Fixing Common Type Problems](/guides/language/sound-problems)<br>
-   How to fix errors and warnings you may encounter.
+<li markdown="1"> [修复常见类型问题](/guides/language/sound-problems)<br>
+    如何解决你可能会遇到的错误和警告。
 </li>
 </ul>
 
-<li markdown="1"> [Customize Static Analysis](/guides/language/analysis-options)<br>
-    A guide on customizing the analyzer using an analysis options file.
+<li markdown="1"> [定制静态检查](/guides/language/analysis-options)<br>
+    关于静态检查配置文件的使用指南。
 </li>
 
-<li markdown="1">Asynchronous programming
+<li markdown="1">异步编程
 
 <ul markdown="1">
 <li markdown="1">[Futures](/tutorials/language/futures)<br>
-    A beginner's guide to handling asynchronous programming in Dart.
+    在 Dart 中处理异步编程的初学者指南。
 </li>
 
 <li markdown="1">[Streams](/tutorials/language/streams)<br>
-    A beginner's guide to handling sequences of asynchronous events.
+    在 Dart 中处理异步编程的初学者指南。
 </li>
 </ul>
 </li>
 
-<li markdown="1">[Language articles](/articles/language)<br>
-    Articles about language features such as mixins and asynchrony support.
+<li markdown="1">[语言相关文章](/articles/language)<br>
+    语言功能相关的文章，例如 mixins 和异步支持。
 </li>
 
-<li markdown="1">[Specification](/guides/language/spec)<br>
-    A definitive, highly technical description of the Dart language.
+<li markdown="1">[规范](/guides/language/spec)<br>
+    Dart 语言规范的权威描述。
 </li>
 </ul>
