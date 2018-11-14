@@ -251,14 +251,14 @@ mind:
 
 -   与 Java 不同，Dart 没有关键字 “public” ， “protected” 和 “private” 。 
     如果标识符以下划线（\ _）开头，则它相对于库是私有的。 
-    有关更多信息，参考 [库和可见性]（＃libraries-and-visibility）。
+    有关更多信息，参考 [库和可见性](#库和可见性)。
 
 -   *标识符* 以字母或下划线（\ _）开头，后跟任意字母和数字组合。
 
 -   Dart 语法中包含 *表达式（ expressions ）*（有运行时值）和 *语句（ statements ）*（没有运行时值）。
     例如，[条件表达式](#conditional-expressions)
     `condition ? expr1 : expr2` 的值可能是 `expr1` 或 `expr2` 。
-    将其与 [if-else 语句](#if-and-else) 相比较，if-else 语句没有值。
+    将其与 [if-else 语句](#if-和-else) 相比较，if-else 语句没有值。
     一条语句通常包含一个或多个表达式，相反表达式不能直接包含语句。
 
 -   Dart 工具提示两种类型问题：_警告_和_错误_。 
@@ -275,22 +275,90 @@ The following table lists the words that the Dart language treats specially.
 {% assign ckw = '&nbsp;<sup title="contextual keyword" alt="contextual keyword">1</sup>' %}
 {% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">2</sup>' %}
 {% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">3</sup>' %}
-| abstract{{bii}}   | dynamic{{bii}}    | implements{{bii}} | show{{ckw}}   |
-| as{{bii}}         | else              | import{{bii}}     | static{{bii}} |
-| assert            | enum              | in                | super         |
-| async{{ckw}}      | export{{bii}}     | interface{{bii}}  | switch        |
-| await{{lrw}}      | external{{bii}}   | is                | sync{{ckw}}   |
-| break             | extends           | library{{bii}}    | this          |
-| case              | factory{{bii}}    | mixin{{bii}}      | throw         |
-| catch             | false             | new               | true          |
-| class             | final             | null              | try           |
-| const             | finally           | on{{ckw}}         | typedef{{bii}}|
-| continue          | for               | operator{{bii}}   | var           |
-| covariant{{bii}}  | Function{{bii}}   | part{{bii}}       | void          |
-| default           | get{{bii}}        | rethrow           | while         |
-| deferred{{bii}}   | hide{{ckw}}       | return            | with          |
-| do                | if                | set{{bii}}        | yield{{lrw}}  |
+| [abstract][]{{bii}}   | [dynamic][]{{bii}}    | [implements][]{{bii}} | [show][]{{ckw}}   |
+| [as][]{{bii}}         | [else][]              | [import][]{{bii}}     | [static][]{{bii}} |
+| [assert][]            | [enum][]              | [in][]                | [super][]         |
+| [async][]{{ckw}}      | [export][]{{bii}}     | [interface][]{{bii}}  | [switch][]        |
+| [await][]{{lrw}}      | [extends][]           | [is][]                | [sync][]{{ckw}}   |
+| [break][]             | [external][]{{bii}}   | [library][]{{bii}}    | [this][]          |
+| [case][]              | [factory][]{{bii}}    | [mixin][]{{bii}}      | [throw][]         |
+| [catch][]             | [false][]             | [new][]               | [true][]          |
+| [class][]             | [final][]             | [null][]              | [try][]           |
+| [const][]             | [finally][]           | [on][]{{ckw}}         | [typedef][]{{bii}}|
+| [continue][]          | [for][]               | [operator][]{{bii}}   | [var][]           |
+| [covariant][]{{bii}}  | [Function][]{{bii}}   | [part][]{{bii}}       | [void][]          |
+| [default][]           | [get][]{{bii}}        | [rethrow][]           | [while][]         |
+| [deferred][]{{bii}}   | [hide][]{{ckw}}       | [return][]            | [with][]          |
+| [do][]                | [if][]                | [set][]{{bii}}        | [yield][]{{lrw}}  |
 {:.table .table-striped .nowrap}
+
+[abstract]: #abstract-classes
+[as]: #type-test-operators
+[assert]: #assert
+[async]: #asynchrony-support
+[await]: #asynchrony-support
+[break]: #break-and-continue
+[case]: #switch-and-case
+[catch]: #catch
+[class]: #instance-variables
+[const]: #final-and-const
+{% comment %}
+  [TODO: Make sure that points to a place that talks about const constructors,
+  as well as const literals and variables.]
+{% endcomment %}
+[continue]: #break-and-continue
+[covariant]: /guides/language/sound-problems#the-covariant-keyword
+[default]: #switch-and-case
+[deferred]: #lazily-loading-a-library
+[do]: #while-and-do-while
+[dynamic]: #important-concepts
+[else]: #if-and-else
+[enum]: #enumerated-types
+[export]: /guides/libraries/create-library-packages
+[extends]: #extending-a-class
+[external]: https://stackoverflow.com/questions/24929659/what-does-external-mean-in-dart
+[factory]: #factory-constructors
+[false]: #booleans
+[final]: #final-and-const
+[finally]: #finally
+[for]: #for-loops
+[Function]: #functions
+[get]: #getters-and-setters
+[hide]: #importing-only-part-of-a-library
+[if]: #if-and-else
+[implements]: #implicit-interfaces
+[import]: #using-libraries
+[in]: #for-loops
+[interface]: https://stackoverflow.com/questions/28595501/was-the-interface-keyword-removed-from-dart
+[is]: #type-test-operators
+[library]: #libraries-and-visibility
+[mixin]: #adding-features-to-a-class-mixins
+[new]: #using-constructors
+[null]: #default-value
+[on]: #catch
+[operator]: #overridable-operators
+[part]: /guides/libraries/create-library-packages#organizing-a-library-package
+[rethrow]: #catch
+[return]: #functions
+[set]: #getters-and-setters
+[show]: #importing-only-part-of-a-library
+[static]: #class-variables-and-methods
+[super]: #extending-a-class
+[switch]: #switch-and-case
+[sync]: #generators
+[this]: #constructors
+[throw]: #throw
+[true]: #booleans
+[try]: #catch
+[typedef]: #typedefs
+[var]: #variables
+[void]: https://medium.com/dartlang/dart-2-legacy-of-the-void-e7afb5f44df0
+{% comment %}
+  TODO: Add coverage of void to the language tour.
+{% endcomment %}
+[with]: #adding-features-to-a-class-mixins
+[while]: #while-and-do-while
+[yield]: #generators
 
 Avoid using these words as identifiers.
 However, if necessary, the keywords marked with superscripts can be identifiers:
@@ -321,22 +389,90 @@ Dart 语言关键字列表。
 {% assign ckw = '&nbsp;<sup title="contextual keyword" alt="contextual keyword">1</sup>' %}
 {% assign bii = '&nbsp;<sup title="built-in-identifier" alt="built-in-identifier">2</sup>' %}
 {% assign lrw = '&nbsp;<sup title="limited reserved word" alt="limited reserved word">3</sup>' %}
-| abstract{{bii}}   | dynamic{{bii}}    | implements{{bii}} | show{{ckw}}   |
-| as{{bii}}         | else              | import{{bii}}     | static{{bii}} |
-| assert            | enum              | in                | super         |
-| async{{ckw}}      | export{{bii}}     | interface{{bii}}  | switch        |
-| await{{lrw}}      | external{{bii}}   | is                | sync{{ckw}}   |
-| break             | extends           | library{{bii}}    | this          |
-| case              | factory{{bii}}    | mixin{{bii}}      | throw         |
-| catch             | false             | new               | true          |
-| class             | final             | null              | try           |
-| const             | finally           | on{{ckw}}         | typedef{{bii}}|
-| continue          | for               | operator{{bii}}   | var           |
-| covariant{{bii}}  | Function{{bii}}   | part{{bii}}       | void          |
-| default           | get{{bii}}        | rethrow           | while         |
-| deferred{{bii}}   | hide{{ckw}}       | return            | with          |
-| do                | if                | set{{bii}}        | yield{{lrw}}  |
+| [abstract][]{{bii}}   | [dynamic][]{{bii}}    | [implements][]{{bii}} | [show][]{{ckw}}   |
+| [as][]{{bii}}         | [else][]              | [import][]{{bii}}     | [static][]{{bii}} |
+| [assert][]            | [enum][]              | [in][]                | [super][]         |
+| [async][]{{ckw}}      | [export][]{{bii}}     | [interface][]{{bii}}  | [switch][]        |
+| [await][]{{lrw}}      | [extends][]           | [is][]                | [sync][]{{ckw}}   |
+| [break][]             | [external][]{{bii}}   | [library][]{{bii}}    | [this][]          |
+| [case][]              | [factory][]{{bii}}    | [mixin][]{{bii}}      | [throw][]         |
+| [catch][]             | [false][]             | [new][]               | [true][]          |
+| [class][]             | [final][]             | [null][]              | [try][]           |
+| [const][]             | [finally][]           | [on][]{{ckw}}         | [typedef][]{{bii}}|
+| [continue][]          | [for][]               | [operator][]{{bii}}   | [var][]           |
+| [covariant][]{{bii}}  | [Function][]{{bii}}   | [part][]{{bii}}       | [void][]          |
+| [default][]           | [get][]{{bii}}        | [rethrow][]           | [while][]         |
+| [deferred][]{{bii}}   | [hide][]{{ckw}}       | [return][]            | [with][]          |
+| [do][]                | [if][]                | [set][]{{bii}}        | [yield][]{{lrw}}  |
 {:.table .table-striped .nowrap}
+
+[abstract]: #抽象类
+[as]: #类型判定运算符
+[assert]: #assert
+[async]: #异步支持
+[await]: #异步支持
+[break]: #break-和-continue
+[case]: #switch-和-case
+[catch]: #catch
+[class]: #实例变量
+[const]: #final-和-const
+{% comment %}
+  [TODO: Make sure that points to a place that talks about const constructors,
+  as well as const literals and variables.]
+{% endcomment %}
+[continue]: #break-和-continue
+[covariant]: /guides/language/sound-problems#the-covariant-keyword
+[default]: #switch-和-case
+[deferred]: #延迟加载库
+[do]: #while-和-do-while
+[dynamic]: #重要的概念
+[else]: #if-和-else
+[enum]: #枚举类型
+[export]: /guides/libraries/create-library-packages
+[extends]: #扩展类继承
+[external]: https://stackoverflow.com/questions/24929659/what-does-external-mean-in-dart
+[factory]: #工厂构造函数
+[false]: #booleans
+[final]: #final-和-const
+[finally]: #finally
+[for]: #for-循环
+[Function]: #函数
+[get]: #getters-和-setters
+[hide]: #导入库的一部分
+[if]: #if-和-else
+[implements]: #隐式接口
+[import]: #使用库
+[in]: #for-循环
+[interface]: https://stackoverflow.com/questions/28595501/was-the-interface-keyword-removed-from-dart
+[is]: #类型判定运算符
+[library]: #库和可见性
+[mixin]: #为类添加功能mixins
+[new]: #使用构造函数
+[null]: #默认值
+[on]: #catch
+[operator]: #重写运算符
+[part]: /guides/libraries/create-library-packages#organizing-a-library-package
+[rethrow]: #catch
+[return]: #函数
+[set]: #getters-和-setters
+[show]: #导入库的一部分
+[static]: #类变量和方法
+[super]: #扩展类继承
+[switch]: #switch-和-case
+[sync]: #生成器
+[this]: #构造函数
+[throw]: #throw
+[true]: #booleans
+[try]: #catch
+[typedef]: #typedefs
+[var]: #变量
+[void]: https://medium.com/dartlang/dart-2-legacy-of-the-void-e7afb5f44df0
+{% comment %}
+  TODO: Add coverage of void to the language tour.
+{% endcomment %}
+[with]: #为类添加功能mixins
+[while]: #while-和-do-while
+[yield]: #生成器
 
 避免使用这些单词作为标识符。 
 但是，如有必要，标有上标的关键字可以用作标识符：
@@ -350,7 +486,7 @@ Dart 语言关键字列表。
   这些关键字在大多数地方都是有效的标识符，
   但它们不能用作类或类型名称，也不能用作 import 前缀。
   
-* 带有 **3** 上标的单词是与 Dart 1.0 发布后添加的[异步支持](#asynchrony-support)相关的更新，作为限制类保留字。  
+* 带有 **3** 上标的单词是与 Dart 1.0 发布后添加的[异步支持](#异步支持)相关的更新，作为限制类保留字。  
   不能在标记为 `async` ，`async*` 或 `sync*` 的任何函数体中使用 `await` 或 `yield` 作为标识符。
 
 关键字表中的剩余单词都是**保留字**。
@@ -1414,7 +1550,7 @@ nobleGases[18] = 'argon';
 **提示:**
 这里为什么只有 `Map()` ，而不是使用 `new Map()`。
 因为在 Dart 2 中，`new` 关键字是可选的。
-有关更多信息，参考 [构造函数的使用](#using-constructors)。
+有关更多信息，参考 [构造函数的使用](#使用构造函数)。
 </aside>
 
 类似 JavaScript ，添加 key-value 对到已有的 map 中：
@@ -1677,7 +1813,7 @@ Symbol 字面量是编译时常量。
 ## Functions
 
 Dart is a true object-oriented language, so even functions are objects
-and have a type, [Function][].
+and have a type, [Function.][Function API reference]
 This means that functions can be assigned to variables or passed as arguments
 to other functions. You can also call an instance of a Dart class as if
 it were a function. For details, see [Callable classes](#callable-classes).
@@ -1712,7 +1848,7 @@ bool isNoble(int atomicNumber) => _nobleGases[atomicNumber] != null;
 
 The <code>=> <em>expr</em></code> syntax is a shorthand for
 <code>{ return <em>expr</em>; }</code>. The `=>` notation
-is sometimes referred to as _fat arrow_ syntax.
+is sometimes referred to as _arrow_ syntax.
 
 <div class="alert alert-info" markdown="1">
 **Note:**
@@ -1732,7 +1868,7 @@ See the next section for details.
 
 Dart 是一门真正面向对象的语言，
 甚至其中的函数也是对象，并且有它的类型 
-[Function][] 。
+[Function][Function API reference] 。
 这也意味着函数可以被赋值给变量或者作为参数传递给其他函数。
 也可以把 Dart 类的实例当做方法来调用。
 有关更多信息，参考 [Callable classes](#callable-classes).
@@ -1767,13 +1903,13 @@ bool isNoble(int atomicNumber) => _nobleGases[atomicNumber] != null;
 
  <code>=> <em>expr</em></code> 语法是
 <code>{ return <em>expr</em>; }</code> 的简写。 `=>` 符号
-有时也被称为 _胖箭头_ 语法。
+有时也被称为 _箭头_ 语法。
 
 <div class="alert alert-info" markdown="1">
 **提示：**
 在箭头 (=\>) 和冒号 (;) 之间只能使用一个 *表达式*—不能是 *语句*。
 例如：不能使用 [if
-语句](#if-and-else) ，但是可以是用 
+语句](#if-和-else) ，但是可以是用 
 [条件表达式](#conditional-expressions).
 </div>
 
@@ -2308,7 +2444,7 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=5d70bc1889d055c7a18d35d77874
 </iframe>
 
 If the function contains only one statement, you can shorten it using
-fat arrow notation. Paste the following line into DartPad
+arrow notation. Paste the following line into DartPad
 and click run to verify that it is functionally equivalent.
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (anon-func)"?>
@@ -2363,7 +2499,7 @@ src="{{site.custom.dartpad.embed-inline-prefix}}?id=5d70bc1889d055c7a18d35d77874
 </iframe>
 
 如果函数只有一条语句， 
-可以使用胖箭头简写。粘贴下面代码到 DartPad 中
+可以使用箭头简写。粘贴下面代码到 DartPad 中
 并点击运行按钮，验证两个函数是等价性。
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (anon-func)"?>
@@ -2685,7 +2821,7 @@ Vector version of +.
 
 下表是 Dart 定义的运算符。
 多数运算符可以被重载，详情参考
-[Overridable operators](#overridable-operators)。
+[重写运算符](#重写运算符)。
 
 |--------------------------+------------------------------------------------|
 |Description               | Operator                                       |
@@ -2950,7 +3086,7 @@ assert(2 <= 3);
     `==` 运算符执行的是第一个运算符的函数。
     我们甚至可以重写很多运算符，包括 `==`，
     运算符的重写，参考 
-    [Overridable operators](#overridable-operators)。）
+    [重写运算符](#重写运算符)。）
 
 这里列出了每种关系运算符的示例：
 
@@ -2974,7 +3110,7 @@ runtime.
 |-----------+-------------------------------------------|
 | Operator  | Meaning                                   |
 |-----------+-------------------------------------------|
-| `as`      | Typecast
+| `as`      | Typecast (also used to specify [library prefixes](#specifying-a-library-prefix))
 | `is`      | True if the object has the specified type
 | `is!`     | False if the object has the specified type
 {:.table .table-striped}
@@ -3017,7 +3153,7 @@ an exception.
 |-----------+-------------------------------------------|
 | Operator  | Meaning                                   |
 |-----------+-------------------------------------------|
-| `as`      | Typecast
+| `as`      | Typecast (也被用于[指定库前缀](#指定库前缀))
 | `is`      | True if the object has the specified type
 | `is!`     | False if the object has the specified type
 {:.table .table-striped}
@@ -3410,7 +3546,7 @@ It's just part of the Dart syntax.
 
 ### 条件表达式
 
-Dart有两个运算符，有时可以替换 [if-else](#if-and-else) 表达式，
+Dart有两个运算符，有时可以替换 [if-else](#if-和-else) 表达式，
 让表达式更简洁：
 
 
@@ -3956,7 +4092,7 @@ the scope of that clause.
 在 Dart 中 switch 语句使用 `==` 比较整数，字符串，或者编译时常量。
 比较的对象必须都是同一个类的实例（并且不可以是子类），
 类必须没有对 `==` 重写。
-[Enumerated types](#enumerated-types) 可以用于 `switch` 语句。
+[枚举类型](#枚举类型) 可以用于 `switch` 语句。
 
 <div class="alert alert-info" markdown="1">
 **提示：**
@@ -4582,12 +4718,12 @@ var p2 = new Point.fromJson({'x': 1, 'y': 2});
 {% endprettify %}
 
 <aside class="alert alert-info" markdown="1">
-**Version note:** The `new` keyword became optional in Dart 2.
+  **Version note:** The `new` keyword became optional in Dart 2.
 </aside>
 
-Some classes provide constant constructors. To create a compile-time
-constant using a constant constructor, put the `const` keyword
-before the constructor name:
+Some classes provide [constant constructors](#constant-constructors).
+To create a compile-time constant using a constant constructor,
+put the `const` keyword before the constructor name:
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (const)"?>
 {% prettify dart %}
@@ -4628,9 +4764,21 @@ const pointAndLine = {
 };
 {% endprettify %}
 
+If a constant constructor is outside of a constant context
+and is invoked without `const`,
+it creates a **non-constant object**:
+
+<?code-excerpt "misc/test/language_tour/classes_test.dart (nonconst-const-constructor)"?>
+{% prettify dart %}
+var a = const ImmutablePoint(1, 1); // Creates a constant
+var b = ImmutablePoint(1, 1); // Does NOT create a constant
+
+assert(!identical(a, b)); // NOT the same instance!
+{% endprettify %}
+
 <aside class="alert alert-info" markdown="1">
-**Version note:** The `const` keyword became optional
-within a constant context in Dart 2.
+  **Version note:** The `const` keyword became optional
+  within a constant context in Dart 2.
 </aside>
 {% endcomment %}
 
@@ -4660,9 +4808,8 @@ var p2 = new Point.fromJson({'x': 1, 'y': 2});
 **版本提示：** 在 Dart 2 中 `new` 关键字变成了可选的。
 </aside>
 
-一些类提供了常量构造函数。
-使用常量构造函数创建编译时常量时，需要在构造函数名之前加上 `const` 关键字：
-
+一些类提供了[常量构造函数](#常量构造函数)。
+使用常量构造函数，在构造函数名之前加 `const` 关键字，来创建编译时常量时：
 
 <?code-excerpt "misc/test/language_tour/classes_test.dart (const)"?>
 {% prettify dart %}
@@ -4703,8 +4850,20 @@ const pointAndLine = {
 };
 {% endprettify %}
 
+如果常量构造函数在常量上下文之外，
+且省略了 `const` 关键字，
+此时创建的对象是非常量对象：
+
+<?code-excerpt "misc/test/language_tour/classes_test.dart (nonconst-const-constructor)"?>
+{% prettify dart %}
+var a = const ImmutablePoint(1, 1); // 创建一个常量对象
+var b = ImmutablePoint(1, 1); // 创建一个非常量对象
+
+assert(!identical(a, b)); // 两者不是同一个实例!
+{% endprettify %}
+
 <aside class="alert alert-info" markdown="1">
-**版本提示：** 在 Dart 2 中在一个常量上下文中，`const` 可以被省略。
+  **版本提示：** 在 Dart 2 中，一个常量上下文中的 `const` 关键字可以被省略。
 </aside>
 
 {% comment %}
@@ -4795,7 +4954,7 @@ class Point {
 
 所有实例变量都生成隐式 *getter* 方法。 
 非 final 的实例变量同样会生成隐式 *setter* 方法。
-有关更多信息，参考 [Getters 和 setters](#getters-and-setters).
+有关更多信息，参考 [Getters 和 setters](#getters-和-setters).
 
 <?code-excerpt "misc/lib/language_tour/classes/point_with_main.dart (class+main)" replace="/(num .*?;).*/$1/g" plaster="none"?>
 {% prettify dart %}
@@ -5368,6 +5527,10 @@ class ImmutablePoint {
   const ImmutablePoint(this.x, this.y);
 }
 {% endprettify %}
+
+Constant constructors don't always create constants.
+For details, see the section on
+[using constructors](#using-constructors).
 {% endcomment %}
 
 #### 常量构造函数
@@ -5376,7 +5539,6 @@ class ImmutablePoint {
 那么就可以把这些对象定义为编译时常量。
 为此，需要定义一个 `const` 构造函数，
 并且声明所有实例变量为 `final`。
-
 
 <?code-excerpt "misc/lib/language_tour/classes/immutable_point.dart"?>
 {% prettify dart %}
@@ -5389,6 +5551,10 @@ class ImmutablePoint {
   const ImmutablePoint(this.x, this.y);
 }
 {% endprettify %}
+
+常量构造函数创建的实例并不总是常量。
+更多内容，查看 [使用构造函数](#使用构造函数) 章节。
+
 
 {% comment %}
 #### Factory constructors
@@ -5668,7 +5834,7 @@ Calling an abstract method results in a runtime error.
 
 实例方法， getter， 和 setter 方法可以是抽象的， 
 只定义接口不进行实现，而是留给其他类去实现。 
-抽象方法只存在于 [抽象类](#abstract-classes) 中。
+抽象方法只存在于 [抽象类](#抽象类) 中。
 
 定义一个抽象函数，使用分号 (;) 来代替函数体：
 
@@ -5719,7 +5885,7 @@ abstract class AbstractContainer {
 使用 `abstract` 修饰符来定义 *抽象类* — 抽象类不能实例化。
 抽象类通常用来定义接口，以及部分实现。
 如果希望抽象类能够被实例化，那么可以通过定义一个
-[工厂构造函数](#factory-constructors) 来实现。
+[工厂构造函数](#工厂构造函数) 来实现。
 
 抽象类通常具有 [抽象方法](#abstract-methods)。
 下面是一个声明具有抽象方法的抽象类示例：
@@ -5941,6 +6107,11 @@ Vector class, you might define a `+` method to add two vectors.
 `–`  | `%`  | `>>`
 {:.table}
 
+<div class="alert alert-info" markdown="1">
+  **Note:** You may have noticed that `!=` is not an overridable operator.
+  The expression `e1 != e2` is just syntactic sugar for `!(e1 == e2)`.
+</div>
+
 Here’s an example of a class that overrides the `+` and `-` operators:
 
 <?code-excerpt "misc/lib/language_tour/classes/vector.dart"?>
@@ -5986,6 +6157,11 @@ For more information on overriding, in general, see
 `–`  | `%`  | `>>`
 {:.table}
 
+<div class="alert alert-info" markdown="1">
+  **提示：** 你可能会被提示 `!=` 运算符为非可重载运算符。
+  因为 `e1 != e2` 表达式仅仅是 `!(e1 == e2)` 的语法糖。
+</div>
+
 下面示例演示一个类重写 `+` 和 `-` 操作符：
 
 <?code-excerpt "misc/lib/language_tour/classes/vector.dart"?>
@@ -6016,7 +6192,7 @@ void main() {
 [Implementing map keys](/guides/libraries/library-tour#implementing-map-keys).
 
 有关重写的更多介绍，请参考
-[Extending a class](#extending-a-class).
+[扩展类（继承）](#扩展类继承).
 
 {% comment %}
 #### noSuchMethod()
@@ -6049,15 +6225,8 @@ that's different from the one in class `Object`.
 
 For more information, see the informal
 [noSuchMethod forwarding specification.](https://github.com/dart-lang/sdk/blob/master/docs/language/informal/nosuchmethod-forwarding.md)
-
-
-<a id="enums"></a>
-### Enumerated types
-
-Enumerated types, often called _enumerations_ or _enums_,
-are a special kind of class used to represent
-a fixed number of constant values.
 {% endcomment %}
+
 
 #### noSuchMethod()
 
@@ -6091,11 +6260,22 @@ class A {
 [noSuchMethod forwarding specification.](https://github.com/dart-lang/sdk/blob/master/docs/language/informal/nosuchmethod-forwarding.md)
 
 
+{% comment %}
+<a id="enums"></a>
+### Enumerated types
+
+Enumerated types, often called _enumerations_ or _enums_,
+are a special kind of class used to represent
+a fixed number of constant values.
+{% endcomment %}
+
+
 <a id="enums"></a>
 ### 枚举类型
 
 枚举类型也称为 _enumerations_ 或 _enums_ ，
 是一种特殊的类，用于表示数量固定的常量值。
+
 
 {% comment %}
 #### Using enums
@@ -6156,6 +6336,7 @@ For more information, see the
 [Dart Language Specification](/guides/language/spec).
 {% endcomment %}
 
+
 #### 使用枚举
 
 使用 `enum` 关键字定义一个枚举类型：
@@ -6186,7 +6367,7 @@ List<Color> colors = Color.values;
 assert(colors[2] == Color.blue);
 {% endprettify %}
 
-可以在 [switch 语句](#switch-and-case) 中使用枚举，
+可以在 [switch 语句](#switch-和-case) 中使用枚举，
 如果不处理所有枚举值，会收到警告：
 
 <?code-excerpt "misc/lib/language_tour/classes/enum.dart (switch)"?>
@@ -6270,7 +6451,7 @@ For a theoretical presentation of the evolution of mixins in Dart, see
 [A Brief History of Mixins in Dart](/articles/language/mixins).
 {% endcomment %}
 
-### 为类添加功能： mixins
+### 为类添加功能：mixins
 
 mixins 是复用类代码的一种途径，
 复用的类可以在不同层级，之间可以不存在继承关系。
@@ -7120,7 +7301,7 @@ Future greet() async {
 {% endprettify %}
 
 在前面的代码，使用 `await` 关键字暂停代码执行一直到库加载完成。
-关于 `async` 和 `await` 的更多信息请参考 [异步支持](#asynchrony-support)。
+关于 `async` 和 `await` 的更多信息请参考 [异步支持](#异步支持)。
 
 在一个库上你可以多次调用 `loadLibrary()` 函数。但是该库只是载入一次。
 
@@ -7154,8 +7335,21 @@ for advice on how to implement a library package, including:
 * How to organize library source code.
 * How to use the `export` directive.
 * When to use the `part` directive.
+{% endcomment %}
 
 
+### 实现库
+
+有关如何实现库包的建议，请参考 
+[Create Library Packages](/guides/libraries/create-library-packages)
+这里面包括：
+
+* 如何组织库的源文件。
+* 如何使用 `export` 命令。
+* 如何使用 `part` 命令。
+
+
+{% comment %}
 <a id="asynchrony"></a>
 ## Asynchrony support
 
@@ -7170,8 +7364,20 @@ without waiting for that operation to complete.
 The `async` and `await` keywords support asynchronous programming,
 letting you write asynchronous code that
 looks similar to synchronous code.
+{% endcomment %}
 
 
+<a id="asynchrony"></a>
+## 异步支持
+
+Dart 库中包含许多返回 Future 或 Stream 对象的函数.
+这些函数在设置完耗时任务（例如 I/O 曹组）后，
+就立即返回了，不会等待耗任务完成。
+使用 `async` 和 `await` 关键字实现异步编程。
+可以让你像编写同步代码一样实现异步操作。
+
+
+{% comment %}
 <a id="await"></a>
 ### Handling Futures
 
@@ -7256,181 +7462,7 @@ Future main() [!async!] {
   print('In main: version is ${[!await!] lookUpVersion()}');
 }
 {% endprettify %}
-
-
-<a id="async"></a>
-### Declaring async functions
-
-An _async function_ is a function whose body is marked with
-the `async` modifier.
-
-Adding the `async` keyword to a function makes it return a Future.
-For example, consider this synchronous function,
-which returns a String:
-
-<?code-excerpt "misc/lib/language_tour/async.dart (sync-lookUpVersion)"?>
-{% prettify dart %}
-String lookUpVersion() => '1.0.0';
-{% endprettify %}
-
-If you change it to be an async function—for example,
-because a future implementation will be time consuming—the
-returned value is a Future:
-
-<?code-excerpt "misc/lib/language_tour/async.dart (async-lookUpVersion)"?>
-{% prettify dart %}
-Future<String> lookUpVersion() async => '1.0.0';
-{% endprettify %}
-
-Note that the function's body doesn't need to use the Future API.
-Dart creates the Future object if necessary.
-
-If your function doesn't return a useful value,
-make its return type `Future<void>`.
-
-{% comment %}
-PENDING: add example here
-
-Where else should we cover generalized void?
 {% endcomment %}
-
-
-<a id="await-for"></a>
-### Handling Streams
-
-When you need to get values from a Stream,
-you have two options:
-
-* Use `async` and an _asynchronous for loop_ (`await for`).
-* Use the Stream API, as described
-  [in the library tour](/guides/libraries/library-tour#stream).
-
-<aside class="alert alert-warning" markdown="1">
-**Note:**
-Before using `await for`, be sure that it makes the code clearer
-and that you really do want to wait for all of the stream's results.
-For example, you usually should **not** use `await for` for UI event listeners,
-because UI frameworks send endless streams of events.
-</aside>
-
-An asynchronous for loop has the following form:
-
-<?code-excerpt "misc/lib/language_tour/async.dart (await-for)"?>
-{% prettify dart %}
-await for (varOrType identifier in expression) {
-  // Executes each time the stream emits a value.
-}
-{% endprettify %}
-
-The value of <code><em>expression</em></code> must have type Stream.
-Execution proceeds as follows:
-
-1. Wait until the stream emits a value.
-2. Execute the body of the for loop,
-   with the variable set to that emitted value.
-3. Repeat 1 and 2 until the stream is closed.
-
-To stop listening to the stream,
-you can use a `break` or `return` statement,
-which breaks out of the for loop
-and unsubscribes from the stream.
-
-**If you get a compile-time error when implementing an asynchronous for loop,
-make sure the `await for` is in an async function.**
-For example, to use an asynchronous for loop in your app's `main()` function,
-the body of `main()` must be marked as `async`:
-
-<?code-excerpt "misc/lib/language_tour/async.dart (number_thinker)" replace="/async|await for/[!$&!]/g"?>
-{% prettify dart %}
-Future main() [!async!] {
-  // ...
-  [!await for!] (var request in requestServer) {
-    handleRequest(request);
-  }
-  // ...
-}
-{% endprettify %}
-
-For more information about asynchronous programming, in general, see the
-[dart:async](/guides/libraries/library-tour#dartasync---asynchronous-programming)
-section of the library tour.
-Also see the articles
-[Dart Language Asynchrony Support: Phase 1](/articles/language/await-async)
-and
-[Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async),
-and the [Dart language specification](/guides/language/spec).
-
-
-<a id="generator"></a>
-## Generators
-
-When you need to lazily produce a sequence of values,
-consider using a _generator function_.
-Dart has built-in support for two kinds of generator functions:
-
-* **Synchronous** generator: Returns an **[Iterable]** object.
-* **Asynchronous** generator: Returns a **[Stream]** object.
-
-To implement a **synchronous** generator function,
-mark the function body as `sync*`,
-and use `yield` statements to deliver values:
-
-<?code-excerpt "misc/test/language_tour/async_test.dart (sync-generator)"?>
-{% prettify dart %}
-Iterable<int> naturalsTo(int n) sync* {
-  int k = 0;
-  while (k < n) yield k++;
-}
-{% endprettify %}
-
-To implement an **asynchronous** generator function,
-mark the function body as `async*`,
-and use `yield` statements to deliver values:
-
-<?code-excerpt "misc/test/language_tour/async_test.dart (async-generator)"?>
-{% prettify dart %}
-Stream<int> asynchronousNaturalsTo(int n) async* {
-  int k = 0;
-  while (k < n) yield k++;
-}
-{% endprettify %}
-
-If your generator is recursive,
-you can improve its performance by using `yield*`:
-
-<?code-excerpt "misc/test/language_tour/async_test.dart (recursive-generator)"?>
-{% prettify dart %}
-Iterable<int> naturalsDownFrom(int n) sync* {
-  if (n > 0) {
-    yield n;
-    yield* naturalsDownFrom(n - 1);
-  }
-}
-{% endprettify %}
-
-For more information about generators, see the article
-[Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async).
-{% endcomment %}
-
-### 实现库
-
-有关如何实现库包的建议，请参考 
-[Create Library Packages](/guides/libraries/create-library-packages)
-这里面包括：
-
-* 如何组织库的源文件。
-* 如何使用 `export` 命令。
-* 如何使用 `part` 命令。
-
-
-<a id="asynchrony"></a>
-## 异步支持
-
-Dart 库中包含许多返回 Future 或 Stream 对象的函数.
-这些函数在设置完耗时任务（例如 I/O 曹组）后，
-就立即返回了，不会等待耗任务完成。
-使用 `async` 和 `await` 关键字实现异步编程。
-可以让你像编写同步代码一样实现异步操作。
 
 
 <a id="await"></a>
@@ -7516,6 +7548,45 @@ Future main() [!async!] {
 {% endprettify %}
 
 
+{% comment %}
+<a id="async"></a>
+### Declaring async functions
+
+An _async function_ is a function whose body is marked with
+the `async` modifier.
+
+Adding the `async` keyword to a function makes it return a Future.
+For example, consider this synchronous function,
+which returns a String:
+
+<?code-excerpt "misc/lib/language_tour/async.dart (sync-lookUpVersion)"?>
+{% prettify dart %}
+String lookUpVersion() => '1.0.0';
+{% endprettify %}
+
+If you change it to be an async function—for example,
+because a future implementation will be time consuming—the
+returned value is a Future:
+
+<?code-excerpt "misc/lib/language_tour/async.dart (async-lookUpVersion)"?>
+{% prettify dart %}
+Future<String> lookUpVersion() async => '1.0.0';
+{% endprettify %}
+
+Note that the function's body doesn't need to use the Future API.
+Dart creates the Future object if necessary.
+
+If your function doesn't return a useful value,
+make its return type `Future<void>`.
+
+{% comment %}
+PENDING: add example here
+
+Where else should we cover generalized void?
+{% endcomment %}
+{% endcomment %}
+
+
 <a id="async"></a>
 ### 声明异步函数
 
@@ -7549,8 +7620,76 @@ Where else should we cover generalized void?
 {% endcomment %}
 
 
+{% comment %}
 <a id="await-for"></a>
-### 处理流
+### Handling Streams
+
+When you need to get values from a Stream,
+you have two options:
+
+* Use `async` and an _asynchronous for loop_ (`await for`).
+* Use the Stream API, as described
+  [in the library tour](/guides/libraries/library-tour#stream).
+
+<aside class="alert alert-warning" markdown="1">
+**Note:**
+Before using `await for`, be sure that it makes the code clearer
+and that you really do want to wait for all of the stream's results.
+For example, you usually should **not** use `await for` for UI event listeners,
+because UI frameworks send endless streams of events.
+</aside>
+
+An asynchronous for loop has the following form:
+
+<?code-excerpt "misc/lib/language_tour/async.dart (await-for)"?>
+{% prettify dart %}
+await for (varOrType identifier in expression) {
+  // Executes each time the stream emits a value.
+}
+{% endprettify %}
+
+The value of <code><em>expression</em></code> must have type Stream.
+Execution proceeds as follows:
+
+1. Wait until the stream emits a value.
+2. Execute the body of the for loop,
+   with the variable set to that emitted value.
+3. Repeat 1 and 2 until the stream is closed.
+
+To stop listening to the stream,
+you can use a `break` or `return` statement,
+which breaks out of the for loop
+and unsubscribes from the stream.
+
+**If you get a compile-time error when implementing an asynchronous for loop,
+make sure the `await for` is in an async function.**
+For example, to use an asynchronous for loop in your app's `main()` function,
+the body of `main()` must be marked as `async`:
+
+<?code-excerpt "misc/lib/language_tour/async.dart (number_thinker)" replace="/async|await for/[!$&!]/g"?>
+{% prettify dart %}
+Future main() [!async!] {
+  // ...
+  [!await for!] (var request in requestServer) {
+    handleRequest(request);
+  }
+  // ...
+}
+{% endprettify %}
+
+For more information about asynchronous programming, in general, see the
+[dart:async](/guides/libraries/library-tour#dartasync---asynchronous-programming)
+section of the library tour.
+Also see the articles
+[Dart Language Asynchrony Support: Phase 1](/articles/language/await-async)
+and
+[Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async),
+and the [Dart language specification](/guides/language/spec).
+{% endcomment %}
+
+
+<a id="await-for"></a>
+### 处理 Stream
 
 当需要从 Stream 中获取数据值时，
 可以通过一下两种方式：
@@ -7610,6 +7749,59 @@ Future main() [!async!] {
 和
 [Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async),
 以及 [Dart language specification](/guides/language/spec).
+
+
+{% comment %}
+<a id="generator"></a>
+## Generators
+
+When you need to lazily produce a sequence of values,
+consider using a _generator function_.
+Dart has built-in support for two kinds of generator functions:
+
+* **Synchronous** generator: Returns an **[Iterable]** object.
+* **Asynchronous** generator: Returns a **[Stream]** object.
+
+To implement a **synchronous** generator function,
+mark the function body as `sync*`,
+and use `yield` statements to deliver values:
+
+<?code-excerpt "misc/test/language_tour/async_test.dart (sync-generator)"?>
+{% prettify dart %}
+Iterable<int> naturalsTo(int n) sync* {
+  int k = 0;
+  while (k < n) yield k++;
+}
+{% endprettify %}
+
+To implement an **asynchronous** generator function,
+mark the function body as `async*`,
+and use `yield` statements to deliver values:
+
+<?code-excerpt "misc/test/language_tour/async_test.dart (async-generator)"?>
+{% prettify dart %}
+Stream<int> asynchronousNaturalsTo(int n) async* {
+  int k = 0;
+  while (k < n) yield k++;
+}
+{% endprettify %}
+
+If your generator is recursive,
+you can improve its performance by using `yield*`:
+
+<?code-excerpt "misc/test/language_tour/async_test.dart (recursive-generator)"?>
+{% prettify dart %}
+Iterable<int> naturalsDownFrom(int n) sync* {
+  if (n > 0) {
+    yield n;
+    yield* naturalsDownFrom(n - 1);
+  }
+}
+{% endprettify %}
+
+For more information about generators, see the article
+[Dart Language Asynchrony Support: Phase 2](/articles/language/beyond-async).
+{% endcomment %}
 
 
 <a id="generator"></a>
@@ -7993,7 +8185,7 @@ retrieve metadata at runtime using reflection.
 
 对于所有 Dart 代码有两种可用注解：`@deprecated` 和 `@override`。
 关于 `@override` 的使用，
-参考 [Extending a class](#extending-a-class)。
+参考 [扩展类（继承）](#扩展类继承)。
 下面是使用 `@deprecated` 注解的示例：
 
 
@@ -8251,7 +8443,7 @@ To learn more about Dart's core libraries, see
 [Flutter]: https://flutter.io
 [Flutter debug mode]: https://flutter.io/debugging/#debug-mode-assertions
 [forEach()]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Iterable/forEach.html
-[Function]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Function-class.html
+[Function API reference]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Function-class.html
 [Future]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-async/Future-class.html
 [identical()]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/identical.html
 [int]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/int-class.html
@@ -8297,7 +8489,7 @@ To learn more about Dart's core libraries, see
 [Flutter]: https://flutter.io
 [Flutter debug mode]: https://flutter.io/debugging/#debug-mode-assertions
 [forEach()]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Iterable/forEach.html
-[Function]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Function-class.html
+[Function API reference]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/Function-class.html
 [Future]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-async/Future-class.html
 [identical()]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/identical.html
 [int]: {{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}}/dart-core/int-class.html
