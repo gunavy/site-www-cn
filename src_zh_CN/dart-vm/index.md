@@ -70,9 +70,9 @@ You might find the following tutorials helpful.
 {% endcomment %}
 
 
-## 教程
+## 学习指南
 
-你可能会感到下列教程对你很有帮助。
+你可能会感到下列学习指南对你很有帮助。
 
 [入门](/tutorials/dart-vm/get-started)
 : 演示如何编写基本 Dart 脚本。
