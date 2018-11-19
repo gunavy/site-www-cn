@@ -289,7 +289,6 @@ To access APIs defined in other libraries, use `import`.
 <?code-excerpt "misc/test/samples_test.dart (import)" plaster="none"?>
 {% prettify dart %}
 // Importing core libraries
-import 'dart:async';
 import 'dart:math';
 
 // Importing libraries from external packages
@@ -311,7 +310,6 @@ including library prefixes, `show` and `hide`, and lazy loading through the `def
 <?code-excerpt "misc/test/samples_test.dart (import)" plaster="none"?>
 {% prettify dart %}
 // 导入核心库
-import 'dart:async';
 import 'dart:math';
 
 // 从外部包导入库

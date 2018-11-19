@@ -870,8 +870,8 @@ defining integer literals:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (integer-literals)"?>
 {% prettify dart %}
-int x = 1;
-int hex = 0xDEADBEEF;
+var x = 1;
+var hex = 0xDEADBEEF;
 {% endprettify %}
 
 If a number includes a decimal, it is a double. Here are some examples
@@ -879,9 +879,23 @@ of defining double literals:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (double-literals)"?>
 {% prettify dart %}
-double y = 1.1;
-double exponents = 1.42e5;
+var y = 1.1;
+var exponents = 1.42e5;
 {% endprettify %}
+
+As of Dart 2.1, integer literals are automatically converted to doubles
+when necessary:
+
+<?code-excerpt "misc/lib/language_tour/built_in_types.dart (int-to-double)"?>
+{% prettify dart %}
+double z = 1; // Equivalent to double z = 1.0.
+{% endprettify %}
+
+<aside class="alert alert-info" markdown="1">
+  **Version note:**
+  Before Dart 2.1, it was an error to use an integer literal
+  in a double context.
+</aside>
 
 Here’s how you turn a string into a number, or vice versa:
 
@@ -964,17 +978,29 @@ num 类型包括基本运算 +， -， /， 和 \*，
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (integer-literals)"?>
 {% prettify dart %}
-int x = 1;
-int hex = 0xDEADBEEF;
+var x = 1;
+var hex = 0xDEADBEEF;
 {% endprettify %}
 如果一个数字包含小数点，那么就是小数类型。 
 下面是定义小数类型字面量的例子:
 
 <?code-excerpt "misc/lib/language_tour/built_in_types.dart (double-literals)"?>
 {% prettify dart %}
-double y = 1.1;
-double exponents = 1.42e5;
+var y = 1.1;
+var exponents = 1.42e5;
 {% endprettify %}
+
+从 Dart 2.1 开始，必要的时候 int 字面量会自动转换成 double 类型。
+
+<?code-excerpt "misc/lib/language_tour/built_in_types.dart (int-to-double)"?>
+{% prettify dart %}
+double z = 1; // 相当于 double z = 1.0.
+{% endprettify %}
+
+<aside class="alert alert-info" markdown="1">
+  **版本提示：**
+  在 2.1 之前，在 double 上下文中使用 int 字面量是错误的。
+</aside>
 
 以下是将字符串转换为数字的方法，反之亦然：
 
@@ -6400,7 +6426,7 @@ switch (aColor) {
 Mixins are a way of reusing a class's code in multiple class
 hierarchies.
 
-To use a mixin, use the `with` keyword followed by one or more mixin
+To _use_ a mixin, use the `with` keyword followed by one or more mixin
 names. The following example shows two classes that use mixins:
 
 <?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (Musician and Maestro)" replace="/(with.*) \{/[!$1!] {/g"?>
@@ -6418,12 +6444,15 @@ class Maestro extends Person
 }
 {% endprettify %}
 
-To implement a mixin, create a class that extends Object,
-declares no constructors, and has no calls to `super`. For example:
+To _implement_ a mixin, create a class that extends Object and
+declares no constructors.
+Unless you want your mixin to be usable as a regular class,
+use the `mixin` keyword instead of `class`.
+For example:
 
 <?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (Musical)"?>
 {% prettify dart %}
-abstract class Musical {
+mixin Musical {
   bool canPlayPiano = false;
   bool canCompose = false;
   bool canConduct = false;
@@ -6440,6 +6469,32 @@ abstract class Musical {
 }
 {% endprettify %}
 
+To specify that only certain types can use the mixin — for example,
+so your mixin can invoke a method that it doesn't define —
+use `on` to specify the required superclass:
+
+<?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (mixin-on)"?>
+{% prettify dart %}
+mixin MusicalPerformer on Musician {
+  // ···
+}
+{% endprettify %}
+
+<!-- Previous code snippet reveals an issue we expect to be fixed in 2.1.1:
+  https://github.com/dart-lang/sdk/issues/35011
+-->
+
+<aside class="alert alert-info" markdown="1">
+  **Version note:** Support for the `mixin` keyword was introduced in Dart 2.1.
+  Code in earlier releases usually used `abstract class` instead.
+  For more information on 2.1 mixin changes, see the
+  [Dart SDK changelog][] and [2.1 mixin specification.][]
+</aside>
+
+[Dart SDK changelog]: https://github.com/dart-lang/sdk/blob/master/CHANGELOG.md
+[2.1 mixin specification.]: https://github.com/dart-lang/language/blob/master/accepted/2.1/super-mixins/feature-specification.md#dart-2-mixin-declarations
+
+
 <div class="alert alert-info" markdown="1">
   **Note:** Some restrictions on mixins are being removed. For details, see the
   [proposed mixin specification.][Dart 2.0 Mixins]
@@ -6451,14 +6506,16 @@ For a theoretical presentation of the evolution of mixins in Dart, see
 [A Brief History of Mixins in Dart](/articles/language/mixins).
 {% endcomment %}
 
+
+
 ### 为类添加功能：mixins
 
 mixins 是复用类代码的一种途径，
 复用的类可以在不同层级，之间可以不存在继承关系。
 
 
-通过 `with` 后面跟一个或多个混入的名称，来使用 mixin，
-下面的示例演示了两个使用 mixins 的类：
+通过 `with` 后面跟一个或多个混入的名称，来 _使用_ mixin，
+下面的示例演示了两个使用 mixin 的类：
 
 <?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (Musician and Maestro)" replace="/(with.*) \{/[!$1!] {/g"?>
 {% prettify dart %}
@@ -6475,11 +6532,13 @@ class Maestro extends Person
 }
 {% endprettify %}
 
-下面实现 mixin 的代码中，定义一个类，继承自 Object，没有声明构造函数，也没有调用 `super` ：
+通过创建一个继承自 Object 且没有构造函数的类，来 _实现_ 一个 mixin 。
+如果 mixin 不希望作为常规类被使用，使用关键字 `mixin` 替换 `class` 。
+例如：
 
 <?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (Musical)"?>
 {% prettify dart %}
-abstract class Musical {
+mixin Musical {
   bool canPlayPiano = false;
   bool canCompose = false;
   bool canConduct = false;
@@ -6496,6 +6555,32 @@ abstract class Musical {
 }
 {% endprettify %}
 
+指定只有某些类型可以使用的 mixin - 
+比如，mixin 可以调用 mixin 自身没有定义的方法 - 
+使用 `on` 来指定可以使用 mixin 的父类类型：
+
+<?code-excerpt "misc/lib/language_tour/classes/orchestra.dart (mixin-on)"?>
+{% prettify dart %}
+mixin MusicalPerformer on Musician {
+  // ···
+}
+{% endprettify %}
+
+<!-- Previous code snippet reveals an issue we expect to be fixed in 2.1.1:
+  https://github.com/dart-lang/sdk/issues/35011
+-->
+
+<aside class="alert alert-info" markdown="1">
+  **版本提示：** `mixin` 关键字在 Dart 2.1 中被引用支持。
+  早期版本中的代码通常使用 `abstract class` 代替。
+  更多有关 mixin 在 2.1 中的变更信息，请参见
+  [Dart SDK changelog][] 和 [2.1 mixin specification][] 。
+</aside>
+
+[Dart SDK changelog]: https://github.com/dart-lang/sdk/blob/master/CHANGELOG.md
+[2.1 mixin specification]: https://github.com/dart-lang/language/blob/master/accepted/2.1/super-mixins/feature-specification.md#dart-2-mixin-declarations
+
+
 <div class="alert alert-info" markdown="1">
   **提示：** 对 mixins 的一些限制正在被移除。 关于更多详情，参考
   [proposed mixin specification.][Dart 2.0 Mixins]
@@ -6503,7 +6588,7 @@ abstract class Musical {
   [Dart 2.0 Mixins]: https://github.com/dart-lang/sdk/blob/master/docs/language/informal/mixin-declaration.md
 </div>
 
-有关 Dart 中 mixins 的理论演变, 参考
+有关 Dart 中 mixins 的理论演变，参考
 [A Brief History of Mixins in Dart](/articles/language/mixins).
 
 {% comment %}
