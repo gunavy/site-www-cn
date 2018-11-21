@@ -1,13 +1,22 @@
 ---
-title: Tools
-description: The tools that support the Dart language.
+title: 工具
+description: 支持 Dart 语言的开发工具。
 show_breadcrumbs: false
 toc: false
 ---
 
+
+{% comment %}
 When you're ready to create an app,
 get the SDK and tools for your app type.
+{% endcomment %}
 
+
+在你准备好创建一个应用程序时，
+请获对应于应用类型的SDK和工具。
+
+
+{% comment %}
 |------------+-----------------------------------+--------------------------|
 | App type   | Get started instructions          | Tool information         |
 |------------|-----------------------------------|--------------------------|
@@ -18,8 +27,21 @@ get the SDK and tools for your app type.
 
 The rest of this page covers general-purpose tools that
 support the Dart language.
+{% endcomment %}
 
 
+|------------+-----------------------------------+--------------------------|
+|  应用类型   |               使用说明              |          工具信息         |
+|------------|-----------------------------------|--------------------------|
+| 移动端      | [安装 Flutter]({{site.flutter}}/setup) | [Flutter 工具](https://flutter.io/using-ide/) |
+| Web        | [安装 Dart SDK]({{site.webdev}}/tools/sdk) | [Dart Web 端工具]({{site.webdev}}/tools) |
+| 脚本或服务器 | [安装 Dart SDK](/tools/sdk) | [服务端开发工具](/dart-vm/tools) |
+{:.table .table-striped}
+
+本页的其余部分介绍了支持 Dart 语言的通用开发工具。
+
+
+{% comment %}
 ## DartPad
 
 <img src="{% asset dartpad-hello.png @path %}" alt="DartPad Hello World"
@@ -29,8 +51,18 @@ a great, no-download-required way to learn Dart syntax
 and to experiment with Dart language features.
 It supports Dart's core libraries,
 except for VM libraries such as dart:io.
+{% endcomment %}
 
 
+## DartPad
+
+<img src="{% asset dartpad-hello.png @path %}" alt="DartPad Hello World"
+ width="200px" align="right" />
+[DartPad](/tools/dartpad) 无需下载，是学习 Dart 语法和体验 Dart 语言功能的
+一个非常棒的途径。它支持 Dart 的核心库，但不包括 VM 库，例如 dart:io 。
+
+
+{% comment %}
 ## IDEs and editors
 
 Dart plugins exist for these commonly used IDEs.
@@ -70,7 +102,50 @@ and available as open source.
 <a class="no-automatic-external" href="https://github.com/dart-lang/dart-vim-plugin"><b>Vim</b></a>
 </li>
 </ul>
+{% endcomment %}
 
+
+## IDE 和 编辑器
+
+这些常用的 IDE 中包含 Dart 插件。
+
+<ul class="col2">
+<li>
+<img src="{% asset tools/android_studio.png @path %}"
+     width="48" alt="IntelliJ logo">
+<a class="no-automatic-external" href="/tools/jetbrains-plugin"><b>Android Studio</b></a>
+</li>
+<li>
+<img src="{% asset tools/intellij-idea.svg @path %}"
+     width="48" alt="IntelliJ logo">
+<a class="no-automatic-external" href="/tools/jetbrains-plugin"><b>IntelliJ IDEA<br>
+(以及其他 JetBrains IDE)</b></a>
+</li>
+<li>
+<img src="{% asset tools/vscode.png @path %}" alt="Visual Studio Code logo">
+<a class="no-automatic-external" href="https://marketplace.visualstudio.com/items?itemName=Dart-Code.dart-code"><b>Visual Studio Code</b></a>
+</li>
+</ul>
+
+下列 IDE 不支持 Dart 插件，但已有可用的开源支持。
+
+<ul class="col2">
+<li>
+<img src="{% asset tools/atom-logo.png @path %}" alt="Atom logo">
+<a class="no-automatic-external" href="https://github.com/dart-atom/dartlang/"><b>Atom</b></a>
+</li>
+<li>
+<img src="{% asset tools/emacs.png @path %}" alt="Emacs logo">
+<a class="no-automatic-external" href="https://github.com/nex3/dart-mode"><b>Emacs</b></a>
+</li>
+<li>
+<img src="{% asset tools/vim.png @path %}" alt="Vim logo">
+<a class="no-automatic-external" href="https://github.com/dart-lang/dart-vim-plugin"><b>Vim</b></a>
+</li>
+</ul>
+
+
+{% comment %}
 ## Command-line tools
 
 Most Dart-related SDKs include the following tools.
@@ -97,3 +172,25 @@ Most Dart-related SDKs include the following tools.
 
 Other tools, such as the [build_runner code generator,](/tools/build_runner)
 aren't in the SDK but are distributed in packages.
+{% endcomment %}
+
+
+## 命令行工具
+
+大多数与 Dart 相关的 SDK 包括以下工具。
+
+[Pub 包管理工具](/tools/pub)
+: 通过管理 Dart 包，可以轻松的安装，使用和共享 Dart 库，命令行工具以及其他资源。
+  某些 Dart 技术（如 Flutter ）可能不支持所有 Pub 命令。支持 Dart 的 IDE 
+  通常会支持 Pub，当然你也可以通过命令行使用它（`Pub`）。
+
+[静态分析工具](/tools/analyzer)
+: 预估并提示代码中的错误或警告。IDE 的 Dart 插件会使用 Dart 的分析工具，
+  当然你也可以从命令行执行分析工具（`dartanalyzer`）。
+
+[代码格式化工具](https://github.com/dart-lang/dart_style#readme)
+: 按照 Dart [风格指导](/guides/language/effective-dart/style)的建议格式化你的代码。
+  支持 Dart 的 IDE 通常允许你在 IDE 中格式化代码。或者可以在命令行执行格式化程序 (`dartfmt`)。
+
+其他工具，例如 [build_runner 代码生成器](/tools/build_runner)，
+不包含在 SDK 中，它们通过包被分发和安装。
