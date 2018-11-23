@@ -5,9 +5,9 @@ url: https://www.dartlang.org
 dev-url: https://dartlang-org-dev.firebaseapp.com
 repo:
   # this: https://github.com/dart-lang/site-www
-  this: https://github.com/dart-lang/site-www
+  this: https://github.com/dartchina/site-www-cn
   shared: &repo-shared https://github.com/dart-lang/site-shared
-branch: master
+branch: src_zh_CN
 port: 4000
 
 # Global variables
