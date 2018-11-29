@@ -46,9 +46,9 @@ For details, see our [code of conduct](/code-of-conduct).
 * [Dart Language & Library Newsletters](https://github.com/dart-lang/sdk/blob/master/docs/newsletter/README.md#dart-language-and-library-newsletters) -
   有关现有功能和计划变更信息。
 * [@dart_lang](https://twitter.com/dart_lang) -
-  Twitter 的官方账号。
+  Twitter 官方账号。
 * [+dartlang](https://plus.google.com/+dartlang) -
-  Google+ 的官方账号。
+  Google+ 官方账号。
 
 
 {% comment %}
@@ -143,7 +143,7 @@ Our wonderful community has provided these resources.
 * [dartdocs.org](http://www.dartdocs.org) - Documentation for pub packages
 * [Dart Academy](https://dart.academy/) - Tutorials
   and articles written by the Dart community
-* [Chinese version of this site（此网站的中文版）](http://dart.goodev.org/)
+* [Chinese version of this site (此网站的中文版)](http://www.dartdoc.cn)
 
 Also see [Community and Support]({{site.webdev}}/community) on Dart webdev.
 {% endcomment %}
@@ -155,6 +155,6 @@ Also see [Community and Support]({{site.webdev}}/community) on Dart webdev.
 
 * [dartdocs.org](http://www.dartdocs.org) - Pub 包文档
 * [Dart 学院](https://dart.academy/) - 由 Dart 社区编写的学习教程以及文章
-* [Chinese version of this site（此网站的中文版）](http://dart.goodev.org/)
+* [此站的英文官网](https://www.dartlang.org/)
 
 另见 Dart Web 开发的 [社区和支持]({{site.webdev}}/community)。
