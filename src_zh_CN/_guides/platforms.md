@@ -48,10 +48,10 @@ Dart 是一门可扩展的语言，你可以用它来编写一些简单的脚步
 中都有对应的解决方案。
 
 {:.card-grid}
-- {:.card.narrow}[![Flutter logo][]{: width="100"}][Flutter]{:.no-automatic-external}
+- {:.card.narrow}[![Flutter logo][]{: width="100"}][Flutter中文网]{:.no-automatic-external}
   {:.logo}
 
-  ### [Flutter][]
+  ### [Flutter中文网][]
 
   构建一个可以运行在 iOS 和 Android 两个平台的移动应用。
 
@@ -72,7 +72,7 @@ Dart 是一门可扩展的语言，你可以用它来编写一些简单的脚步
 
 [Dart logo]: {% asset shared/dart/logo/default.svg @path %}
 [Server]: {{site.dart_vm}}
-[Flutter]: {{site.flutter}}
+[Flutter中文网]: {{site.flutter}}
 [Flutter logo]: {% asset shared/flutter/logo/square.svg @path %}
 [Web]: {{site.webdev}}
 [Web logo]: {% asset shared/angular/icon/default.svg @path %}

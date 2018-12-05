@@ -29,9 +29,9 @@
   permalink: /guides/platforms
   urlExactMatch: true
   children:
-    - title: 移动端 (Flutter)
-      permalink: https://flutter.io
-    - title: web
+    - title: 移动端 (Flutter中文网)
+      permalink: https://flutterchina.club
+    - title: Web
       permalink: https://webdev.dartlang.org
     - title: 服务器
       permalink: /dart-vm
