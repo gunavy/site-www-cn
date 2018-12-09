@@ -230,7 +230,7 @@ from the one included in the SDK.
 : 用于 Dart 源代码迁移和常见问题修复的工具。
 
 另请参见 [dart_style][] 包，该工具可以获取任意版本的 `dartfmt` ，
-`dartfmt` 的版本可以与 SDK 中包含的版本不同。
+获取的 `dartfmt` 的版本可以与 SDK 中包含的版本不同。
 
 [build_runner]: /tools/build_runner
 [dartfix]: {{site.pub-pkg}}/dartfix
