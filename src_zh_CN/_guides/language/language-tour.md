@@ -7420,8 +7420,8 @@ for advice on how to implement a library package, including:
 * How to organize library source code.
 * How to use the `export` directive.
 * When to use the `part` directive.
+* When to use the `library` directive.
 {% endcomment %}
-
 
 ### 实现库
 
@@ -7431,7 +7431,8 @@ for advice on how to implement a library package, including:
 
 * 如何组织库的源文件。
 * 如何使用 `export` 命令。
-* 如何使用 `part` 命令。
+* 何时使用 `part` 命令。
+* 何时使用 `library` 命令。
 
 
 {% comment %}
