@@ -148,49 +148,92 @@ and available as open source.
 {% comment %}
 ## Command-line tools
 
-Most Dart-related SDKs include the following tools.
+Some command-line tools are in Dart-related SDKs,
+and some are in packages.
 
-[Pub package manager](/tools/pub)
+### Tools in SDKs
+
+Most Dart-related SDKs include the following tools:
+
+[Pub package manager (`pub`)](/tools/pub) 
 : Manages Dart packages,
   making it easy for you to install, use, and share Dart libraries,
   command-line tools, and other assets.
   Some Dart technologies, such as Flutter, may not support
   all of the pub commands.
   IDEs that support Dart generally have special support for pub,
-  but you can also use it from the command line (`pub`).
+  but you can also use it from the command line.
 
-[Static analyzer](/tools/analyzer)
+[Static analyzer (`dartanalyzer`)](/tools/analyzer)
 : Evaluates and reports any errors or warnings in your code.
   The Dart plugin for your IDE should make use of Dart's analysis engine,
-  but you can also run the analyzer from the command line (`dartanalyzer`).
+  but you can also run the analyzer from the command line.
 
-[Code formatter](https://github.com/dart-lang/dart_style#readme)
+[Code formatter (`dartfmt`)](https://github.com/dart-lang/dart_style#readme)
 : Formats your code, following the recommendations of the
   [Dart Style Guide](/guides/language/effective-dart/style).
   IDEs that support Dart generally allow you to format the code within
-  the IDE. Or you can run the formatter from the command line (`dartfmt`).
+  the IDE. Or you can run the formatter from the command line.
 
-Other tools, such as the [build_runner code generator,](/tools/build_runner)
-aren't in the SDK but are distributed in packages.
+### Tools in packages
+
+The following tools are distributed in packages on the Dart package site.
+To install them, use the `pub` command, as described in each tool's
+installation instructions.
+
+[build_runner][]
+: A code generator.
+
+[dartfix][]
+: A tool for migrating Dart source code and fixing common issues.
+
+Also see the [dart_style][] package, which can be useful
+for getting a version of `dartfmt` that's different
+from the one included in the SDK.
+
+[build_runner]: /tools/build_runner
+[dartfix]: {{site.pub-pkg}}/dartfix
+[dart_style]: {{site.pub-pkg}}/dart_style
 {% endcomment %}
 
 
 ## 命令行工具
 
+一些命令行工具被包含在 Dart 相关的 SDK 中，及一些包（package）中。
+
+### SDK 中的工具
+
 大多数与 Dart 相关的 SDK 包括以下工具。
 
-[Pub 包管理工具](/tools/pub)
+[Pub 包管理工具 (`pub`) ](/tools/pub)
 : 通过管理 Dart 包，可以轻松的安装，使用和共享 Dart 库，命令行工具以及其他资源。
   某些 Dart 技术（如 Flutter ）可能不支持所有 Pub 命令。支持 Dart 的 IDE 
-  通常会支持 Pub，当然你也可以通过命令行使用它（`Pub`）。
+  通常会支持 Pub，当然你也可以通过命令行使用它。
 
-[静态分析工具](/tools/analyzer)
+[静态分析工具 (`dartanalyzer`) ](/tools/analyzer)
 : 预估并提示代码中的错误或警告。IDE 的 Dart 插件会使用 Dart 的分析工具，
-  当然你也可以从命令行执行分析工具（`dartanalyzer`）。
+  当然你也可以从命令行执行分析工具。
 
-[代码格式化工具](https://github.com/dart-lang/dart_style#readme)
+[代码格式化工具 (`dartfmt`) ](https://github.com/dart-lang/dart_style#readme)
 : 按照 Dart [风格指导](/guides/language/effective-dart/style)的建议格式化你的代码。
-  支持 Dart 的 IDE 通常允许你在 IDE 中格式化代码。或者可以在命令行执行格式化程序 (`dartfmt`)。
+  支持 Dart 的 IDE 通常允许你在 IDE 中格式化代码。或者可以在命令行执行格式化程序。
 
-其他工具，例如 [build_runner 代码生成器](/tools/build_runner)，
-不包含在 SDK 中，它们通过包被分发和安装。
+### 包中的工具
+
+下列工具分布在 Dart 包站点上的包中。
+根据每个工具的安装说明描述，使用 `pub` 命令安装这些工具。
+
+[build_runner][]
+: 代码生成器。
+
+[dartfix][]
+: 用于 Dart 源代码迁移和常见问题修复的工具。
+
+另请参见 [dart_style][] 包，该工具可以获取任意版本的 `dartfmt` ，
+`dartfmt` 的版本可以与 SDK 中包含的版本不同。
+
+[build_runner]: /tools/build_runner
+[dartfix]: {{site.pub-pkg}}/dartfix
+[dart_style]: {{site.pub-pkg}}/dart_style
+
+
