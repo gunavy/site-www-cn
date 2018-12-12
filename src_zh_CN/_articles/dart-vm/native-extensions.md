@@ -1,13 +1,20 @@
 ---
-title: Native Extensions for the Standalone Dart VM
-description: Learn how to enable command-line Dart apps to call C/C++ functions.
+title: 为独立 Dart VM 提供原生扩展
+description: 学习如何使 Dart 的命令行应用调用 C/C++ 函数。
 date: 2012-05-01
 category: dart-vm
 ---
 
+{% comment %}
 _Written by William Hesse <br>
 May 2012_
+{% endcomment %}
 
+_作者：William Hesse <br>
+2012年5月_
+
+
+{% comment %}
 Dart programs running on the standalone Dart VM (_command-line apps_) can call C
 or C++ functions in a shared library, by means of native extensions. This
 article shows how to write and build such native extensions on Windows,
@@ -19,6 +26,14 @@ by the Dart VM. A _synchronous extension_ uses the Dart virtual machine
 library's C API (the Dart Embedding API) directly and runs on the same thread as
 the Dart isolate. An asynchronous function is called by sending a message to a
 Dart port, receiving the response on a reply port.
+{% endcomment %}
+
+在独立 Dart VM（命令行应用程序）上运行的 Dart 程序可以通过本地扩展调用共享库中的 C 或 C++ 函数。
+本文将讲解如何在 Windows，macOS，以及 Linux 上编写和构建这样的本地扩展。
+
+你可以提供两种类型的本地扩展：异步或同步。_异步扩展_在一个单独的线程中执行一个本地函数，由
+Dart VM 调度。_同步扩展_直接使用 Dart 虚拟机库的 C API （ Dart 内嵌 API ） 并在 Dart 独占的
+线程中执行。通过向 Dart 端口发送消息来调用异步函数，在应答端口（ reply port ）接受响应。
 
 ## Anatomy of a native extension
 
