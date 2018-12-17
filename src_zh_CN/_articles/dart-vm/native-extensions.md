@@ -28,13 +28,16 @@ the Dart isolate. An asynchronous function is called by sending a message to a
 Dart port, receiving the response on a reply port.
 {% endcomment %}
 
+
 在独立 Dart VM（命令行应用程序）上运行的 Dart 程序可以通过本地扩展调用共享库中的 C 或 C++ 函数。
 本文将讲解如何在 Windows，macOS，以及 Linux 上编写和构建这样的本地扩展。
 
-你可以提供两种类型的本地扩展：异步或同步。_异步扩展_在一个单独的线程中执行一个本地函数，由
-Dart VM 调度。_同步扩展_直接使用 Dart 虚拟机库的 C API （ Dart 内嵌 API ） 并在 Dart 独占的
-线程中执行。通过向 Dart 端口发送消息来调用异步函数，在应答端口（ reply port ）接受响应。
+你可以提供两种类型的本地扩展：异步扩展或同步扩展。_异步扩展_在一个单独的线程中执行一个本地函数，由
+Dart VM 调度。_同步扩展_直接使用 Dart 虚拟机库的 C API （ Dart 内嵌 API ） 并在 Dart 的独占
+线程中执行。通过向 Dart 端口（ Dart port ）发送消息来调用异步函数，在应答端口（ reply port ）接受响应。
 
+
+{% comment %}
 ## Anatomy of a native extension
 
 A Dart native extension contains two files: a Dart library and a native library.
@@ -55,7 +58,25 @@ file adjacent to the importing Dart library. If it is not found there
 the VM passes the file name to the platform specific call for loading
 dynamic libraries (e.g. `dlopen` on Linux), which is free to follow its
 own search procedure.
+{% endcomment %}
 
+
+## 本地扩展解析
+
+一个 Dart 本地扩展包含两部分： Dart 库和本地库。 Dart 库的类及顶层函数的定义方式不变，
+但在这些函数中，使用本地代码中实现的函数需要使用 **native** 关键字声明。本地库是使用
+C 或 C++ 编写的共享库，库中包含了这些函数（使用 **native** 关键字声明的函数）的实现。
+
+Dart 库使用 `import` 语句和 **dart-ext**: URI 的方案指定本机库。截至 1.20 ，
+URI 必须是绝对路径，如 `dart-ext:/path/to/extension` ，或者只使用扩展名，
+如 `dart-ext:extension` 。 VM 修改 URI 将平台特定的前缀和后缀添加到扩展名。例如，在
+Linux 上 `extension` 会变成 `libextension.so` 。如果 URI 是绝对路径，那么文件不存
+在的情况下会导入失败。如果 URI 只是扩展的名称，那么 VM 会首先查找与导入 Dart 库相邻的文
+件。如果没有找到，那么 VM 会将扩展的文件名传递给平台的特殊调用，以加载动态库
+（例如，Linux 上的 `dlopen` ），此时该库的加载将遵循它所在平台的搜索过程。
+
+
+{% comment %}
 ## Example code
 
 The code for the sample extensions featured in this article is in the
@@ -96,7 +117,43 @@ Some of the code in the shared library is setup and initialization code,
 which can be the same for all extensions.  The functions sample_extension_Init()
 and ResolveName() should be almost the same in all extensions, and a version of
 randomArrayServicePort() must be in all asynchronous extensions.
+{% endcomment %}
 
+
+## 示例代码
+
+文中介绍的扩展示例的代码位于 Dart 仓库的
+[samples/sample_extension](https://github.com/dart-lang/sdk/tree/master/samples/sample_extension)
+目录中。
+
+扩展示例调用 C 标准库的 rand() 和 srand() 函数，将伪随机数返回到 Dart 程序。由于本地的异步扩展
+和同步扩展共享了大部分本地代码，所以示例使用了单个本地源文件（以及生成单个共享库）实现了这两个扩展。
+这两个扩展的 Dart 部分分别在两个库文件中实现。另外两个 Dart 文件提供了异步和同步扩展的使用和测试示例。
+
+本文中扩展的共享库（本地代码）称为 sample_extension 。 它是一个 C++ 文件，
+[sample_extension.cc](https://github.com/dart-lang/sdk/blob/master/samples/sample_extension/sample_extension.cc)，
+其中包括 6 个被 Dart 调用的函数。
+
+sample_extension_Init():
+: 在扩展被加载时被调用。
+
+ResolveName():
+: 第一次调用给定名称的本地函数时，将本地函数的 Dart 名称解析为 C 函数指针。
+
+SystemRand() and SystemSrand():
+: 同步扩展的实现。这些本地方法由 Dart 直接调用，它们调用 C 标准库的 rand() 和 srand() 函数。
+
+wrappedRandomArray() and randomArrayServicePort():
+: 异步扩展的实现。 randomArrayServicePort() 函数创建一个本地端口，并将这个端口和
+wrappedRandomArray() 函数关联在一起。当 Dart 向本地端口发送一个消息， Dart VM 就会调度
+wrappedRandomArray() 函数在一个单独的线程中执行。
+
+共享库中的一些代码用来设置和初始化，对于所有的扩展这些代码几乎是相同的。函数
+sample_extension_Init() 和 ResolveName() 在所有的扩展中几乎相同，同样在所有的异步扩展中都
+必须有一个类似于 randomArrayServicePort() 的函数。
+
+
+{% comment %}
 ## The synchronous sample extension
 
 Because the asynchronous extension works like a synchronous extension with some
@@ -141,6 +198,49 @@ the VM loads sample_extension.dll, on Linux it loads libsample_extension.so,
 and on Mac it loads libsample_extension.dylib. We show how to build and link
 these shared libraries in an appendix at the end of the article.
 </aside>
+{% endcomment %}
+
+
+## 示例中的同步扩展
+
+因为异步扩展非常像是在同步扩展的基础上增加了一些函数，所以这里我们首先说明同步扩展。
+首先，我们将展示扩展的 Dart 部分以及加载扩展时发生的函数调用序列。然后我们将解释如何使用 Dart 中嵌入的
+API ，解释本地代码，以及描述扩展被调用时会发生了什么。
+
+这是同步扩展的 Dart 部分，文件名
+<b>sample_synchronous_extension.dart</b>：
+
+{% prettify dart %}
+library sample_synchronous_extension;
+
+import 'dart-ext:sample_extension';
+
+// The simplest way to call native code: top-level functions.
+int systemRand() native "SystemRand";
+bool systemSrand(int seed) native "SystemSrand";
+{% endprettify %}
+
+本地扩展的代码存在两个不同的执行时间。首先，它会在本地扩展加载的时候执行。后面，它会在
+本地扩展实现被调用时执行。
+
+下面是加载时的事件序列，当一个 Dart 应用导入 sample_synchronous_extension.dart 时开始执行：
+
+1. Dart 库 sample_synchronous_extension.dart 被加载，Dart VM 处理
+  <b><code>import 'dart-ext:sample_extension'</code></b> 代码。
+2. Dart VM 从 Dart 库的目录中加载共享库 'sample_extension' 。
+3. 共享库中的 sample_extension_Init() 函数被调用。它将共享库函数 ResolveName() 注册为
+  sample_extension.dart 库中所有本地函数的名称解析器。通过解析器可以查找 Dart 中对应的同步
+  扩展的本地函数。
+
+<aside class="alert alert-info">
+<strong>提示：</strong>
+共享库的文件名取决于平台。
+在 Windows 上，VM 加载 sample_extension.dll ，
+在 Linux 上加载 libsample_extension.so ，
+在 Mac 上加载 libsample_extension.dylib 。
+我们将在本文末尾的附录中展示如何构建和链接这些共享库。
+</aside>
+
 
 ## Using the Dart Embedding API from native code
 
