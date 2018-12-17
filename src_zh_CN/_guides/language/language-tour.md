@@ -6738,8 +6738,10 @@ If you look at the API documentation for the basic array type,
 [List,][List] you’ll see that the
 type is actually `List<E>`. The \<...\> notation marks List as a
 *generic* (or *parameterized*) type—a type that has formal type
-parameters. By convention, type variables have single-letter names, such
-as E, T, S, K, and V.
+parameters. [By convention][], most type variables have single-letter names,
+such as E, T, S, K, and V.
+
+[By convention]: /guides/language/effective-dart/design#do-follow-existing-mnemonic-conventions-when-naming-type-parameters
 {% endcomment %}
 
 ## 泛型
@@ -6748,6 +6750,8 @@ as E, T, S, K, and V.
 \<...\> 符号将 List 标记为 *泛型* (或 *参数化*) 类型。
 这种类型具有形式化的参数。
 通常情况下，使用一个字母来代表类型参数， 例如 E, T, S, K, 和 V 等。
+
+[By convention]: /guides/language/effective-dart/design#do-follow-existing-mnemonic-conventions-when-naming-type-parameters
 
 {% comment %}
 ### Why use generics?
