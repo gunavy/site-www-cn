@@ -242,6 +242,7 @@ bool systemSrand(int seed) native "SystemSrand";
 </aside>
 
 
+{% comment %}
 ## Using the Dart Embedding API from native code
 
 As the sample extensions show, the native shared library contains an
@@ -281,7 +282,38 @@ Dart object accessed by API functions that return the number of arguments, and
 return a Dart_Handle to the argument at a specified index. The native function
 returns a Dart object to the Dart app, as the return value, by storing it in
 the arguments object using the Dart_SetReturnValue() function.
+{% endcomment %}
 
+
+## 在本地代码中使用 Dart 内嵌 API
+
+如扩展示例所示，本地共享库包含初始化函数，名称解析函数以及在扩展中由 Dart 部分声明并在本地实现的函数。
+初始化函数注册本地名称解析函数，用作查找该库的本地函数名称。
+当 Dart 库中以 **<code>native "<em>function_name</em>"</code>** 声明的函数被调用时，
+本地库使用字符串 "<em>function_name</em>"，以及 "<em>function_name</em>" 函数的参数个数作为参数
+调用名称解析函数。然后，名称解析函数会返回一个函数指针，这个函数指针指向对应 "<em>function_name</em>" 
+函数的本地函数实现。所有 Dart 的原生扩展中的初始化函数以及名称解析函数看上去几乎是一样的。
+
+本地库中的函数使用 Dart 内嵌 API 与 VM 进行通信，因此本地代码要包含 <b>dart_api.h</b> 头文件，
+它位于 SDK 中的 dart-sdk/include/dart_api.h 或者在仓库
+[runtime/include/dart_api.h](https://github.com/dart-lang/sdk/blob/master/runtime/include/dart_api.h)。
+Dart 内嵌 API 作为接口内嵌在包含 Dart VM 的浏览器或者运行命令行程序的独立 VM 中。API 由大约
+100 个函数接口和许多数据类型和数据结构定义组成。它们在 dart_api.h 中声明，并备有注释。它们的使用示例在单元测试文件
+[runtime/vm/dart_api_impl_test.cc](https://github.com/dart-lang/sdk/blob/master/runtime/vm/dart_api_impl_test.cc)。
+
+由 Dart 调用的本地函数必须是 **Dart\_NativeFunction** 类型，类型在 dart_api.h 中定义为：
+
+{% prettify cpp %}
+typedef void (*Dart_NativeFunction)(Dart_NativeArguments arguments);
+{% endprettify %}
+
+可以看到 Dart_NativeFunction 是一个函数指针，函数指针指向只接受一个 Dart_NativeArguments 
+参数对象，且无返回值的函数。接受的参数对象是一个 Dart 对象，通过 API 访问该参数对象，可以得到
+参数个数，以及指定索引的参数 Dart_Handle 。本地函数向 Dart 应用返回一个 Dart 对象作为返回值。
+该返回值被 Dart_SetReturnValue() 函数保存到参数对象里。
+
+
+{% comment %}
 ## Dart handles
 
 The extension's native implementations of functions use Dart_Handles
@@ -316,6 +348,32 @@ proper handler in another way. They call Dart_PropagateError to pass errors and
 control flow to where the error should be handled. The sample uses a helper
 function, called HandleError(), to make this convenient.  A call to
 Dart_PropagateError() never returns.
+{% endcomment %}
+
+
+## Dart handle
+
+扩展的本地函数实现广泛的使用 Dart_Handles 。调用 Dart 内嵌 API 会返回一个 Dart_Handle 并且
+常常将 Dart_Handle 作为函数参数。Dart_Handle 是一个间接不透明指针，指向一个在 Dart 堆上的对象，
+Dart_Handles 属于值拷贝（浅拷贝）。在垃圾收集阶段会移动堆上的 Dart 对象，但即使是在垃圾收集阶段
+这些句柄仍保持有效，因此本地代码必须使用句柄来存储堆上对象的引用。由于这些句柄的存储和持有需要占用
+资源，所以必须要在不使用它们的时候对它们进行释放。在释放句柄之前，VM 的垃圾收集器无法收集它指向的对
+象，即使这些对象已经不存在其他的引用。
+
+Dart 内嵌 API 会自动创建一个作用域来管理本地函数中句柄的生命周期。本地函数进入时会创建本地句柄的
+作用域，并在该函数退出时将作用域删除。如果函数正常返回，或以 PropagateError 退出，则作用域删除。
+Dart 内嵌 API 返回的大多数句柄和内存指针都在当前本地作用域内分配，并在函数返回后失效。如果扩展应用
+想要长时间保持指向 Dart 对象的指针，可以使用 _持久句柄_（参见 Dart_NewPersistentHandle() 和 
+Dart_NewWeakPersistentHandle() ），这样可以使句柄在本地作用域结束后仍然有效。
+
+调用 Dart 内嵌 API 可能会在 Dart_Handle 返回值中返回错误。这些错误或者是异常应该作为返回值传递
+给函数的调用者。
+
+本地扩展中的大多数函数&mdash;类型为 Dart_NativeFunction 的函数&mdash;没有返回值，必须以另一种
+方式将错误传递给错误处理程序。函数中调用 Dart_PropagateError 来传递错误并控制程序流程到错误处理的
+位置。该示例使用一个名为 HandleError() 的辅助函数使上述实现更加便捷。Dart_PropagateError() 函数
+没有返回。 
+
 
 ## The native code: sample_extension.cc
 
