@@ -917,6 +917,7 @@ sample extension.
 sample_extension.gypi 。
 
 
+{% comment %}
 ### Building on Linux
 
 On Linux, you can compile the code in the samples/sample_extension directory like this:
@@ -933,7 +934,28 @@ libsample_extension.so sample_extension.o
 {% endprettify %}
 
 Remove the -m32 to build a 64-bit library that runs with the 64-bit Dart standalone VM.
+{% endcomment %}
 
+
+### 在 Linux 上构建
+
+在 Linux 上，在 samples/sample_extension 目录中编译代码，如下所示：
+
+{% prettify none %}
+g++ -fPIC -m32 -I{path to SDK include directory} -DDART_SHARED_LIB -c sample_extension.cc
+{% endprettify %}
+
+通过目标文件创建共享库：
+
+{% prettify none %}
+gcc -shared -m32 -Wl,-soname,libsample_extension.so -o
+libsample_extension.so sample_extension.o
+{% endprettify %}
+
+移除 -m32 参数创建能够执行在 64 位独立 Dart VM 上的 64 位共享库。
+
+
+{% comment %}
 ### Building on Mac
 
 1. Using Xcode (tested with Xcode 3.2.6), create a new project with the same name as the native extension, of type Framework & Library/BSD C Library, type dynamic.
@@ -945,7 +967,35 @@ Remove the -m32 to build a 64-bit library that runs with the 64-bit Dart standal
 4. Choose the correct architecture (i386 or x86_64), and build by choosing Build/Build.
 
 The resulting lib[extension_name].dylib will be in the <b>build/</b> subdirectory of your project location, so copy it to the desired location (probably the location of the Dart library part of the extension).
+{% endcomment %}
 
+
+### 在 Mac 上构建
+
+1. 使用 Xcode（测试环境 Xcode 3.2.6 ），创建一个与本地扩展名相同的新项目，选择 Framework & Library/BSD C Library，类型为 dynamic。
+2. 添加扩展的源文件到项目中。
+3. 在 Project/Edit 中进行以下更改，在对话框中选择 Build 选项卡和 All Configurations ：
+   1. 在 Linking 部分， Other Linker Flags 项中，增加 -undefined dynamic_lookup 。
+   2. 在 Search Paths 部分， Header Search Paths 项中，增加 dart_api.h 文件路径，在文件位于已下载的 SDK 或 Dart 仓库中。
+   3. 在 Preprocessing 部分， Preprocessor Macros 项中，增加 DART_SHARED_LIB=1 。
+4. Choose the correct architecture (i386 or x86_64), and build by choosing Build/Build.
+4. 选择当前架构（ i386 或 x86_64 ），并选择 Build/Build 进行构建。
+
+生成的 lib[extension_name].dylib 位于项目位置的 <b>build/</b> 子目录中，因此需要将它复制到所需位置
+（这里的可能是扩展的 Dart 库部分的位置）。
+
+<aside class="alert alert-info" markdown="1">
+  **译者注：** 
+  使用 Xcode 10.1 创建本地扩展 dylib 项目：
+  1. 选择新建类型：File -> New -> Project -> macOS -> Library
+  2. 填写项目选项：
+     1. Project Name：sample_extension
+     2. Framework：None(Plain C/C++ Library)
+     3. Type：Dynamic
+</aside>
+
+
+{% comment %}
 ### Building on Windows
 
 The Windows DLL compilation is complicated by the fact that we need to link with
@@ -961,3 +1011,22 @@ generated when building dart and is included in the Dart SDK.
    2. Configuration properties / C/C++ / General / Additional Include Directories: Add the path to the directory containing dart_api.h, which is dart-sdk/include in the downloaded Dart SDK.
    3. Configuration properties / C/C++ / Preprocessor / Preprocessor Definitions: Add DART_SHARED_LIB. This is just to export the <extension name>_init function from the DLL, since it has been declared as DART_EXPORT.
 4. Build the project, and copy the DLL to the correct directory, relative to the Dart library part of the extension.  Make sure to build a 32-bit DLL for use with the 32-bit SDK download, and a 64-bit DLL for use with the 64-bit download.
+{% endcomment %}
+
+
+### 在 Windows 上构建
+
+Windows DLL 的编译很复杂，因为我们需要链接库文件 dart.lib ，dart.lib 不包含代码本身，但
+在 DLL 在动态加载的时候，通过它能够链接到的 Dart 可执行文件（ dart.exe ）来解析对 Dart
+嵌入 API 的调用。构建 Dart 时会生成该库文件，且文件包含在 Dart SDK 中。
+
+1. 在 Visual Studio 2008 或 2010 中创建项目类型为 Win32/Win32 的新项目。项目命名与本地
+扩展名相同。在 wizard 的下一个屏上，将应用程序类型修改为 DLL 并选择 "Empty project" ，
+然后选择完成。
+2. 将本地扩展的 C/C++ 文件添加到项目中的源文件目录中。确保源文件中包含 [extension name]_dllmain_win.cc 文件。
+3. 修改项目属性中的以下设置：
+   1. 配置属性 / Linker / Input / Additional dependencies ：增加 dart-sdk\bin\dart.lib ，文件位于已下载的 Dart SDK 中。
+   2. 配置属性 / C/C++ / General / Additional Include Directories ：增加包含 dart_api.h 目录的路径，该文件位于已下载的 Dart SDK 中的 dart-sdk/include 目录。
+   3. 配置属性 / C/C++ / Preprocessor / Preprocessor Definitions ：增加 DART_SHARED_LIB 。这里只是为了从 DLL 中导出 _init 函数，因为该函数在本地扩展中被声明为 DART_EXPORT 。
+4. 构建项目，并将 DLL 复制到正确的目录，对于相对于扩展的 Dart 库部分的目录。确保对于下载的 32 位 SDK 构建的是一个 32 位的 DLL ，对于下载的 64 位 SDK 构建的是一个 64 位的 DLL 。
+
