@@ -375,6 +375,7 @@ Dart_NewWeakPersistentHandle() ），这样可以使句柄在本地作用域结�
 没有返回。 
 
 
+{% comment %}
 ## The native code: sample_extension.cc
 
 Now we'll show the native code for the sample extension, starting with the
@@ -453,8 +454,87 @@ first time.
 5. The Dart VM extracts the return value from the Dart_NativeArguments object, returning it as the result of the Dart call to systemRand().
 
 On later calls to systemRand(), the result of the function lookup has been cached, so ResolveName() is not called again.
+{% endcomment %}
 
 
+## 本地代码：sample_extension.cc
+
+这里我们将展示扩展示例的本地代码，从初始化函数开始，然后是本地函数实现，最后是称解析函数。
+两个异步扩展的本地函数会在后面内容展示。
+
+{% prettify cpp %}
+#include <string.h>
+#include "dart_api.h"
+// 提前声明 ResolveName 函数。
+Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool* auto_setup_scope);
+
+// 以 _Init 扩展名结尾的初始化函数。
+DART_EXPORT Dart_Handle sample_extension_Init(Dart_Handle parent_library) {
+  if (Dart_IsError(parent_library)) return parent_library;
+
+  Dart_Handle result_code =
+      Dart_SetNativeResolver(parent_library, ResolveName, NULL);
+  if (Dart_IsError(result_code)) return result_code;
+
+  return Dart_Null();
+}
+
+Dart_Handle HandleError(Dart_Handle handle) {
+ if (Dart_IsError(handle)) Dart_PropagateError(handle);
+ return handle;
+}
+
+// 本地函数通过 Dart_NativeArguments 结构体获取函数参数，
+// 并使用函数 Dart_SetReturnValue 返回执行结果。
+void SystemRand(Dart_NativeArguments arguments) {
+  Dart_Handle result = HandleError(Dart_NewInteger(rand()));
+  Dart_SetReturnValue(arguments, result);
+}
+
+void SystemSrand(Dart_NativeArguments arguments) {
+  bool success = false;
+  Dart_Handle seed_object =
+      HandleError(Dart_GetNativeArgument(arguments, 0));
+  if (Dart_IsInteger(seed_object)) {
+    bool fits;
+    HandleError(Dart_IntegerFitsIntoInt64(seed_object, &fits));
+    if (fits) {
+      int64_t seed;
+      HandleError(Dart_IntegerToInt64(seed_object, &seed));
+      srand(static_cast<unsigned>(seed));
+      success = true;
+    }
+  }
+  Dart_SetReturnValue(arguments, HandleError(Dart_NewBoolean(success)));
+}
+
+Dart_NativeFunction ResolveName(Dart_Handle name, int argc, bool* auto_setup_scope) {
+  // 如果执行失败，返回 NULL， Dart 会抛出异常。
+  if (!Dart_IsString(name)) return NULL;
+  Dart_NativeFunction result = NULL;
+  const char* cname;
+  HandleError(Dart_StringToCString(name, &cname));
+
+  if (strcmp("SystemRand", cname) == 0) result = SystemRand;
+  if (strcmp("SystemSrand", cname) == 0) result = SystemSrand;
+  return result;
+}
+{% endprettify %}
+
+以下是第一次调用函数 systemRand() 时在运行时产生的事件序列 （ systemRand() 定义在 sample_synchronous_extension.dart 中）。
+
+1. 使用包含 "SystemRand" 的 Dart 字符串和整数 0 来调用共享库中的 ResolveName() 函数，这里整数表示调用中的参数数量。
+“SystemRand” 是 systemRand（）声明中 <b>native</b> 关键字后面的字符串。
+2. ResolveName() 返回共享库中本地函数 SystemRand() 的函数指针。
+3. Dart 中 systemRand() 调用的参数被打包到 Dart_NativeArguments 对象中，并使用 Dart_NativeArguments 对象作为
+参数调用 SystemRand() 函数，且该对象是 SystemRand() 的唯一参数。
+4. SystemRand() 函数执行，将函数返回值存储到 Dart_NativeArguments 对象中，并返回。
+5. Dart VM 从 Dart_NativeArguments 对象中提取返回值，并将其作为对 systemRand() 在 Dart 调用的返回结果。
+
+后续再调用 systemRand() 时，函数查找的结果已经被缓存，因此不会再调用 ResolveName() 。
+
+
+{% comment %}
 ## The asynchronous native extension
 
 As we saw above, a synchronous extension uses the Dart Embedding API to work
@@ -491,7 +571,34 @@ To create an asynchronous native extension, we do three things:
   provide a function that forwards its arguments to the native port as a
   message, and calls a callback argument when it receives a reply to that
   message.
+{% endcomment %}
 
+
+## 本地异步扩展
+
+如上所述，同步扩展使用 Dart 内嵌 API 来处理 Dart 的堆对象，并且在当前隔离的主 Dart 线程上执行。
+那么与之相反，异步扩展基本上不使用 Dart 内嵌 API ，并且它在独立的线程上执行，这样就不会阻塞主
+Dart 线程。
+
+在某些方面，异步扩展的编写比同步扩展更容易。异步扩展使用 Dart 内嵌 API 中的本地端口函数在独立线程
+上调度 C 函数执行。对于异步扩展 Dart 端的代码仅仅暴露为 Dart SendPort （端口）。发送到端口的消
+息会自动转换为名为 Dart_CObject 的 C 结构体，该结构体包含 C 数据类型，如 int， double，和 char* 。
+然后将结构体传递给 C 函数，C 函数在一个独立的线程中执行，此线程由 VM 管理的线程池分配。C 函数可以
+通过 Dart_CObject 响应应答端口。 Dart_CObject 被转换回 Dart 对象树，并在 Dart 异步调用的应答
+端口上作为应答返回。与同步扩展相比较，异步扩展将 Dart 对象自动转换为 Dart_CObject C 结构取代了
+同步扩展中使用 Dart 内嵌 API 从对象获取字段并将 Dart 对象转换为 C 值类型的过程。
+
+要创建异步本地扩展，需要做三件事情：
+
+1. 包装一个我们希望调用的 C 函数（包装器），在这个包装器中将 Dart_CObject 输入参数转换为期望
+  的输入参数，将函数的结果转换为 Dart_CObject ，并将其发送回 Dart 。
+2. 编写一个本地函数，创建一个本地端口并将其关联到包装器。这个本地函数是一个同步本地方法，在
+  本地扩展中看起来像是上述的同步扩展函数。这样，我们就将刚刚在步骤 1 中的包装器添加到了扩展中。
+3. 编写一个 Dart 类来获取本地端口并持有这个端口。在该类中，提供一个函数，将其参数作为消息转发
+  到本地端口，并在收到消息回复时调用一个回调处理。
+
+
+{% comment %}
 ### Wrapping the C function
 
 Here is an example of a C function (actually, a C++ function, due to the use of
@@ -564,7 +671,79 @@ from the wrapper or the C function. Most of the API is illegal to call here,
 because there is no current isolate. No errors or exceptions can be thrown, so
 any error must be encoded in the reply message, to be decoded and thrown by the
 Dart part of the extension.
+{% endcomment %}
 
+
+### 包装 C 函数
+ 
+下面是一个 C 函数的例子（由于使用了 reinterpret_cast，它实际上是一个 C++ 函数），
+函数在给定种子和长度的情况下创建了一个随机字节数组。返回的数据存储在一个新分配数组中，
+该数组会在后续处理中释放：
+
+{% prettify cpp %}
+uint8_t* random_array(int seed, int length) {
+  if (length <= 0 || length > 10000000) return NULL;
+
+  uint8_t* values = reinterpret_cast<uint8_t*>(malloc(length));
+  if (NULL == values) return NULL;
+
+  srand(seed);
+  for (int i = 0; i < length; ++i) {
+    values[i] = rand() % 256;
+  }
+  return values;
+}
+{% endprettify %}
+
+在从 Dart 调用这个 C 函数之前，我们将它放到了一个包装器中，这个包装器用于解包 Dart_CObject 中包含的
+随机种子和要生成的随机数长度，以及包装返回结果到 Dart_CObject 中。 Dart_CObject 可以包含一个整数
+（任意大小值），一个浮点数，一个字符串或者一个 Dart_CObject 数组。Dart_CObject 在
+[dart_api.h](https://github.com/dart-lang/sdk/blob/master/runtime/include/dart_api.h) 中
+实现，是一个包含 union 的结构体。查看 dart_api.h 来查找用于访问的 union 成员字段和标记。发送
+Dart_CObject 之后，可以释放 Dart_CObject 及其所有资源，因为它们已经被复制到了 Dart 堆上的 Dart
+对象中。
+
+{% prettify cpp %}
+void wrappedRandomArray(Dart_Port dest_port_id,
+                        Dart_Port reply_port_id,
+                        Dart_CObject* message) {
+  if (message->type == Dart_CObject::kArray &&
+      2 == message->value.as_array.length) {
+    // 使用 .as_array 和 .as_int32 来访问 Dart_CObject 中的数据。
+    Dart_CObject* param0 = message->value.as_array.values[0];
+    Dart_CObject* param1 = message->value.as_array.values[1];
+    if (param0->type == Dart_CObject::kInt32 &&
+        param1->type == Dart_CObject::kInt32) {
+      int length = param0->value.as_int32;
+      int seed = param1->value.as_int32;
+
+      uint8_t* values = randomArray(seed, length);
+
+      if (values != NULL) {
+        Dart_CObject result;
+        result.type = Dart_CObject::kUint8Array;
+        result.value.as_byte_array.values = values;
+        result.value.as_byte_array.length = length;
+        Dart_PostCObject(reply_port_id, &result);
+        free(values);
+        // 在函数退出时，结果是可以被释放的。
+        // Dart_PostCObject 已经拷贝了这些数据。
+        return;
+      }
+    }
+  }
+  Dart_CObject result;
+  result.type = Dart_CObject::kNull;
+  Dart_PostCObject(reply_port_id, &result);
+}
+{% endprettify %}
+
+Dart_PostCObject() 是 Dart 内嵌 API 中唯一一个可以被包装器或 C 函数调用的函数。由于这的
+包装器或 C 函数不再当前隔离作用域，所以多数 API 在这里调用是非法的。在这里不能抛出任何错误或
+异常，因此任何错误必须被编码到在应答消息中，以便由扩展的 Dart 部分进行解码和抛出。
+
+
+{% comment %}
 ### Setting up the native port
 
 Now we set up the mechanism that calls this wrapped C function from Dart code,
@@ -583,7 +762,29 @@ void randomArrayServicePort(Dart_NativeArguments arguments) {
   }
 }
 {% endprettify %}
+{% endcomment %}
 
+
+### 设置本地端口
+
+现在我们来设置从 Dart 代码发送消息到调用这个包装后的 C 函数的路径。我们创建一个调用此函数的
+本地端口，并返回连接到这个端口的发送端口（ send port ）。 Dart 库从此函数获取端口，并对端口
+发送调用。
+
+{% prettify cpp %}
+void randomArrayServicePort(Dart_NativeArguments arguments) {
+  Dart_SetReturnValue(arguments, Dart_Null());
+  Dart_Port service_port =
+      Dart_NewNativePort("RandomArrayService", wrappedRandomArray, true);
+  if (service_port != kIllegalPort) {
+    Dart_Handle send_port = Dart_NewSendPort(service_port);
+    Dart_SetReturnValue(arguments, send_port);
+  }
+}
+{% endprettify %}
+
+
+{% comment %}
 ### Calling the native port from Dart
 
 On the Dart side, we need a class that stores this send port, sending messages
@@ -623,7 +824,49 @@ class RandomArray {
   SendPort _newServicePort() native "RandomArray_ServicePort";
 }
 {% endprettify %}
+{% endcomment %}
 
+
+### 在 Dart 端调用本地端口
+
+在 Dart 端，为了向端口发送消息后，端口的 Dart 异步函数回调能够被调用，我们需要一个类来存储
+这个发送端口。 通常，在Dart 类第一次调用函数获取端口时，将端口缓存。下面异步扩展的 Dart 库部分：
+
+{% prettify dart %}
+library sample_asynchronous_extension;
+
+import 'dart-ext:sample_extension';
+
+// 一个缓冲本地端口的类，用于调用异步扩展。
+class RandomArray {
+  static SendPort _port;
+
+  void randomArray(int seed, int length, void callback(List result)) {
+    var args = new List(2);
+    args[0] = seed;
+    args[1] = length;
+    _servicePort.call(args).then((result) {
+      if (result != null) {
+        callback(result);
+      } else {
+        throw new Exception("Random array creation failed");
+      }
+    });
+  }
+
+  SendPort get _servicePort {
+    if (_port == null) {
+      _port = _newServicePort();
+    }
+    return _port;
+  }
+
+  SendPort _newServicePort() native "RandomArray_ServicePort";
+}
+{% endprettify %}
+
+
+{% comment %}
 ## Conclusion and further resources
 
 You've seen both synchronous and asynchronous native extensions. We hope that
@@ -634,8 +877,18 @@ asynchronous extensions don't block the main Dart thread and can be simpler to
 implement. The built-in Dart I/O libraries are built around asynchronous calls
 to achieve high, non-blocking throughput. Extensions should have the same
 performance goals.
+{% endcomment %}
 
 
+## 结论及更多资源
+
+到这你已经了解了本地的同步扩展和异步扩展。我们希望你可以使用这些工具来访问现有的 C 和 C++ 库，
+从而为独立的 Dart VM 添加新的有用的功能。因为异步扩展不会阻塞主 Dart 线程，而且实现更加简单，
+所以我们更建议使用异步而不是使用同步来实现扩展。内置的 Dart I/O 库就是围绕着异步调用构建的，
+从而实现了高效的，无阻塞的吞吐。扩展也应当拥有与 Dart I/O 同样的性能目标。
+
+
+{% comment %}
 ## Appendix: Compiling and linking extensions
 
 Building a shared library can be tricky, and the tools to do it are platform
@@ -650,6 +903,19 @@ that do this on the Linux, Windows, and Mac platforms. If you download the dart
 source repository, the sample code also includes a platform-independent build
 system, called gyp, and a build file sample_extension.gypi that builds the
 sample extension.
+{% endcomment %}
+
+
+## 附录：扩展的编译和链接
+
+共享库的构建会比较棘手，而且构建共享库的工具决于平台。 Dart 本地扩展构建会更加棘手，因为本地扩展
+是动态加载的，并且工具要链接 Dart 库包含的 Dart 内嵌 API 函数到动态加载的可以执行文件中。
+
+与所有共享库一样，编译步骤必须生成与位置无关的代码。链接步骤中必须指定在加载库时允许在可执行文件中
+存在未实现的函数。我们将在 Linux， Windows 和 Mac 平台上说明这些操作命令。如果你下载了 Dart 的
+源码仓库，示例代码还包括一个独立于平台的构建系统（被称为 gyp ）以及一个用于构建扩展示例的构建文件
+sample_extension.gypi 。
+
 
 ### Building on Linux
 
