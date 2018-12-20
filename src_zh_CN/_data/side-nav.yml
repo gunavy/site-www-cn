@@ -46,7 +46,7 @@
   children:
   - title: 安装
     permalink: /install
-  - title: Codelabs
+  - title: Codelab
     permalink: /codelabs
   - title: 学习指南
     permalink: /tutorials
