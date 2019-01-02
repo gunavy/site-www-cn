@@ -34,7 +34,7 @@
     - title: Web
       permalink: https://webdev.dartlang.org
     - title: 服务器
-      permalink: /dart-vm
+      permalink: /server
 
 - title: 测试
   permalink: /guides/testing

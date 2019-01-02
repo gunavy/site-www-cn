@@ -103,7 +103,7 @@ Dart 开发者一直忙于创建可以帮助你提高工作效率的代码库。
 {% comment %}
 ## More tutorials
 
-* [Server-side Dart tutorials](/tutorials/dart-vm)
+* [Server-side Dart tutorials](/tutorials/server)
 * [Web tutorials]({{site.webdev}}/tutorials)
 * [Dart Academy](https://dart.academy)
 {% endcomment %}
@@ -111,6 +111,6 @@ Dart 开发者一直忙于创建可以帮助你提高工作效率的代码库。
 
 ## 更多学习教程
 
-* [服务端学习教程](/tutorials/dart-vm)
+* [服务端学习教程](/tutorials/server)
 * [Web 学习教程]({{site.webdev}}/tutorials)
 * [Dart 学院](https://dart.academy)

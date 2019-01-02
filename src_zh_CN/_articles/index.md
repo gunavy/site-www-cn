@@ -13,7 +13,7 @@ Also see:
 
 * [Effective Dart](/guides/language/effective-dart)
 * [Tutorials](/tutorials)
-* [Articles about server-side Dart](/articles/dart-vm)
+* [Articles about server-side Dart](/articles/server)
 * [Articles about Dart web development]({{site.webdev}}/articles)
 {% endcomment %}
 
@@ -23,7 +23,7 @@ Also see:
 
 * [Effective Dart](/guides/language/effective-dart)
 * [学习教程](/tutorials)
-* [Dart 服务端相关文章](/articles/dart-vm)
+* [Dart 服务端相关文章](/articles/server)
 * [Dart Web 开发相关文章]({{site.webdev}}/articles)
 
 

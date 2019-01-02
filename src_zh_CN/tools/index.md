@@ -17,26 +17,30 @@ get the SDK and tools for your app type.
 
 
 {% comment %}
+<div class="table-wrapper" markdown="1">
 |------------+-----------------------------------+--------------------------|
 | App type   | Get started instructions          | Tool information         |
 |------------|-----------------------------------|--------------------------|
 | Mobile | [Install Flutter]({{site.flutter}}/setup) | [Flutter tools](https://flutter.io/using-ide/) |
 | Web    | [Install the Dart SDK]({{site.webdev}}/tools/sdk) | [Dart tools for the web]({{site.webdev}}/tools) |
-| Script or server | [Install the Dart SDK](/tools/sdk) | [Tools for server-side development](/dart-vm/tools) |
+| Script or server | [Install the Dart SDK](/tools/sdk) | [Tools for server-side development](/server/tools) |
 {:.table .table-striped}
+</div>
 
 The rest of this page covers general-purpose tools that
 support the Dart language.
 {% endcomment %}
 
 
+<div class="table-wrapper" markdown="1">
 |------------+-----------------------------------+--------------------------|
 |  应用类型   |               使用说明              |          工具信息         |
 |------------|-----------------------------------|--------------------------|
 | 移动端      | [安装 Flutter]({{site.flutter}}/setup) | [Flutter 工具](https://flutter.io/using-ide/) |
 | Web        | [安装 Dart SDK]({{site.webdev}}/tools/sdk) | [Dart Web 端工具]({{site.webdev}}/tools) |
-| 脚本或服务器 | [安装 Dart SDK](/tools/sdk) | [服务端开发工具](/dart-vm/tools) |
+| 脚本或服务器 | [安装 Dart SDK](/tools/sdk) | [服务端开发工具](/server/tools) |
 {:.table .table-striped}
+</div>
 
 本页的其余部分介绍了支持 Dart 语言的通用开发工具。
 
@@ -71,7 +75,7 @@ Dart plugins exist for these commonly used IDEs.
 <li>
 <img src="{% asset tools/android_studio.png @path %}"
      width="48" alt="IntelliJ logo">
-<a class="no-automatic-external" href="/tools/jetbrains-plugin"><b>Android Studio</b></a>
+<a class="no-automatic-external" href="https://developer.android.com/studio"><b>Android Studio</b></a>
 </li>
 <li>
 <img src="{% asset tools/intellij-idea.svg @path %}"
@@ -113,7 +117,7 @@ and available as open source.
 <li>
 <img src="{% asset tools/android_studio.png @path %}"
      width="48" alt="IntelliJ logo">
-<a class="no-automatic-external" href="/tools/jetbrains-plugin"><b>Android Studio</b></a>
+<a class="no-automatic-external" href="https://developer.android.com/studio"><b>Android Studio</b></a>
 </li>
 <li>
 <img src="{% asset tools/intellij-idea.svg @path %}"

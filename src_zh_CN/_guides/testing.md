@@ -11,7 +11,7 @@ your app is working correctly before you release it.
 This Dart testing guide outlines several types of testing, and points
 you to where you can learn how to test your
 [mobile]({{site.flutter}}), [web]({{site.webdev}}),
-and [server-side apps and scripts](/dart-vm).
+and [server-side apps and scripts](/server).
 
 <aside class="alert alert-info" markdown="1">
 **Terminology: widget vs. component**<br>
@@ -27,7 +27,7 @@ but both terms refer to the same concept.
 软件测试是应用程序开发的重要组成部分，可帮助你在应用程序发布之前验证应用程序的正确性。
 此 Dart 测试指南概述了几种类型的测试，并指出了可以学习
 [移动]({{site.flutter}}), [Web]({{site.webdev}})，
-以及 [服务器应用和脚本](/dart-vm) 地方。
+以及 [服务器应用和脚本](/server) 地方。
 
 <aside class="alert alert-info" markdown="1">
 **术语 widget vs. component**<br>

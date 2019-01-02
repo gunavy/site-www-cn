@@ -28,7 +28,7 @@ that can help you develop command-line and server-side apps.
 
 [Dart SDK](/tools/sdk)
 : [Install the Dart SDK](/tools/sdk#install) to get the core Dart
-  libraries and [tools](/dart-vm/tools).
+  libraries and [tools](/server/tools).
 
 More tools
 : The Dart [Tools](/tools) page links to generally useful tools,
@@ -47,7 +47,7 @@ More tools
 
 [Dart SDK](/tools/sdk)
 : [安装 Dart SDK](/tools/sdk#install) 来获取 Dart 核心库及
-  [工具](/dart-vm/tools)。
+  [工具](/server/tools)。
 
 更多工具
 : Dart [工具](/tools) 页面中会提供常用工具的链接。比如一些 IDE 或 编辑器
@@ -59,13 +59,16 @@ More tools
 
 You might find the following tutorials helpful.
 
-[Get Started](/tutorials/dart-vm/get-started)
+[Get Started](/tutorials/server/get-started)
 : Shows how to write a basic Dart script.
 
-[Write Command-Line Apps](/tutorials/dart-vm/cmdline)
+[gRPC Quickstart](https://grpc.io/docs/quickstart/dart.html)
+: Walks you through running and modifying a client-server example that uses the gRPC framework.
+
+[Write Command-Line Apps](/tutorials/server/cmdline)
 : Introduces dart:io and the args package.
 
-[Write HTTP Clients & Servers](/tutorials/dart-vm/httpserver)
+[Write HTTP Clients & Servers](/tutorials/server/httpserver)
 : Features dart:io and the http_server package.
 {% endcomment %}
 
@@ -74,13 +77,16 @@ You might find the following tutorials helpful.
 
 你可能会感到下列学习指南对你很有帮助。
 
-[入门](/tutorials/dart-vm/get-started)
+[入门](/tutorials/server/get-started)
 : 演示如何编写基本 Dart 脚本。
 
-[编写命令行应用](/tutorials/dart-vm/cmdline)
+[gRPC 快速入门](https://grpc.io/docs/quickstart/dart.html)
+：通过运行和修改使用 gRPC 框架的客户端服务示例来介绍 gRPC 框架。
+
+[编写命令行应用](/tutorials/server/cmdline)
 : 介绍 dart:io 及包参数（args package）。
 
-[编写 HTTP Client & Server](/tutorials/dart-vm/httpserver)
+[编写 HTTP Client & Server](/tutorials/server/httpserver)
 : 专题介绍 dart:io 和 http_server 包。
 
 
@@ -90,12 +96,12 @@ You might find the following tutorials helpful.
 [api.dartlang.org]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}})
 : API reference for dart:* libraries.
 
-[A Tour of the dart:io Library](/dart-vm/io-library-tour)
+[A Tour of the dart:io Library](/server/io-library-tour)
 : Shows how to use the major features of the dart:io library.
   You can use the dart:io library in command-line scripts, servers, and
   [Flutter mobile apps.]({{site.flutter}})
 
-[Articles: Server-Side Dart](/articles/dart-vm)
+[Articles: Server-Side Dart](/articles/server)
 : A collection of articles covering topics such as benchmarking,
   numeric computation, and SIMD.
 {% endcomment %}
@@ -106,9 +112,9 @@ You might find the following tutorials helpful.
 [api.dartlang.org]({{site.dart_api}}/{{site.data.pkg-vers.SDK.channel}})
 : dart:* 的 API 参考。
 
-[dart:io 库概览](/dart-vm/io-library-tour)
+[dart:io 库概览](/server/io-library-tour)
 : 演示如何使用 dart:io 库的主要功能。 dart:io 库可以应用在命令行脚本，服务器应用以及 
   [Flutter 移动应用]({{site.flutter}}) 中。
 
-[服务器 Dart 的文章](/articles/dart-vm)
+[服务器 Dart 的文章](/articles/server)
 : 包含例如 benchmarking ，数值计算，以及 SIMD 等话题的一些列文章。
