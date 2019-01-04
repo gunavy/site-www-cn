@@ -625,9 +625,8 @@ To call this from Dart, we put it in a wrapper that unpacks the Dart_CObject
 containing seed and length, and that packs the result values into a
 Dart_CObject.  A Dart_CObject can hold an integer (of various sizes), a double,
 a string, or an array of Dart_CObjects. It is implemented in
-[dart_api.h](https://github.com/dart-lang/sdk/blob/master/runtime/include/dart_api.h)
-as a struct
-containing a union. Look in dart_api.h to see the fields and tags used to access
+[dart_native_api.h](https://github.com/dart-lang/sdk/blob/master/runtime/include/dart_native_api.h)
+as a struct containing a union. Look in dart_native_api.h to see the fields and tags used to access
 the union's members. After the Dart_CObject is posted, it and all its resources
 can be freed, since they have been copied into Dart objects on the Dart heap.
 
@@ -698,8 +697,8 @@ uint8_t* random_array(int seed, int length) {
 在从 Dart 调用这个 C 函数之前，我们将它放到了一个包装器中，这个包装器用于解包 Dart_CObject 中包含的
 随机种子和要生成的随机数长度，以及包装返回结果到 Dart_CObject 中。 Dart_CObject 可以包含一个整数
 （任意大小值），一个浮点数，一个字符串或者一个 Dart_CObject 数组。Dart_CObject 在
-[dart_api.h](https://github.com/dart-lang/sdk/blob/master/runtime/include/dart_api.h) 中
-实现，是一个包含 union 的结构体。查看 dart_api.h 来查找用于访问的 union 成员字段和标记。发送
+[dart_native_api.h](https://github.com/dart-lang/sdk/blob/master/runtime/include/dart_native_api.h) 中
+实现，是一个包含 union 的结构体。查看 dart_native_api.h 来查找用于访问的 union 成员字段和标记。发送
 Dart_CObject 之后，可以释放 Dart_CObject 及其所有资源，因为它们已经被复制到了 Dart 堆上的 Dart
 对象中。
 
