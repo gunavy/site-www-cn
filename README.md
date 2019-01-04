@@ -141,6 +141,14 @@ as linkcheck.dart), run this from the top of the repo:
 ./deploy/html_proof.rb
 ```
 
+To check which old links (from the site version before this one) are broken,
+use these commands:
+
+```
+./tool/serve.sh &
+pub run linkcheck -i deploy/urls/old_site_urls.txt
+```
+
 ## Staging the site
 
 First, save your changes.
@@ -222,6 +230,10 @@ git stash
 You can later retrieve the stashed file, if you need to stage again,
 using `git stash pop`.
 
+## Troubleshooting the build
+
+See the [Troubleshooting wiki page].
+
 
 [Build Status SVG]: https://travis-ci.org/dart-lang/site-www.svg?branch=master
 [Cloning a repository]: https://help.github.com/articles/cloning-a-repository
@@ -235,3 +247,4 @@ using `git stash pop`.
 [Repo on Travis]: https://travis-ci.org/dart-lang/site-www
 [rvm]: https://rvm.io/rvm/install#installation
 [site-www]: https://github.com/dart-lang/site-www
+[Troubleshooting wiki page]: https://github.com/dart-lang/site-www/wiki/Troubleshooting
