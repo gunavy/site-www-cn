@@ -1933,7 +1933,7 @@ bool isNoble(int atomicNumber) => _nobleGases[atomicNumber] != null;
 
 <div class="alert alert-info" markdown="1">
 **提示：**
-在箭头 (=\>) 和冒号 (;) 之间只能使用一个 *表达式*—不能是 *语句*。
+在箭头 (=\>) 和分号 (;) 之间只能使用一个 *表达式* ，不能是 *语句* 。
 例如：不能使用 [if
 语句](#if-和-else) ，但是可以是用 
 [条件表达式](#conditional-expressions).
@@ -2028,7 +2028,7 @@ void enableFlags({bool bold, bool hidden}) {...}
 const Scrollbar({Key key, [!@required!] Widget child})
 {% endprettify %}
 
-此时 `Scrollbar` 是一个构造函数， 当 `child` 参数缺少是，分析器会提示错误。
+此时 `Scrollbar` 是一个构造函数， 当 `child` 参数缺少时，分析器会提示错误。
 
 [Required][@required] 被定义在 [meta][] package。 无论是直接引入（import）
 `package:meta/meta.dart` ，或者引入了其他 package，而这个 package 输出（export）了
@@ -2638,8 +2638,8 @@ void main() {
 
 ### 词法闭包
 
-*闭包* 即一个函数对象，不管该汗水对象在何处被调用，
-该函数都可以访问其作用域内的变量。
+*闭包* 即一个函数对象，即使函数对象的调用在它原始作用域之外，
+依然能够访问在它词法作用域内的变量。
 
 函数可以封闭定义到它作用域内的变量。 接下来的示例中，
 `makeAdder()` 捕获了变量 `addBy`。 
@@ -2647,8 +2647,7 @@ void main() {
 
 <?code-excerpt "misc/test/language_tour/functions_test.dart (function-closure)"?>
 {% prettify dart %}
-/// 返回一个函数，该函数将函数的参与与 [addBy]
-相加。
+/// 返回一个函数，返回的函数参数与 [addBy] 相加。
 Function makeAdder(num addBy) {
   return (num i) => addBy + i;
 }
