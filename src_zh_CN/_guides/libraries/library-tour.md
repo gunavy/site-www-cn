@@ -3152,6 +3152,9 @@ encodable. The first is to invoke `encode()` with a second argument: a
 function that returns an object that is directly encodable. Your second
 option is to omit the second argument, in which case the encoder calls
 the object's `toJson()` method.
+
+For more examples and links to JSON-related packages, see
+[JSON Support](/guides/json).
 {% endcomment %}
 
 
@@ -3205,7 +3208,7 @@ List 和 Map 对象进行递归编码。
 这个参数是一个函数，
 该函数返回一个能够直接编码的对象
 第二种方式是省略第二个参数，着这种情况下编码器调用对象的 `toJson()` 方法。
-
+更多示例及 JSON 包相关链接，参考 [JSON Support](/guides/json) 。
 
 {% comment %}
 ### Decoding and encoding UTF-8 characters
