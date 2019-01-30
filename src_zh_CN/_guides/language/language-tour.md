@@ -827,7 +827,7 @@ Those can't be initialized using literals, but they do have special support.
 {% endcomment %}
 
 因为在 Dart 所有的变量终究是一个对象（一个类的实例），
-所以变量可以使用 *构造行数* 进行初始化。
+所以变量可以使用 *构造涵数* 进行初始化。
 一些内建类型拥有自己的构造函数。
 例如， 通过 `Map()` 来构造一个 map 变量。
 
