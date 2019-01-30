@@ -38,7 +38,14 @@ Future<Null> main() async {
     lines = linesWithoutComment;
 
     var document = new md.Document();
-    document.parseRefLinks(lines);
+
+    // Commented out the following line because the parseRefLinks has
+    // disappeared. Unfortunately, that means I had to hand-patch the TOC
+    // to fix the links to custom anchors. To find these, display
+    // localhost:4000/guides/language/effective-dart, and then search
+    // for "{#". Delete the excess text and fix the URL.
+    //document.parseRefLinks(lines);
+
     var nodes = document.parseLines(lines);
     for (md.Element element in nodes.where((node) => node is md.Element)) {
       if (element.tag == "h2") {
