@@ -1587,7 +1587,7 @@ var gifts = {'first': 'partridge'};
 gifts['fourth'] = 'calling birds'; // Add a key-value pair
 {% endprettify %}
 
-类似 JavaScript ，从一个 map 中移除一个 value：
+类似 JavaScript ，从一个 map 中获取一个 value：
 
 <?code-excerpt "misc/test/language_tour/built_in_types_test.dart (map-retrieve-item)"?>
 {% prettify dart %}
