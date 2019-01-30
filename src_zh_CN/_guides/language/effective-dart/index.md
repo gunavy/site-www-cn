@@ -34,6 +34,18 @@ write consistent, robust, fast code too. There are two overarching themes:
     *economical*, not *dense*.
 
 [code golf]: https://en.wikipedia.org/wiki/Code_golf
+
+The Dart analyzer has a linter to help you write good, consistent code.
+If a linter rule exists that can help you follow a guideline,
+then the guideline links to that rule. Here's an example:
+
+{% include linter-rule.html rule="prefer_collection_literals" %}
+
+For help on
+[enabling linter rules](/guides/language/analysis-options#enabling-linter-rules),
+see the documentation for
+[customizing static analysis](/guides/language/analysis-options).
+
 {% endcomment %}
 
 在过去的几年里，我们编写了大量的 Dart 代码，
@@ -62,6 +74,16 @@ write consistent, robust, fast code too. There are two overarching themes:
     目标是让代码*简约*，而不是*密集*。
 
 [code golf]: https://en.wikipedia.org/wiki/Code_golf
+
+Dart analyzer 包括一个 linter 可以帮助你编写一致性的，优秀的代码。
+如果 linter 包含规则，那么它将会帮助你遵守这些准则，准则包含规则的链接。比如下面的示例：
+
+{% include linter-rule.html rule="prefer_collection_literals" %}
+
+获取帮助
+[开启 linter 规则](/guides/language/analysis-options#enabling-linter-rules),
+查看文档
+[自定义静态分析](/guides/language/analysis-options).
 
 {% comment %}
 ## The guides

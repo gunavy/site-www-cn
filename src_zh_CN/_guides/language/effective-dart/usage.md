@@ -143,6 +143,8 @@ theoretically non-breaking point release of that package could break your code.
 {% comment %}
 ### PREFER relative paths when importing libraries within your own package's `lib` directory.
 
+{% include linter-rule.html rule="avoid_relative_lib_imports" %}
+
 When referencing a library inside your package's `lib` directory from another
 library in that same package, either a relative URI or an explicit `package:`
 will work.
@@ -190,6 +192,8 @@ library. Follow these two rules:
 {% endcomment %}
 
 ### **建议** 使用相对路径在导入你自己 package 中的 `lib` 目录。
+
+{% include linter-rule.html rule="avoid_relative_lib_imports" %}
 
 在同一个 package 下其中一个库引用另一个 `lib` 目录下的库时，
 应该使用相对的 URI 或者直接使用 `package:`。
@@ -245,6 +249,8 @@ Here are some best practices to keep in mind when composing strings in Dart.
 {% comment %}
 ### DO use adjacent strings to concatenate string literals.
 
+{% include linter-rule.html rule="prefer_adjacent_string_concatenation" %}
+
 If you have two string literals&mdash;not values, but the actual quoted literal
 form&mdash;you do not need to use `+` to concatenate them. Just like in C and
 C++, simply placing them next to each other does it. This is a good way to make
@@ -268,6 +274,8 @@ raiseAlarm('ERROR: Parts of the spaceship are on fire. Other ' +
 
 ### **要** 使用临近字符字的方式连接字面量字符串。
 
+{% include linter-rule.html rule="prefer_adjacent_string_concatenation" %}
+
 如果你有两个字面量字符串（不是变量，是放在引号中的字符串），你不需要使用 `+` 来连接它们。
 应该想 C 和 C++ 一样，只需要将它们挨着在一起就可以了。
 这种方式非常适合不能放到一行的长字符串的创建。
@@ -290,6 +298,8 @@ raiseAlarm('ERROR: Parts of the spaceship are on fire. Other ' +
 {% comment %}
 ### PREFER using interpolation to compose strings and values.
 
+{% include linter-rule.html rule="prefer_interpolation_to_compose_strings" %}
+
 If you're coming from other languages, you're used to using long chains of `+`
 to build a string out of literals and other values. That does work in Dart, but
 it's almost always cleaner and shorter to use interpolation:
@@ -309,6 +319,8 @@ it's almost always cleaner and shorter to use interpolation:
 
 ### **推荐** 使用插值的形式来组合字符串和值。
 
+{% include linter-rule.html rule="prefer_interpolation_to_compose_strings" %}
+
 如果你之前使用过其他语言，你一定习惯使用大量 `+` 将字面量字符串以及字符串变量链接构建字符串。
 这种方式在 Dart 中同样有效，但是通常情况下使用插值会更清晰简短。
 
@@ -326,6 +338,8 @@ it's almost always cleaner and shorter to use interpolation:
 
 {% comment %}
 ### AVOID using curly braces in interpolation when not needed.
+
+{% include linter-rule.html rule="unnecessary_brace_in_string_interps" %}
 
 If you're interpolating a simple identifier not immediately followed by more
 alphanumeric text, the `{}` should be omitted.
@@ -347,6 +361,8 @@ alphanumeric text, the `{}` should be omitted.
 {% endcomment %}
 
 ### **避免** 在字符串插值中使用不必要的大括号。
+
+{% include linter-rule.html rule="unnecessary_brace_in_string_interps" %}
 
 如果要插入是一个简单的标识符，并且后面没有紧跟随在其他字母文本，则应省略 `{}` 。
 
@@ -379,6 +395,8 @@ Dart 集合中原生支持了四种类型：list， map， queue， 和 set。
 
 {% comment %}
 ### DO use collection literals when possible.
+
+{% include linter-rule.html rule="prefer_collection_literals" %}
 
 There are two ways to make an empty growable list: `[]` and `List()`.
 Likewise, there are three ways to make an empty linked hash map: `{}`,
@@ -426,6 +444,8 @@ makes sense to use that.
 {% endcomment %}
 
 ### **要** 尽可能的使用集合字面量。
+
+{% include linter-rule.html rule="prefer_collection_literals" %}
 
 有两种方式来构造一个空的可变 list ： `[]` 和 `List()` 。
 同样，有三总方式来构造一个空的链表哈希 map：`{}`，
@@ -566,6 +586,8 @@ var aquaticNames = animals
 {% comment %}
 ### AVOID using `Iterable.forEach()` with a function literal.
 
+{% include linter-rule.html rule="avoid_function_literals_in_foreach_calls" %}
+
 `forEach()` functions are widely used in JavaScript because the built in
 `for-in` loop doesn't do what you usually want. In Dart, if you want to iterate
 over a sequence, the idiomatic way to do that is using a loop.
@@ -594,9 +616,18 @@ with each element as the argument. In that case, `forEach()` is handy.
 {% prettify dart %}
 people.forEach(print);
 {% endprettify %}
+
+<aside class="alert alert-info" markdown="1">
+  **Note:**
+  It's OK to call `Map.forEach()`.
+  Maps aren't iterable, so they aren't covered by this guideline.
+</aside>
+
 {% endcomment %}
 
 ### **避免** 在 `Iterable.forEach()` 中使用字面量函数。
+
+{% include linter-rule.html rule="avoid_function_literals_in_foreach_calls" %}
 
 `forEach()` 函数在 JavaScript 中被广泛使用，
 这因为内置的 `for-in` 循环通常不能达到你想要的效果。
@@ -626,6 +657,12 @@ people.forEach((person) {
 {% prettify dart %}
 people.forEach(print);
 {% endprettify %}
+
+<aside class="alert alert-info" markdown="1">
+  **提示：**
+  对于 `Map.forEach()` 调用时可以的。
+  Map 是不可迭代的。所它们不包括在该准则内。
+</aside>
 
 {% comment %}
 ### DON'T use `List.from()` unless you intend to change the type of the result.
@@ -727,15 +764,7 @@ var ints = List<int>.from(numbers);
 {% comment %}
 ### DO use `whereType()` to filter a collection by type.
 
-{% comment %}
-update-for-dart-2
-{% endcomment %}
-<aside class="alert alert-warning" markdown="1">
-  **Before using `whereType()`, make sure it's implemented.**
-  We expect `whereType()` to be added late in Dart&nbsp;2 development.
-  For details, see
-  [SDK issue #32463.](https://github.com/dart-lang/sdk/issues/32463#issuecomment-402975456)
-</aside>
+{% include linter-rule.html rule="prefer_iterable_whereType" %}
 
 Let's say you have a list containing a mixture of objects, and you want to get
 just the integers out of it. You could use `where()` like this:
@@ -779,15 +808,7 @@ and has no unnecessary levels of wrapping.
 
 ### **要** 使用 `whereType()` 按类型过滤集合。
 
-{% comment %}
-update-for-dart-2
-{% endcomment %}
-<aside class="alert alert-warning" markdown="1">
-  **在使用 `whereType()` 前，确认它是否已经被实现。**
-  我们期望 `whereType()` 会在后续的 Dart&nbsp;2 中添加。
-  更多详情，参考
-  [SDK issue #32463.](https://github.com/dart-lang/sdk/issues/32463#issuecomment-402975456)
-</aside>
+{% include linter-rule.html rule="prefer_iterable_whereType" %}
 
 假设你有一个 list 里面包含了多种类型的对象，
 但是你指向从它里面获取整型类型的数据。
@@ -1131,6 +1152,8 @@ involving functions.
 {% comment %}
 ### DO use a function declaration to bind a function to a name.
 
+{% include linter-rule.html rule="prefer_function_declarations_over_variables" %}
+
 Modern languages have realized how useful local nested functions and closures
 are. It's common to have a function defined inside another one. In many cases,
 this function is used as a callback immediately and doesn't need a name. A
@@ -1163,6 +1186,8 @@ void main() {
 
 ### **要** 使用函数声明的方式为函数绑定名称。
 
+{% include linter-rule.html rule="prefer_function_declarations_over_variables" %}
+
 现代语言已经意识到本地嵌套函数和闭包的益处。
 在一个函数中定义另一个函数非常常见。
 在许多情况下，这些函数被立即执行并返回结果，而且不需要名字。
@@ -1194,6 +1219,8 @@ void main() {
 {% comment %}
 ### DON'T create a lambda when a tear-off will do.
 
+{% include linter-rule.html rule="unnecessary_lambdas" %}
+
 If you refer to a method on an object but omit the parentheses, Dart gives you
 a "tear-off"&mdash;a closure that takes the same parameters as the method and
 invokes it when you call it.
@@ -1217,6 +1244,8 @@ names.forEach((name) {
 {% endcomment %}
 
 ### **不要** 使用 lambda 表达式来替代 tear-off。
+
+{% include linter-rule.html rule="unnecessary_lambdas" %}
 
 如果你在一个对象上调用函数并省略了括号， 
 Dart 称之为"tear-off"&mdash;一个和函数使用同样参数的闭包，
@@ -1248,6 +1277,8 @@ names.forEach((name) {
 {% comment %}
 ### DO use `=` to separate a named parameter from its default value.
 
+{% include linter-rule.html rule="prefer_equal_for_default_values" %}
+
 For legacy reasons, Dart allows both `:` and `=` as the default value separator
 for named parameters. For consistency with optional positional parameters, use
 `=`.
@@ -1267,6 +1298,8 @@ void insert(Object item, {int at: 0}) { ... }
 
 ### **要** 使用 `=` 来分隔参数名和参数默认值。
 
+{% include linter-rule.html rule="prefer_equal_for_default_values" %}
+
 由于遗留原因，Dart 同时支持 `:` 和 `=` 作为参数名和默认值的分隔符。
 为了与可选的位置参数保持一致，请使用 `=` 。
 
@@ -1284,6 +1317,8 @@ void insert(Object item, {int at: 0}) { ... }
 
 {% comment %}
 ### DON'T use an explicit default value of `null`.
+
+{% include linter-rule.html rule="avoid_init_to_null" %}
 
 If you make a parameter optional but don't give it a default value, the language
 implicitly uses `null` as the default, so there's no need to write it.
@@ -1306,6 +1341,8 @@ void error([String message = null]) {
 {% endcomment %}
 
 ### **不要** 显式的为参数设置 `null` 值。
+
+{% include linter-rule.html rule="avoid_init_to_null" %}
 
 如果你创建了一个可选参数，那么就不要为其赋默认值，
 Dart 默认使用 `null` 作为默认值，所以这里不需要为其 `null` 赋值语句。
@@ -1607,6 +1644,8 @@ variables). The following best practices apply to an object's members.
 {% comment %}
 ### DON'T wrap a field in a getter and setter unnecessarily.
 
+{% include linter-rule.html rule="unnecessary_getters_setters" %}
+
 In Java and C#, it's common to hide all fields behind getters and setters (or
 properties in C#), even if the implementation just forwards to the field. That
 way, if you ever need to do more work in those members, you can without needing
@@ -1641,6 +1680,8 @@ class Box {
 
 ### **不要** 为字段创建不必要的 getter 和 setter 方法。
 
+{% include linter-rule.html rule="unnecessary_getters_setters" %}
+
 在 Java 和 C# 中，通常情况下会将所有的字段隐藏到 getter 和 setter 方法中（在 C# 中被称为属性），
 即使实现中仅仅是指向这些字段。在这种方式下，即使你在这些成员上做多少的事情，你也不需要直接访问它们。
 这是因为，在 Java 中，调用 getter 方法和直接访问字段是不同的。
@@ -1673,6 +1714,8 @@ class Box {
 {% comment %}
 ### PREFER using a `final` field to make a read-only property.
 
+{% include linter-rule.html rule="unnecessary_getters" %}
+
 If you have a field that outside code should be able to see but not assign to, a
 simple solution that works in many cases is to simply mark it `final`.
 
@@ -1700,6 +1743,8 @@ don't reach for that until you need to.
 
 ### **推荐** 使用 `final` 关键字来创建只读属性。
 
+{% include linter-rule.html rule="unnecessary_getters" %}
+
 如果你有一个变量，对于外部代买来说只能读取不能修改，
 最简单的做法就是使用 `final` 关键字来标记这个变量。
 
@@ -1726,6 +1771,8 @@ class Box {
 
 {% comment %}
 ### CONSIDER using `=>` for simple members.
+
+{% include linter-rule.html rule="prefer_expression_function_bodies" %}
 
 In addition to using `=>` for function expressions, Dart also lets you define
 members with it. That style is a good fit for simple members that just calculate
@@ -1787,6 +1834,8 @@ if you use it.
 
 ### **考虑** 对简单成员使用 `=>` 。
 
+{% include linter-rule.html rule="prefer_expression_function_bodies" %}
+
 除了使用 `=>` 可以用作函数表达式以外，
 Dart 还允许使用它来定义成员。
 这种风格非常适合，仅进行计算并返回结果的简单成员。
@@ -1844,6 +1893,8 @@ set x(num value) => center = Point(value, center.y);
 
 {% comment %}
 ### DON'T use `this.` when not needed to avoid shadowing.
+
+{% include linter-rule.html rule="unnecessary_this" %}
 
 JavaScript requires an explicit `this.` to refer to members on the object whose
 method is currently being executed, but Dart&mdash;like C++, Java, and
@@ -1904,6 +1955,8 @@ relatively rare thanks to initializing formals.
 {% endcomment %}
 
 ### **不要** 使用 `this.` ，除非遇到了变量冲突的情况。
+
+{% include linter-rule.html rule="unnecessary_this" %}
 
 JavaScript 需要使用 `this.` 来引用对象的成员变量，
 但是 Dart&mdash;和 C++, Java, 以及C#&mdash;没有这种限制。
@@ -2043,6 +2096,8 @@ The following best practices apply to declaring constructors for a class.
 {% comment %}
 ### DO use initializing formals when possible.
 
+{% include linter-rule.html rule="prefer_initializing_formals" %}
+
 Many fields are initialized directly from a constructor parameter, like:
 
 {:.bad-style}
@@ -2075,6 +2130,8 @@ should.
 {% endcomment %}
 
 ### **要** 尽可能的使用初始化形式。
+
+{% include linter-rule.html rule="prefer_initializing_formals" %}
 
 许多字段直接使用构造函数参数来初始化，如：
 
@@ -2109,6 +2166,8 @@ class Point {
 {% comment %}
 ### DON'T type annotate initializing formals.
 
+{% include linter-rule.html rule="type_init_formals" %}
+
 If a constructor parameter is using `this.` to initialize a field, then the type
 of the parameter is understood to be the same type as the field.
 
@@ -2132,6 +2191,8 @@ class Point {
 {% endcomment %}
 
 ### **不要** 在初始化形式中做类型注释。
+
+{% include linter-rule.html rule="type_init_formals" %}
 
 如果构造函数参数使用 `this.` 的方式来初始化字段，
 这时参数的类型被认为和字段类型相同。
@@ -2158,6 +2219,8 @@ class Point {
 {% comment %}
 ### DO use `;` instead of `{}` for empty constructor bodies.
 
+{% include linter-rule.html rule="empty_constructor_bodies" %}
+
 In Dart, a constructor with an empty body can be terminated with just a
 semicolon. (In fact, it's required for const constructors.)
 
@@ -2182,6 +2245,8 @@ class Point {
 
 ### **要** 用 `;` 来替代空的构造函数体 `{}`。
 
+{% include linter-rule.html rule="empty_constructor_bodies" %}
+
 在 Dart 中，没有具体函数体的构造函数可以使用分号结尾。
 （事实上，这是不可变构造函数的要求。）
 
@@ -2205,6 +2270,8 @@ class Point {
 
 {% comment %}
 ### DON'T use `new`.
+
+{% include linter-rule.html rule="unnecessary_new" %}
 
 Dart 2 makes the `new` keyword optional. Even in Dart 1, its meaning was never
 clear because factory constructors mean a `new` invocation may still not
@@ -2246,6 +2313,8 @@ Widget build(BuildContext context) {
 
 ### **不要** 使用 `new` 。
 
+{% include linter-rule.html rule="unnecessary_new" %}
+
 Dart 2 `new` 关键字成为可选项。
 即使在Dart 1中，其含义也从未明确过，
 以为在工厂构造函数中，调用 `new` 可能并不意味着一定会返回一个新对象。
@@ -2286,6 +2355,8 @@ Widget build(BuildContext context) {
 {% comment %}
 ### DON'T use `const` redundantly.
 
+{% include linter-rule.html rule="unnecessary_const" %}
+
 In contexts where an expression *must* be constant, the `const` keyword is
 implicit, doesn't need to be written, and shouldn't. Those contexts are any
 expression inside:
@@ -2325,6 +2396,8 @@ const primaryColors = [!const!] [
 {% endcomment %}
 
 ### **不要** 冗余地使用 `const` 。
+
+{% include linter-rule.html rule="unnecessary_const" %}
 
 在表达式一定是常量的上下文中，`const` 关键字是隐式的，不需要写，也不应该。
 这里包括：
@@ -2375,6 +2448,8 @@ Dart 使用异常来表示程序执行错误。
 {% comment %}
 ### AVOID catches without `on` clauses.
 
+{% include linter-rule.html rule="avoid_catches_without_on_clauses" %}
+
 A catch clause with no `on` qualifier catches *anything* thrown by the code in
 the try block. [Pokémon exception handling][pokemon] is very likely not what you
 want. Does your code correctly handle [StackOverflowError][] or
@@ -2396,6 +2471,8 @@ and excludes errors that indicate *programmatic* bugs in the code.
 {% endcomment %}
 
 ### **避免** 使用没有 `on` 语句的 catch。
+
+{% include linter-rule.html rule="avoid_catches_without_on_clauses" %}
 
 没有 `on` 限定的 catch 语句会捕获 try 代码块中抛出的*任何*异常。
 [Pokémon exception handling][pokemon] 可能并不是你想要的。
@@ -2472,6 +2549,8 @@ and fix the code that is causing it to be thrown in the first place.
 {% comment %}
 ### DO use `rethrow` to rethrow a caught exception.
 
+{% include linter-rule.html rule="use_rethrow_when_possible" %}
+
 If you decide to rethrow an exception, prefer using the `rethrow` statement
 instead of throwing the same exception object using `throw`.
 `rethrow` preserves the original stack trace of the exception. `throw` on the
@@ -2501,6 +2580,8 @@ try {
 {% endcomment %}
 
 ### **要** 使用 `rethrow` 来重新抛出捕获的异常。
+
+{% include linter-rule.html rule="use_rethrow_when_possible" %}
 
 如果你想重新抛出一个异常，推荐使用 `rethrow` 语句。
 `rethrow` 保留了原来的异常堆栈信息。 

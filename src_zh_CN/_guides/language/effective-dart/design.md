@@ -724,6 +724,8 @@ previous guidelines state, either:
 {% comment %}
 ### PREFER naming a method `to___()` if it copies the object's state to a new object.
 
+{% include linter-rule.html rule="use_to_and_as_if_applicable" %}
+
 A *conversion* method is one that returns a new object containing a copy of
 almost all of the state of the receiver but usually in some different form or
 representation. The core libraries have a convention that these methods are
@@ -743,6 +745,8 @@ dateTime.toLocal();
 
 ### **推荐** 使用 `to___()` 来命名把对象的状态转换到一个新的对象的函数。
 
+{% include linter-rule.html rule="use_to_and_as_if_applicable" %}
+
 一个转换函数返回一个新的对象，里面包含一些原对象的状态，但通常新对象的形式或表现方式与原对象不同。
 核心库有一个约定，这些类型结果的方法名应该以 `to` 作为开头。
 
@@ -758,6 +762,8 @@ dateTime.toLocal();
 
 {% comment %}
 ### PREFER naming a method `as___()` if it returns a different representation backed by the original object.
+
+{% include linter-rule.html rule="use_to_and_as_if_applicable" %}
 
 Conversion methods are "snapshots". The resulting object has its own copy of the
 original object's state. There are other conversion-like methods that return
@@ -776,6 +782,8 @@ var future = subscription.asFuture();
 {% endcomment %}
 
 ### **推荐** 使用 `as___()` 来命名把原来对象转换为另外一种表现形式的函数。
+
+{% include linter-rule.html rule="use_to_and_as_if_applicable" %}
 
 转换函数提供的是“快照功能”。返回的对象有自己的数据副本，
 修改原来对象的数据不会改变返回的对象中的数据。
@@ -1092,6 +1100,8 @@ Dart是一种 “纯粹的” 面向对象语言，因为所有对象都是类�
 {% comment %}
 ### AVOID defining a one-member abstract class when a simple function will do.
 
+{% include linter-rule.html rule="one_member_abstracts" %}
+
 Unlike Java, Dart has first-class functions, closures, and a nice light syntax
 for using them. If all you need is something like a callback, just use a
 function. If you're defining a class and it only has a single abstract member
@@ -1115,6 +1125,8 @@ abstract class Predicate<E> {
 
 ### **避免** 避免为了使用一个简单的函数而去定义一个单一成员的抽象类
 
+{% include linter-rule.html rule="one_member_abstracts" %}
+
 和 Java 不同，Dart 拥有一等公民的函数，闭包，以及它们简洁的使用语法。如果你仅仅是需要一个
 类似于回调的功能，那么使用函数即可。 例如如果你正在定义一个类，并且它仅拥有一个毫无意义名称的
 抽象成员，如 `call` 或 `invoke` ，那么这时你很可能只是需要一个函数。
@@ -1135,6 +1147,8 @@ abstract class Predicate<E> {
 
 {% comment %}
 ### AVOID defining a class that contains only static members.
+
+{% include linter-rule.html rule="avoid_classes_with_only_static_members" %}
 
 In Java and C#, every definition *must* be inside a class, so it's common to see
 "classes" that exist only as a place to stuff static members. Other classes are
@@ -1195,6 +1209,8 @@ class Color {
 {% endcomment %}
 
 ### **避免** 定义仅包含静态成员的类。
+
+{% include linter-rule.html rule="avoid_classes_with_only_static_members" %}
 
 在 Java 和 C# 中，所有的定义*必须*要在类中。所有常常会看到一些这样的类，这些
 类中仅仅放置了些静态成员。其他类仅用于命名空间&mdash;一种为一堆成员提供共享
@@ -1445,6 +1461,8 @@ A member belongs to an object and can be either methods or instance variables.
 {% comment %}
 ### PREFER making fields and top-level variables `final`.
 
+{% include linter-rule.html rule="prefer_final_fields" %}
+
 State that is not *mutable*&mdash;that does not change over time&mdash;is
 easier for programmers to reason about. Classes and libraries that minimize the
 amount of mutable state they work with tend to be easier to maintain.
@@ -1455,6 +1473,8 @@ can.
 {% endcomment %}
 
 ### **推荐** 指定字段或顶级变量为 `final` 。
+
+{% include linter-rule.html rule="prefer_final_fields" %}
 
 状态不可变&mdash;随着时间推移状态不发生变化&mdash;有益于程序员推理。类和库中可变状态量越少，类和库
 越容易维护。
@@ -1640,6 +1660,8 @@ dataSet.minimumValue;
 {% comment %}
 ### DO use setters for operations that conceptually change properties.
 
+{% include linter-rule.html rule="use_setters_to_change_properties" %}
+
 Deciding between a setter versus a method is similar to deciding between a
 getter versus a method. In both cases, the operation should be "field-like".
 
@@ -1665,6 +1687,8 @@ button.visible = false;
 
 ### **要** 对概念上是修改的属性使用 setter 方法。
 
+{% include linter-rule.html rule="use_setters_to_change_properties" %}
+
 判定一个成员应该是一个 setter 而不是一个方法与 getter 的判定一样。两者的操作都应该是
 "类似于字段"的操作。
 
@@ -1687,6 +1711,8 @@ button.visible = false;
 
 {% comment %}
 ### DON'T define a setter without a corresponding getter.
+
+{% include linter-rule.html rule="avoid_setters_without_getters" %}
 
 Users think of getters and setters as visible properties of an object. A
 "dropbox" property that can be written to but not seen is confusing and
@@ -1712,6 +1738,8 @@ getter.)
 
 ### **不要** 在没有对应的 getter 的情况下定义 setter。
 
+{% include linter-rule.html rule="avoid_setters_without_getters" %}
+
 用户将 getter 和 setter 视为一个对象的可见属性。一个 "dropbox" 属性可以被写入但无法读
 取，会令人感到困惑。并且也混淆了他们对属性如何工作的直观理解。 例如，没有 getter 的 setter 
 意味着你可以使用 `=` 来修改它，但却不能使用 `+=` 。
@@ -1731,6 +1759,8 @@ getter.)
 {% comment %}
 ### AVOID returning `null` from members whose return type is `bool`, `double`, `int`, or `num`.
 
+{% include linter-rule.html rule="avoid_returning_null" %}
+
 Even though all types are nullable in Dart, users assume those types almost
 never contain `null`, and the lowercase names encourage a "Java primitive"
 mindset.
@@ -1746,6 +1776,8 @@ clearly, including the conditions under which `null` will be returned.
 
 ### **避免** 从返回类型为 `bool` ， `double` ， `int` 或 `num` 的成员返回 `null` 。
 
+{% include linter-rule.html rule="avoid_returning_null" %}
+
 尽管在 Dart 中所有类型都可以为空，但用户几乎都不会考虑它们是 `null` 的情况。而小写命名是
 源于 "Java primitive" 的提倡。
 
@@ -1757,6 +1789,8 @@ key 值，但这样的应用并不多见。
 
 {% comment %}
 ### AVOID returning `this` from methods just to enable a fluent interface.
+
+{% include linter-rule.html rule="avoid_returning_this" %}
 
 Method cascades are a better solution for chaining method calls.
 
@@ -1781,6 +1815,8 @@ var buffer = StringBuffer()
 
 
 ### **避免** 为了书写流畅，而从方法中返回 `this` 。
+
+{% include linter-rule.html rule="avoid_returning_this" %}
 
 方法级联是链接方法调用的更好的解决方式。
 
@@ -1991,6 +2027,8 @@ List<int> ints = [1, 2];
 {% comment %}
 ### PREFER type annotating public fields and top-level variables if the type isn't obvious.
 
+{% include linter-rule.html rule="prefer_typing_uninitialized_variables" %}
+
 Type annotations are important documentation for how a library should be used.
 They form boundaries between regions of a program to isolate the source of a
 type error. Consider:
@@ -2037,6 +2075,8 @@ type of your own API without you realizing.
 
 ### **推荐** 为类型不明显的公共字段和公共顶级变量指定类型注解。
 
+{% include linter-rule.html rule="prefer_typing_uninitialized_variables" %}
+
 类型注解是关于如何使用库的重要文档。它们在程序的区域之间形成边界以隔离类型错误来源。思考下面代码：
 
 {:.bad-style}
@@ -2077,6 +2117,8 @@ const screenWidth = 640; // Inferred as int.
 {% comment %}
 ### CONSIDER type annotating private fields and top-level variables if the type isn't obvious.
 
+{% include linter-rule.html rule="prefer_typing_uninitialized_variables" %}
+
 Type annotations on your public declarations help *users* of your code. Types on
 private members help *maintainers*. The scope of a private declaration is
 smaller and those who need to know the type of that declaration are also more
@@ -2092,6 +2134,8 @@ annotating helps make the code clearer, then add one.
 
 ### **考虑** 为类型不明显的私有字段和私有顶级变量指定类型注解。
 
+{% include linter-rule.html rule="prefer_typing_uninitialized_variables" %}
+
 为公共声明进行类型注解有助于使用代码的*用户*，为私有成员进行类型注解有助于代码的*维护人员*。
 私有声明的范围较小，熟悉与它相关代码的人才需要知道它们的声明类型。在这里就更倾向于省略注解，
 通过推理得到私有声明的类型。这也是为什么该规则相对于上一条更为柔和。
@@ -2102,6 +2146,8 @@ annotating helps make the code clearer, then add one.
 
 {% comment %}
 ### AVOID type annotating initialized local variables.
+
+{% include linter-rule.html rule="omit_local_variable_types" %}
 
 Local variables, especially in modern code where functions tend to be small,
 have very little scope. Omitting the type focuses the reader's attention on the
@@ -2155,6 +2201,8 @@ if (node is Constructor) {
 
 
 ### **避免** 为初始化的局部变量添加类型注解。
+
+{% include linter-rule.html rule="omit_local_variable_types" %}
 
 局部变量，特别是现代的函数往往很少，范围也很小。省略局部变量类型会将读者的注意力集中在变量的
 *名称*及初始化值上。
@@ -2583,6 +2631,8 @@ void handleError([!void Function()!] operation, [!Function!] errorHandler) {
 {% comment %}
 ### DON'T specify a return type for a setter.
 
+{% include linter-rule.html rule="avoid_return_types_on_setters" %}
+
 Setters always return `void` in Dart. Writing the word is pointless.
 
 {:.bad-style}
@@ -2601,6 +2651,8 @@ set foo(Foo value) { ... }
 
 ### **不要** 为 setter 方法指定返回类型。
 
+{% include linter-rule.html rule="avoid_return_types_on_setters" %}
+
 在 Dart 中，setter 永远返回 `void` 。为 setter 指定类型没有意义。
 
 {:.bad-style}
@@ -2618,6 +2670,8 @@ set foo(Foo value) { ... }
 
 {% comment %}
 ### DON'T use the legacy typedef syntax.
+
+{% include linter-rule.html rule="prefer_generic_function_type_aliases" %}
 
 Dart has two notations for defining a named typedef for a function type. The
 original syntax looks like:
@@ -2680,6 +2734,8 @@ it's deprecated.
 
 ### **不要** 使用弃用的 typedef 语法。
 
+{% include linter-rule.html rule="prefer_generic_function_type_aliases" %}
+
 Dart 有两种为函数类型定义命名 typedef 注解语法。 原始语法如下：
 
 {:.bad-style}
@@ -2733,6 +2789,8 @@ typedef Comparison<T> = int Function(T a, T b);
 {% comment %}
 ### PREFER inline function types over typedefs.
 
+{% include linter-rule.html rule="avoid_private_typedef_functions" %}
+
 In Dart 1, if you wanted to use a function type for a field, variable, or
 generic type argument, you had to first define a typedef for it. Dart 2 supports
 a function type syntax that can be used anywhere a type annotation is allowed:
@@ -2769,6 +2827,8 @@ that clarity.
 
 ### **推荐** 优先使用内联函数类型，而后是 typedef 。
 
+{% include linter-rule.html rule="avoid_private_typedef_functions" %}
+
 在 Dart 1中，如果要在字段，变量或泛型参数中使用函数类型，首选需要使用 typedef 定义这个类型。
 Dart 2中任何使用类型注解的地方都可以使用函数类型声明语法：
 
@@ -2802,6 +2862,8 @@ class FilteredObservable {
 {% comment %}
 ### CONSIDER using function type syntax for parameters.
 
+{% include linter-rule.html rule="use_function_type_syntax_for_parameters" %}
+
 Dart has a special syntax when defining a parameter whose type is a function.
 Sort of like in C, you surround the parameter's name with the function's return
 type and parameter signature:
@@ -2828,6 +2890,8 @@ where you must use the new syntax.
 
 
 ### **考虑** 在参数上使用函数类型语法。
+
+{% include linter-rule.html rule="use_function_type_syntax_for_parameters" %}
 
 在定义参数为函数类型时， Dart 具有特殊的语法。与 C 类似，使用参数名称作为函数参数的函数名：
 
@@ -3054,6 +3118,8 @@ In Dart, optional parameters can be either positional or named, but not both.
 {% comment %}
 ### AVOID positional boolean parameters.
 
+{% include linter-rule.html rule="avoid_positional_boolean_parameters" %}
+
 Unlike other types, booleans are usually used in literal form. Things like
 numbers are usually wrapped in named constants, but we usually just pass around
 `true` and `false` directly. That can make callsites unreadable if it isn't
@@ -3091,6 +3157,8 @@ button.isEnabled = false;
 
 
 ### **避免** 布尔类型的位置参数。
+
+{% include linter-rule.html rule="avoid_positional_boolean_parameters" %}
 
 与其他类型不同，布尔值通常以字面量方式使用。数字值的通常可以包含在命名的常量里，但对于布尔值通常
 喜欢直接传 `true` 和 `false` 。如果不清楚布尔值的含义，这样会造成调用者的代码不可读：
@@ -3290,6 +3358,8 @@ elements to follow.
 {% comment %}
 ### DO override `hashCode` if you override `==`.
 
+{% include linter-rule.html rule="hash_and_equals" %}
+
 The default hash code implementation provides an *identity* hash&mdash;two
 objects generally only have the same hash code if they are the exact same
 object. Likewise, the default behavior for `==` is identity.
@@ -3302,6 +3372,8 @@ recognize that the two objects are equivalent.
 
 
 ### **要** 对重写 `==` 操作符的类，重写 `hashCode` 方法。
+
+{% include linter-rule.html rule="hash_and_equals" %}
 
 默认的哈希实现为对象提供了一个*身份*哈希&mdash;如果两个对象是完全相同的，那么它们通常具有
 相同的哈希值。同样，`==` 的默认行为是比较两个对象的身份哈希。
@@ -3365,6 +3437,8 @@ true.
 {% comment %}
 ### DON'T check for `null` in custom `==` operators.
 
+{% include linter-rule.html rule="avoid_null_checks_in_equality_operators" %}
+
 The language specifies that this check is done automatically and your `==`
 method is called only if the right-hand side is not `null`.
 
@@ -3393,6 +3467,8 @@ class Person {
 
 
 ### **不要** 在自定义 `==` 操作符中检查 `null` 。
+
+{% include linter-rule.html rule="avoid_null_checks_in_equality_operators" %}
 
 Dart 指定此检查是自动完成的，只有当右侧不是 `null` 时才调用 `==` 方法。
 

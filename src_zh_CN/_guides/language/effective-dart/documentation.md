@@ -152,6 +152,8 @@ before a declaration and uses the special `///` syntax that dartdoc looks for.
 {% comment %}
 ### DO use `///` doc comments to document members and types.
 
+{% include linter-rule.html rule="slash_for_doc_comments" %}
+
 Using a doc comment instead of a regular comment enables [dartdoc][] to find it
 and generate documentation for it.
 
@@ -182,6 +184,8 @@ up.
 
 ### **要** 使用 `///` 文档注释来注释成员和类型。
 
+{% include linter-rule.html rule="slash_for_doc_comments" %}
+
 使用文档注释可以让 [dartdoc][] 来为你生成代码 API 文档。
 
 {:.good-style}
@@ -209,12 +213,16 @@ int get length => ...
 {% comment %}
 ### PREFER writing doc comments for public APIs.
 
+{% include linter-rule.html rule1="package_api_docs" rule2="public_member_api_docs"%}
+
 You don't have to document every single library, top-level variable, type, and
 member, but you should document most of them.
 {% endcomment %}
 
 
 ### **推荐** 为公开发布的 API 编写文档注释。
+
+{% include linter-rule.html rule1="package_api_docs" rule2="public_member_api_docs"%}
 
 不必为所有独立的库，顶级变量，类型以及成员编写文档注释。
 但是它们大多数应该有文档注释。
@@ -622,6 +630,8 @@ num min(num a, num b) => ...
 {% comment %}
 ### DO use square brackets in doc comments to refer to in-scope identifiers.
 
+{% include linter-rule.html rule="comment_references" %}
+
 If you surround things like variable, method, or type names in square brackets,
 then dartdoc looks up the name and links to the relevant API docs. Parentheses
 are optional, but can make it clearer when you're referring to a method or
@@ -655,6 +665,8 @@ constructor, put parentheses after the class name:
 
 
 ### **要** 使用方括号在文档注释中引用作用域内的标识符。
+
+{% include linter-rule.html rule="comment_references" %}
 
 如果给变量，方法，或类型等名称加上方括号，则 dartdoc 会查找名称并链接到相关的 API 文档。
 括号是可选的，但是当你在引用一个方法或者构造函数时，可以让注释更清晰。
@@ -792,10 +804,10 @@ class ToggleComponent {}
 ## Markdown
 
 You are allowed to use most [markdown][] formatting in your doc comments and
-dartdoc will process it accordingly using the [markdown package][].
+dartdoc will process it accordingly using the [markdown package.][]
 
 [markdown]: https://daringfireball.net/projects/markdown/
-[markdown package]: https://pub.dartlang.org/packages/markdown
+[markdown package.]: https://pub.dartlang.org/packages/markdown
 
 There are tons of guides out there already to introduce you to Markdown. Its
 universal popularity is why we chose it. Here's just a quick example to give you
@@ -861,8 +873,6 @@ a flavor of what's supported:
 
 文档注释中允许使用大多数 [markdown][] 格式，
 并且 dartdoc 会更具 [markdown package][] 进行解析。
-You are allowed to use most [markdown][] formatting in your doc comments and
-dartdoc will process it accordingly using the [markdown package][].
 
 [markdown]: https://daringfireball.net/projects/markdown/
 [markdown package]: https://pub.dartlang.org/packages/markdown

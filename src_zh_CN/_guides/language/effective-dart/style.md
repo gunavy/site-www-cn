@@ -60,6 +60,8 @@ Identifiers come in three flavors in Dart.
 {% comment %}
 ### DO name types using `UpperCamelCase`.
 
+{% include linter-rule.html rule="camel_case_types" %}
+
 Classes, enums, typedefs, and type parameters should capitalize the first letter
 of each word (including the first word), and use no separators.
 
@@ -100,8 +102,10 @@ const foo = Foo();
 @foo
 class C { ... }
 {% endprettify %}
-{% endcomment %}
 
+[camel_case_types]: http://dart-lang.github.io/linter/lints/camel_case_types.html
+[Linter rule]: /guides/language/analysis-options#the-analysis-options-file
+{% endcomment %}
 
 ### **要** 使用 `UpperCamelCase` 风格命名类型。
 
@@ -146,6 +150,27 @@ const foo = Foo();
 @foo
 class C { ... }
 {% endprettify %}
+
+[camel_case_types]: http://dart-lang.github.io/linter/lints/camel_case_types.html
+[Linter rule]: /guides/language/analysis-options#the-analysis-options-file
+
+
+{% comment %}
+### DO name libraries, packages, directories, and source files using `lowercase_with_underscores`. {#do-name-libraries-and-source-files-using-lowercase_with_underscores}
+
+{% include linter-rule.html rule1="library_names" rule2="file_names" %}
+<!-- source for rules (update these if you update the guideline):
+https://github.com/dart-lang/linter/blob/master/lib/src/rules/library_names.dart
+https://github.com/dart-lang/linter/blob/master/lib/src/rules/file_names.dart -->
+{% endcomment %}
+
+
+### **要** 在`库`，`包`，`文件夹`，`源文件`中使用 `lowercase_with_underscores` 方式命名。 {#do-name-libraries-and-source-files-using-lowercase_with_underscores}
+
+{% include linter-rule.html rule1="library_names" rule2="file_names" %}
+<!-- source for rules (update these if you update the guideline):
+https://github.com/dart-lang/linter/blob/master/lib/src/rules/library_names.dart
+https://github.com/dart-lang/linter/blob/master/lib/src/rules/file_names.dart -->
 
 
 {% comment %}
@@ -215,6 +240,8 @@ import 'SliderMenu.dart';
 {% comment %}
 ### DO name import prefixes using `lowercase_with_underscores`.
 
+{% include linter-rule.html rule="library_prefixes" %}
+
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (import-as)" replace="/(package):examples[^']*/$1:angular_components\/angular_components/g"?>
 {% prettify dart %}
@@ -236,6 +263,8 @@ import 'package:js/js.dart' as JS;
 
 
 ### **要** 使用 `lowercase_with_underscores` 风格命名导入的前缀。
+
+{% include linter-rule.html rule="library_prefixes" %}
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (import-as)" replace="/(package):examples[^']*/$1:angular_components\/angular_components/g"?>
@@ -259,6 +288,8 @@ import 'package:js/js.dart' as JS;
 {% comment %}
 ### DO name other identifiers using `lowerCamelCase`.
 
+{% include linter-rule.html rule="non_constant_identifier_names" %}
+
 Class members, top-level definitions, variables, parameters, and named
 parameters should capitalize the first letter of each word *except* the first
 word, and use no separators.
@@ -279,6 +310,8 @@ void align(bool clearItems) {
 
 ### **要** 使用 `lowerCamelCase` 风格来命名其他的标识符。
 
+{% include linter-rule.html rule="non_constant_identifier_names" %}
+
 类成员、顶级定义、变量、参数以及命名参数等
 *除了*第一个单词，每个单词首字母都应大写，并且不使用分隔符。
 
@@ -298,9 +331,9 @@ void align(bool clearItems) {
 {% comment %}
 ### PREFER using `lowerCamelCase` for constant names.
 
+{% include linter-rule.html rule="constant_identifier_names" %}
+
 In new code, use `lowerCamelCase` for constant variables, including enum values.
-In existing code that uses `SCREAMING_CAPS`, you may continue to use all caps to
-stay consistent.
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_good.dart (const-names)"?>
@@ -326,9 +359,16 @@ class Dice {
 }
 {% endprettify %}
 
+You may use `SCREAMING_CAPS` for consistency with existing code,
+as in the following cases:
+
+* When adding code to a file or library that already uses `SCREAMING_CAPS`.
+* When generating Dart code that's parallel to Java code —
+  for example, in enumerated types generated from [protobufs.][]
+
 <aside class="alert alert-info" markdown="1">
   **Note:** We initially used Java's `SCREAMING_CAPS` style for constants. We
-  changed because:
+  changed for a few reasons:
 
   *   `SCREAMING_CAPS` looks bad for many cases, particularly enum values for
       things like CSS colors.
@@ -337,10 +377,14 @@ class Dice {
   *   The `values` property automatically defined on an enum type is const and
       lowercase.
 </aside>
+
+[protobufs.]: {{site.pub-pkg}}/protobuf
 {% endcomment %}
 
 
 ### **推荐** 使用 `lowerCamelCase` 来命名常量。
+
+{% include linter-rule.html rule="constant_identifier_names" %}
 
 在新的代码中，使用 `lowerCamelCase` 来命名常量，包括枚举的值。
 已有的代码使用了 `SCREAMING_CAPS` 风格，
@@ -370,6 +414,11 @@ class Dice {
 }
 {% endprettify %}
 
+您可以使用 `SCREAMING_CAPS` 与现有代码保持一致，比如：
+
+* 将代码添加到已使用 `SCREAMING_CAPS` 的文件或库时。
+* 生成与 Java 代码并行的 Dart 代码时。例如，来自 [protobufs][] 的枚举类型
+
 <aside class="alert alert-info" markdown="1">
   **注意：** 我们一开始使用 Java `SCREAMING_CAPS` 风格来命名常量。
   我们之所以不再使用，是因为：
@@ -382,6 +431,7 @@ class Dice {
       形式的。
 </aside>
 
+[protobufs]: {{site.pub-pkg}}/protobuf
 
 {% comment %}
 ### DO capitalize acronyms and abbreviations longer than two letters like words.
@@ -458,7 +508,7 @@ Db
 </aside>
 
 {% comment %}
-### DON’T use prefix letters
+### DON’T use prefix letters.
 
 [Hungarian notation](https://en.wikipedia.org/wiki/Hungarian_notation) and
 other schemes arose in the time of BCPL, when the compiler didn't do much to
@@ -502,6 +552,9 @@ kDefaultTimeout
 
 To keep the preamble of your file tidy, we have a prescribed order that
 directives should appear in. Each "section" should be separated by a blank line.
+
+A single linter rule handles all the ordering guidelines:
+[directives_ordering.]({{ site.lints }}/directives_ordering.html)
 {% endcomment %}
 
 
@@ -510,9 +563,14 @@ directives should appear in. Each "section" should be separated by a blank line.
 为了使文件前面部分保持整洁，我们规定了关键字出现顺序的规则。
 每个“部分”应该使用空行分割。
 
+A single linter rule handles all the ordering guidelines:
+[directives_ordering.]({{ site.lints }}/directives_ordering.html)
+
 
 {% comment %}
 ### DO place "dart:" imports before other imports.
+
+{% include linter-rule.html rule="directives_ordering" %}
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (dart-import-first)" replace="/\w+\/effective_dart\///g"?>
@@ -528,6 +586,8 @@ import 'package:foo/foo.dart';
 
 ### **要** 把 "dart:" 导入语句放到其他导入语句之前。
 
+{% include linter-rule.html rule="directives_ordering" %}
+
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (dart-import-first)" replace="/\w+\/effective_dart\///g"?>
 {% prettify dart %}
@@ -542,6 +602,8 @@ import 'package:foo/foo.dart';
 {% comment %}
 ### DO place "package:" imports before relative imports.
 
+{% include linter-rule.html rule="directives_ordering" %}
+
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (pkg-import-before-local)" replace="/\w+\/effective_dart\///g;/'foo/'util/g"?>
 {% prettify dart %}
@@ -555,6 +617,8 @@ import 'util.dart';
 
 ### **要** 把 "package:" 导入语句放到项目相关导入语句之前。
 
+{% include linter-rule.html rule="directives_ordering" %}
+
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (pkg-import-before-local)" replace="/\w+\/effective_dart\///g;/'foo/'util/g"?>
 {% prettify dart %}
@@ -567,6 +631,8 @@ import 'util.dart';
 
 {% comment %}
 ### PREFER placing external "package:" imports before other imports. {#prefer-placing-third-party-package-imports-before-other-imports}
+
+{% include linter-rule.html rule="directives_ordering" %}
 
 If you have a number of "package:" imports for your own package along with other
 external packages, place yours in a separate section after the external ones.
@@ -600,6 +666,8 @@ import 'package:my_package/util.dart';
 {% comment %}
 ### DO specify exports in a separate section after all imports.
 
+{% include linter-rule.html rule="directives_ordering" %}
+
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (export)"?>
 {% prettify dart %}
@@ -620,6 +688,8 @@ import 'src/foo_bar.dart';
 
 
 ### **要** 把导出（export）语句作为一个单独的部分放到所有导入语句之后。
+
+{% include linter-rule.html rule="directives_ordering" %}
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (export)"?>
@@ -642,6 +712,8 @@ import 'src/foo_bar.dart';
 {% comment %}
 ### DO sort sections alphabetically.
 
+{% include linter-rule.html rule="directives_ordering" %}
+
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (sorted)" replace="/\w+\/effective_dart\///g"?>
 {% prettify dart %}
@@ -661,10 +733,13 @@ import 'package:bar/bar.dart';
 import 'foo/foo.dart';
 import 'foo.dart';
 {% endprettify %}
+
 {% endcomment %}
 
 
 ### **要** 按照字母顺序来排序每个部分中的语句。
+
+{% include linter-rule.html rule="directives_ordering" %}
 
 {:.good-style}
 <?code-excerpt "misc/lib/effective_dart/style_lib_good.dart (sorted)" replace="/\w+\/effective_dart\///g"?>
@@ -767,6 +842,8 @@ produce beautiful code.
 {% comment %}
 ### AVOID lines longer than 80 characters.
 
+{% include linter-rule.html rule="lines_longer_than_80_chars" %}
+
 Readability studies show that long lines of text are harder to read because your
 eye has to travel farther when moving to the beginning of the next line. This is
 why newspapers and magazines use multiple columns of text.
@@ -789,6 +866,8 @@ a given path.
 
 
 ### **避免** 单行超过 80 个字符。
+
+{% include linter-rule.html rule="lines_longer_than_80_chars" %}
 
 可读性研究表明，长行的文字不易阅读，
 长行文字移动到下一行的开头时，眼睛需要移动更长的距离。
@@ -817,6 +896,8 @@ dartfmt 不会把很长的字符串字面量分割为 80 个字符的列，
 
 {% comment %}
 ### DO use curly braces for all flow control structures.
+
+{% include linter-rule.html rule="curly_braces_in_flow_control_structures" %}
 
 Doing so avoids the [dangling else][] problem.
 
@@ -862,6 +943,8 @@ if (overflowChars != other.overflowChars)
 
 
 ### **要** 对所有流控制结构使用花括号。
+
+{% include linter-rule.html rule="curly_braces_in_flow_control_structures" %}
 
 这样可以避免 [dangling else][] （else悬挂）的问题。
 
