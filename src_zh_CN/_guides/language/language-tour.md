@@ -7561,7 +7561,7 @@ Future main() [!async!] {
 
 * 使用 `async` 和 `await`.
 * 使用 Future API，具体描述，参考
-  [in the library tour](/guides/libraries/library-tour#future).
+  [库概览](/guides/libraries/library-tour#future).
 
 使用 `async` 和 `await` 关键字的代码是异步的。
 虽然看起来有点想同步代码。
