@@ -7605,7 +7605,7 @@ try {
 }
 {% endprettify %}
 
-在一个一步函数中可以多次使用 `await` 。
+在一个异步函数中可以多次使用 `await` 。
 例如，下面代码中等待了三次函数结果：
 
 <?code-excerpt "misc/lib/language_tour/async.dart (repeated-await)"?>
