@@ -7574,7 +7574,7 @@ await lookUpVersion();
 {% endprettify %}
 
 要使用 `await` ，
-代码必须在_异步函数_（使用 `async` 标记的函数）中：
+代码必须在 _异步函数_（使用 `async` 标记的函数）中：
 
 <?code-excerpt "misc/lib/language_tour/async.dart (checkVersion)" replace="/async|await/[!$&!]/g"?>
 {% prettify dart %}
