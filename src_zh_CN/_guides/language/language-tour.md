@@ -7588,7 +7588,7 @@ Future checkVersion() [!async!] {
 **提示：**
 虽然异步函数可能会执行耗时的操作，
 但它不会等待这些操作。
-相反，异步函数只有在遇到第一个 await 表达式（[details][synchronous-async-start]）时才会执行。
+相反，异步函数只有在遇到第一个 await 表达式（[详情见][synchronous-async-start]）时才会执行。
 也就是说，它返回一个 Future 对象，
 仅在await表达式完成后才恢复执行。
 </aside>
@@ -7616,7 +7616,7 @@ await flushThenExit(exitCode);
 {% endprettify %}
 
 在 <code>await <em>表达式</em></code> 中，
-<code><em>表达式</em></code>的值通常是一个 Future 对象；
+<code><em>表达式</em></code> 的值通常是一个 Future 对象；
 如果不是，这是表达式的值会被自动包装成一个 Future 对象。
 Future 对象指明返回一个对象的承诺（promise）。 
 <code>await <em>表达式</em></code> 执行的结果为这个返回的对象。
