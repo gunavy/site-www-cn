@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 git clone https://github.com/dartchina/dartchina.github.io.git site
 git config user.name "HaiJun Gu"
