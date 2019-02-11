@@ -38,6 +38,10 @@ install:
 script:
   - $TASK
 
+
+after_success:
+  - if [[ $TASK == *build* ]]; then ./deploy_gitpage.sh; fi 
+
 after_script:
   # - if [[ $TASK == *build* ]]; then ./tool/shared/check-links.sh || travis_terminate 1; fi
   # Just FYI test. Won't fail the build if it has errors.
@@ -55,17 +59,6 @@ after_script:
 #       repo: dart-lang/site-www
 #       branch: master
 #       condition: $TASK == *build*
-
-deploy:
-  - git clone https://github.com/dartchina/dartchina.github.io.git site
-  - git config user.name "HaiJun Gu"
-  - git config user.email "243297288@qq.com"
-  - cd site && rm -rf * && cp -r ../_site/* .
-  - touch CNAME
-  - echo "www.dartdoc.cn" >> CNAME
-  - git add --all .
-  - git commit -m "Travis CI Auto Builder"
-  - git push --force https://$DEPLOY_TOKEN@github.com/dartchina/dartchina.github.io.git master
 
 # Only run Travis jobs for named branches (to avoid double builds for each PR)
 branches:
