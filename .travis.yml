@@ -47,17 +47,6 @@ after_script:
   # # (By default, Travis doesn't fail builds after deployment.)
   # - "./deploy/html_proof.rb || travis_terminate 1"
 
-after_success:
-  - git config user.name "HaiJun Gu"
-  - git config user.email "243297288@qq.com"
-  - git clone https://github.com/dartchina/dartchina.github.io.git site
-  - cd site && rm -rf * && cp -r ../_site/* .
-  - touch CNAME
-  - echo "www.dartdoc.cn" >> CNAME
-  - git add --all .
-  - git commit -m "Travis CI Auto Builder"
-  - git push --force https://$DEPLOY_TOKEN@github.com/dartchina/dartchina.github.io.git master
-
 # deploy:
 #   - provider: script
 #     script: ./tool/shared/deploy.sh --robots ok default
@@ -66,6 +55,17 @@ after_success:
 #       repo: dart-lang/site-www
 #       branch: master
 #       condition: $TASK == *build*
+
+deploy:
+  - git clone https://github.com/dartchina/dartchina.github.io.git site
+  - git config user.name "HaiJun Gu"
+  - git config user.email "243297288@qq.com"
+  - cd site && rm -rf * && cp -r ../_site/* .
+  - touch CNAME
+  - echo "www.dartdoc.cn" >> CNAME
+  - git add --all .
+  - git commit -m "Travis CI Auto Builder"
+  - git push --force https://$DEPLOY_TOKEN@github.com/dartchina/dartchina.github.io.git master
 
 # Only run Travis jobs for named branches (to avoid double builds for each PR)
 branches:
