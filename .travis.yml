@@ -39,13 +39,24 @@ script:
   - $TASK
 
 after_script:
-  - if [[ $TASK == *build* ]]; then ./tool/shared/check-links.sh || travis_terminate 1; fi
+  # - if [[ $TASK == *build* ]]; then ./tool/shared/check-links.sh || travis_terminate 1; fi
   # Just FYI test. Won't fail the build if it has errors.
   # - if [[ $TASK == *build* ]]; then ./deploy/check_sitemap.rb; fi
   # - if [[ $TASK == *build* ]]; then ./deploy/html_proof.rb; fi
   # # Checks for bad HTML, broken links, and forces build to fail if it fails.
   # # (By default, Travis doesn't fail builds after deployment.)
   # - "./deploy/html_proof.rb || travis_terminate 1"
+
+after_success:
+  - git config user.name "HaiJun Gu"
+  - git config user.email "243297288@qq.com"
+  - git clone https://github.com/dartchina/dartchina.github.io.git site
+  - cd site && rm -rf * && cp -r ../_site/* .
+  - touch CNAME
+  - echo "www.dartdoc.cn" >> CNAME
+  - git add --all .
+  - git commit -m "Travis CI Auto Builder"
+  - git push --force https://$DEPLOY_TOKEN@github.com/dartchina/dartchina.github.io.git master
 
 # deploy:
 #   - provider: script
