@@ -15,8 +15,8 @@ env:
     - JEKYLL_ENV=production
     - TZ=US/Pacific # normalize build timestamp
   matrix:
-    # - TASK="./tool/check-code.sh"
-    # - TASK="./tool/analyze-and-test-examples.sh"
+    - TASK="./tool/check-code.sh"
+    - TASK="./tool/analyze-and-test-examples.sh"
     - TASK="bundle exec jekyll build"
 
 matrix:
@@ -38,10 +38,8 @@ install:
 script:
   - $TASK
 
-
 after_success:
-  # - if [[ $TASK == *build* ]]; then ./deploy_gitpage.sh; fi 
-  - ./deploy_gitpage.sh
+  - if [[ $TASK == *build* ]]; then ./deploy_gitpage.sh; fi
 
 after_script:
   # - if [[ $TASK == *build* ]]; then ./tool/shared/check-links.sh || travis_terminate 1; fi
