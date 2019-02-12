@@ -39,7 +39,7 @@ script:
   - $TASK
 
 after_success:
-  - if [[ $TASK == "bundle exec jekyll build" && $TRAVIS_BRANCH == "patch-2" ]]; then ./deploy_gitpage.sh; fi
+  - if [[ $TASK == "bundle exec jekyll build" && $TRAVIS_BRANCH == "patch-1" ]]; then ./deploy_gitpage.sh; fi
 
 after_script:
   # - if [[ $TASK == *build* ]]; then ./tool/shared/check-links.sh || travis_terminate 1; fi
