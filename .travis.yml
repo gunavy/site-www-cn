@@ -39,7 +39,7 @@ script:
   - $TASK
 
 after_success:
-  - if [[ $TASK == "bundle exec jekyll build" && $TRAVIS_BRANCH == "src_zh_CN" ]]; then ./deploy_gitpage.sh; fi
+  - if [[ $TASK == "bundle exec jekyll build" && $TRAVIS_BRANCH == "patch-2" ]]; then ./deploy_gitpage.sh; fi
 
 after_script:
   # - if [[ $TASK == *build* ]]; then ./tool/shared/check-links.sh || travis_terminate 1; fi
@@ -61,4 +61,4 @@ after_script:
 
 # Only run Travis jobs for named branches (to avoid double builds for each PR)
 branches:
-  except: [master]
+  except: [patch-2]
